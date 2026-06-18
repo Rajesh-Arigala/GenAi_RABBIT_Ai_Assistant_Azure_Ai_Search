@@ -1,0 +1,1064 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R-Cafe by Red Rybbons — Built from Ground Zero</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;0,900;1,400;1,700&amp;family=Outfit:wght@200;300;400;500;600&amp;family=DM+Mono:wght@300;400&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+:root{
+  --bg:      #0a0804;
+  --bg1:     #100d08;
+  --bg2:     #16120b;
+  --bg3:     #1d1710;
+  --bg4:     #251d14;
+  --ember:   #c4622a;
+  --ember2:  #e07842;
+  --ember3:  #f0a060;
+  --gold:    #d4a843;
+  --gold2:   #e8c06a;
+  --gold3:   #f5d88a;
+  --cream:   #f0e8d8;
+  --text:    #ccc0aa;
+  --text2:   #7a6f5f;
+  --text3:   #3e3528;
+  --border:  rgba(255,255,255,0.05);
+  --border2: rgba(196,98,42,0.2);
+  --border3: rgba(196,98,42,0.4);
+  --ember-dim: rgba(196,98,42,0.08);
+  --ff-serif: 'Playfair Display', Georgia, serif;
+  --ff-body:  'Outfit', sans-serif;
+  --ff-mono:  'DM Mono', monospace;
+}
+
+body{background:var(--bg);color:var(--text);font-family:var(--ff-body);font-weight:300;line-height:1.65;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+strong{color:var(--cream);font-weight:500}
+img{display:block;max-width:100%}
+
+::-webkit-scrollbar{width:2px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--ember2);border-radius:2px}
+
+/* ── NOISE TEXTURE ─── */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:200px 200px}
+
+/* ── CURSOR GLOW ─── */
+.cglow{pointer-events:none;position:fixed;top:0;left:0;width:480px;height:480px;border-radius:50%;background:radial-gradient(circle,rgba(196,98,42,0.07) 0%,transparent 70%);transform:translate(-50%,-50%);z-index:1;transition:transform 0.08s linear}
+
+/* ── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1.5rem 3rem;display:flex;align-items:center;justify-content:space-between;transition:all 0.5s}
+nav.scrolled{background:rgba(10,8,4,0.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:1rem 3rem}
+.nav-logo{display:flex;align-items:center;gap:0.7rem}
+.nav-logo-text{font-family:var(--ff-serif);font-size:1.3rem;font-weight:700;color:var(--cream);letter-spacing:0.02em}
+.nav-logo-sub{font-family:var(--ff-mono);font-size:0.58rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--ember2);display:block;margin-top:-2px}
+.nav-dot{width:6px;height:6px;border-radius:50%;background:var(--ember2);box-shadow:0 0 8px var(--ember)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-family:var(--ff-mono);font-size:0.72rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2);transition:color 0.3s}
+.nav-links a:hover{color:var(--ember3)}
+.nav-links a.active{color:var(--ember3)}
+.nav-cta{font-family:var(--ff-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ember2);border:1px solid var(--border2);padding:0.55rem 1.3rem;border-radius:999px;transition:all 0.3s}
+.nav-cta:hover{background:var(--ember-dim);border-color:var(--border3)}
+
+section[id]{scroll-margin-top:110px}
+
+/* ── HERO ─── */
+.hero{position:relative;height:100svh;min-height:680px;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 5.5rem;overflow:hidden}
+
+/* atmospheric bg — warm ember/fire tones */
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:
+    linear-gradient(90deg, rgba(10,8,4,0.92) 0%, rgba(10,8,4,0.66) 36%, rgba(10,8,4,0.24) 100%),
+    radial-gradient(ellipse 50% 40% at 10% 80%, rgba(30,15,4,0.9) 0%, transparent 60%),
+    url("img/rcafe1.webp"),
+    radial-gradient(ellipse 100% 100% at 50% 50%, #1c1005 0%, #0a0804 100%);
+  background-position:center, 10% 80%, 78% center, center;
+  background-size:cover, auto, cover, cover;
+  background-repeat:no-repeat;
+}
+
+/* warm haze layers */
+.hero-haze{position:absolute;inset:0;z-index:1}
+.hero-haze::before{
+  content:'';position:absolute;inset:0;
+  background:
+    linear-gradient(90deg, rgba(10,8,4,0.16) 0%, rgba(10,8,4,0.05) 42%, rgba(10,8,4,0) 70%)
+}
+
+/* subtle grid */
+.hero-grid{
+  position:absolute;inset:0;z-index:2;
+  background-image:
+    linear-gradient(rgba(196,98,42,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(196,98,42,0.04) 1px, transparent 1px);
+  background-size:72px 72px;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 60%, black 0%, transparent 70%)
+}
+
+.hero-overlay{position:absolute;inset:0;z-index:3;opacity:0.3;
+  background:linear-gradient(175deg, rgba(10,8,4,0.3) 0%, rgba(10,8,4,0.6) 55%, rgba(10,8,4,0.98) 90%)
+}
+
+.hero-content{position:relative;z-index:5;max-width:700px}
+
+.hero-eyebrow{display:inline-flex;align-items:center;gap:0.9rem;margin-bottom:2rem;opacity:0;animation:fadeUp 0.9s ease 0.2s forwards}
+.eyebrow-flame{width:8px;height:8px;background:var(--ember2);border-radius:50% 50% 40% 40%;box-shadow:0 0 16px var(--ember)}
+.eyebrow-text{font-family:var(--ff-mono);font-size:0.76rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ember3)}
+.eyebrow-line{width:30px;height:1px;background:var(--ember2)}
+
+.hero-title{font-family:var(--ff-serif);font-size:clamp(3.2rem,7vw,7.2rem);font-weight:900;line-height:0.92;letter-spacing:-0.02em;color:var(--cream);opacity:0;animation:fadeUp 1s ease 0.35s forwards;margin-bottom:1.4rem}
+.hero-title em{font-style:italic;color:var(--ember2)}
+.hero-title .word-by{font-weight:400;font-style:italic;font-size:0.55em;color:var(--text2);display:block;letter-spacing:0.06em;margin-top:0.2em}
+
+.hero-sub{font-size:1.05rem;color:var(--text2);line-height:1.8;max-width:500px;opacity:0;animation:fadeUp 0.9s ease 0.52s forwards;margin-bottom:2.5rem}
+
+.hero-meta{display:flex;gap:2.5rem;opacity:0;animation:fadeUp 0.9s ease 0.66s forwards;margin-bottom:2.8rem}
+.hero-meta-item{display:flex;flex-direction:column;gap:0.2rem}
+.hero-meta-num{font-family:var(--ff-serif);font-size:2.1rem;font-weight:700;color:var(--ember3);line-height:1}
+.hero-meta-lbl{font-family:var(--ff-mono);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2)}
+
+.hero-ctas{display:flex;gap:1rem;opacity:0;animation:fadeUp 0.9s ease 0.78s forwards}
+.btn-fire{font-family:var(--ff-mono);font-size:0.74rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--bg);background:linear-gradient(135deg,var(--ember),var(--ember2));padding:0.9rem 2.2rem;border-radius:999px;transition:all 0.3s;border:none;cursor:pointer}
+.btn-fire:hover{transform:translateY(-2px);box-shadow:0 12px 35px rgba(196,98,42,0.35)}
+.btn-outline{font-family:var(--ff-mono);font-size:0.74rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--ember3);border:1px solid var(--border2);padding:0.9rem 2.2rem;border-radius:999px;transition:all 0.3s}
+.btn-outline:hover{background:var(--ember-dim);border-color:var(--border3);transform:translateY(-2px)}
+
+.hero-scroll{position:absolute;bottom:2rem;right:3rem;z-index:5;display:flex;flex-direction:column;align-items:center;gap:0.6rem;opacity:0;animation:fadeIn 1s ease 1.4s forwards}
+.scroll-lbl{font-family:var(--ff-mono);font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);writing-mode:vertical-rl}
+.scroll-line{width:1px;height:52px;background:linear-gradient(var(--ember2),transparent);animation:scrollPulse 2.2s ease-in-out infinite}
+
+/* ── LAYOUT ─── */
+.wrap{max-width:1300px;margin:0 auto;padding:0 3rem}
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--border2) 20%,var(--border2) 80%,transparent)}
+.section-label{font-family:var(--ff-mono);font-size:0.66rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ember2);display:flex;align-items:center;gap:0.8rem;margin-bottom:0.9rem}
+.section-label::before{content:'';display:block;width:22px;height:1px;background:var(--ember2)}
+.section-head{font-family:var(--ff-serif);font-size:clamp(2.2rem,4.2vw,4rem);font-weight:700;line-height:1.05;letter-spacing:-0.01em;color:var(--cream);margin-bottom:1rem}
+.section-head em{font-style:italic;color:var(--ember2);font-weight:400}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.8s ease,transform 0.8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── IMAGE PLACEHOLDERS ─── */
+.img-ph{background:linear-gradient(135deg,var(--bg3),var(--bg4));border:1px solid var(--border);border-radius:1rem;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;overflow:hidden;position:relative}
+.img-ph::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(196,98,42,0.06),transparent 60%)}
+.img-ph span{font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);position:relative;z-index:1}
+.img-ph img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+
+/* ── INTRO SECTION ─── */
+.intro-section{padding:9rem 0 8rem}
+.intro-split{display:grid;grid-template-columns:1.1fr 1fr;gap:7rem;align-items:start}
+.intro-body{font-size:1.04rem;color:var(--text2);line-height:1.85}
+.intro-body p+p{margin-top:1.2rem}
+.intro-pull{grid-column:1 / 2;font-family:var(--ff-serif);font-size:clamp(1.35rem,2.2vw,1.9rem);font-weight:400;font-style:italic;line-height:1.42;color:var(--cream);margin-top:0.5rem;padding:2.2rem 2.5rem;border-left:2px solid var(--ember);background:var(--ember-dim);border-radius:0 1.2rem 1.2rem 0;max-width:100%;min-height:390px;display:flex;align-items:center}
+.intro-video{grid-column:2 / 3;align-self:start;margin-top:0.5rem;background:var(--bg2);border:1px solid var(--border);border-radius:1.4rem;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.35);min-height:390px;display:flex;flex-direction:column}
+.intro-video-tagline{font-family:var(--ff-serif);font-size:clamp(1.05rem,1.7vw,1.35rem);font-style:italic;line-height:1.2;color:var(--cream);padding:1.15rem 1.4rem 0.85rem;border-bottom:1px solid rgba(255,255,255,0.06);background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0))}
+.intro-video-media{flex:1;min-height:0;display:flex}
+.intro-video video{display:block;flex:1;width:100%;height:100%;min-height:321px;object-fit:cover;background:#000}
+
+.stats-col{display:flex;flex-direction:column;gap:1rem}
+.stat-tile{background:var(--bg2);border:1px solid var(--border);border-radius:1.4rem;padding:2rem 2.2rem;transition:all 0.35s;position:relative;overflow:hidden}
+.stat-tile::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(196,98,42,0.3),transparent)}
+.stat-tile:hover{border-color:var(--border3);background:var(--bg3);transform:translateX(5px)}
+.stat-tile.hero-tile{background:linear-gradient(135deg,rgba(196,98,42,0.12),rgba(10,8,4,0.8));border-color:rgba(196,98,42,0.18)}
+.stat-n{font-family:var(--ff-serif);font-size:3.2rem;font-weight:900;line-height:1;color:var(--ember3);margin-bottom:0.3rem}
+.stat-l{font-family:var(--ff-mono);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2);margin-bottom:0.5rem}
+.stat-d{font-size:0.9rem;color:var(--text2);line-height:1.55}
+
+/* ── CONSTRUCTION / JOURNEY ─── */
+.construction-section{padding:8rem 0}
+
+/* Vertical alternating build steps */
+.build-steps{display:flex;flex-direction:column;gap:0;margin-top:3.5rem}
+.build-step{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center;padding:3.5rem 0;border-bottom:1px solid var(--border);position:relative}
+.build-step:last-child{border-bottom:none}
+.build-step.reverse{direction:rtl}
+.build-step.reverse > *{direction:ltr}
+.build-step-img{height:340px;border-radius:1.4rem;overflow:hidden;transition:transform 0.4s,box-shadow 0.4s}
+.build-step:hover .build-step-img{transform:scale(1.02);box-shadow:0 24px 60px rgba(0,0,0,0.55)}
+.build-step-img .img-ph{height:100%;border-radius:1.4rem}
+.build-step-text{}
+.build-step-num{font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--text3);margin-bottom:0.7rem}
+.build-step-title{font-family:var(--ff-serif);font-size:1.55rem;font-weight:700;color:var(--cream);line-height:1.2;margin-bottom:0.9rem}
+.build-step-desc{font-size:0.97rem;color:var(--text2);line-height:1.8}
+.build-gallery{margin-top:4rem;padding-top:3.5rem}
+.build-gallery-head{display:flex;flex-direction:column;align-items:flex-start;gap:1rem;margin-bottom:2rem}
+.build-gallery-copy{max-width:760px;color:var(--text2);font-size:0.96rem;line-height:1.8;padding-top:0;justify-self:auto}
+.build-gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:2rem}
+.build-gallery-action{display:flex;justify-content:center;margin-top:0.8rem;margin-bottom:3.2rem}
+.build-gallery-btn{font-family:var(--ff-mono);font-size:0.72rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ember3);background:linear-gradient(135deg,rgba(196,98,42,0.14),rgba(196,98,42,0.06));border:1px solid rgba(196,98,42,0.26);padding:0.95rem 2.3rem;border-radius:999px;transition:all 0.3s;box-shadow:0 12px 32px rgba(0,0,0,0.24),inset 0 1px 0 rgba(255,255,255,0.04)}
+.build-gallery-btn:hover{background:linear-gradient(135deg,rgba(196,98,42,0.22),rgba(196,98,42,0.1));border-color:rgba(212,168,67,0.34);transform:translateY(-2px);box-shadow:0 18px 38px rgba(0,0,0,0.3)}
+.gallery-card{position:relative;height:240px;border-radius:1.2rem;overflow:hidden;border:1px solid var(--border);background:var(--bg2);transition:transform 0.35s ease,border-color 0.35s ease,box-shadow 0.35s ease;cursor:pointer}
+.gallery-card:hover{transform:translateY(-4px);border-color:var(--border3);box-shadow:0 18px 45px rgba(0,0,0,0.45)}
+.gallery-card .img-ph{height:100%;border-radius:1.2rem}
+.gallery-card .img-ph::after{content:'';position:absolute;inset:auto 0 0 0;height:45%;background:linear-gradient(180deg,transparent,rgba(10,8,4,0.88))}
+.gallery-card span{position:absolute;left:1rem;bottom:0.9rem;color:var(--cream);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;z-index:2}
+.gallery-card:focus-visible{outline:2px solid var(--ember2);outline-offset:4px}
+.lightbox{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:2rem;background:rgba(5,4,2,0.86);backdrop-filter:blur(14px);z-index:400;opacity:0;visibility:hidden;transition:opacity 0.25s ease,visibility 0.25s ease}
+.lightbox.open{opacity:1;visibility:visible}
+.lightbox-panel{position:relative;width:min(92vw,1200px);max-height:90vh;display:flex;align-items:center;justify-content:center}
+.lightbox img{display:block;max-width:100%;max-height:90vh;border-radius:1.2rem;box-shadow:0 28px 80px rgba(0,0,0,0.55);object-fit:contain;background:#000}
+.lightbox-close{position:absolute;top:-0.9rem;right:-0.9rem;width:2.8rem;height:2.8rem;border:none;border-radius:999px;background:rgba(10,8,4,0.9);color:var(--cream);font-size:1.5rem;line-height:1;cursor:pointer;border:1px solid var(--border2);box-shadow:0 12px 30px rgba(0,0,0,0.35)}
+.lightbox-close:hover{background:var(--bg2);border-color:var(--border3)}
+.lightbox-caption{position:absolute;left:1rem;right:1rem;bottom:1rem;font-family:var(--ff-mono);font-size:0.66rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--cream);text-align:center}
+@media(max-width:900px){
+  .build-step,.build-step.reverse{grid-template-columns:1fr;direction:ltr;gap:1.5rem;padding:2.5rem 0}
+  .build-step-img{height:220px}
+  .build-gallery-head{gap:1rem}
+  .build-gallery-copy{padding-top:0;justify-self:auto}
+  .build-gallery-grid{grid-template-columns:1fr 1fr}
+  .lightbox{padding:1rem}
+  .lightbox-close{top:0.75rem;right:0.75rem}
+}
+
+/* ── TIMELINE ─── */
+.tl-section{padding:8rem 0}
+.tl-grid{display:grid;grid-template-columns:380px 1fr;gap:6rem;align-items:start}
+.tl-line-wrap{position:relative;padding-left:2.5rem}
+.tl-vert{position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--ember) 0%,rgba(196,98,42,0.1) 100%)}
+.tl-entry{padding:2rem 0;border-bottom:1px solid var(--border);position:relative}
+.tl-entry:last-child{border-bottom:none}
+.tl-entry::before{content:'';position:absolute;left:-2.5rem;top:2.4rem;width:9px;height:9px;border-radius:50%;border:1px solid var(--ember);background:var(--bg);transform:translateX(-4px);transition:all 0.3s}
+.tl-entry:hover::before{background:var(--ember);box-shadow:0 0 14px rgba(196,98,42,0.5)}
+.tl-year{font-family:var(--ff-mono);font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ember2);margin-bottom:0.5rem}
+.tl-text{font-size:0.97rem;color:var(--text);line-height:1.65}
+.tl-badge{display:inline-block;font-family:var(--ff-mono);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.25rem 0.7rem;border-radius:999px;margin-top:0.6rem}
+.tl-badge.disruption{color:var(--ember3);border:1px solid rgba(196,98,42,0.3);background:rgba(196,98,42,0.06)}
+.tl-badge.resume{color:var(--gold2);border:1px solid rgba(212,168,67,0.3);background:rgba(212,168,67,0.06)}
+.tl-badge.launch{color:#5adc9a;border:1px solid rgba(90,220,154,0.3);background:rgba(90,220,154,0.06)}
+
+/* ── FOUNDER / REVIEW ─── */
+.founder-section{padding:8rem 0}
+.founder-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.founder-text{font-size:1.04rem;color:var(--text2);line-height:1.85}
+.founder-text p+p{margin-top:1.2rem}
+.review-cards{display:flex;flex-direction:column;gap:1rem;margin-top:2rem}
+.review-card{background:linear-gradient(135deg,rgba(255,255,255,0.015),rgba(196,98,42,0.05));border:1px solid rgba(196,98,42,0.12);border-radius:1.2rem;padding:1.7rem 1.7rem 1.45rem;transition:all 0.3s;position:relative;box-shadow:0 14px 34px rgba(0,0,0,0.18)}
+.review-card::before{content:'"';position:absolute;top:0.45rem;left:1.15rem;font-family:var(--ff-serif);font-size:3.4rem;color:var(--ember2);opacity:0.28;line-height:1}
+.review-card:hover{border-color:rgba(212,168,67,0.24);background:linear-gradient(135deg,rgba(255,255,255,0.025),rgba(196,98,42,0.08));transform:translateY(-2px)}
+.review-text{font-family:var(--ff-serif);font-size:clamp(1.1rem,1.55vw,1.38rem);font-weight:500;color:var(--cream);line-height:1.6;font-style:italic;padding-left:0.9rem;letter-spacing:0.01em;text-wrap:balance}
+.review-attr{font-family:var(--ff-mono);font-size:0.68rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--ember3);margin-top:1rem;padding-left:0.9rem}
+.founder-img-block{height:420px;border-radius:1.8rem;overflow:hidden}
+.founder-img-block .img-ph{height:100%}
+.founder-sub-img{aspect-ratio:1 / 1;height:auto;border-radius:1.2rem;overflow:hidden}
+
+/* ── CAPABILITIES ─── */
+.cap-section{padding:8rem 0}
+.cap-header{display:flex;flex-direction:column;align-items:flex-start;gap:1rem;margin-bottom:3.5rem}
+.cap-img-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:3rem}
+.cap-img-item{height:170px;border-radius:1rem;overflow:hidden}
+.cap-img-item .img-ph{height:100%}
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+.cap-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.4rem;padding:2.2rem;transition:all 0.35s;position:relative;overflow:hidden}
+.cap-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(196,98,42,0.05),transparent);opacity:0;transition:opacity 0.3s}
+.cap-card:hover{border-color:var(--border3);background:var(--bg3);transform:translateY(-4px);box-shadow:0 18px 45px rgba(0,0,0,0.5)}
+.cap-card:hover::after{opacity:1}
+.cap-icon{width:42px;height:42px;border:1px solid var(--border);border-radius:0.8rem;display:flex;align-items:center;justify-content:center;margin-bottom:1.3rem;transition:border-color 0.3s}
+.cap-card:hover .cap-icon{border-color:var(--border2)}
+.cap-icon svg{width:18px;height:18px;stroke:var(--ember2);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.cap-title{font-family:var(--ff-serif);font-size:1.18rem;font-weight:700;color:var(--cream);margin-bottom:0.6rem;line-height:1.2}
+.cap-desc{font-size:0.89rem;color:var(--text2);line-height:1.7}
+
+/* ── PROFESSIONAL JOURNEY ─── */
+.journey-section{padding:8rem 0}
+.journey-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.journey-text{font-size:1.02rem;color:var(--text2);line-height:1.85}
+.journey-text p+p{margin-top:1.2rem}
+.journey-img{height:480px;border-radius:1.8rem;overflow:hidden}
+.journey-img .img-ph{height:100%}
+.journey-tags{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:2rem}
+.jtag{font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);border:1px solid var(--border);padding:0.35rem 0.9rem;border-radius:999px;transition:all 0.3s}
+.jtag:hover{border-color:var(--border3);color:var(--ember3)}
+
+/* ── WORK ETHIC PANEL ─── */
+.ethic-section{padding:8rem 0}
+.ethic-inner{background:linear-gradient(135deg,var(--bg2) 0%,var(--bg3) 100%);border:1px solid var(--border);border-radius:2.5rem;padding:4.5rem;position:relative;overflow:hidden}
+.ethic-inner::before{content:'';position:absolute;top:-80px;right:-80px;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(196,98,42,0.07),transparent 70%)}
+.ethic-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:5rem;align-items:center}
+.ethic-title{font-family:var(--ff-serif);font-size:clamp(1.6rem,3vw,2.5rem);font-weight:700;line-height:1.15;color:var(--cream);margin-bottom:1.2rem}
+.ethic-title em{font-style:italic;color:var(--ember2)}
+.ethic-body{font-size:1rem;color:var(--text2);line-height:1.8}
+.ethic-chips{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.8rem}
+.echip{font-family:var(--ff-mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 1rem;border-radius:999px;border:1px solid var(--border2);color:var(--ember3)}
+.ethic-img{height:320px;border-radius:1.4rem;overflow:hidden}
+.ethic-img .img-ph{height:100%}
+
+/* ── POSITIONING BLOCK ─── */
+.position-section{padding:8rem 0}
+.pos-inner{background:var(--bg1);border:1px solid var(--border);border-radius:2rem;padding:5rem;position:relative;overflow:hidden;text-align:center}
+.pos-inner::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--ember),transparent)}
+.pos-quote{font-family:var(--ff-serif);font-size:clamp(1.5rem,3.2vw,2.8rem);font-weight:400;font-style:italic;line-height:1.4;color:var(--cream);max-width:850px;margin:0 auto 3rem}
+.pos-quote em{color:var(--ember3);font-style:normal;font-weight:700}
+.pos-pillars{display:flex;justify-content:center;gap:3rem;flex-wrap:wrap}
+.pos-pillar{display:flex;align-items:center;gap:0.7rem;font-size:0.95rem;color:var(--text2)}
+.pos-arrow{color:var(--ember2);font-family:var(--ff-serif)}
+
+/* ── FOOTER ─── */
+footer{padding:3rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;text-align:center}
+.foot-brand{font-family:var(--ff-serif);font-size:1.1rem;font-weight:700;color:var(--text2);text-align:center}
+.foot-note{font-family:var(--ff-mono);font-size:0.63rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3)}
+.foot-live{color:var(--ember3)}
+
+/* ── BADGE ─── */
+.badge{font-family:var(--ff-mono);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;border:1px solid var(--border2);color:var(--ember3);padding:0.3rem 0.85rem;border-radius:999px;display:inline-block;margin-right:0.5rem;margin-top:0.4rem}
+
+/* ── ANIMATIONS ─── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scrollPulse{0%,100%{opacity:0.3;transform:scaleY(0.7)}50%{opacity:1;transform:scaleY(1)}}
+@keyframes flamePulse{0%,100%{box-shadow:0 0 8px var(--ember)}50%{box-shadow:0 0 18px var(--ember),0 0 35px rgba(196,98,42,0.3)}}
+
+/* ── RESPONSIVE ─── */
+@media(max-width:1100px){
+  .intro-split,.tl-grid,.founder-grid,.journey-grid,.ethic-grid,.cap-header{grid-template-columns:1fr;gap:3.5rem}
+  .intro-pull{grid-column:1 / -1}
+  .intro-video{grid-column:1 / -1}
+  .cap-grid{grid-template-columns:repeat(2,1fr)}
+  .cap-img-row{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  nav{padding:1.1rem 1.5rem}
+  .nav-links,.nav-cta{display:none}
+  .hero{padding:0 1.5rem 4rem}
+  .wrap{padding:0 1.5rem}
+  .intro-section,.construction-section,.tl-section,.founder-section,.cap-section,.journey-section,.ethic-section,.position-section{padding:5rem 0}
+  .ethic-inner,.pos-inner{padding:2.5rem 1.8rem}
+  .cap-grid{grid-template-columns:1fr}
+  .cap-img-row{grid-template-columns:1fr}
+  .build-gallery-grid{grid-template-columns:1fr}
+  .hero-title{font-size:clamp(2.8rem,12vw,4rem)}
+  .hero-meta{gap:1.5rem}
+  footer{flex-direction:column;gap:1rem;text-align:center;padding:2rem 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="cglow" id="cglow"></div>
+
+<!-- NAV -->
+<nav id="nav" class="scrolled">
+  <div class="nav-logo">
+    <div class="nav-dot" style="animation:flamePulse 2.5s ease-in-out infinite"></div>
+    <div>
+      <span class="nav-logo-text">R-Cafe</span>
+      <span class="nav-logo-sub">by Red Rybbons</span>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#intro" class="active">Story</a></li>
+    <li><a href="#construction" class="">Build</a></li>
+    <li><a href="#gallery" class="">Gallery</a></li>
+    <li><a href="#timeline" class="">Timeline</a></li>
+    <li><a href="#capabilities" class="">Capabilities</a></li>
+    <li><a href="#journey" class="">Journey</a></li>
+  </ul>
+  <a href="/index#contact" class="nav-cta">Contact</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-haze"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-flame"></div>
+      <span class="eyebrow-text">Live Business · Operating Since Jan 2023</span>
+      <div class="eyebrow-line"></div>
+    </div>
+
+    <h1 class="hero-title">
+      R <em>Cafe</em>
+      <span class="word-by">by Red Rybbons</span>
+    </h1>
+
+    <p class="hero-sub">A live café–restro built on 10,000+ sq. ft. of barren land — executed end-to-end through vendor collapse, a pandemic, and 16-hour days. Not a franchise. Not a template. Built from zero.</p>
+
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="hero-meta-num">10K+</span>
+        <span class="hero-meta-lbl">sq. ft. Built</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-num">3+</span>
+        <span class="hero-meta-lbl">Years Build Phase</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="hero-meta-num">Jan '23</span>
+        <span class="hero-meta-lbl">Live Since</span>
+      </div>
+    </div>
+
+    <div class="hero-ctas">
+      <a href="#construction" class="btn-fire">See the Build</a>
+      <a href="#capabilities" class="btn-outline">Capabilities</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span class="scroll-lbl">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- INTRO -->
+<section class="intro-section" id="intro">
+  <div class="wrap">
+    <div class="intro-split">
+      <div class="reveal visible">
+        <div class="section-label">The Project</div>
+        <h2 class="section-head">A Real, Live Business<br>Built <em>From Ground Zero</em></h2>
+        <div class="intro-body">
+          <p>R-Cafe by Red Rybbons is a live café–restro built on a <strong>10,000+ sq. ft. barren plot of land</strong> and operating since 1st January 2023. This was not a franchised setup, not vendor-led, and not a paper venture.</p>
+          <p>The café was executed end-to-end — from land development and construction to electricals, plumbing, kitchen infrastructure, interiors, landscaping, and go-live operations.</p>
+          <p>After a major vendor failure early in the project and prolonged disruption due to COVID travel restrictions, the project was resumed and completed through direct, hands-on execution. Daily site presence. Bike commutes regardless of weather. Real coordination. Real delivery.</p>
+          <p>The café was formally <strong>inaugurated by the former Chief Minister of Karnataka, Mr. H. D. Kumaraswamy</strong>, marking the transition from multi-year construction to a live operating business.</p>
+          <p>This is the central piece of execution as a part of Red Rybbons project.</p>
+        </div>
+      </div>
+
+      <div class="stats-col reveal visible" style="transition-delay:0.15s">
+        <div class="stat-tile hero-tile">
+          <div class="stat-n">10,000+</div>
+          <div class="stat-l">Square Feet</div>
+          <div class="stat-d">Barren plot of land transformed into a fully operational café–restro from first principles.</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-n">Zero</div>
+          <div class="stat-l">External Help</div>
+          <div class="stat-d">No franchise, no vendor management, no NGO backing. Full individual ownership of every decision and delivery.</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-n">1 Jan</div>
+          <div class="stat-l">2023 · Launch Day</div>
+          <div class="stat-d">Formally inaugurated by former Chief Minister of Karnataka.</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-n">Daily</div>
+          <div class="stat-l">On-Site Through Build</div>
+          <div class="stat-d">Present every single day during active construction phases, commuting by bike regardless of conditions.</div>
+        </div>
+      </div>
+
+      <div class="intro-pull reveal visible" style="transition-delay:0.2s">
+        "This project is not showcased as a hospitality venture — it is evidence of an operating model: ownership, resilience, execution under uncertainty, and delivery of real systems into production."
+      </div>
+
+      <div class="intro-video reveal visible" style="transition-delay:0.25s">
+        <div class="intro-video-tagline">Where Vision Becomes Reality</div>
+        <div class="intro-video-media">
+          <video controls="" preload="metadata">
+            <source src="img/rcafe-vid.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONSTRUCTION -->
+<section class="construction-section" id="construction">
+  <div class="wrap">
+    <div class="reveal visible">
+      <div class="section-label">Construction Phase</div>
+      <h2 class="section-head">From Barren Land<br>to <em>Production</em></h2>
+      <p style="color:var(--text2);font-size:1rem;line-height:1.8;max-width:620px;margin-top:1rem;margin-bottom:3rem">A five-phase transformation from raw land to a fully realized cafe environment, documented through site preparation, structural work, build development, interior setup, and final completion.</p>
+    </div>
+
+    <!-- Vertical alternating build steps -->
+    <div class="build-steps">
+
+      <!-- Step 1: image LEFT, text RIGHT -->
+      <div class="build-step reveal visible">
+        <div class="build-step-img">
+          <div class="img-ph" style="height:100%;border-radius:1.4rem">
+            <img src="/buiss skills/img/rcafe-steps1.webp" alt="Raw land and site preparation" onerror="this.style.display='none'">
+            
+          </div>
+        </div>
+        <div class="build-step-text">
+          <div class="build-step-num">Phase 01 · Site Preparation</div>
+          <div class="build-step-title">Clearing the Ground</div>
+          <div class="build-step-desc">What began as untouched, barren land was first cleared and leveled. Every inch of the site was prepared manually — setting the base for what would soon become a structured vision.</div>
+        </div>
+      </div>
+
+      <!-- Step 2: image RIGHT, text LEFT -->
+      <div class="build-step reverse reveal visible" style="transition-delay:0.05s">
+        <div class="build-step-img">
+          <div class="img-ph" style="height:100%;border-radius:1.4rem">
+            <img src="/buiss skills/img/rcafe-steps2.webp" alt="Structural framework begins" onerror="this.style.display='none'">
+           
+          </div>
+        </div>
+        <div class="build-step-text">
+          <div class="build-step-num">Phase 02 · Structure</div>
+          <div class="build-step-title">Raising the Skeleton</div>
+          <div class="build-step-desc">Steel columns and framework mark the first visible transformation. The foundation evolves into form — defining space, scale, and the physical identity of the cafe.</div>
+        </div>
+      </div>
+
+      <!-- Step 3: image LEFT, text RIGHT -->
+      <div class="build-step reveal visible" style="transition-delay:0.1s">
+        <div class="build-step-img">
+          <div class="img-ph" style="height:100%;border-radius:1.4rem">
+            <img src="/buiss skills/img/rcafe-steps3.webp" alt="Construction in progress" onerror="this.style.display='none'">
+            
+          </div>
+        </div>
+        <div class="build-step-text">
+          <div class="build-step-num">Phase 03 · Build Development</div>
+          <div class="build-step-title">Shaping the Space</div>
+          <div class="build-step-desc">With structure in place, walls, roofing, and layout begin to take shape. The project moves from raw construction into a functional environment.</div>
+        </div>
+      </div>
+
+      <!-- Step 4: image RIGHT, text LEFT -->
+      <div class="build-step reverse reveal visible" style="transition-delay:0.15s">
+        <div class="build-step-img">
+          <div class="img-ph" style="height:100%;border-radius:1.4rem">
+            <img src="/buiss skills/img/rcafe-steps4.webp" alt="Interior setup" onerror="this.style.display='none'">
+            
+          </div>
+        </div>
+        <div class="build-step-text">
+          <div class="build-step-num">Phase 04 · Interior</div>
+          <div class="build-step-title">Crafting the Experience</div>
+          <div class="build-step-desc">Interiors are designed with intent — from seating to lighting. Every element is placed to create a warm, inviting cafe atmosphere.</div>
+        </div>
+      </div>
+
+      <!-- Step 5: image LEFT, text RIGHT -->
+      <div class="build-step reveal visible" style="transition-delay:0.2s">
+        <div class="build-step-img">
+          <div class="img-ph" style="height:100%;border-radius:1.4rem">
+            <img src="/buiss skills/img/rcafe-steps5.webp" alt="Completed cafe" onerror="this.style.display='none'">
+            
+          </div>
+        </div>
+        <div class="build-step-text">
+          <div class="build-step-num">Phase 05 · Completion</div>
+          <div class="build-step-title">From Vision to Reality</div>
+          <div class="build-step-desc">What started as empty land now stands as a fully operational cafe. A complete transformation — built from zero, driven by execution.</div>
+        </div>
+      </div>
+
+      <!-- Step 2: image RIGHT, text LEFT -->
+      <div class="build-step reverse reveal visible" style="transition-delay:0.05s">
+        <div class="build-step-img">
+          <div class="img-ph" style="height:100%;border-radius:1.4rem">
+            <img src="/buiss skills/img/rcafe-steps6.webp" alt="Structural framework begins" onerror="this.style.display='none'">
+           
+          </div>
+        </div>
+        <div class="build-step-text">
+          <div class="build-step-num">Phase 06 · Express Cafe</div>
+          <div class="build-step-title">Express Cafe – 20 Seater</div>
+          <div class="build-step-desc">Designed for speed and simplicity, the Express Cafe offers a quick-service setup where efficiency meets comfort. It caters to guests looking for a fast yet refined dining experience.</div>
+        </div>
+      </div>
+
+      <!-- Step 3: image LEFT, text RIGHT -->
+      <div class="build-step reveal visible" style="transition-delay:0.1s">
+        <div class="build-step-img">
+          <div class="img-ph" style="height:100%;border-radius:1.4rem">
+            <img src="/buiss skills/img/rcafe-steps7.webp" alt="Construction in progress" onerror="this.style.display='none'">
+            
+          </div>
+        </div>
+        <div class="build-step-text">
+          <div class="build-step-num">Phase 07 · Restro</div>
+          <div class="build-step-title">Restro – 70 Seater</div>
+          <div class="build-step-desc">The main dining space, built to host larger gatherings, blends ambiance with functionality. It delivers a complete restaurant experience with a focus on comfort, flow, and service.</div>
+        </div>
+      </div>
+
+      <!-- Step 4: image RIGHT, text LEFT -->
+      <div class="build-step reverse reveal visible" style="transition-delay:0.15s">
+        <div class="build-step-img">
+          <div class="img-ph" style="height:100%;border-radius:1.4rem">
+            <img src="/buiss skills/img/rcafe-steps8.webp" alt="Interior setup" onerror="this.style.display='none'">
+            
+          </div>
+        </div>
+        <div class="build-step-text">
+          <div class="build-step-num">Phase 08 · Mandi Section</div>
+          <div class="build-step-title">Mandi Section – 20 Seater</div>
+          <div class="build-step-desc">A dedicated cultural dining zone crafted for traditional Mandi-style experiences. The layout encourages shared meals, creating a warm and immersive setting.</div>
+        </div>
+      </div>
+
+      <!-- Step 5: image LEFT, text RIGHT -->
+      <div class="build-step reveal visible" style="transition-delay:0.2s">
+        <div class="build-step-img">
+          <div class="img-ph" style="height:100%;border-radius:1.4rem">
+            <img src="/buiss skills/img/rcafe2.webp" alt="Completed cafe" onerror="this.style.display='none'">
+            
+          </div>
+        </div>
+        <div class="build-step-text">
+          <div class="build-step-num">Phase 09 · Lounge</div>
+          <div class="build-step-title">Lounge – 50 Seater</div>
+          <div class="build-step-desc">A relaxed, premium space designed for unwinding. With a focus on aesthetics and comfort, the lounge supports casual meetings, social gatherings, and extended stays.</div>
+        </div>
+      </div>
+
+      <!-- Step 4: image RIGHT, text LEFT -->
+      <div class="build-step reverse reveal visible" style="transition-delay:0.15s">
+        <div class="build-step-img">
+          <div class="img-ph" style="height:100%;border-radius:1.4rem">
+            <img src="/buiss skills/img/rcafe-steps10.webp" alt="Interior setup" onerror="this.style.display='none'">
+            
+          </div>
+        </div>
+        <div class="build-step-text">
+          <div class="build-step-num">Phase 10 · Garden Barbeque Bonfire</div>
+          <div class="build-step-title">Garden Barbeque Bonfire – 15 Seater</div>
+          <div class="build-step-desc">An outdoor experiential zone combining live barbeque and bonfire elements. It creates an intimate, cozy environment ideal for small groups and evening experiences.</div>
+        </div>
+      </div>
+
+      
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Gallery -->
+ <div class="build-gallery wrap" id="gallery">
+      <div class="build-gallery-head reveal visible">
+        <div>
+          <div class="section-label">Gallery</div>
+          <h3 class="section-head" style="font-size:clamp(1.7rem,3vw,2.6rem);margin-bottom:0">R-Cafe in <em>Twenty Four Frames</em></h3>
+        </div>
+        <p class="build-gallery-copy">A quick visual gallery from the completed space, covering the launch-ready exterior, guest areas, operations, and the live atmosphere of R-Cafe.</p>
+      </div>
+
+      <div class="build-gallery-grid">
+        <div class="gallery-card reveal visible" style="transition-delay:0.05s" tabindex="0" role="button" aria-label="Open Completed Exterior image">
+          <div class="img-ph">
+            <img src="/buiss skills/img/rcafe-img1.webp" alt="R-Cafe completed exterior" onerror="this.style.display='none'">
+            <span>Menu 1</span>
+          </div>
+        </div>
+        <div class="gallery-card reveal visible" style="transition-delay:0.1s" tabindex="0" role="button" aria-label="Open Aerial View image">
+          <div class="img-ph">
+            <img src="/buiss skills/img/rcafe-img2.webp" alt="Aerial view of R-Cafe" onerror="this.style.display='none'">
+            <span>Menu 2</span>
+          </div>
+        </div>
+        <div class="gallery-card reveal visible" style="transition-delay:0.15s" tabindex="0" role="button" aria-label="Open Founder Presence image">
+          <div class="img-ph">
+            <img src="/buiss skills/img/rcafe-img3.webp" alt="Founder presence at R-Cafe" onerror="this.style.display='none'">
+            <span>Garden Area</span>
+          </div>
+        </div>
+        <div class="gallery-card reveal visible" style="transition-delay:0.2s" tabindex="0" role="button" aria-label="Open Live Operations image">
+          <div class="img-ph">
+            <img src="/buiss skills/img/rcafe-img4.webp" alt="Live operations at R-Cafe" onerror="this.style.display='none'">
+            <span>Our Staff</span>
+          </div>
+        </div>
+        <div class="gallery-card reveal visible" style="transition-delay:0.25s" tabindex="0" role="button" aria-label="Open Grand Launch image">
+          <div class="img-ph">
+            <img src="/buiss skills/img/rcafe-img5.webp" alt="R-Cafe inauguration moment" onerror="this.style.display='none'">
+            <span>Gardening</span>
+          </div>
+        </div>
+        <div class="gallery-card reveal visible" style="transition-delay:0.3s" tabindex="0" role="button" aria-label="Open Operations Detail image">
+          <div class="img-ph">
+            <img src="/buiss skills/img/rcafe-img6.webp" alt="R-Cafe workshop and operations" onerror="this.style.display='none'">
+            <span>Entrance</span>
+          </div>
+        </div>
+      </div>
+      <div class="build-gallery-action reveal visible" style="transition-delay:0.35s">
+        <button class="build-gallery-btn" type="button">View Full Gallery →</button>
+      </div>
+    </div>
+
+<div class="lightbox" id="gallery-lightbox" aria-hidden="true">
+  <div class="lightbox-panel">
+    <button class="lightbox-close" id="lightbox-close" type="button" aria-label="Close image viewer">×</button>
+    <img id="lightbox-image" src="" alt="">
+    <div class="lightbox-caption" id="lightbox-caption"></div>
+  </div>
+</div>
+
+
+<div class="divider"></div>
+
+<!-- TIMELINE -->
+<section class="tl-section" id="timeline">
+  <div class="wrap">
+    <div class="tl-grid">
+      <div class="reveal visible">
+        <div class="section-label">Chronology</div>
+        <h2 class="section-head">Execution Under <em>Failure &amp; COVID</em></h2>
+        <p style="color:var(--text2);font-size:1rem;line-height:1.8;margin-top:1rem;margin-bottom:2.5rem">R-Cafe began in late 2019 on a barren plot of land. Early construction was disrupted when the contracted vendor abandoned the project after taking payments. Shortly after, COVID travel restrictions brought all activity to a halt.</p>
+        <p style="color:var(--text2);font-size:1rem;line-height:1.8">Once restrictions eased, the project resumed with full ownership. As a mechanical engineer, civil execution, electrical planning, plumbing, kitchen infrastructure, structural layout, interiors, outdoor landscaping, and site logistics were personally taken charge of.</p>
+
+      </div>
+
+      <div class="tl-line-wrap reveal visible" style="transition-delay:0.15s">
+        <div class="tl-vert"></div>
+        <div class="tl-entry">
+          <div class="tl-year">Late 2019</div>
+          <div class="tl-text">Project initiated on barren land. First construction phase begins with contracted vendor. Site preparation and foundation work underway.</div>
+        </div>
+        <div class="tl-entry">
+          <div class="tl-year">2020 – 2021</div>
+          <div class="tl-text">Vendor abandons project after taking payment, leaving the site partially built and vulnerable. COVID travel restrictions bring all construction to a complete halt. Losses across capital, materials, and manpower.</div>
+          <span class="tl-badge disruption">Vendor Collapse + COVID</span>
+        </div>
+        <div class="tl-entry">
+          <div class="tl-year">2022</div>
+          <div class="tl-text">Construction resumes with full personal ownership. No relaunch — this was the continuation of the original build. Daily on-site presence. Direct execution of civil, electrical, plumbing, kitchen, interiors, and landscaping.</div>
+          <span class="tl-badge resume">Full Ownership Resumed</span>
+        </div>
+        <div class="tl-entry">
+          <div class="tl-year">1st January 2023</div>
+          <div class="tl-text">R-Cafe by Red Rybbons launches. Formally inaugurated by the former Chief Minister of Karnataka, Mr. H. D. Kumaraswamy. Grand launch.</div>
+          <span class="tl-badge launch">Live Production</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FOUNDER PRESENCE -->
+<section class="founder-section" id="founder">
+  <div class="wrap">
+    <div class="reveal visible" style="margin-bottom:3.5rem">
+      <div class="section-label">Founder Presence</div>
+      <h2 class="section-head">Not Absentee-Run —<br><em>Owner on the Ground</em></h2>
+    </div>
+    <div class="founder-grid">
+      <div class="reveal visible">
+        <div class="founder-text">
+          <p>R-Cafe is not a passive, absentee-run business. Active on-ground involvement is maintained in day-to-day operations, interacting with customers and staff regularly.</p>
+          <p>Several customer reviews and repeat visitors have specifically mentioned the owner's presence and personal engagement as part of their experience at the café. Guests often highlight approachability, hospitality, and responsiveness to feedback.</p>
+          <p>This reflects a core professional operating model: <strong>staying close to execution, listening to users, and continuously improving the system based on real-world feedback.</strong></p>
+          <p>The same operating model guides how AI and MLOps platforms are built and run — close to users, close to operations, and accountable for outcomes.</p>
+        </div>
+
+        <div class="review-cards" style="margin-top:2rem">
+          <div class="review-card">
+            <div class="review-text">The owner himself came to our table to ask about the food — you feel the genuine care in every interaction.</div>
+            <div class="review-attr">Repeat Visitor</div>
+          </div>
+          <div class="review-card">
+            <div class="review-text">You can see him working alongside the team, always present. That kind of owner involvement is rare.</div>
+            <div class="review-attr">Regular Customer</div>
+          </div>
+          <div class="review-card" style="border-color:rgba(212,168,67,0.15)">
+            <div class="review-text">Visitors often mention the owner's presence and personal interaction as a distinctive part of the R-Cafe experience.</div>
+            <div class="review-attr">Recurring Feedback Theme</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal visible" style="transition-delay:0.15s">
+        <div class="founder-img-block">
+          <div class="img-ph" style="height:100%">
+            <img src="/buiss skills/img/rcafe6.webp" alt="Founder with customers" onerror="this.style.display='none'">
+            <span style="font-size:0.5rem;opacity:0.3">customer.jpg</span>
+          </div>
+        </div>
+        <div style="margin-top:1rem">
+          <div class="img-ph founder-sub-img">
+            <img src="/buiss skills/img/rcafe3.webp" alt="R-Cafe operations" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CAPABILITIES -->
+<section class="cap-section" id="capabilities">
+  <div class="wrap">
+    <div class="cap-header reveal visible">
+      <div>
+        <div class="section-label">Strategic Capabilities</div>
+        <h2 class="section-head">Cafe → <em>Systems Leadership</em></h2>
+      </div>
+      <div style="padding-top:1.2rem">
+        <p style="color:var(--text2);font-size:1rem;line-height:1.8">Each dimension of building R-Cafe maps directly to how AI platforms, MLOps systems, and production pipelines are designed and operated today. The cafe was the crucible.</p>
+      </div>
+    </div>
+
+    <div class="cap-grid">
+      <div class="cap-card reveal visible" style="transition-delay:0.05s">
+        <div class="cap-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+        </div>
+        <div class="cap-title">End-to-End Execution Ownership</div>
+        <div class="cap-desc">Owned the full lifecycle: planning → construction → integration → go-live operations. The same model now governs AI platform delivery, MLOps systems, and production pipelines.</div>
+      </div>
+      <div class="cap-card reveal visible" style="transition-delay:0.1s">
+        <div class="cap-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        </div>
+        <div class="cap-title">Delivery Under Adversity</div>
+        <div class="cap-desc">Recovered a project after vendor failure and pandemic disruption. Demonstrates resilience, recovery discipline, and execution continuity under uncertainty — the same tolerance applied in production AI deployments.</div>
+      </div>
+      <div class="cap-card reveal visible" style="transition-delay:0.15s">
+        <div class="cap-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path><path d="M4.93 19.07a10 10 0 0 1 0-14.14"></path></svg>
+        </div>
+        <div class="cap-title">Systems &amp; Process Thinking</div>
+        <div class="cap-desc">Designed physical workflows — kitchen layout, service flows, seating — with the same rigor now applied to ML pipelines, deployment systems, cost controls, and platform governance.</div>
+      </div>
+      <div class="cap-card reveal visible" style="transition-delay:0.2s">
+        <div class="cap-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path></svg>
+        </div>
+        <div class="cap-title">Field Leadership &amp; Operational Discipline</div>
+        <div class="cap-desc">Maintained daily on-site presence to resolve real-time execution issues, enforce quality standards, and sustain delivery momentum across a complex, multi-phase build.</div>
+      </div>
+      <div class="cap-card reveal visible" style="transition-delay:0.25s">
+        <div class="cap-icon">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+        </div>
+        <div class="cap-title">Stakeholder &amp; Launch Readiness</div>
+        <div class="cap-desc">Managed readiness for a public inauguration involving the former Chief Minister of Karnataka — equivalent to executive demos, enterprise go-lives, and production cutovers at the highest visibility level.</div>
+      </div>
+      <div class="cap-card reveal visible" style="transition-delay:0.3s">
+        <div class="cap-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+        </div>
+        <div class="cap-title">Outcome Ownership</div>
+        <div class="cap-desc">Personally owned cost, schedule, and delivery outcomes from bare land to live operation. This same ownership model — no delegation of accountability — governs work on production AI systems today.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROFESSIONAL JOURNEY -->
+<section class="journey-section" id="journey">
+  <div class="wrap">
+    <div class="journey-grid">
+      <div class="reveal visible">
+        <div class="section-label">Professional Journey</div>
+        <h2 class="section-head">Delivery to <em>Production</em></h2>
+        <div class="journey-text">
+          <p>Trained as a mechanical engineer and later at <strong>IIM Calcutta</strong>, engineering execution is combined with strategic leadership and business accountability. This is a consistent operating pattern: owning complex systems from conception to production.</p>
+          <p>Building R-Cafe through vendor failure and COVID disruption reinforced a core operating principle: <strong>real systems only matter when they work in the real world.</strong> Today the same discipline is applied to building AI and MLOps platforms across AWS, Azure, and GCP — with a focus on production reliability, cost control, governance, and measurable business outcomes.</p>
+          <p>Whether the system is physical infrastructure or digital AI platforms, the role remains consistent: architect the system, own its delivery, absorb execution risk, and ensure it reaches stable production.</p>
+        </div>
+        <div class="journey-tags">
+          <span class="jtag">B.E. Mechanical Engineering</span>
+          <span class="jtag">IIM Calcutta</span>
+          <span class="jtag">AWS · Azure · GCP</span>
+          <span class="jtag">AI Platforms</span>
+          <span class="jtag">MLOps Systems</span>
+          <span class="jtag">Production Reliability</span>
+          <span class="jtag">Cost Governance</span>
+        </div>
+      </div>
+      <div class="reveal visible" style="transition-delay:0.15s">
+        <div class="journey-img">
+          <div class="img-ph" style="height:100%">
+            <img src="/buiss skills/img/rcafe4.webp" alt="R-Cafe inauguration" onerror="this.style.display='none'">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WORK ETHIC -->
+<section class="ethic-section">
+  <div class="wrap">
+    <div class="ethic-inner reveal visible">
+      <div class="ethic-grid">
+        <div>
+          <div class="section-label">Work Ethic</div>
+          <div class="ethic-title">Show up daily.<br>Remove blockers.<br><em>Deliver outcomes.</em></div>
+          <div class="ethic-body">
+            <p>This is founder-engineer proof: vendor collapse, a global pandemic, regulatory shocks (2024 hookah ban → new F&amp;B model), and 16-hour days competing against established players. The system adapted. The execution continued.</p>
+            <p style="margin-top:1rem">The same philosophy is applied to AI platforms. Real systems do not become real at the level of ideas. They become real only when they pass through execution, real-world constraints, and operational stress.</p>
+          </div>
+          <div class="ethic-chips">
+            <span class="echip">Self-Funded</span>
+            <span class="echip">Regulatory Pivot</span>
+            <span class="echip">Founder-Led Ops</span>
+            <span class="echip">Production Mindset</span>
+            <span class="echip">Resilience</span>
+          </div>
+        </div>
+        <div>
+          <div class="ethic-img">
+            <div class="img-ph" style="height:100%">
+              <img src="/buiss skills/img/rcafe5.webp" alt="Workshop and operations" onerror="this.style.display='none'">
+              <span style="font-size:0.5rem;opacity:0.3">The cafe is the front-end of a deeper craft platform</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- POSITIONING -->
+<section class="position-section" id="positioning">
+  <div class="wrap">
+    <div class="pos-inner reveal visible">
+      <p class="pos-quote">
+        "This project demonstrates my ability to take complex, multi-stakeholder systems from <em>zero to production</em> — the same execution model I apply to AI platforms and MLOps systems."
+      </p>
+      <div class="pos-pillars">
+        <div class="pos-pillar"><span class="pos-arrow">→</span> Design for reliability, not demos</div>
+        <div class="pos-pillar"><span class="pos-arrow">→</span> End-to-end workflows, monitoring, recovery</div>
+        <div class="pos-pillar"><span class="pos-arrow">→</span> Cost &amp; production mindset carried into cloud</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<footer>
+  <div class="foot-brand">R-Cafe by Red Rybbons</div>
+</footer>
+
+<script>
+// Cursor glow
+const cg = document.getElementById('cglow');
+document.addEventListener('mousemove', e => {
+  cg.style.transform = `translate(${e.clientX-240}px,${e.clientY-240}px)`;
+});
+
+// Nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 70);
+});
+
+// Reveal observer
+const revs = document.querySelectorAll('.reveal');
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      ro.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+revs.forEach(el => ro.observe(el));
+
+// Nav anchor scrolling with fixed-header offset
+const navLinks = document.querySelectorAll('.nav-links a');
+const navTargets = [...navLinks]
+  .map(link => document.querySelector(link.getAttribute('href')))
+  .filter(Boolean);
+
+const getNavOffset = () => nav.offsetHeight + 18;
+
+navLinks.forEach(link => {
+  link.addEventListener('click', event => {
+    const target = document.querySelector(link.getAttribute('href'));
+    if (!target) return;
+    event.preventDefault();
+    const targetTop = target.getBoundingClientRect().top + window.scrollY - getNavOffset();
+    window.scrollTo({ top: targetTop, behavior: 'smooth' });
+  });
+});
+
+// Active nav highlight
+const setActiveLink = id => {
+  navLinks.forEach(link => {
+    link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+  });
+};
+
+const updateActiveNav = () => {
+  let current = navTargets[0];
+  navTargets.forEach(section => {
+    if (window.scrollY + getNavOffset() >= section.offsetTop) current = section;
+  });
+  if (current) setActiveLink(current.id);
+};
+
+window.addEventListener('scroll', updateActiveNav);
+window.addEventListener('load', updateActiveNav);
+window.addEventListener('resize', updateActiveNav);
+
+// Gallery lightbox
+const lightbox = document.getElementById('gallery-lightbox');
+const lightboxImage = document.getElementById('lightbox-image');
+const lightboxCaption = document.getElementById('lightbox-caption');
+const lightboxClose = document.getElementById('lightbox-close');
+const galleryCards = document.querySelectorAll('.gallery-card');
+
+const openLightbox = card => {
+  const image = card.querySelector('img');
+  const caption = card.querySelector('span');
+  if (!image || !image.src) return;
+  lightboxImage.src = image.src;
+  lightboxImage.alt = image.alt || '';
+  lightboxCaption.textContent = caption ? caption.textContent : '';
+  lightbox.classList.add('open');
+  lightbox.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+};
+
+const closeLightbox = () => {
+  lightbox.classList.remove('open');
+  lightbox.setAttribute('aria-hidden', 'true');
+  lightboxImage.src = '';
+  lightboxImage.alt = '';
+  lightboxCaption.textContent = '';
+  document.body.style.overflow = '';
+};
+
+galleryCards.forEach(card => {
+  card.addEventListener('click', () => openLightbox(card));
+  card.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      openLightbox(card);
+    }
+  });
+});
+
+lightboxClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', event => {
+  if (event.target === lightbox) closeLightbox();
+});
+
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && lightbox.classList.contains('open')) {
+    closeLightbox();
+  }
+});
+
+</script>
+
+
+</body></html>

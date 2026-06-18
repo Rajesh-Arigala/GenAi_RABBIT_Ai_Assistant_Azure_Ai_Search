@@ -1,0 +1,1826 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Azure ML Deployment Pipeline - Project Case Study</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-main: #0C1117;
+            --bg-surface: #121923;
+            --bg-elevated: #161F2B;
+            --card-bg: #161F2B;
+
+            --accent-primary: #B8B2A7;
+            --accent-energy: #7CFFB2;
+            --accent-depth: #3A1F2D;
+            --accent-azure: #0089D6;
+
+            --text-primary: #E6E9EF;
+            --text-secondary: #A1A8B3;
+            --text-muted: #6F7682;
+
+            --line-subtle: #1E2633;
+            --glass-border: rgba(184, 178, 167, 0.15);
+
+            --ease-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --accent-gradient: linear-gradient(90deg, var(--accent-primary), var(--accent-azure));
+
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* ==================== HEADER & NAVIGATION ==================== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(12, 17, 23, 0.9);
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.4s var(--ease-slow);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-azure);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-azure);
+            transition: width 0.4s var(--ease-slow);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--accent-azure);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+            background: var(--accent-azure);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ==================== MAIN CONTENT ==================== */
+        main {
+            padding-top: 100px;
+            padding-bottom: 4rem;
+        }
+
+        /* ==================== SECTION STYLES ==================== */
+        .section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        .section-header {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-azure);
+            border-radius: 2px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-azure);
+            font-weight: 500;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.4s var(--ease-slow);
+        }
+
+        /* Pipeline-3 cards: make diagrams flush inside card */
+        .card.small-card {
+            padding-bottom: 0;
+            overflow: hidden;
+        }
+
+        .card.small-card .diagram-row {
+            margin-top: 1rem;
+            margin-left: -2rem;
+            margin-right: -2rem;
+            margin-bottom: 0;
+        }
+
+        .card.small-card .diagram-img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .card:hover {
+            border-color: var(--accent-azure);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .card-title i {
+            color: var(--accent-azure);
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-item {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        /* Popup CTA and modal styles for pipeline links */
+        .popup-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: linear-gradient(90deg, #00C2A8, #7CFFB2);
+            color: #071017;
+            padding: 0.6rem 1rem;
+            border-radius: 999px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(124,255,178,0.12), 0 2px 6px rgba(0,0,0,0.35);
+            transition: transform 0.18s ease, box-shadow 0.18s ease;
+        }
+
+        .modal-overlay { position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; background: rgba(2,6,10,0.6); display:none; align-items:center; justify-content:center; z-index:99999 !important; padding:2rem; }
+        .modal-overlay.show { display:flex !important; }
+        .modal { background: var(--card-bg); border-radius:12px; padding:1.5rem; max-width:680px; width:100%; box-shadow:0 20px 60px rgba(2,6,10,0.6); border:1px solid var(--line-subtle); }
+        .modal-head { display:flex; align-items:center; justify-content:space-between; gap:1rem; }
+        .modal-title { font-weight:700; color:var(--text-primary); }
+        .modal-body { margin-top:1rem; color: var(--text-secondary); }
+        .modal-actions { margin-top:1.25rem; display:flex; gap:0.75rem; }
+        .btn-ghost { background: transparent; color: var(--accent-primary); border: 1px solid rgba(184,178,167,0.08); padding:0.5rem 0.9rem; border-radius:8px; cursor:pointer; }
+        .btn-primary-cta { background: #00C2A8; color: white; padding:0.55rem 0.95rem; border-radius:8px; border:none; cursor:pointer; font-weight:700; }
+        .link-preview { background: rgba(255,255,255,0.02); padding:0.75rem; border-radius:8px; border:1px dashed rgba(184,178,167,0.06); font-size:0.95rem; word-break:break-all; }
+
+        .list-item::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent-azure);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .highlight-box {
+            background: rgba(0, 137, 214, 0.05);
+            border-left: 4px solid var(--accent-azure);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-text {
+            color: var(--accent-azure);
+            font-weight: 500;
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero-section {
+            text-align: center;
+            padding-top: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-azure), transparent);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 1rem;
+            letter-spacing: -0.02em;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--accent-azure);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .hero-summary {
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* ==================== ARCHITECTURE VISUAL ==================== */
+        .architecture-visual {
+            background: var(--bg-elevated);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--line-subtle);
+            margin: 2rem 0;
+        }
+
+        .architecture-placeholder {
+            height: 400px;
+            background: linear-gradient(135deg, rgba(184, 178, 167, 0.1), rgba(0, 137, 214, 0.05));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .architecture-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(var(--line-subtle) 1px, transparent 1px),
+                linear-gradient(90deg, var(--line-subtle) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.3;
+        }
+
+        .architecture-label {
+            position: relative;
+            z-index: 2;
+            background: rgba(12, 17, 23, 0.7);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .flow-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .flow-step {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: var(--accent-azure);
+            color: var(--bg-main);
+            border-radius: 50%;
+            line-height: 30px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* ==================== PIPELINE STAGES ==================== */
+        .pipeline-stage {
+            margin-bottom: 2.5rem;
+        }
+
+        .stage-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .stage-number {
+            background: var(--accent-azure);
+            color: var(--bg-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .stage-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* ==================== TECHNOLOGY STACK ==================== */
+        .tech-category {
+            margin-bottom: 2rem;
+        }
+
+        .tech-category-title {
+            font-size: 1.2rem;
+            color: var(--accent-azure);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tech-tag {
+            background: rgba(184, 178, 167, 0.1);
+            color: var(--accent-primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(184, 178, 167, 0.2);
+        }
+
+        .tech-tag.azure {
+            background: rgba(0, 137, 214, 0.1);
+            color: var(--accent-azure);
+            border-color: rgba(0, 137, 214, 0.2);
+        }
+
+        .tech-tag.ml {
+            background: rgba(255, 107, 107, 0.1);
+            color: #FF6B6B;
+            border-color: rgba(255, 107, 107, 0.2);
+        }
+
+        /* ==================== ASSETS SECTION ==================== */
+        .assets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .asset-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--line-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .asset-card:hover {
+            border-color: var(--accent-azure);
+            transform: translateY(-4px);
+        }
+
+        .asset-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(0, 137, 214, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--accent-azure);
+            font-size: 1.5rem;
+        }
+
+        .asset-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .asset-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .asset-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-azure);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .asset-link:hover {
+            text-decoration: underline;
+        }
+
+        .disclaimer {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: rgba(184, 178, 167, 0.05);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        /* ==================== YAML TABLE STYLES ==================== */
+        .yaml-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .yaml-table th {
+            background: rgba(0, 137, 214, 0.1);
+            color: var(--accent-azure);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--line-subtle);
+        }
+
+        .yaml-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--line-subtle);
+            color: var(--text-secondary);
+        }
+
+        .yaml-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .yaml-table tr:hover {
+            background: rgba(184, 178, 167, 0.05);
+        }
+
+        /* ==================== CODE BLOCK STYLES ==================== */
+        .code-block {
+            background: rgba(12, 17, 23, 0.8);
+            border: 1px solid var(--line-subtle);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+            overflow-x: auto;
+        }
+
+        .code-key {
+            color: var(--accent-azure);
+        }
+
+        .code-value {
+            color: #6C9BCF;
+        }
+
+        .code-comment {
+            color: #6F7682;
+        }
+
+        /* ==================== DEMO SECTION ==================== */
+        .demo-section {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .demo-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-azure);
+        }
+
+        .demo-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .trigger-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--accent-azure);
+            color: var(--bg-main);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-slow);
+         text-decoration: none; }
+
+        .trigger-btn:hover {
+            background: transparent;
+            color: var(--accent-azure);
+            border: 2px solid var(--accent-azure);
+            transform: translateY(-2px);
+        }
+
+        /* ==================== STUDY MATERIAL MODAL ==================== */
+        .study-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(12, 17, 23, 0.95);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .study-modal.active {
+            display: flex;
+        }
+
+        .study-modal-content {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid var(--line-subtle);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .study-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .study-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .study-modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .study-modal-close:hover {
+            color: var(--accent-azure);
+            background: rgba(0, 137, 214, 0.1);
+        }
+
+        .study-material-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .study-material-item {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            gap: 1.2rem;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .study-material-item:hover {
+            background: rgba(184, 178, 167, 0.05);
+            transform: translateX(5px);
+        }
+
+        .study-material-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 137, 214, 0.1);
+            color: var(--accent-azure);
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        .study-material-info {
+            flex: 1;
+        }
+
+        .study-material-name {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .study-material-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            background: transparent;
+            border: 2px solid var(--accent-azure);
+            color: var(--accent-azure);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .download-btn:hover {
+            background: rgba(0, 137, 214, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 137, 214, 0.2);
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeInUp 0.6s var(--ease-slow) forwards;
+            opacity: 0;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+
+        /* Animation for modal */
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .study-modal-content {
+            animation: modalFadeIn 0.3s var(--ease-slow);
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 768px) {
+            .nav-list {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background: var(--bg-surface);
+                padding: 2rem;
+                border-bottom: 1px solid var(--line-subtle);
+                gap: 1.5rem;
+            }
+
+            .nav-list.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .flow-steps {
+                flex-direction: column;
+            }
+
+            .flow-step {
+                min-width: 100%;
+            }
+
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .yaml-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .study-modal-content {
+                padding: 1.5rem;
+            }
+
+            .study-material-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .study-material-info {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .demo-title {
+                font-size: 2rem;
+            }
+
+            .study-modal-content {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="nav-logo">Azure ML Deployment Pipeline</a>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#overview" class="nav-link active">Overview</a></li>
+                <li class="nav-item"><a href="#problem" class="nav-link">Problem</a></li>
+                <li class="nav-item"><a href="#architecture" class="nav-link">Architecture</a></li>
+                <li class="nav-item"><a href="#skills" class="nav-link">Skills</a></li>
+                <li class="nav-item"><a href="#challenges" class="nav-link">Challenges</a></li>
+                <li class="nav-item"><a href="#assets" class="nav-link">Assets</a></li>
+            </ul>
+            <button class="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section id="overview" class="section hero-section" style="opacity: 1; transform: translateY(0px);">
+            <h1 class="hero-title">Azure ML Deployment Pipeline</h1>
+            <p class="hero-subtitle">Production-grade MLOps pipeline for model serving, monitoring, and retraining</p>
+            <div class="hero-summary">
+                <p>Building a CI/CD-driven Azure ML deployment pipeline that automates endpoint creation, model serving, traffic routing, validation, monitoring, and retraining orchestration. This MLOps solution transforms trained models into reliable production services with automated operations.</p>
+            </div>
+        </section>
+
+        <!-- Project Summary -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Project Summary</h2>
+                <p class="section-subtitle">Comprehensive Project Overview</p>
+            </div>
+            
+            <div class="grid-3">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-tag"></i>Project Category</h3>
+                    <div class="card-content">
+                        <p>MLOps + Cloud (Model Deployment &amp; Operations Automation)</p>
+                    </div>
+                </div>
+                
+                    <!-- PIPELINE-3 POPUP MODAL -->
+                    
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-industry"></i>Industry/Domain</h3>
+                    <div class="card-content">
+                        <p>Cross-Industry (Enterprise AI Operations / Model Serving Platforms)</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-code"></i>DevOps Focus</h3>
+                    <div class="card-content">
+                        <p>MLOps Deployment &amp; Production Operations</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flow & Pipeline Steps -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-stream"></i>FLOW</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item">Subscription → RBAC (Contributor, Owner, Reader) → Service Principal (cloud)</li>
+                        <li class="list-item">DevOps Org → DevOps Project</li>
+                        <li class="list-item">Project Settings → Service Principal Connection (DevOps-Cloud Handshake)</li>
+                        <li class="list-item">Repo → Repo Settings → Security → contribute, branch</li>
+                        <li class="list-item">Pipelines → Pipeline Settings → Security → Edit Build pipeline</li>
+                    </ul>
+
+                    <h4 style="margin-top:1rem; color:var(--accent-azure);">PIPELINE-1 ; DEPLOY INFRASTRUCTURE</h4>
+                    <p><strong>Understand the flow:</strong> Subscriptions → Azure Resource Group → Name Spaces → Resources</p>
+                    <ol class="list">
+                        <li class="list-item">Repos → edit `config_infra.yml` → edit namespace/workspace and postfix → commit</li>
+                        <li class="list-item">Create Pipelines → add `deploy-infra.yaml` → run to provision infra</li>
+                    </ol>
+
+                    <h4 style="margin-top:1rem; color:var(--accent-azure);">PIPELINE-2 ; DEPLOY MODEL TRAINING</h4>
+                    <ol class="list">
+                        <li class="list-item">Create `deploy-model-training-pipeline.yaml` → run training pipeline (data prep, train, evaluate, register)</li>
+                    </ol>
+
+                    <h4 style="margin-top:1rem; color:var(--accent-azure);">PIPELINE-3 ; DEPLOY MODEL (ENDPOINT)</h4>
+                    <ol class="list">
+                        <li class="list-item">Create `deploy-online-endpoint-pipeline.yaml` → run to deploy model to managed endpoint and configure traffic routing</li>
+                    </ol>
+                    <!-- Pipeline-3 detailed cards with images -->
+                    <div class="pipeline3-steps" style="margin-top:1rem;">
+                        <div class="card small-card">
+                            <h5 class="card-subtitle">1. Model deployment on VM (Azure) — gated approval</h5>
+                            <p class="muted">Deploy model to a VM-based serving instance that requires manual/gated approval before promoting to production.</p>
+                            <div class="diagram-row">
+                                <img class="diagram-img" src="/ai-work/img/image 2-3-1.png" alt="Model deployment on VM (gated approval)">
+                            </div>
+                        </div>
+
+                        <div class="card small-card" style="margin-top:0.75rem;">
+                            <h5 class="card-subtitle">2. Model monitoring</h5>
+                            <p class="muted">Continuous telemetry collection, drift detection, and alerting for the deployed model.</p>
+                            <div class="diagram-row">
+                                <img class="diagram-img" src="/ai-work/img/image 2-3-2.png" alt="Model monitoring">
+                            </div>
+                        </div>
+
+                        <div class="card small-card" style="margin-top:0.75rem;">
+                            <h5 class="card-subtitle">3. Triggers — infrastructure scaling for latency issues</h5>
+                            <p class="muted">Automated infra triggers that detect increased latency and scale nodes to handle user load.</p>
+                            <div class="diagram-row">
+                                <img class="diagram-img" src="/ai-work/img/image 2-3-3.png" alt="Infrastructure scaling triggers for latency">
+                            </div>
+                        </div>
+
+                        <div class="card small-card" style="margin-top:0.75rem;">
+                            <h5 class="card-subtitle">4. Automated retrain trigger — Model re-training</h5>
+                            <p class="muted">Scheduled or event-driven retraining triggered by monitoring signals (drift, data skew, performance regression).</p>
+                            <div class="diagram-row">
+                                <img class="diagram-img" src="/ai-work/img/image 2-3-4.png" alt="Automated retrain trigger - model re-training">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Keywords -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Key Technologies &amp; Concepts</h2>
+                <p class="section-subtitle">Core Technologies Used</p>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-key"></i>Azure ML MLOps Keywords</h3>
+                <div class="card-content">
+                    <div class="tech-tags">
+                        <span class="tech-tag azure">Azure Machine Learning</span>
+                        <span class="tech-tag azure">Managed Endpoints</span>
+                        <span class="tech-tag azure">Online/Batch Inference</span>
+                        <span class="tech-tag ml">Model Deployment &amp; Serving</span>
+                        <span class="tech-tag ml">CI/CD for Model Releases</span>
+                        <span class="tech-tag ml">Traffic Routing (Blue/Green, Canary)</span>
+                        <span class="tech-tag">Endpoint Invocation &amp; Validation</span>
+                        <span class="tech-tag ml">Production Monitoring</span>
+                        <span class="tech-tag ml">Automated Retraining Triggers</span>
+                        <span class="tech-tag ml">Production AI Operations (AI Ops)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem & Objective -->
+        <section id="problem" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Problem &amp; Objective</h2>
+                <p class="section-subtitle">What problem did this project solve?</p>
+            </div>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Problems Solved</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Trained models were not reliably operationalized into production services</li>
+                            <li class="list-item">Deployments were manual, error-prone, and lacked rollout control</li>
+                            <li class="list-item">No standardized validation, monitoring, or retraining triggers</li>
+                            <li class="list-item">Unstable model serving, production incidents, and slow iteration cycles</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-bullseye"></i>Primary Objectives</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Build a CI/CD-driven, production-grade deployment pipeline on Azure ML</li>
+                            <li class="list-item">Standardize model serving via managed endpoints</li>
+                            <li class="list-item">Enforce safe rollouts with traffic control and validation</li>
+                            <li class="list-item">Establish operational hooks for monitoring and retraining</li>
+                            <li class="list-item">Transform trained models into reliable production services</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution & Architecture -->
+        <section id="architecture" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Solution &amp; Architecture</h2>
+                <p class="section-subtitle">Architectural Overview</p>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-sitemap"></i>Solution Overview</h3>
+                <div class="card-content">
+                    <p>Implemented a CI/CD-driven Azure ML deployment pipeline that provisions managed online/batch endpoints, creates model deployments from the registry, controls traffic for safe rollouts, validates deployments via automated invocation, and integrates operational hooks for monitoring and retraining.</p>
+                    
+                    <div class="highlight-box">
+                        <p class="highlight-text">Designed inference services to scale horizontally via managed endpoints, enabled blue/green-style rollouts through traffic routing, and enforced CI/CD gating with automated smoke tests to ensure reliable, low-risk production deployments.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="architecture-visual">
+
+                <div style="text-align: center; width: 100%;">
+        <img src="/img/ml-systems/project in 2.1.webp" alt="Azure ML Deployment Pipeline Architecture" style="max-width: 100%; height: auto; display: inline-block; margin: 0 auto;">
+    </div>
+                
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Model Registry</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Endpoint Creation</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Deployment</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Traffic Routing</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">5</div>
+                        <div class="step-label">Monitoring &amp; Retraining</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-cogs"></i>Key Components &amp; Services</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item"><strong>Cloud Platform:</strong> Microsoft Azure (Azure Machine Learning, Azure DevOps, Azure Resource Manager)</li>
+                        <li class="list-item"><strong>Core Services:</strong> Azure Machine Learning (Managed Endpoints, Online/Batch Deployments)</li>
+                        <li class="list-item"><strong>CI/CD Tools:</strong> Azure DevOps (YAML Pipelines)</li>
+                        <li class="list-item"><strong>Registry &amp; Compute:</strong> Azure ML Model Registry, Azure ML Inference Compute</li>
+                        <li class="list-item"><strong>Monitoring:</strong> Azure Monitor / Application Insights</li>
+                        <li class="list-item"><strong>CLI Tools:</strong> Azure CLI v2 + AML CLI v2</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI/DevOps Details -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">AI / DevOps Details</h2>
+                <p class="section-subtitle">MLOps Deployment &amp; Production Operations</p>
+            </div>
+            
+            <div class="grid-3">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-robot"></i>AI/ML Type</h3>
+                    <div class="card-content">
+                        <p>MLOps Deployment &amp; Production Operations (Model Serving, Release Engineering)</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-project-diagram"></i>Pipeline Implementation</h3>
+                    <div class="card-content">
+                        <p>CI/CD-driven model deployment pipelines for Azure ML managed endpoints (online &amp; batch), including automated endpoint creation, deployment, traffic routing, and validation.</p>
+                        <p><button class="popup-cta" id="openPipeline3Btn" data-link="https://github.com/Rajesh-Arigala/Azure-MLOps-End-to-End">Repository</button></p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-tools"></i>Tools &amp; Orchestration</h3>
+                    <div class="card-content">
+                        <p>Azure DevOps (YAML Pipelines), Azure ML Managed Endpoints, Azure CLI v2 + AML CLI v2</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-chart-line"></i>Monitoring &amp; Optimization</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item">Azure ML endpoint logs and metrics</li>
+                        <li class="list-item">Azure DevOps pipeline logs</li>
+                        <li class="list-item">Traffic-based rollout control</li>
+                        <li class="list-item">Automated smoke testing</li>
+                        <li class="list-item">Operational hooks for retraining triggers and scheduled runs</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills & Technologies Used -->
+        <section id="skills" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Skills &amp; Technologies Used</h2>
+                <p class="section-subtitle">Technical Proficiency Demonstrated</p>
+            </div>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-star"></i>Primary Skills</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item"><strong>MLOps Deployment Engineering</strong> - Advanced</li>
+                            <li class="list-item"><strong>Cloud Platform Engineering (Azure)</strong> - Advanced</li>
+                            <li class="list-item"><strong>CI/CD Pipeline Engineering (Azure DevOps)</strong> - Advanced</li>
+                            <li class="list-item"><strong>Production Model Serving &amp; Release Management</strong> - Advanced</li>
+                            <li class="list-item"><strong>Cloud Security &amp; RBAC</strong> - Intermediate-Advanced</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-tools"></i>Secondary Tools / Frameworks</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Azure CLI v2</li>
+                            <li class="list-item">Azure ML CLI v2</li>
+                            <li class="list-item">MLflow Model Registry</li>
+                            <li class="list-item">Linux (Ubuntu runners)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-code"></i>Programming Languages</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item">Python</li>
+                        <li class="list-item">YAML configuration file (CI/CD Pipelines)</li>
+                        <li class="list-item">Bash (CLI automation)</li>
+                        <li class="list-item">GitHub CLI Commands</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fab fa-microsoft"></i>Cloud &amp; DevOps Tools</h3>
+                <div class="card-content">
+                    <div class="tech-tags">
+                        <span class="tech-tag azure">Azure Machine Learning</span>
+                        <span class="tech-tag azure">Azure DevOps</span>
+                        <span class="tech-tag azure">Azure CLI v2</span>
+                        <span class="tech-tag azure">Azure Monitor</span>
+                        <span class="tech-tag azure">Application Insights</span>
+                        <span class="tech-tag">Managed Endpoints</span>
+                        <span class="tech-tag">Online/Batch Deployments</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Challenges & Outcomes -->
+        <section id="challenges" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Challenges &amp; Outcomes</h2>
+                <p class="section-subtitle">Key technical challenges and resolutions</p>
+            </div>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Technical Challenges</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Automating reliable endpoint creation and deployment without manual Azure portal steps</li>
+                            <li class="list-item">Managing safe production rollouts while minimizing blast radius of new model versions</li>
+                            <li class="list-item">Validating deployments programmatically to catch runtime/config errors early</li>
+                            <li class="list-item">Wiring CI/CD pipelines securely to Azure ML endpoints with correct RBAC</li>
+                            <li class="list-item">Designing retraining hooks without tightly coupling deployment to training logic</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-check-circle"></i>Resolutions Implemented</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Built idempotent CI/CD steps for endpoint and deployment creation using Azure ML CLI</li>
+                            <li class="list-item">Implemented traffic routing controls to support blue/green-style rollouts and instant rollback</li>
+                            <li class="list-item">Added automated endpoint invocation (online) and job-based validation (batch) as smoke tests</li>
+                            <li class="list-item">Scoped Azure DevOps service connections with RBAC (Contributor) for secure automation</li>
+                            <li class="list-item">Exposed retraining triggers and schedules as pipeline hooks, keeping deployment loosely coupled from training</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Azure DevOps CI/CD - Architecture & YAML Mapping -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Azure DevOps CI/CD - Architecture &amp; YAML Mapping</h2>
+                <p class="section-subtitle">Architecture to YAML construct mapping</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-content">
+                    <table class="yaml-table">
+                        <thead>
+                            <tr>
+                                <th>Architecture Block</th>
+                                <th>YAML Construct</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Azure Repos / GitHub</td>
+                                <td>Trigger / pr</td>
+                            </tr>
+                            <tr>
+                                <td>Azure Pipelines</td>
+                                <td>Pipeline root, Stages</td>
+                            </tr>
+                            <tr>
+                                <td>Linux Runner</td>
+                                <td>pool: vmImage</td>
+                            </tr>
+                            <tr>
+                                <td>Workspace Context</td>
+                                <td>az configure --defaults group=&lt;rg&gt; workspace=&lt;ws&gt;</td>
+                            </tr>
+                            <tr>
+                                <td>Endpoint Definition</td>
+                                <td>online-endpoint.yml / batch-endpoint.yml</td>
+                            </tr>
+                            <tr>
+                                <td>Endpoint Provisioning</td>
+                                <td>az ml online-endpoint create / az ml batch-endpoint create</td>
+                            </tr>
+                            <tr>
+                                <td>Deployment Definition</td>
+                                <td>online-deployment.yml</td>
+                            </tr>
+                            <tr>
+                                <td>Deployment Creation</td>
+                                <td>az ml online-deployment create</td>
+                            </tr>
+                            <tr>
+                                <td>Model Binding</td>
+                                <td>model: azureml:&lt;model-name&gt;@latest</td>
+                            </tr>
+                            <tr>
+                                <td>Inference Compute</td>
+                                <td>instance_type, instance_count</td>
+                            </tr>
+                            <tr>
+                                <td>Traffic Routing</td>
+                                <td>az ml online-endpoint update --traffic</td>
+                            </tr>
+                            <tr>
+                                <td>Blue/Green Strategy</td>
+                                <td>Multiple deployments under one endpoint</td>
+                            </tr>
+                            <tr>
+                                <td>Invocation / Smoke Test</td>
+                                <td>az ml online-endpoint invoke</td>
+                            </tr>
+                            <tr>
+                                <td>Batch Inference Trigger</td>
+                                <td>az ml batch-endpoint invoke</td>
+                            </tr>
+                            <tr>
+                                <td>Monitoring Hooks</td>
+                                <td>Azure ML endpoint logs + Azure Monitor/App Insights</td>
+                            </tr>
+                            <tr>
+                                <td>Failure Handling</td>
+                                <td>CI fails on unhealthy deployment or failed invoke</td>
+                            </tr>
+                            <tr>
+                                <td>Rollback Strategy</td>
+                                <td>Traffic re-allocation to previous deployment</td>
+                            </tr>
+                            <tr>
+                                <td>Scheduled Retraining Trigger</td>
+                                <td>Azure DevOps scheduled pipeline / cron trigger</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Assets & References -->
+        <section id="assets" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Assets &amp; References</h2>
+                <p class="section-subtitle">Code, diagrams, study material</p>
+            </div>
+            
+            
+            
+                        
+            
+            <div class="assets-grid">
+<div class="asset-card">
+                    <div class="asset-icon">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <h3 class="asset-title">GitHub Repository</h3>
+                    <p class="asset-description">Source code repository containing Azure ML MLOps v2 implementation with CI/CD pipelines.</p>
+                    <a href="https://github.com/03asarath/azure-mlops-v2.git" target="_blank" class="asset-link">
+                        <span>Access Repository</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            
+            
+            </div>
+            
+            <div class="card">
+                <div class="demo-section">
+                    <h3 class="demo-title">Study Material Resources</h3>
+                    <p class="demo-subtitle">Click the button below to open the study materials</p>
+                    <a href="/index#contact" class="trigger-btn">
+                        <i class="fas fa-book"></i>
+                        <span>Request Study Material</span>
+                    </a>
+                </div>
+            </div>
+            
+            
+        </section>
+    </main>
+
+    <!-- STUDY MODAL -->
+    <div class="study-modal" id="studyModal">
+        <div class="study-modal-content">
+            <div class="study-modal-header">
+                <h3 class="study-modal-title">Study Material - Azure ML Deployment Pipeline</h3>
+                <button class="study-modal-close" id="closeModalBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="study-material-list">
+                <!-- Azure ML Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Azure ML Deployment Pipeline Architecture</div>
+                        <div class="study-material-desc">Complete architecture diagram and setup guide for Azure ML managed endpoints and deployment pipelines</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">YAML Configuration Guide for Azure ML</div>
+                        <div class="study-material-desc">Official documentation and best practices for Azure ML YAML configuration and pipeline setup</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <!-- MLOps Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">MLOps Best Practices Guide</div>
+                        <div class="study-material-desc">Detailed guide to implementing scalable MLOps with Azure Machine Learning</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Advanced Azure ML Configurations</div>
+                        <div class="study-material-desc">Premium materials for complex workflows, traffic routing, and reusable deployment patterns</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <!-- Azure DevOps Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Azure DevOps Pipeline Guide</div>
+                        <div class="study-material-desc">Complete guide to building CI/CD pipelines for Azure ML with Azure DevOps</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Security &amp; RBAC Best Practices</div>
+                        <div class="study-material-desc">Security guidelines and best practices for managing secrets and RBAC in Azure ML</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <!-- Additional Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Production Azure ML Architecture</div>
+                        <div class="study-material-desc">Enterprise architecture patterns for scalable Azure ML deployments</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Model Monitoring &amp; Retraining Guide</div>
+                        <div class="study-material-desc">Complete framework for implementing model monitoring and automated retraining with Azure ML</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const navToggle = document.querySelector('.nav-toggle');
+            const navList = document.querySelector('.nav-list');
+            
+            if (navToggle && navList) {
+                navToggle.addEventListener('click', function() {
+                    navList.classList.toggle('active');
+                });
+            }
+            
+            // Close menu when clicking outside on mobile
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768 && navList && navList.classList.contains('active') && 
+                    !e.target.closest('.nav') && !e.target.closest('.nav-toggle')) {
+                    navList.classList.remove('active');
+                }
+            });
+            
+            // Update active nav link on scroll
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            function updateActiveNavLink() {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 150;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', updateActiveNavLink);
+            
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    
+                    if (href.startsWith('#') && href !== '#') {
+                        e.preventDefault();
+                        
+                        const targetElement = document.querySelector(href);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+                            
+                            // Close mobile menu if open
+                            if (navList.classList.contains('active')) {
+                                navList.classList.remove('active');
+                            }
+                        }
+                    }
+                });
+            });
+            
+            // Handle window resize for mobile menu
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768 && navList) {
+                    navList.classList.remove('active');
+                }
+            });
+            
+            // Add animation on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all sections for animation
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Initialize all sections as visible on load
+            setTimeout(() => {
+                sections.forEach(section => {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                });
+            }, 500);
+
+            // Modal functionality
+            const studyModal = document.getElementById('studyModal');
+            const openModalBtn = document.getElementById('openModalBtn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            
+            // Open modal when button is clicked
+            if (openModalBtn) {
+                openModalBtn.addEventListener('click', function() {
+                    studyModal.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
+                });
+            }
+            
+            // Close modal when close button is clicked
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', function() {
+                    studyModal.classList.remove('active');
+                    document.body.style.overflow = ''; // Restore scrolling
+                });
+            }
+            
+            // Close modal when clicking outside the modal content
+            if (studyModal) {
+                studyModal.addEventListener('click', function(e) {
+                    if (e.target === studyModal) {
+                        studyModal.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && studyModal.classList.contains('active')) {
+                    studyModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // PIPELINE-3 modal behavior
+            (function(){
+                const openBtn = document.getElementById('openPipeline3Btn');
+                const overlay = document.getElementById('pipelineModal3');
+                const closeBtn = document.getElementById('closePipelineModal3');
+                const copyBtn = document.getElementById('copyPipelineLink3');
+                const linkPreview = document.getElementById('pipelineLink3');
+                const openLink = document.getElementById('openPipelineLink3');
+
+                function showModal(link){
+                    if(!overlay) return;
+                    overlay.classList.add('show');
+                    overlay.setAttribute('aria-hidden','false');
+                    linkPreview.textContent = link;
+                    openLink.href = link;
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeModal(){
+                    if(!overlay) return;
+                    overlay.classList.remove('show');
+                    overlay.setAttribute('aria-hidden','true');
+                    document.body.style.overflow = '';
+                }
+
+                openBtn && openBtn.addEventListener('click', function(){
+                    const link = this.dataset.link || this.getAttribute('data-link');
+                    showModal(link);
+                });
+
+                closeBtn && closeBtn.addEventListener('click', closeModal);
+                overlay && overlay.addEventListener('click', function(e){ if(e.target === overlay) closeModal(); });
+
+                copyBtn && copyBtn.addEventListener('click', function(){
+                    const text = linkPreview.textContent || openLink.href;
+                    navigator.clipboard && navigator.clipboard.writeText(text).then(function(){
+                        copyBtn.textContent = 'Copied ✓';
+                        setTimeout(()=> copyBtn.textContent = 'Copy link', 1600);
+                    }).catch(()=>{
+                        alert('Copy failed. Open the repo and copy manually.');
+                    });
+                });
+
+                document.addEventListener('keydown', function(e){ if(e.key === 'Escape') closeModal(); });
+            })();
+
+            // Ensure modal overlay is appended to body to avoid being clipped by parent stacking contexts
+            (function(){
+                const overlay = document.getElementById('pipelineModal3');
+                if (overlay && overlay.parentElement !== document.body) {
+                    document.body.appendChild(overlay);
+                }
+            })();
+        });
+    </script>
+
+<div class="modal-overlay" id="pipelineModal3" role="dialog" aria-modal="true" aria-hidden="true">
+                        <div class="modal" role="document">
+                            <div class="modal-head">
+                                <div>
+                                    <div class="modal-title">PIPELINE-3 Repository</div>
+                                    <div class="modal-sub">Azure MLOps End-to-End — Deployment</div>
+                                </div>
+                                <button class="modal-close btn-ghost" id="closePipelineModal3">Close</button>
+                            </div>
+                            <div class="modal-body">
+                                <p class="link-preview" id="pipelineLink3">https://github.com/Rajesh-Arigala/Azure-MLOps-End-to-End</p>
+                                <div class="modal-actions">
+                                    <a id="openPipelineLink3" class="btn-primary-cta" href="https://github.com/Rajesh-Arigala/Azure-MLOps-End-to-End" target="_blank">Open in GitHub</a>
+                                    <button id="copyPipelineLink3" class="btn-ghost">Copy link</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div></body></html>

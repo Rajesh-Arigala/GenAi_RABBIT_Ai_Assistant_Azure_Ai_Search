@@ -1,0 +1,137 @@
+{
+  "id": "02_Tech_02_MLOps_04_IaC",
+  "source_type": "website_rendered_v4_site_crawl",
+  "domain": "rajesharigala.com",
+  "url": "https://rajesharigala.com/mlops/infra-code",
+  "depth": 0,
+  "parent_url": null,
+  "parent_page_id": "ROOT",
+  "logical_parent_page_id": "02_Technical_Skills",
+  "title": "Infrastructure as Code Portfolio | AWS CDK & Terraform",
+  "meta_description": "",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "INFRASTRUCTURE AS CODE PORTFOLIO"
+    },
+    {
+      "level": "h2",
+      "text": "Infrastructure as Code Projects"
+    },
+    {
+      "level": "h3",
+      "text": "Programmatic management of cloud infrastructure using AWS CDK, Terraform, and CloudFormation"
+    },
+    {
+      "level": "h3",
+      "text": "MLflow Platform on AWS ECS Fargate"
+    },
+    {
+      "level": "h3",
+      "text": "AWS CDK Infrastructure Patterns"
+    },
+    {
+      "level": "h3",
+      "text": "Azure ML Platform Infrastructure as Code"
+    },
+    {
+      "level": "h3",
+      "text": "GCP Vertex AI Platform Foundation (Pipeline-1)"
+    },
+    {
+      "level": "h3",
+      "text": "Kubeflow AI Platform Foundation (Pipeline‑1)"
+    },
+    {
+      "level": "h3",
+      "text": "AWS SageMaker AI Platform (Pipeline‑1)"
+    },
+    {
+      "level": "h3",
+      "text": "Infrastructure as Code Tools & Principles"
+    },
+    {
+      "level": "h3",
+      "text": "Infrastructure as Code Pipeline"
+    },
+    {
+      "level": "h4",
+      "text": "AWS CDK"
+    },
+    {
+      "level": "h4",
+      "text": "Terraform"
+    },
+    {
+      "level": "h4",
+      "text": "CloudFormation"
+    },
+    {
+      "level": "h4",
+      "text": "VERSION-CONTROLLED INFRASTRUCTURE"
+    },
+    {
+      "level": "h4",
+      "text": "MULTI-ENVIRONMENT DEPLOYMENTS"
+    },
+    {
+      "level": "h4",
+      "text": "COST OPTIMIZATION STRATEGIES"
+    },
+    {
+      "level": "h4",
+      "text": "SECURITY & COMPLIANCE AUTOMATION"
+    }
+  ],
+  "paragraphs": [
+    "Designing and implementing reproducible, version-controlled cloud infrastructure across multiple platforms with security, cost optimization, and compliance automation. These projects demonstrate Infrastructure as Code capabilities for multi-environment deployments, automated governance, and production-ready infrastructure patterns.",
+    "Production-grade Infrastructure as Code implementations using AWS CDK and comprehensive IaC frameworks for reproducible, version-controlled environments.",
+    "Production-grade MLflow tracking platform deployed on AWS ECS Fargate using AWS CDK (Python) with RDS MySQL, S3 artifact storage, VPC networking, and auto-scaling.",
+    "Comprehensive AWS CDK patterns library featuring VPC designs, CI/CD platforms, container orchestration, serverless architectures, and security-first infrastructure patterns.",
+    "Automated end-to-end Azure ML platform provisioning using Infrastructure as Code with secure RBAC, autoscaling compute, and CI/CD pipelines.",
+    "Programmatic MLOps infrastructure on Google Cloud – bootstraps Vertex AI Pipelines runtime, IAM least‑privilege service accounts, GCS artifact root, and Workload Identity Federation for secure, reproducible AI platform provisioning.",
+    "Kubernetes‑native MLOps platform bootstrap – provisions Kubeflow Pipelines v2, Argo Workflows, MinIO artifact store, ML Metadata (MLMD) and RBAC. Creates a standardized, governed foundation for training and deployment pipelines.",
+    "Enterprise‑ready AWS AI platform foundation – provisions SageMaker Domain, Organization Templates (Service Catalog), IAM/KMS, S3, and environment stacks via AWS CDK. Secure CI/CD with GitHub Actions + OIDC, enabling governed, repeatable ML workspace setup across Dev/Pre‑Prod/Prod.",
+    "Infrastructure as Code with familiar programming languages (Python, TypeScript, Java, C#)",
+    "Cloud-agnostic Infrastructure as Code with declarative configuration language",
+    "AWS-native Infrastructure as Code with JSON/YAML templates and drift detection",
+    "All infrastructure definitions stored in Git with full change history, peer reviews, and automated testing.",
+    "Consistent infrastructure across development, staging, and production environments with environment-specific configurations.",
+    "Right-sizing, auto-scaling, spot instances, and budget alerts integrated into infrastructure design.",
+    "Security groups, IAM policies, encryption, and compliance controls automated through code.",
+    "Ready to implement Infrastructure as Code for reproducible, version-controlled cloud environments? Let's architect production-ready infrastructure with security, cost optimization, and compliance automation."
+  ],
+  "links": [
+    {
+      "text": "View Project",
+      "href": "https://rajesharigala.com/mlops/infra project1"
+    },
+    {
+      "text": "View Patterns",
+      "href": "https://rajesharigala.com/mlops/infra project2"
+    },
+    {
+      "text": "View Project",
+      "href": "https://rajesharigala.com/mlops/ai2/ai2.1"
+    },
+    {
+      "text": "View Project",
+      "href": "https://rajesharigala.com/mlops/ai4/ai4.1"
+    },
+    {
+      "text": "View Project",
+      "href": "https://rajesharigala.com/mlops/ai5/ai5.1"
+    },
+    {
+      "text": "View Project",
+      "href": "https://rajesharigala.com/mlops/ai6/ai6.1"
+    },
+    {
+      "text": "Discuss Infrastructure as Code",
+      "href": "https://rajesharigala.com/"
+    }
+  ],
+  "content": "INFRASTRUCTURE AS CODE PORTFOLIO Programmatic management of cloud infrastructure using AWS CDK, Terraform, and CloudFormation Designing and implementing reproducible, version-controlled cloud infrastructure across multiple platforms with security, cost optimization, and compliance automation. These projects demonstrate Infrastructure as Code capabilities for multi-environment deployments, automated governance, and production-ready infrastructure patterns. Infrastructure as Code · Multi-Environment · Cost Optimization · Security Automation Infrastructure as Code Projects Production-grade Infrastructure as Code implementations using AWS CDK and comprehensive IaC frameworks for reproducible, version-controlled environments. MLOps Platform MLflow Platform on AWS ECS Fargate AWS CDK Production-grade MLflow tracking platform deployed on AWS ECS Fargate using AWS CDK (Python) with RDS MySQL, S3 artifact storage, VPC networking, and auto-scaling. AWS CDK (Python) Amazon ECS Fargate Amazon RDS (MySQL) Amazon S3 AWS Secrets Manager Application Load Balancer Infrastructure as Code MLOps Platform Production Deployment Auto-Scaling Complete VPC networking with public/private subnets RDS MySQL backend store with Secrets Manager S3 artifact storage with IAM permissions ECS Fargate with CPU-based auto-scaling View Project Infrastructure Patterns AWS CDK Infrastructure Patterns CDK Patterns Comprehensive AWS CDK patterns library featuring VPC designs, CI/CD platforms, container orchestration, serverless architectures, and security-first infrastructure patterns. AWS CDK (Python/TypeScript) CloudFormation Terraform Integration Multi-Environment Security Automation Cost Optimization Infrastructure Patterns Multi-Environment Security Automation Cost Optimization Multi-environment deployments (dev/staging/prod) Security and compliance automation Cost optimization strategies and monitoring Terraform and CloudFormation integration View Patterns MLOps Platform Azure ML Platform Infrastructure as Code Azure DevOps Automated end-to-end Azure ML platform provisioning using Infrastructure as Code with secure RBAC, autoscaling compute, and CI/CD pipelines. Azure DevOps YAML Azure Machine Learning Azure CLI v2 RBAC & Service Principals Autoscaling Compute Infrastructure as Code Cloud MLOps CI/CD Automation Automated Azure ML workspace provisioning Secure RBAC with Service Principals Autoscaling compute clusters (scale-to-zero) CI/CD pipeline-driven infrastructure deployment View Project MLOps Platform GCP Vertex AI Platform Foundation (Pipeline-1) GCP Programmatic MLOps infrastructure on Google Cloud – bootstraps Vertex AI Pipelines runtime, IAM least‑privilege service accounts, GCS artifact root, and Workload Identity Federation for secure, reproducible AI platform provisioning. Vertex AI Kubeflow Pipelines v2 GCP IAM Workload Identity Federation Cloud Storage Vertex SDK MLOps Platform Infrastructure as Code CI/CD Bootstrap Vertex AI Pipelines runtime & artifact root IAM least‑privilege + service account impersonation GCS pipeline root (versioned, encrypted) GitHub Actions + Workload Identity Federation View Project MLOps Platform Kubeflow AI Platform Foundation (Pipeline‑1) Kubernetes Kubernetes‑native MLOps platform bootstrap – provisions Kubeflow Pipelines v2, Argo Workflows, MinIO artifact store, ML Metadata (MLMD) and RBAC. Creates a standardized, governed foundation for training and deployment pipelines. Kubeflow Pipelines Argo Workflows MinIO ML Metadata Kubernetes RBAC Kustomize Platform Engineering Infrastructure as Code Multi‑env Kubeflow Pipelines control plane install MinIO artifact store + ML Metadata RBAC & namespace isolation Reproducible platform bootstrap (IaC) View Project MLOps Platform AWS SageMaker AI Platform (Pipeline‑1) AWS Enterprise‑ready AWS AI platform foundation – provisions SageMaker Domain, Organization Templates (Service Catalog), IAM/KMS, S3, and environment stacks via AWS CDK. Secure CI/CD with GitHub Actions + OIDC, enabling governed, repeatable ML workspace setup across Dev/Pre‑Prod/Prod. AWS CDK (Python) SageMaker Domain Service Catalog OIDC (GitHub→AWS) IAM least‑privilege KMS encryption SSM Parameter Store Infrastructure as Code MLOps Platform Multi‑env SageMaker Domain + Organization Templates IAM least‑privilege + KMS encryption GitHub Actions + OIDC (no static keys) Multi‑environment CDK stacks (Dev/Pre‑Prod/Prod) View Project Infrastructure as Code Tools & Principles AWS CDK Infrastructure as Code with familiar programming languages (Python, TypeScript, Java, C#) Terraform Cloud-agnostic Infrastructure as Code with declarative configuration language CloudFormation AWS-native Infrastructure as Code with JSON/YAML templates and drift detection VERSION-CONTROLLED INFRASTRUCTURE All infrastructure definitions stored in Git with full change history, peer reviews, and automated testing. MULTI-ENVIRONMENT DEPLOYMENTS Consistent infrastructure across development, staging, and production environments with environment-specific configurations. COST OPTIMIZATION STRATEGIES Right-sizing, auto-scaling, spot instances, and budget alerts integrated into infrastructure design. SECURITY & COMPLIANCE AUTOMATION Security groups, IAM policies, encryption, and compliance controls automated through code. Infrastructure as Code Pipeline aws-cdk-deploy.sh $ cdk synth Generating CloudFormation template from CDK code... ✓ CloudFormation template generated successfully $ cdk deploy --require-approval never ✓ VPC with public/private subnets created ✓ RDS MySQL instance provisioned ✓ S3 bucket with encryption enabled ✓ ECS Fargate service with auto-scaling configured 🚀 Infrastructure deployed successfully!",
+  "crawl_timestamp": "2026-06-17T07:03:34.135349+00:00",
+  "raw_html_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/02_Tech_02_MLOps_04_IaC.html"
+}

@@ -1,0 +1,1256 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BPCL — Mission-Critical Refinery Operations &amp; Industrial Platform</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&amp;family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&amp;family=DM+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+
+:root{
+  --bg:      #0a0705;
+  --bg1:     #100c08;
+  --bg2:     #160f0a;
+  --bg3:     #1e140d;
+  --border:  rgba(255,255,255,0.06);
+  --border2: rgba(200,140,60,0.22);
+  --gold:    #c8883c;
+  --gold2:   #e8a84a;
+  --gold3:   #f0c070;
+  --gold-dim:rgba(200,140,60,0.1);
+  --copper:  #b06030;
+  --maroon:  #6a2818;
+  --text:    #e8ddd0;
+  --text2:   #8a7060;
+  --text3:   #5a4535;
+  --white:   #fff8f0;
+  --ff-head: 'Syne',sans-serif;
+  --ff-body: 'DM Sans',sans-serif;
+  --ff-mono: 'DM Mono',monospace;
+}
+
+body{background:var(--bg);color:var(--text);font-family:var(--ff-body);font-weight:300;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/* ── CURSOR GLOW ─────────────────────── */
+.cglow{pointer-events:none;position:fixed;top:0;left:0;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(200,136,60,0.06) 0%,transparent 70%);transform:translate(-50%,-50%);z-index:0;transition:transform 0.08s linear}
+
+/* ── NAV ─────────────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.3rem 3rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid transparent;transition:all 0.4s}
+nav.scrolled{background:rgba(10,7,5,0.9);backdrop-filter:blur(20px);border-bottom-color:var(--border)}
+.nav-logo{font-family:var(--ff-head);font-weight:700;font-size:1rem;letter-spacing:0.06em;display:flex;align-items:center;gap:0.6rem;text-transform:uppercase}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--gold2);box-shadow:0 0 10px var(--gold)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-family:var(--ff-mono);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);transition:color 0.3s}
+.nav-links a:hover{color:var(--gold3)}
+.nav-tag{
+  position:relative;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--ff-mono);
+  font-size:0.68rem;
+  color:var(--white);
+  border:1px solid rgba(232,168,74,0.3);
+  padding:0.48rem 1.1rem;
+  border-radius:999px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  background:linear-gradient(135deg,rgba(232,168,74,0.22),rgba(176,96,48,0.2),rgba(232,168,74,0.16));
+  background-size:200% 200%;
+  box-shadow:0 0 0 rgba(232,168,74,0);
+  transition:transform 0.3s ease,border-color 0.3s ease,box-shadow 0.3s ease,background-position 0.45s ease,color 0.3s ease;
+}
+.nav-tag:hover{
+  color:var(--white);
+  border-color:rgba(240,192,112,0.55);
+  background-position:100% 50%;
+  transform:translateY(-1px);
+  box-shadow:0 10px 24px rgba(232,168,74,0.16);
+}
+
+/* ── HERO ─────────────────────────────── */
+.hero{position:relative;height:100svh;min-height:100svh;max-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding:6.5rem 3rem 2.5rem;overflow:hidden}
+
+.hero-photo{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  background:url("img/bpcl1.webp") center/cover no-repeat
+}
+
+.hero-refinery,
+.hero-haze,
+.hero-grid{display:none}
+
+/* Atmospheric overlays */
+.hero-overlay{position:absolute;inset:0;z-index:1;
+  background:
+    linear-gradient(180deg, rgba(10,7,5,0.55) 0%, rgba(10,7,5,0.2) 30%, rgba(10,7,5,0.7) 70%, rgba(10,7,5,0.97) 100%),
+    radial-gradient(ellipse 70% 50% at 20% 60%, rgba(100,30,10,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 80% 40%, rgba(180,100,20,0.15) 0%, transparent 55%)}
+
+.hero-eyebrow{position:relative;z-index:5;display:inline-flex;align-items:center;gap:0.8rem;margin-bottom:1.8rem;opacity:0;animation:fadeUp 0.8s ease 0.2s forwards}
+.eyebrow-line{width:36px;height:1px;background:var(--gold2)}
+.eyebrow-text{font-family:var(--ff-mono);font-size:0.7rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold2)}
+
+.hero-title{position:relative;z-index:5;font-family:var(--ff-head);font-size:clamp(2.9rem,5.8vw,5.9rem);font-weight:800;line-height:0.93;letter-spacing:-0.03em;max-width:860px;opacity:0;animation:fadeUp 0.9s ease 0.35s forwards}
+.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:1px rgba(232,168,74,0.45)}
+.hero-title .accent{
+  color:transparent;
+  background:linear-gradient(135deg,var(--gold3) 0%,var(--gold2) 50%,var(--copper) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.hero-sub{position:relative;z-index:5;max-width:560px;font-size:1rem;color:var(--text2);line-height:1.72;margin-top:1.2rem;opacity:0;animation:fadeUp 0.9s ease 0.5s forwards}
+
+.hero-kpis{position:relative;z-index:5;display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:2rem;opacity:0;animation:fadeUp 0.9s ease 0.65s forwards}
+.kpi-chip{display:flex;align-items:center;gap:0.9rem;background:rgba(10,7,5,0.75);border:1px solid var(--border2);border-radius:100px;padding:0.7rem 1.35rem 0.7rem 0.95rem;backdrop-filter:blur(16px);transition:border-color 0.3s,transform 0.3s}
+.kpi-chip:hover{border-color:rgba(232,168,74,0.45);transform:translateY(-2px)}
+.kpi-chip-val{font-family:var(--ff-head);font-size:1.4rem;font-weight:800;color:var(--white);letter-spacing:-0.03em;line-height:1;
+  background:linear-gradient(135deg,var(--gold3),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.kpi-chip-lbl{font-family:var(--ff-mono);font-size:0.64rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text2);line-height:1.3}
+
+.hero-scroll{position:absolute;bottom:1.25rem;right:3rem;z-index:5;display:flex;flex-direction:column;align-items:center;gap:0.5rem;opacity:0;animation:fadeIn 1s ease 1.2s forwards}
+.scroll-lbl{font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);writing-mode:vertical-rl}
+.scroll-line{width:1px;height:55px;background:linear-gradient(var(--gold2),transparent);animation:scrollPulse 2s ease-in-out infinite}
+
+/* ── LAYOUT ───────────────────────────── */
+.wrap{max-width:1260px;margin:0 auto;padding:0 3rem}
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--border2) 30%,var(--border2) 70%,transparent)}
+.section-label{font-family:var(--ff-mono);font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold2);display:flex;align-items:center;gap:0.7rem;margin-bottom:1rem}
+.section-label::before{content:'';display:block;width:26px;height:1px;background:var(--gold2)}
+.section-head{font-family:var(--ff-head);font-size:clamp(2rem,3.8vw,3.2rem);font-weight:700;line-height:1.1;letter-spacing:-0.025em;margin-bottom:1rem}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── CONTEXT SECTION ─────────────────── */
+.context-section{padding:8rem 0 7rem}
+.context-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start}
+.context-body{font-size:1.04rem;color:var(--text2);line-height:1.85}
+.context-body p+p{margin-top:1.2rem}
+.context-body strong{color:var(--text);font-weight:500}
+.context-quote{margin-top:2.5rem;padding:1.8rem 2rem 1.8rem 2.2rem;border-left:2px solid var(--gold);background:var(--gold-dim);border-radius:0 1rem 1rem 0}
+.context-quote p{font-family:var(--ff-head);font-size:1.08rem;font-weight:600;line-height:1.55;color:var(--text);font-style:italic}
+
+.scope-cards{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.scope-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.2rem;padding:1.8rem;transition:border-color 0.3s,background 0.3s}
+.scope-card:hover{border-color:var(--border2);background:var(--bg3)}
+.scope-card-value{font-family:var(--ff-head);font-size:2.2rem;font-weight:800;letter-spacing:-0.03em;line-height:1;margin-bottom:0.4rem;
+  background:linear-gradient(135deg,var(--gold3),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.scope-card-label{font-family:var(--ff-mono);font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2)}
+.scope-card.wide{grid-column:1/-1}
+.scope-wide-inner{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.2rem}
+.scope-image-box{
+  margin-top:1.4rem;
+  height:340px;
+  border-radius:1.3rem;
+  overflow:hidden;
+  border:1px solid var(--border);
+  background:var(--bg2);
+}
+.scope-image-box img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+
+/* Refinery visual placeholder */
+.refinery-img-block{position:relative;width:min(100%,1080px);aspect-ratio:16/10;border-radius:1.5rem;overflow:hidden;margin:2.5rem auto 0;border:1px solid var(--border);--mx:50%;--my:50%;transition:border-color 0.35s ease,box-shadow 0.35s ease,transform 0.35s ease}
+.refinery-img-block::before{content:'';position:absolute;inset:-10%;background:radial-gradient(circle at var(--mx) var(--my),rgba(240,176,96,0.22) 0%,rgba(200,96,32,0.12) 18%,transparent 42%);opacity:0;transition:opacity 0.35s ease;pointer-events:none;z-index:1}
+.refinery-img-block:hover{border-color:rgba(240,192,112,0.35);box-shadow:0 24px 60px rgba(0,0,0,0.32),0 0 0 1px rgba(240,176,96,0.08) inset;transform:translateY(-3px)}
+.refinery-img-block:hover::before{opacity:1}
+.refinery-img-inner{width:100%;height:100%;background:linear-gradient(160deg,#1a0d06 0%,#0a0705 100%);display:flex;align-items:center;justify-content:center;position:relative;z-index:2}
+.refinery-img-inner img{width:calc(100% + 64px);height:100%;max-width:none;object-fit:cover;object-position:center;display:block}
+.refinery-graph{width:100%;height:100%;transition:transform 0.35s ease,filter 0.35s ease}
+.refinery-img-block:hover .refinery-graph{filter:brightness(1.08) saturate(1.12)}
+.graph-node,.graph-sap,.graph-link,.graph-bus,.graph-caption,.graph-sap-link{transition:opacity 0.35s ease,filter 0.35s ease,transform 0.35s ease}
+.graph-node{transform-box:fill-box;transform-origin:center}
+.graph-node rect{fill:rgba(40,18,8,0.95);stroke:rgba(164,76,24,0.78);stroke-width:1.5}
+.graph-node text{fill:rgba(236,170,78,0.78)}
+.graph-node.active rect{fill:rgba(56,24,10,0.98);stroke:rgba(255,170,72,0.95);stroke-width:2}
+.graph-node.active text{fill:rgba(255,210,120,0.98)}
+.refinery-img-block:hover .graph-node{filter:drop-shadow(0 0 10px rgba(255,140,40,0.12))}
+.refinery-img-block:hover .graph-node.active{filter:drop-shadow(0 0 18px rgba(255,160,60,0.32))}
+.refinery-img-block:hover .graph-node:hover{transform:translateY(-4px) scale(1.03);filter:drop-shadow(0 0 20px rgba(255,180,80,0.32))}
+.graph-link{stroke:rgba(216,138,48,0.3);stroke-width:2.5}
+.graph-bus{fill:rgba(64,28,10,0.88)}
+.graph-bus.secondary{fill:rgba(34,16,6,0.9)}
+.graph-sap rect{fill:rgba(64,30,10,0.44);stroke:rgba(255,192,96,0.6);stroke-width:1.7}
+.graph-sap text{fill:rgba(255,210,112,0.9)}
+.graph-sap-link{stroke:rgba(216,138,48,0.18);stroke-width:1.2;stroke-dasharray:5 4}
+.refinery-img-block:hover .graph-link{stroke:rgba(255,176,72,0.48);filter:drop-shadow(0 0 8px rgba(255,152,48,0.18))}
+.refinery-img-block:hover .graph-sap-link{stroke:rgba(255,186,86,0.3)}
+.refinery-img-block:hover .graph-sap{filter:drop-shadow(0 0 22px rgba(255,176,72,0.22))}
+.graph-caption{text-shadow:0 0 14px rgba(255,176,72,0.18)}
+.graph-pulse{animation:graphPulse 2.8s ease-in-out infinite}
+.graph-flow{stroke-dasharray:10 8;animation:flowDrift 14s linear infinite}
+.graph-sap-float{animation:sapFloat 3.6s ease-in-out infinite}
+.refinery-img-caption{position:absolute;bottom:0;left:0;right:0;padding:1.5rem 2rem;background:linear-gradient(transparent,rgba(10,7,5,0.95));font-family:var(--ff-mono);font-size:0.68rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3)}
+
+/* ── CHALLENGES ───────────────────────── */
+.challenge-section{padding:0 0 7rem}
+.challenge-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:1.5rem;overflow:hidden}
+.ch-card{background:var(--bg1);padding:2.5rem;transition:background 0.3s}
+.ch-card:hover{background:var(--bg3)}
+.ch-num{font-family:var(--ff-mono);font-size:0.62rem;color:var(--gold2);letter-spacing:0.1em;margin-bottom:1rem;opacity:0.7}
+.ch-title{font-family:var(--ff-head);font-size:1rem;font-weight:700;margin-bottom:0.6rem;color:var(--text)}
+.ch-desc{font-size:0.84rem;color:var(--text2);line-height:1.65}
+
+/* ── ARCHITECTURE ─────────────────────── */
+.arch-section{padding:7rem 0;background:var(--bg1)}
+.arch-header{display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:end;margin-bottom:4rem}
+.arch-desc{font-size:1.02rem;color:var(--text2);line-height:1.8}
+.arch-desc strong{color:var(--text);font-weight:500}
+.arch-showcase{display:grid;grid-template-columns:0.88fr 1.12fr;gap:1.4rem;align-items:stretch}
+.arch-left{display:grid;grid-template-rows:280px minmax(0,1fr);gap:1rem}
+.arch-right{display:grid}
+.arch-image{
+  border-radius:1.4rem;
+  overflow:hidden;
+  border:1px solid var(--border);
+  background:var(--bg2);
+  height:100%;
+}
+.arch-image img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  display:block;
+}
+.arch-pillars{display:grid;grid-template-columns:1fr;grid-template-rows:repeat(2,minmax(0,1fr));gap:1rem;height:100%}
+.arch-pillar{background:var(--bg2);border:1px solid var(--border);border-radius:1.2rem;padding:2rem 1.8rem;display:flex;flex-direction:column;gap:1.25rem;transition:border-color 0.3s,transform 0.35s;position:relative;overflow:hidden}
+.arch-pillar::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity 0.3s}
+.arch-pillar:hover{border-color:var(--border2);transform:translateY(-5px)}
+.arch-pillar:hover::before{opacity:1}
+.arch-pillar-num{font-family:var(--ff-mono);font-size:0.6rem;color:var(--gold2);letter-spacing:0.1em;opacity:0.7;margin-bottom:0.45rem}
+.arch-pillar-icon{width:44px;height:44px;border-radius:12px;background:var(--gold-dim);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;color:var(--gold3);box-shadow:inset 0 0 0 1px rgba(255,255,255,0.03);margin-bottom:0.8rem}
+.arch-pillar-icon svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.arch-pillar-title{font-family:var(--ff-head);font-size:0.84rem;font-weight:700;line-height:1.35;color:var(--text);margin-bottom:0.2rem}
+.arch-pillar-items{list-style:none;display:flex;flex-direction:column;gap:0.7rem}
+.arch-pillar-items li{font-size:0.75rem;color:var(--text2);display:flex;align-items:flex-start;gap:0.55rem;line-height:1.65}
+.arch-pillar-items li::before{content:'→';color:var(--gold2);font-size:0.68rem;flex-shrink:0}
+.arch-pillar-group{display:grid;grid-template-columns:1fr 1fr;gap:2rem;height:100%}
+.arch-pillar-group > div{display:flex;flex-direction:column}
+
+/* ── REFINERY STORY VISUAL ────────────── */
+.story-section{padding:7rem 0}
+.story-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:4rem}
+.story-panel{background:var(--bg2);border:1px solid var(--border);border-radius:1.5rem;overflow:hidden;position:relative;transition:border-color 0.3s}
+.story-panel:hover{border-color:var(--border2)}
+.story-panel-head{padding:1.8rem 2rem 1.4rem;border-bottom:1px solid var(--border)}
+.story-panel-tag{font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.3rem 0.8rem;border-radius:100px;display:inline-block;margin-bottom:0.8rem}
+.story-panel-tag.ops{background:rgba(200,140,60,0.1);border:1px solid var(--border2);color:var(--gold2)}
+.story-panel-tag.system{background:rgba(180,80,30,0.1);border:1px solid rgba(180,80,30,0.2);color:var(--copper)}
+.story-panel-title{font-family:var(--ff-head);font-size:1rem;font-weight:700;color:var(--text)}
+.story-illustration{padding:2rem;display:flex;align-items:center;justify-content:center;min-height:240px;position:relative}
+.story-illustration img{display:block;width:100%;max-width:100%;height:100%;object-fit:cover;border-radius:0.8rem}
+.story-facts{padding:0 2rem 2rem;display:flex;flex-direction:column;gap:0.55rem;border-top:1px solid var(--border)}
+.story-fact{display:flex;align-items:flex-start;gap:0.7rem;font-size:0.83rem;color:var(--text2);padding-top:0.6rem}
+.story-fact::before{content:'→';color:var(--gold2);font-size:0.7rem;flex-shrink:0;margin-top:0.15rem}
+
+/* ── EXECUTION ────────────────────────── */
+.exec-section{padding:7rem 0;background:var(--bg1)}
+.exec-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:5rem;align-items:start}
+.exec-timeline{display:flex;flex-direction:column;position:relative}
+.exec-timeline::before{content:'';position:absolute;left:11px;top:4px;bottom:20px;width:1px;background:linear-gradient(var(--gold2),transparent)}
+.exec-item{display:flex;gap:1.8rem;padding-bottom:2.2rem}
+.exec-dot{width:24px;height:24px;border-radius:50%;border:1px solid var(--border2);background:var(--bg2);flex-shrink:0;display:flex;align-items:center;justify-content:center;z-index:1;margin-top:0.1rem;transition:background 0.3s,border-color 0.3s}
+.exec-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold2)}
+.exec-item:hover .exec-dot{background:var(--gold-dim);border-color:var(--gold)}
+.exec-title{font-family:var(--ff-head);font-size:0.95rem;font-weight:700;color:var(--text);margin-bottom:0.35rem}
+.exec-desc{font-size:0.84rem;color:var(--text2);line-height:1.65}
+
+.exec-visual{position:sticky;top:7rem}
+.exec-img{height:460px;border-radius:1.5rem;overflow:hidden;position:relative;border:1px solid var(--border)}
+.exec-img-inner{width:100%;height:100%;
+  background:
+    linear-gradient(180deg,rgba(10,7,5,0.18) 0%,rgba(10,7,5,0.3) 100%),
+    url("img/bpcl5.webp") center/cover no-repeat,
+    radial-gradient(ellipse at 50% 30%,rgba(180,80,20,0.15) 0%,transparent 55%),
+    linear-gradient(160deg,#1a0c06 0%,#0a0705 100%);
+  display:flex;align-items:center;justify-content:center}
+.exec-img-pattern{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(200,140,60,0.06) 1px,transparent 1px);background-size:20px 20px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent)}
+.exec-img-center{position:relative;z-index:1;text-align:center}
+.exec-img-big{font-family:var(--ff-head);font-size:4.5rem;font-weight:800;color:transparent;-webkit-text-stroke:1px rgba(232,168,74,0.3);line-height:1}
+.exec-img-sub{font-family:var(--ff-mono);font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--text3);margin-top:0.5rem}
+.exec-img-copy{
+  position:absolute;
+  top:1.6rem;
+  left:1.6rem;
+  right:1.6rem;
+  z-index:1;
+  display:flex;
+  flex-direction:column;
+  gap:0.95rem;
+}
+.exec-img-note{
+  max-width:360px;
+  padding:0.85rem 1rem;
+  border-radius:1rem;
+  border:1px solid var(--border2);
+  background:rgba(10,7,5,0.62);
+  backdrop-filter:blur(10px);
+}
+.exec-img-note strong{
+  display:block;
+  font-family:var(--ff-head);
+  font-size:1rem;
+  font-weight:700;
+  line-height:1.35;
+  color:var(--white);
+}
+.exec-img-note span{
+  display:block;
+  margin-top:0.35rem;
+  font-family:var(--ff-mono);
+  font-size:0.66rem;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--gold2);
+}
+.exec-img-pills{position:absolute;bottom:1.5rem;left:1.5rem;right:1.5rem;display:flex;gap:0.5rem;flex-wrap:wrap}
+.exec-pill{background:rgba(10,7,5,0.85);border:1px solid var(--border2);border-radius:100px;padding:0.35rem 0.85rem;font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:0.08em;color:var(--gold2);backdrop-filter:blur(12px)}
+
+/* ── IMPACT SECTION ───────────────────── */
+.impact-section{padding:7rem 0;overflow:hidden}
+.impact-bg-num{position:absolute;top:-2rem;right:2rem;font-family:var(--ff-head);font-size:18rem;font-weight:800;color:transparent;-webkit-text-stroke:1px rgba(200,140,60,0.04);pointer-events:none;user-select:none;line-height:1}
+.impact-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:4rem}
+.impact-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.5rem;padding:2.5rem;position:relative;overflow:hidden;transition:border-color 0.3s,transform 0.35s}
+.impact-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold2),transparent);opacity:0;transition:opacity 0.3s}
+.impact-card:hover{border-color:var(--border2);transform:translateY(-4px)}
+.impact-card:hover::before{opacity:1}
+.impact-card.wide{grid-column:span 2}
+.impact-wide-inner{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem}
+.impact-cat{font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:1.5rem}
+.impact-stat{display:flex;align-items:baseline;gap:0.4rem;margin-bottom:0.5rem}
+.impact-num{font-family:var(--ff-head);font-size:3rem;font-weight:800;letter-spacing:-0.04em;line-height:1;
+  background:linear-gradient(135deg,var(--gold3),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.impact-unit{font-family:var(--ff-head);font-size:1.3rem;font-weight:700;color:var(--copper)}
+.impact-desc{font-size:0.84rem;color:var(--text2);line-height:1.65;margin-top:0.7rem}
+
+/* ── CAPABILITIES ─────────────────────── */
+.cap-section{padding:7rem 0;background:var(--bg1)}
+.cap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:3rem}
+.cap-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.5rem;padding:2.5rem;display:grid;grid-template-columns:auto 1fr;gap:1.5rem;align-items:start;transition:border-color 0.3s,background 0.3s}
+.cap-card:hover{border-color:var(--border2);background:var(--bg3)}
+.cap-icon{width:46px;height:46px;border-radius:12px;background:var(--gold-dim);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.cap-title{font-family:var(--ff-head);font-size:0.98rem;font-weight:700;margin-bottom:0.5rem;color:var(--text)}
+.cap-desc{font-size:0.84rem;color:var(--text2);line-height:1.7}
+
+/* ── TIMELINE SECTION ─────────────────── */
+.timeline-section{padding:7rem 0}
+.timeline-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:1.5rem;overflow:hidden;margin-top:3rem}
+.tl-item{background:var(--bg1);padding:2.5rem 2rem;transition:background 0.3s}
+.tl-item:hover{background:var(--bg3)}
+.tl-year{font-family:var(--ff-mono);font-size:0.68rem;letter-spacing:0.1em;color:var(--gold2);margin-bottom:0.8rem;display:flex;align-items:center;gap:0.5rem}
+.tl-year::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold2);box-shadow:0 0 6px var(--gold)}
+.tl-event{font-size:0.82rem;color:var(--text2);line-height:1.6}
+
+/* ── BRIDGE SECTION ───────────────────── */
+.bridge-section{padding:7rem 0 8rem;background:var(--bg1)}
+.bridge-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.bridge-visual{height:560px;border-radius:1.5rem;overflow:hidden;position:relative;border:1px solid var(--border)}
+.bridge-visual-inner{width:100%;height:100%;background:radial-gradient(ellipse at 55% 40%,rgba(180,80,20,0.12) 0%,transparent 55%),linear-gradient(140deg,#1e120a 0%,#0a0705 100%);display:flex;align-items:center;justify-content:center;position:relative}
+.bridge-visual-inner img{display:block;width:100%;height:100%;object-fit:cover}
+.bridge-rings{position:relative;width:180px;height:180px}
+.b-ring{position:absolute;border-radius:50%;border:1px solid rgba(200,140,60,0.15);top:50%;left:50%;transform:translate(-50%,-50%)}
+.b-ring:nth-child(1){width:50px;height:50px;background:var(--gold-dim);border-color:var(--border2)}
+.b-ring:nth-child(2){width:95px;height:95px;animation:spin 14s linear infinite}
+.b-ring:nth-child(3){width:140px;height:140px;animation:spin 20s linear infinite reverse}
+.b-ring:nth-child(4){width:185px;height:185px;animation:spin 28s linear infinite;border-style:dashed}
+.b-ring-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:2}
+.b-ring-label span{font-family:var(--ff-head);font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold3)}
+.bridge-principle{font-family:var(--ff-head);font-size:1.5rem;font-weight:700;line-height:1.4;color:var(--white);margin:1.8rem 0 1.2rem}
+.bridge-principle em{font-style:normal;background:linear-gradient(135deg,var(--gold3),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.bridge-body{font-size:1rem;color:var(--text2);line-height:1.8}
+.bridge-body p+p{margin-top:1rem}
+.bridge-tags{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:2rem}
+.bridge-tag{font-family:var(--ff-mono);font-size:0.66rem;letter-spacing:0.08em;padding:0.38rem 0.9rem;border:1px solid var(--border2);border-radius:100px;color:var(--gold2);background:var(--gold-dim)}
+
+/* ── FOOTER ───────────────────────────── */
+footer{border-top:1px solid var(--border);padding:2.8rem 3rem;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:1.5rem;text-align:center}
+.foot-l{font-family:var(--ff-head);font-size:0.9rem;font-weight:700;color:var(--text2)}
+.foot-c{font-family:var(--ff-mono);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3)}
+.foot-r{font-family:var(--ff-mono);font-size:0.65rem;color:var(--text3)}
+
+/* ── KEYFRAMES ────────────────────────── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scrollPulse{0%,100%{opacity:1}50%{opacity:0.3}}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes flicker{0%,100%{opacity:0.8}50%{opacity:0.4}}
+@keyframes graphPulse{0%,100%{opacity:0.82;filter:drop-shadow(0 0 8px rgba(255,176,72,0.14))}50%{opacity:1;filter:drop-shadow(0 0 16px rgba(255,176,72,0.3))}}
+@keyframes flowDrift{to{stroke-dashoffset:-180}}
+@keyframes sapFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+
+/* ── RESPONSIVE ───────────────────────── */
+@media(max-width:1100px){
+  .arch-header{grid-template-columns:1fr;gap:2rem}
+  .arch-showcase{grid-template-columns:1fr}
+  .arch-left{grid-template-rows:320px auto}
+  .arch-image{height:100%}
+  .exec-grid{grid-template-columns:1fr}
+  .exec-visual{position:static}
+  .bridge-inner{grid-template-columns:1fr}
+  .bridge-visual{height:340px}
+  .story-grid{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  nav{padding:1.2rem 1.5rem}
+  .nav-links,.nav-tag{display:none}
+  .hero{height:auto;min-height:100svh;max-height:none;padding:6.25rem 1.5rem 3rem}
+  .wrap{padding:0 1.5rem}
+  .context-grid{grid-template-columns:1fr;gap:3rem}
+  .challenge-cards{grid-template-columns:1fr}
+  .arch-pillar-group{grid-template-columns:1fr}
+  .impact-grid{grid-template-columns:1fr}
+  .impact-card.wide{grid-column:span 1}
+  .impact-wide-inner{grid-template-columns:1fr}
+  .cap-grid{grid-template-columns:1fr}
+  .timeline-strip{grid-template-columns:1fr}
+  .scope-cards{grid-template-columns:1fr}
+  footer{flex-direction:column;align-items:center;padding:2rem 1.5rem}
+  .hero-scroll{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="cglow" id="cglow"></div>
+
+<!-- NAV -->
+<nav id="nav" class="scrolled">
+  <div class="nav-logo">
+    <span class="nav-dot"></span>
+    BPCL
+  </div>
+  <ul class="nav-links">
+    <li><a href="#context" style="color: var(--gold3);">Overview</a></li>
+    <li><a href="#architecture" style="">Architecture</a></li>
+    <li><a href="#execution" style="">Execution</a></li>
+    <li><a href="#impact" style="">Impact</a></li>
+    <li><a href="#bridge" style="">Journey</a></li>
+  </ul>
+  <a class="nav-tag" href="/index#contact">Contact</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+
+  <!-- Atmospheric refinery SVG background -->
+  <div class="hero-refinery">
+    <svg viewBox="0 0 1440 900" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <radialGradient id="flare1" cx="25%" cy="55%" r="35%">
+          <stop offset="0%" stop-color="#c86020" stop-opacity="0.45"></stop>
+          <stop offset="100%" stop-color="#c86020" stop-opacity="0"></stop>
+        </radialGradient>
+        <radialGradient id="flare2" cx="75%" cy="40%" r="25%">
+          <stop offset="0%" stop-color="#e89040" stop-opacity="0.2"></stop>
+          <stop offset="100%" stop-color="#e89040" stop-opacity="0"></stop>
+        </radialGradient>
+        <radialGradient id="skyGrad" cx="50%" cy="0%" r="80%">
+          <stop offset="0%" stop-color="#1a0c06"></stop>
+          <stop offset="60%" stop-color="#0e0806"></stop>
+          <stop offset="100%" stop-color="#070503"></stop>
+        </radialGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="blur"></feGaussianBlur>
+          <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+        </filter>
+        <filter id="softglow">
+          <feGaussianBlur stdDeviation="6" result="blur"></feGaussianBlur>
+          <feMerge><feMergeNode in="blur"></feMergeNode><feMergeNode in="SourceGraphic"></feMergeNode></feMerge>
+        </filter>
+      </defs>
+      <!-- Sky -->
+      <rect width="1440" height="900" fill="url(#skyGrad)"></rect>
+      <!-- Ground / horizon base -->
+      <rect x="0" y="680" width="1440" height="220" fill="#0a0604"></rect>
+      <!-- Light flares -->
+      <ellipse cx="360" cy="500" rx="300" ry="200" fill="url(#flare1)"></ellipse>
+      <ellipse cx="1100" cy="380" rx="240" ry="180" fill="url(#flare2)"></ellipse>
+
+      <!-- === FAR BACKGROUND TOWERS === -->
+      <!-- Distant tall chimney stacks -->
+      <rect x="80" y="200" width="18" height="480" fill="#1a0c07" opacity="0.7"></rect>
+      <rect x="108" y="280" width="14" height="400" fill="#160a06" opacity="0.6"></rect>
+      <rect x="1300" y="220" width="16" height="460" fill="#1a0c07" opacity="0.7"></rect>
+      <rect x="1330" y="300" width="12" height="380" fill="#160a06" opacity="0.5"></rect>
+      <!-- Flame tops on chimneys -->
+      <ellipse cx="89" cy="200" rx="12" ry="20" fill="#c86020" opacity="0.6" filter="url(#softglow)"></ellipse>
+      <ellipse cx="89" cy="185" rx="8" ry="15" fill="#e8a040" opacity="0.4" filter="url(#softglow)"></ellipse>
+      <ellipse cx="1308" cy="220" rx="10" ry="16" fill="#c86020" opacity="0.5" filter="url(#softglow)"></ellipse>
+
+      <!-- === MAIN REFINERY STRUCTURE — LEFT === -->
+      <!-- Main distillation tower -->
+      <rect x="180" y="160" width="52" height="520" fill="#1e1008" stroke="#3a1e0a" stroke-width="1"></rect>
+      <!-- Flanges / trays on tower -->
+      <rect x="172" y="220" width="68" height="8" rx="2" fill="#2a1508" stroke="#4a2010" stroke-width="0.5"></rect>
+      <rect x="172" y="290" width="68" height="8" rx="2" fill="#2a1508" stroke="#4a2010" stroke-width="0.5"></rect>
+      <rect x="172" y="360" width="68" height="8" rx="2" fill="#2a1508" stroke="#4a2010" stroke-width="0.5"></rect>
+      <rect x="172" y="430" width="68" height="8" rx="2" fill="#2a1508" stroke="#4a2010" stroke-width="0.5"></rect>
+      <rect x="172" y="500" width="68" height="8" rx="2" fill="#2a1508" stroke="#4a2010" stroke-width="0.5"></rect>
+      <!-- Tower top cap -->
+      <rect x="176" y="152" width="60" height="12" rx="2" fill="#2e1a0a"></rect>
+      <!-- Flame at top of main tower -->
+      <ellipse cx="206" cy="152" rx="14" ry="22" fill="#d07030" opacity="0.7" filter="url(#softglow)"></ellipse>
+      <ellipse cx="206" cy="138" rx="9" ry="16" fill="#f0b050" opacity="0.5" filter="url(#softglow)"></ellipse>
+      <!-- Pipe connecting main tower -->
+      <rect x="232" y="340" width="120" height="12" rx="4" fill="#2a1408" stroke="#4a2010" stroke-width="1"></rect>
+      <rect x="232" y="420" width="80" height="12" rx="4" fill="#261208" stroke="#3a1808" stroke-width="1"></rect>
+
+      <!-- Secondary column -->
+      <rect x="310" y="280" width="38" height="400" fill="#1a0e07" stroke="#2e1608" stroke-width="1"></rect>
+      <rect x="304" y="330" width="50" height="7" rx="2" fill="#241208"></rect>
+      <rect x="304" y="390" width="50" height="7" rx="2" fill="#241208"></rect>
+      <rect x="304" y="450" width="50" height="7" rx="2" fill="#241208"></rect>
+      <rect x="304" y="510" width="50" height="7" rx="2" fill="#241208"></rect>
+
+      <!-- Small reactor vessel -->
+      <ellipse cx="420" cy="350" rx="45" ry="15" fill="#1e1008" stroke="#3a1e0a" stroke-width="1.5"></ellipse>
+      <rect x="375" y="350" width="90" height="180" fill="#1a0e08" stroke="#321a08" stroke-width="1.5"></rect>
+      <ellipse cx="420" cy="530" rx="45" ry="15" fill="#221208" stroke="#3a1e0a" stroke-width="1.5"></ellipse>
+      <!-- Nozzles on vessel -->
+      <rect x="460" y="390" width="30" height="10" rx="3" fill="#281408"></rect>
+      <rect x="460" y="430" width="30" height="10" rx="3" fill="#281408"></rect>
+      <rect x="460" y="470" width="30" height="10" rx="3" fill="#281408"></rect>
+
+      <!-- === MAIN STRUCTURE — CENTER === -->
+      <!-- Large fractionator - center hero tower -->
+      <rect x="560" y="100" width="70" height="580" fill="#231208" stroke="#4a2010" stroke-width="1.5"></rect>
+      <rect x="548" y="92" width="94" height="14" rx="3" fill="#2e1a0a" stroke="#4a2010" stroke-width="1"></rect>
+      <!-- Trays -->
+      <rect x="548" y="160" width="94" height="9" rx="2" fill="#2e1608" stroke="#4a2010" stroke-width="0.5"></rect>
+      <rect x="548" y="230" width="94" height="9" rx="2" fill="#2e1608" stroke="#4a2010" stroke-width="0.5"></rect>
+      <rect x="548" y="300" width="94" height="9" rx="2" fill="#2e1608" stroke="#4a2010" stroke-width="0.5"></rect>
+      <rect x="548" y="370" width="94" height="9" rx="2" fill="#2e1608" stroke="#4a2010" stroke-width="0.5"></rect>
+      <rect x="548" y="440" width="94" height="9" rx="2" fill="#2e1608" stroke="#4a2010" stroke-width="0.5"></rect>
+      <rect x="548" y="510" width="94" height="9" rx="2" fill="#2e1608" stroke="#4a2010" stroke-width="0.5"></rect>
+      <!-- Center tower flame - hero glow -->
+      <ellipse cx="595" cy="90" rx="20" ry="32" fill="#e07030" opacity="0.65" filter="url(#softglow)"></ellipse>
+      <ellipse cx="595" cy="68" rx="13" ry="24" fill="#f0b050" opacity="0.5" filter="url(#softglow)"></ellipse>
+      <ellipse cx="595" cy="52" rx="7" ry="14" fill="#fff0a0" opacity="0.3" filter="url(#glow)"></ellipse>
+      <!-- Warm glow on center tower base -->
+      <rect x="548" y="600" width="94" height="80" fill="#1e1008"></rect>
+      <ellipse cx="595" cy="620" rx="80" ry="30" fill="#c86020" opacity="0.15" filter="url(#softglow)"></ellipse>
+
+      <!-- === PIPES ACROSS CENTER === -->
+      <!-- Main horizontal pipe rack -->
+      <rect x="350" y="590" width="740" height="16" rx="4" fill="#241008" stroke="#3a1808" stroke-width="1"></rect>
+      <rect x="350" y="612" width="740" height="10" rx="3" fill="#1e0e06" stroke="#321608" stroke-width="1"></rect>
+      <rect x="350" y="628" width="740" height="8" rx="3" fill="#1a0d06" stroke="#2a1408" stroke-width="1"></rect>
+      <!-- Vertical drop pipes -->
+      <rect x="420" y="530" width="14" height="62" rx="3" fill="#261208"></rect>
+      <rect x="500" y="480" width="14" height="112" rx="3" fill="#261208"></rect>
+      <rect x="680" y="450" width="14" height="142" rx="3" fill="#261208"></rect>
+      <rect x="760" y="500" width="14" height="92" rx="3" fill="#261208"></rect>
+      <rect x="840" y="470" width="14" height="122" rx="3" fill="#261208"></rect>
+      <!-- High pipe runs at different levels -->
+      <rect x="232" y="246" width="330" height="10" rx="3" fill="#221008" stroke="#381808" stroke-width="0.5" opacity="0.8"></rect>
+      <rect x="640" y="220" width="280" height="10" rx="3" fill="#221008" stroke="#381808" stroke-width="0.5" opacity="0.8"></rect>
+      <!-- Pipe elbows / connectors -->
+      <circle cx="562" cy="251" r="7" fill="#2a1408" stroke="#401c0a" stroke-width="1"></circle>
+      <circle cx="640" cy="225" r="7" fill="#2a1408" stroke="#401c0a" stroke-width="1"></circle>
+
+      <!-- === RIGHT SIDE STRUCTURES === -->
+      <!-- Storage tanks cluster -->
+      <ellipse cx="860" cy="570" rx="55" ry="18" fill="#1e1008" stroke="#3a1e0a" stroke-width="1.5"></ellipse>
+      <rect x="805" y="570" width="110" height="110" fill="#1a0e08" stroke="#2e1808" stroke-width="1.5"></rect>
+      <ellipse cx="860" cy="680" rx="55" ry="18" fill="#221208" stroke="#3a1e0a" stroke-width="1.5"></ellipse>
+
+      <ellipse cx="990" cy="540" rx="48" ry="15" fill="#1c0e06" stroke="#341a08" stroke-width="1.5"></ellipse>
+      <rect x="942" y="540" width="96" height="140" fill="#180c06" stroke="#2a1608" stroke-width="1.5"></rect>
+      <ellipse cx="990" cy="680" rx="48" ry="15" fill="#201008" stroke="#341a08" stroke-width="1.5"></ellipse>
+
+      <!-- Tall stack right side -->
+      <rect x="1100" y="180" width="40" height="500" fill="#1c0e06" stroke="#341808" stroke-width="1"></rect>
+      <rect x="1092" y="220" width="56" height="8" rx="2" fill="#281208"></rect>
+      <rect x="1092" y="290" width="56" height="8" rx="2" fill="#281208"></rect>
+      <rect x="1092" y="360" width="56" height="8" rx="2" fill="#281208"></rect>
+      <rect x="1092" y="430" width="56" height="8" rx="2" fill="#281208"></rect>
+      <rect x="1092" y="500" width="56" height="8" rx="2" fill="#281208"></rect>
+      <!-- Stack flame -->
+      <ellipse cx="1120" cy="178" rx="16" ry="26" fill="#c87030" opacity="0.6" filter="url(#softglow)"></ellipse>
+      <ellipse cx="1120" cy="160" rx="10" ry="18" fill="#e8a040" opacity="0.4" filter="url(#softglow)"></ellipse>
+
+      <!-- Heat exchanger cluster -->
+      <rect x="1170" y="450" width="120" height="50" rx="6" fill="#1e1008" stroke="#361a08" stroke-width="1.5"></rect>
+      <rect x="1170" y="510" width="120" height="45" rx="6" fill="#1c0e06" stroke="#301608" stroke-width="1.5"></rect>
+      <rect x="1170" y="565" width="120" height="40" rx="6" fill="#1a0c06" stroke="#2a1408" stroke-width="1.5"></rect>
+      <!-- Nozzles -->
+      <rect x="1160" y="465" width="18" height="10" rx="3" fill="#261208"></rect>
+      <rect x="1160" y="522" width="18" height="10" rx="3" fill="#261208"></rect>
+      <rect x="1160" y="577" width="18" height="10" rx="3" fill="#261208"></rect>
+
+      <!-- === FOREGROUND EQUIPMENT === -->
+      <!-- Pump skids foreground left -->
+      <rect x="120" y="660" width="60" height="30" rx="3" fill="#201008" stroke="#381808" stroke-width="1"></rect>
+      <rect x="140" y="648" width="20" height="14" rx="2" fill="#2a1408"></rect>
+      <rect x="200" y="655" width="70" height="25" rx="3" fill="#1e0e07" stroke="#341608" stroke-width="1"></rect>
+      <!-- Pump skids foreground right -->
+      <rect x="1200" y="658" width="65" height="28" rx="3" fill="#201008" stroke="#381808" stroke-width="1"></rect>
+      <rect x="1280" y="650" width="60" height="30" rx="3" fill="#1e0e07" stroke="#341608" stroke-width="1"></rect>
+
+      <!-- Catwalk / platform structure connecting towers -->
+      <rect x="180" y="440" width="415" height="6" fill="#281408" opacity="0.7"></rect>
+      <rect x="560" y="440" width="580" height="6" fill="#281408" opacity="0.6"></rect>
+      <!-- Ladder on main tower -->
+      <line x1="232" y1="160" x2="232" y2="680" stroke="#301808" stroke-width="2" opacity="0.5"></line>
+      <line x1="240" y1="160" x2="240" y2="680" stroke="#301808" stroke-width="2" opacity="0.5"></line>
+      <!-- Ladder rungs -->
+      <line x1="232" y1="200" x2="240" y2="200" stroke="#301808" stroke-width="2" opacity="0.4"></line>
+      <line x1="232" y1="240" x2="240" y2="240" stroke="#301808" stroke-width="2" opacity="0.4"></line>
+      <line x1="232" y1="280" x2="240" y2="280" stroke="#301808" stroke-width="2" opacity="0.4"></line>
+      <line x1="232" y1="320" x2="240" y2="320" stroke="#301808" stroke-width="2" opacity="0.4"></line>
+
+      <!-- === AMBIENT GLOW POOLS ON GROUND === -->
+      <ellipse cx="206" cy="685" rx="70" ry="20" fill="#c06020" opacity="0.12" filter="url(#softglow)"></ellipse>
+      <ellipse cx="595" cy="685" rx="100" ry="25" fill="#c86030" opacity="0.18" filter="url(#softglow)"></ellipse>
+      <ellipse cx="1120" cy="685" rx="75" ry="20" fill="#c06020" opacity="0.12" filter="url(#softglow)"></ellipse>
+
+      <!-- === HAZE / ATMOSPHERE LAYERS === -->
+      <rect x="0" y="550" width="1440" height="100" fill="#0e0806" opacity="0.3"></rect>
+      <ellipse cx="720" cy="650" rx="800" ry="120" fill="#1a0c06" opacity="0.25"></ellipse>
+
+      <!-- === INDUSTRIAL LIGHT POINTS === -->
+      <!-- Small warm operational lights on structures -->
+      <circle cx="595" cy="620" r="3" fill="#f0c060" opacity="0.8" filter="url(#glow)"></circle>
+      <circle cx="420" cy="640" r="2" fill="#e89040" opacity="0.7"></circle>
+      <circle cx="310" cy="680" r="2" fill="#d07030" opacity="0.6"></circle>
+      <circle cx="860" cy="640" r="2" fill="#e08030" opacity="0.7"></circle>
+      <circle cx="990" cy="640" r="2" fill="#d07030" opacity="0.6"></circle>
+      <circle cx="1120" cy="680" r="2" fill="#e89040" opacity="0.7"></circle>
+      <circle cx="1200" cy="670" r="2" fill="#c06020" opacity="0.5"></circle>
+    </svg>
+  </div>
+
+  <div class="hero-photo"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-haze"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-eyebrow">
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-text">Bharat Petroleum Corporation Ltd. · Refinery Operations</span>
+  </div>
+
+  <h1 class="hero-title">
+    Mission-<br>
+    Critical<br>
+    <span class="accent">Industrial</span><br>
+    <em>Platform</em>
+  </h1>
+
+  <p class="hero-sub">
+    Operating within the core system of a live 24×7 refinery — integrating maintenance engineering, asset lifecycle, turnaround orchestration, budgets, and SAP-driven execution into a single coordinated industrial operating model.
+  </p>
+
+  <div class="hero-kpis">
+    <div class="kpi-chip">
+      <div class="kpi-chip-val">₹625Cr</div>
+      <div class="kpi-chip-lbl">Overhaul Turnaround<br>Project Scope</div>
+    </div>
+    <div class="kpi-chip">
+      <div class="kpi-chip-val">₹3Cr+</div>
+      <div class="kpi-chip-lbl">Maintenance Engineering<br>Cost Reduction</div>
+    </div>
+    <div class="kpi-chip">
+      <div class="kpi-chip-val">+26%</div>
+      <div class="kpi-chip-lbl">Efficiency<br>Improvement</div>
+    </div>
+    <div class="kpi-chip">
+      <div class="kpi-chip-val">₹250Mn</div>
+      <div class="kpi-chip-lbl">Daily Stoppage<br>Loss Avoided</div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span class="scroll-lbl">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTEXT -->
+<section class="context-section" id="context">
+  <div class="wrap">
+    <div class="context-grid">
+      <div class="reveal visible">
+        <div class="section-label">The Environment</div>
+        <h2 class="section-head">A safety-critical 24×7 refinery operating ecosystem</h2>
+        <div class="context-body">
+          <p>BPCL operates live refinery infrastructure where uptime, safety, compliance, and asset reliability must function as a <strong>single coordinated operating system</strong>. This environment involves continuous 24×7 operations, safety-critical processes, complex asset interdependencies, and tight cross-functional coordination.</p>
+          <p>This was not shop-floor task execution and not isolated equipment maintenance. It was <strong>embedded participation in a mission-critical industrial operating system</strong> spanning asset lifecycle management, turnaround orchestration, capital budgeting, materials planning, and SAP-backed execution.</p>
+          <p>The core structural reality: <strong>industrial plants fail not because of missing equipment, but because operating systems break under scale, complexity, and safety constraints.</strong></p>
+        </div>
+        <div class="context-quote">
+          <p>"Designing reliability into industrial systems where failure is not an option."</p>
+        </div>
+      </div>
+
+      <div class="reveal visible" style="transition-delay:0.15s">
+        <div class="section-label">Operating Scope</div>
+        <div class="scope-cards">
+          <div class="scope-card">
+            <div class="scope-card-value">24×7</div>
+            <div class="scope-card-label">Live Refinery Operations</div>
+          </div>
+          <div class="scope-card">
+            <div class="scope-card-value">5+</div>
+            <div class="scope-card-label">Departments Coordinated</div>
+          </div>
+          <div class="scope-card">
+            <div class="scope-card-value">SAP</div>
+            <div class="scope-card-label">PM / MM / PS Enterprise Backbone</div>
+          </div>
+          <div class="scope-card">
+            <div class="scope-card-value">3+</div>
+            <div class="scope-card-label">Major Turnaround Units</div>
+          </div>
+          <div class="scope-card wide">
+            <div class="scope-wide-inner">
+              <div>
+                <div class="scope-card-value" style="font-size:1.4rem">FCCU · DHDS</div>
+                <div class="scope-card-label">Fluidized Catalytic Cracking · Desulphurisation</div>
+              </div>
+              <div>
+                <div class="scope-card-value" style="font-size:1.4rem">CDU/VDU</div>
+                <div class="scope-card-label">Crude / Vacuum Distillation Units</div>
+              </div>
+              <div>
+                <div class="scope-card-value" style="font-size:1.4rem"> H<sub>2</sub> Units</div>
+                <div class="scope-card-label">Hydrocracker · Hydrogen</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="scope-image-box">
+          <img src="img/bpcl2.webp" alt="BPCL refinery operating environment">
+        </div>
+      </div>
+    </div>
+
+    <!-- Refinery floor illustration -->
+    <div class="refinery-img-block reveal visible" style="transition-delay:0.2s">
+      <div class="refinery-img-inner">
+        <img src="img/bpcl7.webp" alt="BPCL refinery operating system architecture">
+      </div>
+      <div class="refinery-img-caption graph-caption">Refinery Operating Units — BPCL · Live 24×7 Industrial Platform</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CHALLENGES -->
+<section class="challenge-section" id="challenges">
+  <div class="wrap">
+    <div class="reveal visible" style="margin-bottom:3rem">
+      <div class="section-label">The Problem</div>
+      <h2 class="section-head">Structural constraints in a live refinery</h2>
+    </div>
+    <div class="challenge-cards reveal visible" style="transition-delay:0.1s">
+      <div class="ch-card">
+        <div class="ch-num">01</div>
+        <div class="ch-title">Scale &amp; Interdependency</div>
+        <div class="ch-desc">A refinery is not a collection of machines — it is a tightly coupled industrial operating system. Asset failures cascade. Uptime, safety, and compliance must function as one coordinated platform.</div>
+      </div>
+      <div class="ch-card">
+        <div class="ch-num">02</div>
+        <div class="ch-title">Turnaround Orchestration</div>
+        <div class="ch-desc">Major shutdowns across CDU/VDU, Hydrocracker, and Hydrogen units required multi-department coordination of scopes, schedules, budgets, materials, manpower, and contractors — all under hard deadlines.</div>
+      </div>
+      <div class="ch-card">
+        <div class="ch-num">03</div>
+        <div class="ch-title">Safety-Critical Execution</div>
+        <div class="ch-desc">Operational errors in a live refinery carry significant safety, financial, and reputational risk. Every maintenance decision, budget call, and SAP workflow had to operate within strict compliance and inspection frameworks.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ARCHITECTURE -->
+<section class="arch-section" id="architecture">
+  <div class="wrap">
+    <div class="arch-header">
+      <div class="reveal visible">
+        <div class="section-label">Business Architecture</div>
+        <h2 class="section-head">Refinery as an industrial operating system</h2>
+      </div>
+      <div class="arch-desc reveal visible" style="transition-delay:0.15s">
+        BPCL was approached not as isolated equipment maintenance, but as a <strong>coordinated industrial platform</strong> — where maintenance, inspection, operations, materials, and finance had to function as one synchronized system. Five interlocking subsystems, one coherent operating model.
+      </div>
+    </div>
+    <div class="arch-showcase">
+      <div class="arch-left">
+        <div class="arch-image reveal visible" style="transition-delay:0.08s">
+          <img src="img/bpcl3.webp" alt="BPCL refinery architecture visual">
+        </div>
+        <div class="arch-pillar">
+          <div class="reveal visible" style="transition-delay:0.16s">
+            <div class="arch-pillar-num">05 —</div>
+            <div class="arch-pillar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3.2 8.9-7 10-3.8-1.1-7-5-7-10V6l7-3z"></path><path d="M9.5 12l1.7 1.7L14.8 10"></path></svg></div>
+            <div class="arch-pillar-title">Ops–Maintenance–Inspection Interface</div>
+            <ul class="arch-pillar-items">
+              <li>Daily ops-maintenance coordination</li>
+              <li>Root cause analysis for failures</li>
+              <li>Asset history &amp; documentation</li>
+              <li>Safety, compliance &amp; readiness</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="arch-right">
+        <div class="arch-pillars reveal visible" style="transition-delay:0.1s">
+          <div class="arch-pillar">
+            <div class="arch-pillar-group">
+              <div>
+                <div class="arch-pillar-num">01 —</div>
+                <div class="arch-pillar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"></circle><path d="M12 2.8v2.4"></path><path d="M12 18.8v2.4"></path><path d="M4.8 12H2.4"></path><path d="M21.6 12h-2.4"></path><path d="M5.8 5.8l1.7 1.7"></path><path d="M16.5 16.5l1.7 1.7"></path><path d="M18.2 5.8l-1.7 1.7"></path><path d="M7.5 16.5l-1.7 1.7"></path></svg></div>
+                <div class="arch-pillar-title">Asset Lifecycle &amp; Reliability</div>
+                <ul class="arch-pillar-items">
+                  <li>Preventive maintenance for compressors, turbines, pumps</li>
+                  <li>Condition monitoring (IRD, SKF Microlog)</li>
+                  <li>Static equipment integrity</li>
+                  <li>Inspection-driven governance</li>
+                </ul>
+              </div>
+              <div>
+                <div class="arch-pillar-num">02 —</div>
+                <div class="arch-pillar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14.5 5.5a4 4 0 0 0 4.9 4.9l-8.6 8.6a2 2 0 0 1-2.8-2.8l8.6-8.6a4 4 0 0 0-4.9-4.9"></path></svg></div>
+                <div class="arch-pillar-title">Turnaround Orchestration</div>
+                <ul class="arch-pillar-items">
+                  <li>Scope freezing across CDU/VDU, Hydrocracker, H₂</li>
+                  <li>Shutdown budgeting &amp; planning</li>
+                  <li>Materials, manpower, cranes, logistics</li>
+                  <li>Schedule control &amp; post-shutdown analysis</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="arch-pillar">
+            <div class="arch-pillar-group">
+              <div>
+                <div class="arch-pillar-num">03 —</div>
+                <div class="arch-pillar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 7h12"></path><path d="M6 12h12"></path><path d="M6 17h12"></path><path d="M10 4v16"></path><path d="M14 4v16"></path></svg></div>
+                <div class="arch-pillar-title">Cost, Budget &amp; Capital Governance</div>
+                <ul class="arch-pillar-items">
+                  <li>OPEX/CAPEX planning for Maintenance</li>
+                  <li>Variation analysis vs budgets</li>
+                  <li>Project capitalization &amp; cost controls</li>
+                  <li>Contracting &amp; procurement workflows</li>
+                </ul>
+              </div>
+              <div>
+                <div class="arch-pillar-num">04 —</div>
+                <div class="arch-pillar-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="11" rx="1.8"></rect><path d="M2.5 19.5h19"></path><path d="M9 19.5h6"></path></svg></div>
+                <div class="arch-pillar-title">SAP Enterprise Backbone</div>
+                <ul class="arch-pillar-items">
+                  <li>Maintenance orders, PR/PO, inventory</li>
+                  <li>WBS creation, budgeting, capitalization</li>
+                  <li>Shutdown planning &amp; execution tracking</li>
+                  <li>Materials planning &amp; reconciliation</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXECUTION TIMELINE -->
+<section class="exec-section" id="execution">
+  <div class="wrap">
+    <div class="exec-grid">
+      <div>
+        <div class="reveal visible">
+          <div class="section-label">Ground Execution</div>
+          <h2 class="section-head">What was operated on the ground</h2>
+          <p style="color:var(--text2);font-size:0.95rem;line-height:1.8;margin-bottom:3rem">From structured rotations as a Graduate Engineer Trainee to confirmed Maintenance Officer — every initiative was hands-on, cross-functional, and outcome-accountable inside a live refinery.</p>
+        </div>
+        <div class="exec-timeline">
+          <div class="exec-item reveal visible" style="transition-delay:0.05s">
+            <div class="exec-dot"></div>
+            <div>
+              <div class="exec-title">Refinery Rotations — Machine Shop, FCCU, DHDS</div>
+              <div class="exec-desc">Structured onboarding across Machine Shop operations, Fluidized Catalytic Cracking Unit (FCCU), and De-Hydro Desulphurisation Unit (DHDS). Built ground-level understanding of refinery operating constraints before system design responsibilities.</div>
+            </div>
+          </div>
+          <div class="exec-item reveal visible" style="transition-delay:0.1s">
+            <div class="exec-dot"></div>
+            <div>
+              <div class="exec-title">Preventive Maintenance &amp; Asset Lifecycle Management</div>
+              <div class="exec-desc">Owned preventive maintenance plans and overhaul schedules for rotating equipment (compressors, turbines, centrifugal pumps) and static equipment (pressure vessels, heat exchangers, piping, columns). Ran condition monitoring programs using IRD and SKF Microlog.</div>
+            </div>
+          </div>
+          <div class="exec-item reveal visible" style="transition-delay:0.15s">
+            <div class="exec-dot"></div>
+            <div>
+              <div class="exec-title">Turnaround Orchestration — CDU/VDU, Hydrocracker, H₂ Units</div>
+              <div class="exec-desc">Participated in planning and execution of major refinery shutdowns across CDU/VDU, Hydrocracker, and Hydrogen Units. Coordinated scopes, schedules, budgets, materials, manpower, cranes, and contractor execution under hard shutdown timelines.</div>
+            </div>
+          </div>
+          <div class="exec-item reveal visible" style="transition-delay:0.2s">
+            <div class="exec-dot"></div>
+            <div>
+              <div class="exec-title">Budget Management — OPEX/CAPEX &amp; Cost Control</div>
+              <div class="exec-desc">Managed maintenance budgets including revenue and capital expenditure planning. Performed variation analysis vs budgets, coordinated project capitalization, and ran contracting and procurement workflows aligned to maintenance schedules.</div>
+            </div>
+          </div>
+          <div class="exec-item reveal visible" style="transition-delay:0.25s">
+            <div class="exec-dot"></div>
+            <div>
+              <div class="exec-title">SAP PM/MM/PS — Enterprise Execution Backbone</div>
+              <div class="exec-desc">Executed maintenance orders, purchase requisitions, purchase orders, inventory movements, and invoicing workflows on SAP. Created WBS structures, managed budgets, tracked shutdown planning, and handled materials planning and reconciliation.</div>
+            </div>
+          </div>
+          <div class="exec-item reveal visible" style="transition-delay:0.3s">
+            <div class="exec-dot"></div>
+            <div>
+              <div class="exec-title">Sulphur Unit Efficiency Improvement</div>
+              <div class="exec-desc">Led 16 personnel on critical maintenance tasks across Sulphur Units, resulting in a 26% efficiency improvement. Applied structured preventive maintenance and process discipline to achieve measurable operational gains.</div>
+            </div>
+          </div>
+          <div class="exec-item reveal visible" style="transition-delay:0.35s">
+            <div class="exec-dot"></div>
+            <div>
+              <div class="exec-title">Critical Project — ₹250 Mn/day Stoppage Loss Avoided</div>
+              <div class="exec-desc">Led 25 personnel on a highly critical refinery project — preventing a plant stoppage that would have cost ₹250 million per day. Promoted within 7 months to lead a turnaround project worth ₹625 Cr on the basis of execution performance.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="exec-visual reveal visible" style="transition-delay:0.1s">
+        <div class="exec-img">
+          <div class="exec-img-inner">
+            <div class="exec-img-pattern"></div>
+            <div class="exec-img-copy">
+             
+            </div>
+          </div>
+          <div class="exec-img-pills">
+            <span class="exec-pill">Machine Shop</span>
+            <span class="exec-pill">FCCU</span>
+            <span class="exec-pill">DHDS</span>
+            <span class="exec-pill">CDU/VDU</span>
+            <span class="exec-pill">Hydrocracker</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- IMPACT -->
+<section class="impact-section" id="impact">
+  <div class="wrap" style="position:relative">
+    <div class="impact-bg-num">26%</div>
+    <div class="reveal visible">
+      <div class="section-label">Hard Business Impact</div>
+      <h2 class="section-head">Outcomes that moved the refinery</h2>
+    </div>
+    <div class="impact-grid">
+      <div class="impact-card wide reveal visible" style="transition-delay:0.05s">
+        <div class="impact-cat">Reliability &amp; Uptime</div>
+        <div class="impact-wide-inner">
+          <div>
+            <div class="impact-stat">
+              <div class="impact-num">₹250</div>
+              <div class="impact-unit">Mn/day</div>
+            </div>
+            <div class="impact-desc">Stoppage loss avoided on a critical project through rapid multi-team intervention. Led 25 personnel under tight operational pressure to prevent a full plant shutdown — protecting both safety and revenue continuity.</div>
+          </div>
+          <div>
+            <div class="impact-stat">
+              <div class="impact-num">+26</div>
+              <div class="impact-unit">%</div>
+            </div>
+            <div class="impact-desc">Efficiency improvement in Sulphur Units achieved by leading 16 personnel on critical maintenance tasks with structured preventive maintenance and process discipline applied at unit level.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="impact-card reveal visible" style="transition-delay:0.1s">
+        <div class="impact-cat">Cost &amp; Capital Discipline</div>
+      <div class="impact-stat">
+        <div class="impact-num">₹3</div>
+        <div class="impact-unit">Cr+</div>
+      </div>
+        <div class="impact-desc">Maintenance Engineering cost reduction by 3Cr+</div>
+      </div>
+
+      <div class="impact-card reveal visible" style="transition-delay:0.1s">
+        <div class="impact-cat">Turnaround Leadership</div>
+      <div class="impact-stat">
+          <div class="impact-num">₹625</div>
+          <div class="impact-unit">Cr</div>
+        </div>
+        <div class="impact-desc">Part of the maintenance team of a 625Cr OverHaul Turn Around project scope.</div>
+      </div>
+
+      <div class="impact-card reveal visible" style="transition-delay:0.15s">
+        <div class="impact-cat">Operational Excellence</div>
+        <div class="impact-stat"><div class="impact-num">24×7</div></div>
+        <div class="impact-desc">Standardized preventive maintenance and asset history tracking across rotating and static equipment. Improved shutdown readiness and execution discipline. Strengthened inspection-maintenance feedback loops across units.</div>
+      </div>
+
+      <div class="impact-card reveal visible" style="transition-delay:0.15s">
+        <div class="impact-cat">Cross-Functional Leadership</div>
+        <div class="impact-stat"><div class="impact-num">5+</div></div>
+        <div class="impact-desc">Departments coordinated daily: Operations, Inspection, Planning, Maintenance, Contracts, and Finance. Translated physical engineering tasks into systemized workflows enabling refinery uptime, safety, and execution discipline.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CAPABILITIES -->
+<section class="cap-section">
+  <div class="wrap">
+    <div class="reveal visible">
+      <div class="section-label">Strategic Capabilities</div>
+      <h2 class="section-head">Built through this engagement</h2>
+    </div>
+    <div class="cap-grid">
+      <div class="cap-card reveal visible" style="transition-delay:0.05s">
+        <div class="cap-icon">🏭</div>
+        <div>
+          <div class="cap-title">Industrial Operating System Thinking</div>
+          <div class="cap-desc">Operated within a live refinery platform where maintenance, inspection, operations, materials, and finance had to function as one synchronized system — not separate departments. Systems thinking grounded in physical-world constraints.</div>
+        </div>
+      </div>
+      <div class="cap-card reveal visible" style="transition-delay:0.1s">
+        <div class="cap-icon">🔩</div>
+        <div>
+          <div class="cap-title">Asset Lifecycle &amp; Reliability Engineering</div>
+          <div class="cap-desc">Managed preventive maintenance regimes, overhaul planning, and condition monitoring for both rotating (compressors, turbines, pumps) and static equipment (vessels, exchangers, columns). Inspection-driven lifecycle governance.</div>
+        </div>
+      </div>
+      <div class="cap-card reveal visible" style="transition-delay:0.15s">
+        <div class="cap-icon">📋</div>
+        <div>
+          <div class="cap-title">Turnaround Orchestration at Scale</div>
+          <div class="cap-desc">Planned and executed refinery shutdowns across CDU/VDU, Hydrocracker, and Hydrogen Units — coordinating scopes, schedules, budgets, materials, and contractor execution under safety-critical timelines.</div>
+        </div>
+      </div>
+      <div class="cap-card reveal visible" style="transition-delay:0.2s">
+        <div class="cap-icon">💻</div>
+        <div>
+          <div class="cap-title">Enterprise Systems Integration — SAP PM/MM/PS</div>
+          <div class="cap-desc">Executed maintenance, materials, procurement, and project workflows on SAP, integrating physical plant operations with enterprise digital systems. WBS creation, budgeting, capitalization, and shutdown tracking.</div>
+        </div>
+      </div>
+      <div class="cap-card reveal visible" style="transition-delay:0.25s">
+        <div class="cap-icon">⚠️</div>
+        <div>
+          <div class="cap-title">Safety-Critical Execution Under Constraints</div>
+          <div class="cap-desc">Worked inside compliance-heavy environments where operational errors carry significant safety, financial, and reputational risk. Delivered precision execution under shutdown timelines with zero room for failure.</div>
+        </div>
+      </div>
+      <div class="cap-card reveal visible" style="transition-delay:0.3s">
+        <div class="cap-icon">💰</div>
+        <div>
+          <div class="cap-title">Budget &amp; Cost Governance</div>
+          <div class="cap-desc">Managed OPEX/CAPEX planning for maintenance operations, performed variation analysis, coordinated project capitalization, and ran contracting/procurement workflows aligned to shutdown and maintenance schedules.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TIMELINE -->
+<section class="timeline-section">
+  <div class="wrap">
+    <div class="reveal visible">
+      <div class="section-label">Timeline</div>
+      <h2 class="section-head">The BPCL journey</h2>
+    </div>
+    <div class="timeline-strip reveal visible" style="transition-delay:0.1s">
+      <div class="tl-item">
+        <div class="tl-year">2008</div>
+        <div class="tl-event">Graduate Engineer Trainee — Refinery onboarding &amp; structured rotations across subsystems</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2008–09</div>
+        <div class="tl-event">Machine Shop, FCCU, DHDS exposure — ground-level refinery operations and maintenance</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2009</div>
+        <div class="tl-event">Maintenance Engineer confirmed — promoted within 7 months based on execution performance</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2009</div>
+        <div class="tl-event">Turnaround participation — CDU/VDU, Hydrocracker, Hydrogen Units · ₹625 Cr project scope</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2009</div>
+        <div class="tl-event">SAP PM/MM/PS execution, asset &amp; maintenance systems · ₹250 Mn/day stoppage avoided</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BRIDGE TO AI -->
+<section class="bridge-section" id="bridge">
+  <div class="wrap">
+    <div class="bridge-inner">
+      <div class="bridge-visual reveal visible">
+        <div class="bridge-visual-inner">
+          <img src="img/bpcl6.webp" alt="BPCL reliability first visual">
+        </div>
+      </div>
+      <div class="reveal visible" style="transition-delay:0.15s">
+        <div class="section-label">From Industrial Reliability to AI Platform Architecture</div>
+        <h2 class="section-head">The principle that transfers</h2>
+        <div class="bridge-principle">
+          Complex systems fail at <em>interfaces</em> — not at components. Reliability is a <em>system-design</em> problem.
+        </div>
+        <div class="bridge-body">
+          <p>BPCL shaped a foundational operating principle that continues to guide every system I build. The refinery demanded multi-department orchestration, asset lifecycle governance, budget and cost discipline, safety and compliance integration, enterprise IT execution rigor, and precision delivery under shutdown timelines.</p>
+          <p style="margin-top:1rem">This experience directly informs how I now architect AI platforms, MLOps systems, and enterprise data pipelines. Whether the system is a <strong>refinery operating platform</strong> or an <strong>AI deployment stack</strong>, the operating logic remains the same: design for reliability, control the interfaces, and build systems that survive real-world operational stress.</p>
+        </div>
+        <div class="bridge-tags">
+          <span class="bridge-tag">Industrial Systems Thinking</span>
+          <span class="bridge-tag">Asset Lifecycle Governance</span>
+          <span class="bridge-tag">Safety-Critical Execution</span>
+          <span class="bridge-tag">SAP Enterprise Integration</span>
+          <span class="bridge-tag">Turnaround Orchestration</span>
+          <span class="bridge-tag">AI Platform Architecture</span>
+          <span class="bridge-tag">MLOps Systems</span>
+          <span class="bridge-tag">Reliability Engineering</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<footer id="footer">
+  <div class="foot-l">Bharat Petroleum Corporation Ltd.</div>
+</footer>
+
+<script>
+// Cursor glow
+const cg = document.getElementById('cglow');
+document.addEventListener('mousemove', e => {
+  cg.style.transform = `translate(${e.clientX-300}px,${e.clientY-300}px)`;
+});
+
+// Nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Reveal on scroll
+const revs = document.querySelectorAll('.reveal');
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+revs.forEach(el => ro.observe(el));
+
+// Counter animation
+function countUp(el) {
+  const txt = el.textContent.trim();
+  const hasRs = txt.includes('₹');
+  const hasPlus = txt.startsWith('+');
+  const raw = txt.replace(/[^0-9.]/g,'');
+  if (!raw || isNaN(parseFloat(raw))) return;
+  const target = parseFloat(raw);
+  const isDecimal = raw.includes('.');
+  const dur = 1400, t0 = performance.now();
+  function step(now) {
+    const p = Math.min((now-t0)/dur,1);
+    const e3 = 1-Math.pow(1-p,3);
+    const v = target*e3;
+    el.textContent = (hasRs?'₹':'')+(hasPlus?'+':'')+(isDecimal?v.toFixed(1):Math.floor(v).toString());
+    if (p<1) requestAnimationFrame(step);
+    else el.textContent = txt;
+  }
+  requestAnimationFrame(step);
+}
+const nums = document.querySelectorAll('.impact-num,.kpi-chip-val');
+const co = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { countUp(e.target); co.unobserve(e.target); }
+  });
+}, { threshold: 0.5 });
+nums.forEach(n => co.observe(n));
+
+// Chip tilt
+document.querySelectorAll('.kpi-chip').forEach(chip => {
+  chip.addEventListener('mousemove', e => {
+    const r = chip.getBoundingClientRect();
+    const x = (e.clientX-r.left-r.width/2)/(r.width/2);
+    const y = (e.clientY-r.top-r.height/2)/(r.height/2);
+    chip.style.transform = `translateY(-2px) rotateX(${-y*4}deg) rotateY(${x*4}deg)`;
+  });
+  chip.addEventListener('mouseleave', () => chip.style.transform='');
+});
+
+// Refinery graph spotlight + parallax
+document.querySelectorAll('.refinery-img-block').forEach(block => {
+  const graph = block.querySelector('.refinery-graph');
+  block.addEventListener('mousemove', e => {
+    const r = block.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width) * 100;
+    const y = ((e.clientY - r.top) / r.height) * 100;
+    block.style.setProperty('--mx', `${x}%`);
+    block.style.setProperty('--my', `${y}%`);
+    if (graph) {
+      const rx = ((e.clientY - r.top) - r.height / 2) / (r.height / 2);
+      const ry = ((e.clientX - r.left) - r.width / 2) / (r.width / 2);
+      graph.style.transform = `perspective(1200px) rotateX(${(-rx * 3).toFixed(2)}deg) rotateY(${(ry * 4).toFixed(2)}deg) scale(1.01)`;
+    }
+  });
+  block.addEventListener('mouseleave', () => {
+    block.style.setProperty('--mx', '50%');
+    block.style.setProperty('--my', '50%');
+    if (graph) graph.style.transform = '';
+  });
+});
+
+// Active nav
+const secs = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.nav-links a');
+const sio = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) links.forEach(l => {
+      l.style.color = l.getAttribute('href')==='#'+e.target.id ? 'var(--gold3)' : '';
+    });
+  });
+}, { threshold: 0.4 });
+secs.forEach(s => sio.observe(s));
+</script>
+
+
+</body></html>

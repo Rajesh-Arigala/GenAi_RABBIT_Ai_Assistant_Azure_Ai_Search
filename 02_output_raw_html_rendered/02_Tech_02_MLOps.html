@@ -1,0 +1,743 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MLOps &amp; Infrastructure Architecture</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;0,900;1,700&amp;family=Cabinet+Grotesk:wght@300;400;500;700;800&amp;family=JetBrains+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+
+:root{
+  --bg:    #081018;
+  --bg1:   #0b141b;
+  --bg2:   #111c22;
+  --bg3:   #16232a;
+  --bg4:   #1c2b31;
+  --am:    #66f0b4;
+  --am2:   #8ef7c1;
+  --am3:   #dff2df;
+  --amdim: rgba(102,240,180,0.1);
+  --cop:   #4dd8c0;
+  --copdim:rgba(77,216,192,0.1);
+  --bord:  rgba(255,255,255,0.06);
+  --bord2: rgba(102,240,180,0.2);
+  --bord3: rgba(102,240,180,0.42);
+  --text:  #edf3f1;
+  --t2:    #a6afb8;
+  --t3:    #60707b;
+  --white: #f5fbf7;
+  --fh:    'Playfair Display',serif;
+  --fb:    'Cabinet Grotesk',sans-serif;
+  --fm:    'JetBrains Mono',monospace;
+}
+
+body{background:var(--bg);color:var(--text);font-family:var(--fb);font-weight:400;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--am);border-radius:2px}
+
+/* ── CURSOR GLOW ──────────────────────────── */
+.cglow{pointer-events:none;position:fixed;top:0;left:0;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(102,240,180,0.05) 0%,transparent 70%);transform:translate(-50%,-50%);z-index:0;transition:transform 0.07s linear}
+
+/* ── NAV ──────────────────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.2rem 3rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid transparent;transition:all 0.4s}
+nav.scrolled{background:rgba(8,16,24,0.93);backdrop-filter:blur(24px);border-bottom-color:var(--bord)}
+.nav-logo{font-family:var(--fh);font-size:1.05rem;font-style:italic;display:flex;align-items:center;gap:0.55rem}
+.nav-logo em{font-style:normal;color:var(--am2)}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--am2);box-shadow:0 0 10px var(--am)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-family:var(--fm);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--t2);transition:color 0.3s}
+.nav-links a:hover,.nav-links a.active{color:var(--am2)}
+.nav-cta{font-family:var(--fm);font-size:0.63rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.38rem 1rem;border:1px solid var(--bord2);border-radius:100px;color:var(--am2);transition:all 0.3s}
+.nav-cta:hover{background:var(--amdim)}
+
+/* ── HERO ─────────────────────────────────── */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding:0 3rem}
+.hero-bg{position:absolute;inset:0;
+  background:
+    linear-gradient(90deg,rgba(8,16,24,0.88) 0%,rgba(8,16,24,0.62) 34%,rgba(8,16,24,0.22) 100%),
+    radial-gradient(ellipse 80% 60% at 68% 28%,rgba(102,240,180,0.05) 0%,transparent 55%),
+    radial-gradient(ellipse 50% 45% at 15% 65%,rgba(77,216,192,0.05) 0%,transparent 55%),
+    linear-gradient(180deg,rgba(8,16,24,0.38) 0%,rgba(11,20,27,0.62) 100%),
+    url('../img/mlops/hero.webp');
+  background-size:auto,auto,auto,auto,cover;
+  background-position:center,center,center,center,center;
+  background-repeat:no-repeat;
+  will-change:transform;
+  animation:heroFloat 11s ease-in-out infinite}
+.hero-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(102,240,180,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(102,240,180,0.02) 1px,transparent 1px);
+  background-size:70px 70px;
+  mask-image:radial-gradient(ellipse 90% 90% at 50% 40%,black 15%,transparent 100%)}
+.hero-noise{position:absolute;inset:0;opacity:0.012;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+.hero-content{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,720px);gap:0;align-items:center;max-width:1300px;margin:0 auto;width:100%;padding-top:5rem}
+.hero-panel{position:relative;max-width:640px;padding:2.5rem 2.5rem 2.2rem;border:1px solid rgba(102,240,180,0.08);border-radius:1.6rem;background:
+  linear-gradient(135deg,rgba(8,16,24,0.76),rgba(8,16,24,0.46)),
+  linear-gradient(rgba(102,240,180,0.035) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(102,240,180,0.035) 1px,transparent 1px);
+background-size:auto,36px 36px,36px 36px;
+box-shadow:0 24px 60px rgba(0,0,0,0.18);
+backdrop-filter:blur(3px)}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:0.7rem;margin-bottom:2rem;opacity:0;animation:fadeUp 0.8s ease 0.15s forwards}
+.eyebrow-line{width:30px;height:1px;background:var(--am2)}
+.eyebrow-text{font-family:var(--fm);font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--am2)}
+
+.hero-title{font-family:var(--fh);font-size:clamp(2.8rem,5vw,5.8rem);font-weight:900;line-height:0.93;letter-spacing:-0.01em;opacity:0;animation:fadeUp 0.9s ease 0.3s forwards}
+.hero-title em{font-style:italic;color:var(--am2)}
+.hero-title .dim{color:transparent;-webkit-text-stroke:1.5px rgba(102,240,180,0.35)}
+
+.hero-sub{font-size:1.12rem;color:var(--t2);line-height:1.85;max-width:560px;margin-top:1.6rem;font-weight:300;opacity:0;animation:fadeUp 0.9s ease 0.45s forwards}
+.hero-btns{display:flex;gap:1rem;margin-top:2.2rem;flex-wrap:wrap;opacity:0;animation:fadeUp 0.9s ease 0.6s forwards}
+.btn-p{font-family:var(--fm);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.82rem 1.8rem;border-radius:100px;background:linear-gradient(135deg,rgba(102,240,180,0.22),rgba(102,240,180,0.08));border:1px solid var(--bord3);color:var(--am2);cursor:pointer;transition:all 0.3s}
+.btn-p:hover{background:linear-gradient(135deg,rgba(102,240,180,0.34),rgba(102,240,180,0.14));transform:translateY(-2px);box-shadow:0 8px 24px rgba(102,240,180,0.12)}
+.btn-s{font-family:var(--fm);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.82rem 1.8rem;border-radius:100px;border:1px solid var(--bord);color:var(--t2);cursor:pointer;transition:all 0.3s}
+.btn-s:hover{border-color:var(--bord2);color:var(--text);transform:translateY(-2px)}
+
+/* ── HERO RIGHT: PIPELINE CARD ────────────── */
+.hero-right{display:none}
+.pipe-card{background:transparent;border:none;border-radius:0;overflow:visible}
+.pipe-header{background:transparent;padding:0 0 1rem 0;display:flex;align-items:center;gap:0.45rem;border-bottom:none}
+.pd{width:8px;height:8px;border-radius:50%}
+.pipe-body{padding:0}
+.pipe-step{display:flex;align-items:center;gap:0.75rem;padding:0.65rem;border-radius:0.55rem;background:var(--bg3);margin-bottom:0.45rem;border:1px solid var(--bord);transition:border-color 0.3s}
+.pipe-step:hover{border-color:var(--bord2)}
+.pipe-step-icon{width:30px;height:30px;border-radius:8px;background:var(--amdim);border:1px solid var(--bord2);display:flex;align-items:center;justify-content:center;font-size:0.8rem;flex-shrink:0}
+.pipe-step-icon svg,.card-icon svg,.cap-card-icon svg{width:16px;height:16px;display:block;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.pipe-step-lbl{font-family:var(--fm);font-size:0.62rem;letter-spacing:0.05em;color:var(--text)}
+.pipe-step-sub{font-family:var(--fm);font-size:0.52rem;color:var(--t3)}
+.pipe-step.highlight{border-color:var(--bord2);background:rgba(102,240,180,0.06)}
+.pipe-step.highlight .pipe-step-lbl{color:var(--am2)}
+.pipe-step.highlight .pipe-step-icon{background:rgba(102,240,180,0.18)}
+.pipe-arrow{padding:0.05rem 0.75rem;color:var(--am);font-size:0.75rem;opacity:0.4}
+.pipe-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:0.4rem;margin-top:0.75rem}
+.pm{background:var(--bg4);border:1px solid var(--bord);border-radius:0.5rem;padding:0.55rem 0.4rem;text-align:center}
+.pm-val{font-family:var(--fh);font-size:0.9rem;font-weight:700;color:var(--am2)}
+.pm-lbl{font-family:var(--fm);font-size:0.47rem;letter-spacing:0.07em;text-transform:uppercase;color:var(--t3);margin-top:0.1rem}
+
+/* ── UTILS ────────────────────────────────── */
+.wrap{max-width:1300px;margin:0 auto;padding:0 3rem}
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--bord2) 30%,var(--bord2) 70%,transparent)}
+.slabel{font-family:var(--fm);font-size:0.63rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--am2);display:flex;align-items:center;gap:0.7rem;margin-bottom:0.9rem}
+.slabel::before{content:'';display:block;width:22px;height:1px;background:var(--am2)}
+.shead{font-family:var(--fh);font-size:clamp(1.9rem,3.5vw,2.9rem);font-weight:800;line-height:1.1;letter-spacing:-0.01em}
+.shead em{font-style:italic;color:var(--am2)}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── WHAT SECTION ─────────────────────────── */
+.what-section{padding:7rem 0;background:var(--bg1)}
+.what-grid{display:grid;grid-template-columns:1fr 1fr;gap:5.5rem;align-items:start}
+.what-body{font-size:1.08rem;color:var(--t2);line-height:1.9;font-weight:300}
+.what-body p+p{margin-top:1rem}
+.what-body strong{color:var(--text);font-weight:500}
+.what-side{display:flex;flex-direction:column;gap:1.8rem}
+.what-quote{margin-top:1.8rem;padding:1.5rem 1.8rem 1.5rem 1.8rem;border-left:2px solid var(--am);background:var(--amdim);border-radius:0 0.8rem 0.8rem 0}
+.what-side .what-quote{margin-top:0}
+.what-quote p{font-family:var(--fh);font-size:1.12rem;font-weight:700;font-style:italic;line-height:1.6;color:var(--white)}
+
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:0.5rem}
+.stat-card{background:var(--bg2);border:1px solid var(--bord);border-radius:1rem;padding:1.4rem 1.5rem;transition:border-color 0.3s,transform 0.25s}
+.stat-card:hover{border-color:var(--bord2);transform:translateY(-2px)}
+.stat-val{font-family:var(--fh);font-size:2rem;font-weight:900;color:var(--am2);line-height:1;margin-bottom:0.3rem}
+.stat-lbl{font-family:var(--fm);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--t3)}
+.stat-desc{font-size:0.92rem;color:var(--t2);line-height:1.55;margin-top:0.45rem;font-weight:300}
+
+/* ── EXPERTISE CARDS ──────────────────────── */
+.expertise-section{padding:7rem 0}
+.exp-intro{max-width:620px;margin-bottom:3.5rem}
+.exp-intro p{font-size:1.06rem;color:var(--t2);line-height:1.85;margin-top:0.8rem;font-weight:300}
+.cards-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+.exp-card{background:var(--bg2);border:1px solid var(--bord);border-radius:1.3rem;overflow:hidden;transition:border-color 0.3s,transform 0.35s,box-shadow 0.35s;position:relative}
+.exp-card[id]{
+  scroll-margin-top:120px;
+}
+.exp-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--am),transparent);opacity:0;transition:opacity 0.3s;z-index:1}
+.exp-card:hover{border-color:var(--bord3);transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,0.45)}
+.exp-card:hover::before{opacity:1}
+
+.card-img-area{height:220px;background:var(--bg3);position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.card-img-area svg{width:100%;height:100%;position:absolute;inset:0}
+.card-img-area img{width:100%;height:100%;object-fit:cover;display:block}
+.card-img-number{font-family:var(--fh);font-size:7rem;font-weight:900;color:transparent;-webkit-text-stroke:1px rgba(102,240,180,0.08);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);user-select:none;line-height:1}
+
+.card-body{padding:2rem}
+.card-title-row{display:flex;align-items:center;gap:0.75rem;margin-bottom:0.8rem}
+.card-icon{width:38px;height:38px;border-radius:10px;background:var(--amdim);border:1px solid var(--bord2);display:flex;align-items:center;justify-content:center;color:var(--am2);flex-shrink:0}
+.card-title{font-family:var(--fh);font-size:1.15rem;font-weight:800;color:var(--white)}
+.card-desc{font-size:1rem;color:var(--t2);line-height:1.8;font-weight:300;margin-bottom:1.2rem}
+.card-features{list-style:none;display:flex;flex-direction:column;gap:0.5rem;margin-bottom:1.5rem}
+.card-features li{font-size:0.94rem;color:var(--t2);display:flex;align-items:flex-start;gap:0.6rem;line-height:1.55;font-weight:300}
+.card-features li::before{content:'→';color:var(--am2);font-size:0.68rem;font-family:var(--fm);flex-shrink:0;margin-top:0.12rem}
+.card-cta{display:inline-flex;align-items:center;gap:0.5rem;font-family:var(--fm);font-size:0.63rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--am2);padding:0.6rem 1.2rem;border-radius:100px;border:1px solid var(--bord3);background:var(--amdim);transition:all 0.3s}
+.card-cta:hover{background:rgba(102,240,180,0.18);gap:0.8rem;transform:translateX(2px)}
+.card-cta::after{content:'→';font-size:0.75rem}
+
+/* ── CAPABILITIES ─────────────────────────── */
+.cap-section{padding:7rem 0;background:var(--bg1)}
+.cap-header{max-width:620px;margin-bottom:3.5rem}
+.cap-header p{font-size:1.06rem;color:var(--t2);line-height:1.85;margin-top:0.8rem;font-weight:300}
+.cap-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.cap-card{background:var(--bg2);border:1px solid var(--bord);border-radius:1.1rem;padding:1.5rem;transition:border-color 0.3s,transform 0.3s}
+.cap-card:hover{border-color:var(--bord2);transform:translateY(-4px)}
+.cap-card-icon{width:38px;height:38px;border-radius:10px;background:var(--amdim);border:1px solid var(--bord2);display:flex;align-items:center;justify-content:center;color:var(--am2);margin-bottom:0.8rem}
+.cap-card-title{font-family:var(--fh);font-size:1.06rem;font-weight:700;color:var(--white);margin-bottom:0.55rem}
+.cap-items{list-style:none;display:flex;flex-direction:column;gap:0.4rem}
+.cap-items li{font-size:0.94rem;color:var(--t2);display:flex;align-items:center;gap:0.45rem;font-weight:300}
+.cap-items li::before{content:'·';color:var(--am2);font-size:1rem;font-family:var(--fm);line-height:0}
+
+/* ── WORKFLOW / HOW I WORK ────────────────── */
+.workflow-section{padding:7rem 0}
+.wf-header{max-width:760px;margin:0 auto 4.5rem;text-align:center}
+.wf-header .slabel{justify-content:center}
+.wf-header p{font-size:1.06rem;color:var(--t2);line-height:1.85;margin-top:0.8rem;font-weight:300}
+.wf-steps{display:flex;flex-direction:column;gap:0;position:relative}
+.wf-steps::before{content:'';position:absolute;left:50%;top:8px;bottom:20px;width:1px;background:linear-gradient(var(--bord2),transparent);transform:translateX(-50%)}
+.wf-step{display:grid;grid-template-columns:1fr 72px 1fr;align-items:start;padding-bottom:2.4rem;position:relative}
+.wf-step::before{content:'';grid-column:1}
+.wf-dot{grid-column:2;justify-self:center;width:30px;height:30px;border-radius:50%;border:1px solid var(--bord2);background:var(--bg2);display:flex;align-items:center;justify-content:center;z-index:1;transition:background 0.3s,border-color 0.3s;margin:0 auto}
+.wf-dot::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--am2)}
+.wf-step:hover .wf-dot{background:var(--amdim);border-color:var(--am)}
+.wf-right{grid-column:3;max-width:560px}
+.wf-step:nth-child(even)::before{grid-column:3}
+.wf-step:nth-child(even) .wf-right{grid-column:1;text-align:right;justify-self:end}
+.wf-step:nth-child(even) .wf-tags{justify-content:flex-end}
+.wf-tag{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.22rem 0.65rem;border-radius:100px;display:inline-block;margin-bottom:0.6rem}
+.wf-tag.build{background:var(--amdim);border:1px solid var(--bord2);color:var(--am2)}
+.wf-tag.deploy{background:rgba(77,216,192,0.1);border:1px solid rgba(77,216,192,0.25);color:#7ae9d0}
+.wf-tag.monitor{background:rgba(102,240,180,0.08);border:1px solid rgba(102,240,180,0.2);color:#8ef7c1}
+.wf-tag.infra{background:rgba(127,230,214,0.08);border:1px solid rgba(127,230,214,0.2);color:#9ff3e0}
+.wf-title{font-family:var(--fh);font-size:1.32rem;font-weight:800;color:var(--white);margin-bottom:0.5rem}
+.wf-desc{font-size:1rem;color:var(--t2);line-height:1.8;font-weight:300;max-width:560px;margin-bottom:0.9rem}
+.wf-tags{display:flex;flex-wrap:wrap;gap:0.4rem}
+.wf-tech{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.06em;padding:0.22rem 0.6rem;border:1px solid var(--bord);border-radius:100px;color:var(--t2)}
+
+/* ── CLOSING ──────────────────────────────── */
+.closing{padding:7rem 0;background:var(--bg1)}
+.close-inner{background:var(--bg2);border:1px solid var(--bord);border-radius:1.8rem;padding:4.5rem;position:relative;overflow:hidden;text-align:center}
+.close-inner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(102,240,180,0.07) 0%,transparent 60%);pointer-events:none}
+.close-inner::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 50% 50% at 100% 100%,rgba(77,216,192,0.06) 0%,transparent 55%);pointer-events:none}
+.close-tag{font-family:var(--fm);font-size:0.63rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--am2);display:inline-flex;align-items:center;gap:0.6rem;margin-bottom:1.4rem}
+.close-tag::before,.close-tag::after{content:'';display:block;width:16px;height:1px;background:var(--am2)}
+.close-title{font-family:var(--fh);font-size:clamp(2rem,4vw,3.2rem);font-weight:900;line-height:1.1;margin-bottom:1.2rem}
+.close-title em{font-style:italic;color:var(--am2)}
+.close-body{font-size:1.08rem;color:var(--t2);line-height:1.85;max-width:640px;margin:0 auto 2.5rem;font-weight:300}
+.close-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.cb-p{font-family:var(--fm);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.85rem 2rem;border-radius:100px;background:linear-gradient(135deg,rgba(102,240,180,0.28),rgba(102,240,180,0.1));border:1px solid var(--bord3);color:var(--am2);cursor:pointer;transition:all 0.3s}
+.cb-p:hover{background:linear-gradient(135deg,rgba(102,240,180,0.38),rgba(102,240,180,0.18));transform:translateY(-2px);box-shadow:0 8px 24px rgba(102,240,180,0.12)}
+.cb-s{font-family:var(--fm);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.85rem 2rem;border-radius:100px;border:1px solid var(--bord);color:var(--t2);cursor:pointer;transition:all 0.3s}
+.cb-s:hover{border-color:var(--bord2);color:var(--text);transform:translateY(-2px)}
+.close-stats{display:flex;justify-content:center;gap:3.5rem;margin-top:3.5rem;padding-top:2.5rem;border-top:1px solid var(--bord);flex-wrap:wrap}
+.cs-val{font-family:var(--fh);font-size:2rem;font-weight:900;color:var(--white);display:block}
+.cs-lbl{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--t3);margin-top:0.3rem}
+
+/* ── FOOTER ───────────────────────────────── */
+footer{border-top:1px solid var(--bord);background:var(--bg)}
+.fi{max-width:1300px;margin:0 auto;padding:4rem 3rem 2.5rem;display:grid;grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:3.5rem}
+.fl-logo{font-family:var(--fh);font-size:1rem;font-style:italic;color:var(--text);margin-bottom:0.7rem}
+.fl-logo em{font-style:normal;color:var(--am2)}
+.fl-desc{font-size:0.94rem;color:var(--t2);line-height:1.8;margin-bottom:1.2rem;font-weight:300}
+.fl-title{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--t3);margin-bottom:1.1rem}
+.fl-list{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+.fl-list a{font-size:0.92rem;color:var(--t2);transition:color 0.2s;font-weight:300}
+.fl-list a:hover{color:var(--am2)}
+.fl-cta-box{background:var(--bg3);border:1px solid var(--bord);border-radius:1rem;padding:1.4rem}
+.fl-cta-title{font-family:var(--fh);font-size:1rem;font-weight:700;color:var(--white);margin-bottom:0.45rem}
+.fl-cta-sub{font-size:0.9rem;color:var(--t2);margin-bottom:1.1rem;line-height:1.65;font-weight:300}
+.fl-btns{display:flex;flex-direction:column;gap:0.5rem}
+.fl-btn{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.52rem 1rem;border-radius:100px;text-align:center;cursor:pointer;transition:all 0.3s;display:block}
+.fl-btn.p{background:linear-gradient(135deg,rgba(102,240,180,0.24),rgba(102,240,180,0.1));border:1px solid var(--bord3);color:var(--am2)}
+.fl-btn.p:hover{background:linear-gradient(135deg,rgba(102,240,180,0.36),rgba(102,240,180,0.18))}
+.fl-btn.s{border:1px solid var(--bord);color:var(--t2)}
+.fl-btn.s:hover{border-color:var(--bord2);color:var(--text)}
+.fb{max-width:1300px;margin:0 auto;padding:1.5rem 3rem;border-top:1px solid var(--bord);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.fb-copy{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.06em;color:var(--t3)}
+.fb-badges{display:flex;gap:0.5rem}
+.fb-badge{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.06em;padding:0.25rem 0.62rem;border:1px solid var(--bord);border-radius:100px;color:var(--t3)}
+
+/* ── KEYFRAMES ────────────────────────────── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeLeft{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes heroFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+
+/* ── RESPONSIVE ───────────────────────────── */
+@media(max-width:1100px){
+  .hero-content{grid-template-columns:1fr}.hero-right{display:none}
+  .what-grid{grid-template-columns:1fr;gap:3rem}
+  .cards-grid{grid-template-columns:1fr}
+  .cap-grid{grid-template-columns:1fr 1fr}
+  .fi{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  nav{padding:1.2rem 1.5rem}.nav-links,.nav-cta{display:none}
+  .hero{padding:0 1.5rem;padding-top:5rem;padding-bottom:3rem;min-height:auto}
+  .hero-panel{padding:2rem 1.5rem}
+  .wrap{padding:0 1.5rem}
+  .stat-grid{grid-template-columns:1fr}
+  .cap-grid{grid-template-columns:1fr}
+  .wf-steps::before{left:14px;transform:none}
+  .wf-step{display:flex;gap:1.8rem;padding-bottom:2.2rem}
+  .wf-step::before{display:none}
+  .wf-right{grid-column:auto;max-width:none}
+  .wf-step:nth-child(even) .wf-right{text-align:left;justify-self:auto}
+  .wf-step:nth-child(even) .wf-tags{justify-content:flex-start}
+  .close-inner{padding:2.5rem 1.5rem}.close-stats{gap:1.8rem}
+  .fi{grid-template-columns:1fr;gap:2rem;padding:2.5rem 1.5rem}
+  .fb{padding:1.5rem}
+}
+</style>
+</head>
+<body>
+<div class="cglow" id="cglow"></div>
+
+<!-- NAV -->
+<nav id="nav" class="scrolled">
+  <div class="nav-logo"><span class="nav-dot"></span>MLOps<em>Architecture</em></div>
+  <!-- <ul class="nav-links">
+    <li><a href="#cicd" class="active">CI/CD Platform</a></li>
+    <li><a href="#containers">Containers</a></li>
+    <li><a href="#mlops">MLOps Systems</a></li>
+    <li><a href="#infrastructure">Infrastructure</a></li>
+  </ul> -->
+  <a href="../index#contact" class="nav-cta">Contact Me</a>
+</nav>
+
+<!-- ── HERO ────────────────────────────────── -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-noise"></div>
+  <div class="hero-content">
+    <div class="hero-panel">
+      <div class="hero-eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-text">Production-Grade Infrastructure</span></div>
+      <h1 class="hero-title">MLOps &amp;<br><em>Infrastructure</em><br><span class="dim">Architecture</span></h1>
+      <p class="hero-sub">I architect infrastructure using cloud and operational pipelines — designing deployment, monitoring, and cost strategies for both short-term efficiency and long-term scalability across enterprise-grade systems.</p>
+      <div class="hero-btns">
+        <button class="btn-p" onclick="document.getElementById('expertise').scrollIntoView({behavior:'smooth'})">Explore Expertise</button>
+        <a href="../index#contact" class="btn-s">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="pipe-card">
+        <div class="pipe-header">
+          <div class="pd" style="background:#ff6b6b"></div>
+          <div class="pd" style="background:#ffd93d"></div>
+          <div class="pd" style="background:#6bcb77"></div>
+          <span style="font-family:var(--fm);font-size:0.6rem;letter-spacing:0.08em;color:var(--t3);margin-left:0.5rem">mlops-pipeline.system</span>
+        </div>
+        <div class="pipe-body">
+          <div class="pipe-step"><div class="pipe-step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 7h8"></path><path d="M8 12h8"></path><path d="M8 17h5"></path><rect x="4" y="4" width="16" height="16" rx="2"></rect></svg></div><div><div class="pipe-step-lbl">Code Commit</div><div class="pipe-step-sub">GitHub · Version Control</div></div></div>
+          <div class="pipe-arrow">↓</div>
+          <div class="pipe-step highlight"><div class="pipe-step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4H4v6"></path><path d="M14 20h6v-6"></path><path d="M20 10V4h-6"></path><path d="M4 14v6h6"></path><path d="m4 10 6-6"></path><path d="m20 14-6 6"></path><path d="m14 4 6 6"></path><path d="m10 20-6-6"></path></svg></div><div><div class="pipe-step-lbl">CI/CD Pipeline</div><div class="pipe-step-sub">GitHub Actions · AWS CodePipeline</div></div></div>
+          <div class="pipe-arrow">↓</div>
+          <div class="pipe-step"><div class="pipe-step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 4.5-8 4.5-8-4.5Z"></path><path d="M4 7.5V16.5L12 21"></path><path d="M20 7.5V16.5L12 21"></path><path d="M12 12v9"></path></svg></div><div><div class="pipe-step-lbl">Container Build</div><div class="pipe-step-sub">Docker · Kubernetes</div></div></div>
+          <div class="pipe-arrow">↓</div>
+          <div class="pipe-step highlight"><div class="pipe-step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 18h12"></path><path d="M9 18v-3"></path><path d="M15 18v-3"></path><path d="M12 4c2.5 1.5 4 4 4 7v4H8v-4c0-3 1.5-5.5 4-7Z"></path><path d="M10 8h4"></path></svg></div><div><div class="pipe-step-lbl">Model Deployment</div><div class="pipe-step-sub">MLflow · Auto-scaling</div></div></div>
+          <div class="pipe-arrow">↓</div>
+          <div class="pipe-step"><div class="pipe-step-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 16h3l2-5 4 8 2-5h5"></path><path d="M4 6h16"></path><path d="M4 20h16"></path></svg></div><div><div class="pipe-step-lbl">Monitoring &amp; Drift</div><div class="pipe-step-sub">Alerting · Retraining</div></div></div>
+          <div class="pipe-metrics">
+            <div class="pm"><div class="pm-val">4</div><div class="pm-lbl">Domains</div></div>
+            <div class="pm"><div class="pm-val">AWS</div><div class="pm-lbl">Cloud</div></div>
+            <div class="pm"><div class="pm-val">K8s</div><div class="pm-lbl">Orchestration</div></div>
+            <div class="pm"><div class="pm-val">IaC</div><div class="pm-lbl">Infra Code</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── WHAT THIS IS ──────────────────────── -->
+<section class="what-section" id="about">
+  <div class="wrap">
+    <div class="what-grid">
+      <div class="reveal visible">
+        <div class="slabel">What This Is</div>
+        <h2 class="shead">Infrastructure that<br><em>survives production.</em></h2>
+        <div class="what-body" style="margin-top:1.4rem">
+          <p>MLOps &amp; Infrastructure Architecture is the discipline of making machine learning systems <strong>reliable, scalable, and observable in production</strong> — not just in development. This work spans the full operational stack: from code commit through CI/CD automation, containerised deployment, and cloud infrastructure, to ongoing monitoring, drift detection, and cost optimisation.</p>
+          <p>The four core domains — CI/CD Platform Engineering, Container Orchestration, MLOps &amp; ML Systems, and Infrastructure as Code — form an <strong>integrated production operating model</strong>, not a set of isolated tools. Enterprise-grade systems require all four layers working in concert.</p>
+        </div>
+      </div>
+      <div class="reveal what-side visible" style="transition-delay:0.12s">
+        <div class="slabel">Scale &amp; Depth</div>
+        <div class="stat-grid" style="margin-top:1rem">
+          <div class="stat-card">
+            <div class="stat-val">4</div>
+            <div class="stat-lbl">Core Domains</div>
+            <div class="stat-desc">CI/CD · Containers · MLOps · Infrastructure as Code</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-val">AWS</div>
+            <div class="stat-lbl">Cloud Platform</div>
+            <div class="stat-desc">CodePipeline · ECS · ECR · CloudFormation · CDK</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-val">K8s</div>
+            <div class="stat-lbl">Orchestration</div>
+            <div class="stat-desc">Kubernetes · Docker · Service mesh · Auto-scaling</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-val">IaC</div>
+            <div class="stat-lbl">Infrastructure</div>
+            <div class="stat-desc">Terraform · AWS CDK · CloudFormation · Version-controlled</div>
+          </div>
+        </div>
+        <div class="what-quote">
+          <p>"Architecting production-grade infrastructure and operational pipelines for enterprise-scale machine learning systems."</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── EXPERTISE CARDS ────────────────────── -->
+<section class="expertise-section" id="expertise">
+  <div class="wrap">
+    <div class="exp-intro reveal visible">
+      <div class="slabel">Core Areas of Expertise</div>
+      <h2 class="shead">Production-grade<br><em>infrastructure &amp; operations</em></h2>
+      <p>Four interconnected disciplines that together form a complete MLOps operating model — from the first code commit through automated deployment, container orchestration, infrastructure provisioning, and live production monitoring.</p>
+    </div>
+    <div class="cards-grid">
+
+      <!-- CARD 1: CI/CD -->
+      <div class="exp-card reveal visible" id="cicd" style="transition-delay:0.05s">
+        <div class="card-img-area">
+          <div class="card-img-number">01</div>
+          <img src="../img/mlops/1.webp" alt="CI/CD platform engineering architecture">
+        </div>
+        <div class="card-body">
+          <div class="card-title-row">
+            <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13 4 7l6-6"></path><path d="M14 11 20 17l-6 6"></path><path d="M9 20 15 4"></path></svg></div>
+            <div class="card-title">CI/CD Platform Engineering</div>
+          </div>
+          <p class="card-desc">Design and implementation of robust CI/CD pipelines for automated testing, building, and deployment of applications and machine learning models.</p>
+          <ul class="card-features">
+            <li>Automated testing and quality gates</li>
+            <li>GitHub Actions and AWS CodePipeline</li>
+            <li>Infrastructure deployment automation</li>
+            <li>Security scanning and compliance checks</li>
+          </ul>
+          <a href="./cicd.html" class="card-cta">View More</a>
+        </div>
+      </div>
+
+      <!-- CARD 2: Containers -->
+      <div class="exp-card reveal visible" id="containers" style="transition-delay:0.1s">
+        <div class="card-img-area">
+          <div class="card-img-number">02</div>
+          <img src="../img/mlops/2.webp" alt="Container orchestration architecture">
+        </div>
+        <div class="card-body">
+          <div class="card-title-row">
+            <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 4.5-8 4.5-8-4.5Z"></path><path d="M4 7.5V16.5L12 21"></path><path d="M20 7.5V16.5L12 21"></path><path d="M12 12v9"></path></svg></div>
+            <div class="card-title">Containers Orchestration</div>
+          </div>
+          <p class="card-desc">Kubernetes-based container orchestration for scalable, resilient deployment of microservices and machine learning models in production environments.</p>
+          <ul class="card-features">
+            <li>Kubernetes and Docker expertise</li>
+            <li>Auto-scaling and load balancing</li>
+            <li>Service mesh implementation</li>
+            <li>Production-grade configurations</li>
+          </ul>
+          <a href="ContainersOrchestration" class="card-cta">View More</a>
+        </div>
+      </div>
+
+      <!-- CARD 3: MLOps -->
+      <div class="exp-card reveal visible" id="mlops" style="transition-delay:0.15s">
+        <div class="card-img-area">
+          <div class="card-img-number">03</div>
+          <img src="../img/mlops/3.webp" alt="MLOps and machine learning systems architecture">
+        </div>
+        <div class="card-body">
+          <div class="card-title-row">
+            <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="8" width="14" height="10" rx="3"></rect><path d="M12 4v4"></path><path d="M8 13h.01"></path><path d="M16 13h.01"></path><path d="M9 18v2"></path><path d="M15 18v2"></path><path d="M5 13H3"></path><path d="M21 13h-2"></path></svg></div>
+            <div class="card-title">MLOps &amp; ML Systems</div>
+          </div>
+          <p class="card-desc">End-to-end machine learning operations including experiment tracking, model registry, deployment automation, and production monitoring.</p>
+          <ul class="card-features">
+            <li>MLFlow and experiment tracking</li>
+            <li>Model deployment and serving</li>
+            <li>Performance monitoring and drift detection</li>
+            <li>Automated retraining pipelines</li>
+          </ul>
+          <a href="mlops,sys" class="card-cta">View More</a>
+        </div>
+      </div>
+
+      <!-- CARD 4: Infrastructure as Code -->
+      <div class="exp-card reveal visible" id="infrastructure" style="transition-delay:0.2s">
+        <div class="card-img-area">
+          <div class="card-img-number">04</div>
+          <img src="../img/mlops/4.webp" alt="Infrastructure as code architecture">
+        </div>
+        <div class="card-body">
+          <div class="card-title-row">
+            <div class="card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16"></path><path d="M7 20V8l5-3 5 3v12"></path><path d="M9 11h1"></path><path d="M14 11h1"></path><path d="M9 15h1"></path><path d="M14 15h1"></path><path d="M11 20v-3h2v3"></path></svg></div>
+            <div class="card-title">Infrastructure as Code</div>
+          </div>
+          <p class="card-desc">Programmatic management of cloud infrastructure using Terraform, AWS CDK, and CloudFormation for reproducible, version-controlled environments.</p>
+          <ul class="card-features">
+            <li>Terraform and AWS CDK</li>
+            <li>Multi-environment deployments</li>
+            <li>Cost optimization strategies</li>
+            <li>Security and compliance automation</li>
+          </ul>
+          <a href="infra-code" class="card-cta">View More</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── CAPABILITIES ────────────────────────── -->
+<section class="cap-section" id="capabilities">
+  <div class="wrap">
+    <div class="cap-header reveal visible">
+      <div class="slabel">Technology Stack</div>
+      <h2 class="shead">The toolchain behind<br><em>scalable ML systems</em></h2>
+      <p>A complete technical stack spanning cloud infrastructure, container platforms, ML operations, and deployment automation — designed for enterprise-grade production reliability.</p>
+    </div>
+    <div class="cap-grid">
+      <div class="cap-card reveal visible" style="transition-delay:0.05s">
+        <div class="cap-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 4H4v6"></path><path d="M14 20h6v-6"></path><path d="M20 10V4h-6"></path><path d="M4 14v6h6"></path><path d="m4 10 6-6"></path><path d="m20 14-6 6"></path><path d="m14 4 6 6"></path><path d="m10 20-6-6"></path></svg></div>
+        <div class="cap-card-title">CI/CD &amp; Automation</div>
+        <ul class="cap-items">
+          <li>GitHub Actions</li>
+          <li>AWS CodePipeline</li>
+          <li>Jenkins</li>
+          <li>Automated quality gates</li>
+          <li>Security scanning</li>
+        </ul>
+      </div>
+      <div class="cap-card reveal visible" style="transition-delay:0.1s">
+        <div class="cap-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 8 4.5-8 4.5-8-4.5Z"></path><path d="M4 7.5V16.5L12 21"></path><path d="M20 7.5V16.5L12 21"></path><path d="M12 12v9"></path></svg></div>
+        <div class="cap-card-title">Containers &amp; Orchestration</div>
+        <ul class="cap-items">
+          <li>Kubernetes (K8s)</li>
+          <li>Docker &amp; Docker Compose</li>
+          <li>AWS ECS / ECR</li>
+          <li>Service mesh</li>
+          <li>Auto-scaling policies</li>
+        </ul>
+      </div>
+      <div class="cap-card reveal visible" style="transition-delay:0.15s">
+        <div class="cap-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="8" width="14" height="10" rx="3"></rect><path d="M12 4v4"></path><path d="M8 13h.01"></path><path d="M16 13h.01"></path><path d="M9 18v2"></path><path d="M15 18v2"></path><path d="M5 13H3"></path><path d="M21 13h-2"></path></svg></div>
+        <div class="cap-card-title">MLOps &amp; ML Systems</div>
+        <ul class="cap-items">
+          <li>MLflow experiment tracking</li>
+          <li>Model registry &amp; versioning</li>
+          <li>Drift detection</li>
+          <li>Automated retraining</li>
+          <li>Model serving &amp; endpoints</li>
+        </ul>
+      </div>
+      <div class="cap-card reveal visible" style="transition-delay:0.2s">
+        <div class="cap-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h18"></path><path d="M12 3a15 15 0 0 1 0 18"></path><path d="M12 3a15 15 0 0 0 0 18"></path><circle cx="12" cy="12" r="9"></circle></svg></div>
+        <div class="cap-card-title">Infrastructure as Code</div>
+        <ul class="cap-items">
+          <li>Terraform</li>
+          <li>AWS CDK</li>
+          <li>CloudFormation</li>
+          <li>Multi-environment deployments</li>
+          <li>Cost optimization strategies</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── HOW I WORK ──────────────────────────── -->
+<section class="workflow-section" id="workflow">
+  <div class="wrap">
+    <div class="wf-header reveal visible">
+      <div class="slabel">Engineering Approach</div>
+      <h2 class="shead">How I architect<br><em>production systems</em></h2>
+      <p>Every MLOps engagement follows a consistent operational discipline — building systems that are observable, reliable, and cost-efficient from the first deployment, not as an afterthought.</p>
+    </div>
+    <div class="wf-steps">
+      <div class="wf-step reveal visible">
+        <div class="wf-dot"></div>
+        <div class="wf-right">
+          <span class="wf-tag build">Build</span>
+          <div class="wf-title">Design &amp; Automate the Pipeline</div>
+          <div class="wf-desc">Every deployment starts with a fully automated CI/CD pipeline. Automated testing, quality gates, security scanning, and infrastructure provisioning are embedded from day one — not added later.</div>
+          <div class="wf-tags"><span class="wf-tech">GitHub Actions</span><span class="wf-tech">AWS CodePipeline</span><span class="wf-tech">Pytest</span><span class="wf-tech">SonarQube</span></div>
+        </div>
+      </div>
+      <div class="wf-step reveal visible" style="transition-delay:0.05s">
+        <div class="wf-dot"></div>
+        <div class="wf-right">
+          <span class="wf-tag deploy">Deploy</span>
+          <div class="wf-title">Containerise &amp; Orchestrate at Scale</div>
+          <div class="wf-desc">ML models and services are containerised with Docker and orchestrated via Kubernetes, with auto-scaling, load balancing, and service mesh for production resilience. No manual deployment steps.</div>
+          <div class="wf-tags"><span class="wf-tech">Docker</span><span class="wf-tech">Kubernetes</span><span class="wf-tech">AWS ECS</span><span class="wf-tech">Load Balancer</span><span class="wf-tech">Service Mesh</span></div>
+        </div>
+      </div>
+      <div class="wf-step reveal visible" style="transition-delay:0.1s">
+        <div class="wf-dot"></div>
+        <div class="wf-right">
+          <span class="wf-tag monitor">Monitor</span>
+          <div class="wf-title">Track, Detect Drift &amp; Retrain</div>
+          <div class="wf-desc">MLflow tracks every experiment and model version. Production models are monitored for performance degradation and data drift. Automated retraining pipelines are triggered when thresholds are breached.</div>
+          <div class="wf-tags"><span class="wf-tech">MLflow</span><span class="wf-tech">Model Registry</span><span class="wf-tech">Drift Detection</span><span class="wf-tech">Automated Retraining</span></div>
+        </div>
+      </div>
+      <div class="wf-step reveal visible" style="transition-delay:0.15s">
+        <div class="wf-dot"></div>
+        <div class="wf-right">
+          <span class="wf-tag infra">Infrastructure</span>
+          <div class="wf-title">Provision Infrastructure as Code</div>
+          <div class="wf-desc">All cloud infrastructure — compute, networking, storage, security groups — is version-controlled and reproducible via Terraform and AWS CDK. Multi-environment deployments (dev, staging, production) are identical and auditable.</div>
+          <div class="wf-tags"><span class="wf-tech">Terraform</span><span class="wf-tech">AWS CDK</span><span class="wf-tech">CloudFormation</span><span class="wf-tech">Multi-Environment</span><span class="wf-tech">Cost Optimisation</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── CLOSING ─────────────────────────────── -->
+<section class="closing" id="closing">
+  <div class="wrap">
+    <div class="close-inner reveal visible">
+      <div class="close-tag">Ready to Build</div>
+      <h2 class="close-title">Production infrastructure that<br><em>holds up at scale</em></h2>
+      <p class="close-body">Architecting production-grade infrastructure and operational pipelines for enterprise-scale machine learning systems — with focus on deployment reliability, monitoring observability, and long-term cost optimisation.</p>
+      <div class="close-btns">
+        <a href="../index#contact" class="cb-p">Contact Me</a>
+        <a href="https://github.com/Rajesh-Arigala" class="cb-s">View Projects</a>
+      </div>
+      <div class="close-stats">
+        <div><span class="cs-val">4</span><div class="cs-lbl">Core Domains</div></div>
+        <div><span class="cs-val">AWS</span><div class="cs-lbl">Cloud Platform</div></div>
+        <div><span class="cs-val">K8s</span><div class="cs-lbl">Orchestration</div></div>
+        <div><span class="cs-val">IaC</span><div class="cs-lbl">Infrastructure Code</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ──────────────────────────────── -->
+<footer>
+  <div class="fi">
+    <div>
+      <div class="fl-logo">MLOps<em>Architecture</em></div>
+      <p class="fl-desc">Architecting production-grade infrastructure and operational pipelines for enterprise-scale machine learning systems with focus on deployment, monitoring, and cost optimization.</p>
+    </div>
+    <div>
+      <div class="fl-title">Expertise</div>
+      <ul class="fl-list">
+        <li><a href="#cicd">CI/CD Platform Engineering</a></li>
+        <li><a href="#containers">Container Orchestration</a></li>
+        <li><a href="#mlops">MLOps &amp; ML Systems</a></li>
+        <li><a href="#infrastructure">Infrastructure as Code</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="fl-title">Stack</div>
+      <ul class="fl-list">
+        <li><a href="#">GitHub Actions</a></li>
+        <li><a href="#">Kubernetes &amp; Docker</a></li>
+        <li><a href="#">MLflow</a></li>
+        <li><a href="#">Terraform / AWS CDK</a></li>
+        <li><a href="#">AWS Cloud</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="fl-cta-box">
+        <div class="fl-cta-title">Get in touch</div>
+        <div class="fl-cta-sub">Project materials, architecture documentation, and case studies available on request.</div>
+        <div class="fl-btns">
+          <a href="../index#contact" class="fl-btn p">Contact Me</a>
+          <a href="https://github.com/Rajesh-Arigala" class="fl-btn s">View GitHub</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="fb">
+    <span class="fb-copy">MLOps Architecture.</span>
+    <div class="fb-badges">
+      <span class="fb-badge">CI/CD</span>
+      <span class="fb-badge">Kubernetes</span>
+      <span class="fb-badge">MLflow</span>
+      <span class="fb-badge">AWS</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Cursor glow
+const cg=document.getElementById('cglow');
+document.addEventListener('mousemove',e=>{cg.style.transform=`translate(${e.clientX-350}px,${e.clientY-350}px)`});
+
+// Nav scroll
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>60));
+
+// Anchor scrolling with navbar offset
+document.querySelectorAll('.nav-links a[href^="#"]').forEach(link=>{
+  link.addEventListener('click',e=>{
+    const target=document.querySelector(link.getAttribute('href'));
+    if(!target) return;
+    e.preventDefault();
+    const navHeight=nav.offsetHeight + 28;
+    const targetTop=target.getBoundingClientRect().top + window.scrollY - navHeight;
+    window.scrollTo({top:targetTop,behavior:'smooth'});
+  });
+});
+
+// Reveal on scroll
+document.querySelectorAll('.reveal').forEach(el=>{
+  new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})
+  },{threshold:0.08,rootMargin:'0px 0px -30px 0px'}).observe(el)
+});
+
+// Card 3D tilt
+document.querySelectorAll('.exp-card,.cap-card,.stat-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left-r.width/2)/(r.width/2);
+    const y=(e.clientY-r.top-r.height/2)/(r.height/2);
+    card.style.transform=`translateY(-5px) rotateX(${-y*2.5}deg) rotateY(${x*2.5}deg)`;
+    card.style.transition='transform 0.1s';
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.transform='';
+    card.style.transition='transform 0.5s ease';
+  });
+});
+
+// Active nav on scroll
+const secs=document.querySelectorAll('section[id],div[id]');
+const links=document.querySelectorAll('.nav-links a');
+secs.forEach(s=>{
+  new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting) links.forEach(l=>{
+        l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id);
+      });
+    });
+  },{threshold:0.45}).observe(s);
+});
+</script>
+
+
+</body></html>

@@ -1,0 +1,1544 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLFlow ML Lifecycle Management | Rajesh Arigala</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Core Surfaces - Quantum Capital Theme */
+            --bg-main: #0C1117;
+            --bg-surface: #121923;
+            --bg-elevated: #161F2B;
+            --card-bg: #161F2B;
+
+            /* Accents */
+            --accent-primary: #B8B2A7;
+            --accent-energy: #7CFFB2;
+            --accent-depth: #3A1F2D;
+
+            /* Text */
+            --text-primary: #E6E9EF;
+            --text-secondary: #A1A8B3;
+            --text-muted: #6F7682;
+
+            /* Lines & Dividers */
+            --line-subtle: #1E2633;
+            --glass-border: rgba(184, 178, 167, 0.15);
+
+            /* Motion */
+            --ease-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+            /* Gradients */
+            --accent-gradient: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+            
+            /* Font */
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ==================== HEADER & NAVIGATION ==================== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(12, 17, 23, 0.9);
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.4s var(--ease-slow);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-primary);
+            transition: width 0.4s var(--ease-slow);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--accent-energy);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+            background: var(--accent-energy);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ==================== MAIN CONTENT ==================== */
+        main {
+            padding-top: 120px;
+            padding-bottom: 4rem;
+        }
+
+        /* ==================== HEADER SECTION ==================== */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 0 1rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        /* ==================== SKILL LEVEL SECTION ==================== */
+        .skills-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 4rem;
+            gap: 2rem;
+        }
+
+        .kpi-container {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            background: var(--bg-elevated);
+            padding: 2rem 3rem;
+            border-radius: 16px;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .level-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .level-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .level-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-energy);
+        }
+
+        .progress-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+
+        .progress-circle {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .progress-bg {
+            fill: none;
+            stroke: var(--line-subtle);
+            stroke-width: 8;
+        }
+
+        .progress-bar {
+            fill: none;
+            stroke: var(--accent-energy);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 0 377;
+            transition: stroke-dasharray 1.5s var(--ease-slow);
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-energy);
+        }
+
+        .capability-tags {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .capability-tag {
+            background: rgba(124, 255, 178, 0.1);
+            color: var(--accent-energy);
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 1px solid rgba(124, 255, 178, 0.2);
+        }
+
+        /* ==================== DESCRIPTION SECTION ==================== */
+        .description-section {
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            padding: 2.5rem;
+            background: var(--bg-elevated);
+            border-radius: 16px;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .description-text {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        /* ==================== PROJECTS SECTION ==================== */
+        .projects-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .projects-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .projects-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        /* ==================== PROJECT CARD ==================== */
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-slow);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Project Main Image */
+        .project-image-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(184, 178, 167, 0.1), rgba(124, 255, 178, 0.05));
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--ease-slow);
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+
+        .project-category-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(124, 255, 178, 0.95);
+            color: var(--bg-main);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-header {
+            padding: 2rem 2rem 1rem;
+        }
+
+        .project-title-container {
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-body {
+            padding: 0 2rem 1.5rem;
+            flex: 1;
+        }
+
+        /* Technical Details Section */
+        .technical-details {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border-left: 3px solid var(--accent-energy);
+        }
+
+        .details-title {
+            font-size: 1rem;
+            color: var(--accent-energy);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .details-title i {
+            font-size: 1rem;
+        }
+
+        .details-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .details-item {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .details-item:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent-primary);
+        }
+
+        .architecture-tag {
+            display: inline-block;
+            background: rgba(184, 178, 167, 0.1);
+            color: var(--accent-primary);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            border: 1px solid rgba(184, 178, 167, 0.2);
+        }
+
+        .infrastructure-schema {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            border: 1px solid rgba(124, 255, 178, 0.2);
+        }
+
+        .schema-title {
+            font-size: 1rem;
+            color: var(--accent-energy);
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .schema-flow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .schema-item {
+            background: rgba(184, 178, 167, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border: 1px solid var(--line-subtle);
+        }
+
+        .schema-arrow {
+            color: var(--accent-energy);
+            font-size: 0.9rem;
+        }
+
+        .tools-section {
+            margin-top: 1.5rem;
+        }
+
+        .tools-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tools-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tool-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: contain;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px;
+            border: 1px solid var(--line-subtle);
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .tool-logo:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-primary);
+            background: rgba(184, 178, 167, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--line-subtle);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s var(--ease-slow);
+            flex: 1;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .github-btn {
+            background: var(--accent-energy);
+            color: var(--bg-main);
+        }
+
+        .github-btn:hover {
+            background: transparent;
+            color: var(--accent-energy);
+            border-color: var(--accent-energy);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(124, 255, 178, 0.2);
+        }
+
+        .material-btn {
+            background: transparent;
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .material-btn:hover {
+            background: rgba(184, 178, 167, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(184, 178, 167, 0.1);
+        }
+
+        /* ==================== STUDY MATERIAL MODAL ==================== */
+        .study-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(12, 17, 23, 0.95);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .study-modal.active {
+            display: flex;
+        }
+
+        .study-modal-content {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid var(--line-subtle);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .study-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .study-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .study-modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .study-modal-close:hover {
+            color: var(--accent-energy);
+            background: rgba(124, 255, 178, 0.1);
+        }
+
+        .study-material-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .study-material-item {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            gap: 1.2rem;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .study-material-item:hover {
+            background: rgba(184, 178, 167, 0.05);
+            transform: translateX(5px);
+        }
+
+        .study-material-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(108, 155, 207, 0.1);
+            color: #6C9BCF;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        .study-material-info {
+            flex: 1;
+        }
+
+        .study-material-name {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .study-material-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            background: transparent;
+            border: 2px solid var(--accent-energy);
+            color: var(--accent-energy);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .download-btn:hover {
+            background: rgba(124, 255, 178, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(124, 255, 178, 0.2);
+        }
+
+        /* ==================== FOOTER SECTION ==================== */
+        .footer-section {
+            text-align: center;
+            padding: 4rem 0;
+            border-top: 1px solid var(--line-subtle);
+            position: relative;
+            margin-top: 4rem;
+        }
+
+        .footer-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20%;
+            right: 20%;
+            height: 1px;
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                var(--accent-primary), 
+                var(--accent-energy), 
+                transparent
+            );
+            opacity: 0.3;
+        }
+
+        .footer-message {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: transparent;
+            border: 2px solid var(--accent-primary);
+            color: var(--accent-primary);
+            padding: 1rem 2.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.4s var(--ease-slow);
+            text-decoration: none;
+        }
+
+        .contact-btn:hover {
+            background: rgba(184, 178, 167, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 768px) {
+            .nav-list {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background: var(--bg-surface);
+                padding: 2rem;
+                border-bottom: 1px solid var(--line-subtle);
+                gap: 1.5rem;
+            }
+
+            .nav-list.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .description-section {
+                padding: 1.5rem;
+            }
+
+            .description-text {
+                font-size: 1.1rem;
+            }
+
+            .kpi-container {
+                flex-direction: column;
+                gap: 2rem;
+                padding: 1.5rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-image-container {
+                height: 180px;
+            }
+
+            .project-actions {
+                flex-direction: column;
+            }
+
+            .project-btn {
+                width: 100%;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .schema-flow {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .schema-arrow {
+                transform: rotate(90deg);
+                margin: 0.5rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .projects-title {
+                font-size: 2rem;
+            }
+
+            .project-image-container {
+                height: 160px;
+            }
+
+            .tools-grid {
+                justify-content: center;
+            }
+
+            .study-modal-content {
+                padding: 1.5rem;
+            }
+
+            .study-material-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .study-material-info {
+                text-align: center;
+            }
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-card {
+            animation: fadeInUp 0.6s var(--ease-slow) forwards;
+            opacity: 0;
+        }
+
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+        .project-card:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .study-modal-content {
+            animation: modalFadeIn 0.3s var(--ease-slow);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="index" class="nav-logo">Rajesh Arigala</a>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="/index" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link active">MLFlow</a></li>
+                <li class="nav-item"><a href="skill" class="nav-link">All Projects</a></li>
+                <li class="nav-item"><a href="/index#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Header Section -->
+        <section class="container hero-section">
+            <h1 class="hero-title">MLFlow</h1>
+            <p class="hero-subtitle">ML Lifecycle Management &amp; MLOps</p>
+        </section>
+
+        <!-- Skill Level Section -->
+        <section class="container skills-section">
+            <div class="kpi-container">
+                <div class="level-badge">
+                    <span class="level-label">Level</span>
+                    <span class="level-value">PROFICIENT</span>
+                </div>
+                
+                <div class="progress-container">
+                    <svg class="progress-circle" viewBox="0 0 120 120">
+                        <circle class="progress-bg" cx="60" cy="60" r="54"></circle>
+                        <circle class="progress-bar" cx="60" cy="60" r="54" data-percentage="75" style="stroke-dasharray: 376.991, 502.655; stroke-dashoffset: 125.664;"></circle>
+                    </svg>
+                    <div class="progress-text">75%</div>
+                </div>
+                
+                <div class="capability-tags">
+                    <span class="capability-tag">MLOps</span>
+                    <span class="capability-tag">Tracking</span>
+                    <span class="capability-tag">Experiments</span>
+                    <span class="capability-tag">Registry</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Description Section -->
+        <section class="container description-section">
+            <p class="description-text">
+                Open-source platform for managing the complete machine learning lifecycle, from experimentation to deployment. This includes configuring MLFlow tracking servers on AWS ECS-Fargate, enabling experiment tracking across cloud platforms, managing model versions, and building reproducible machine learning workflows aligned with MLOps best practices.
+            </p>
+        </section>
+
+        <!-- Projects Showcase -->
+        <section class="container">
+            <div class="projects-header">
+                <h2 class="projects-title">Projects Showcase</h2>
+                <p class="projects-subtitle">Production-grade MLFlow implementations for enterprise machine learning lifecycle management</p>
+            </div>
+            
+            <div class="projects-grid">
+                <!-- Project 1: MLFlow on AWS ECS-Fargate -->
+                <div class="project-card">
+                    <div class="project-image-container">
+                        <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="MLFlow on AWS ECS Fargate Architecture" class="project-image">
+                        <span class="project-category-badge">AWS</span>
+                    </div>
+                    
+                    <div class="project-header">
+                        <div class="project-title-container">
+                            <h3 class="project-title">MLFlow on AWS ECS-Fargate</h3>
+                        </div>
+                        <p class="project-description">
+                            MLFlow tracking server deployment on AWS ECS Fargate with complete infrastructure automation and scalable backend configuration for enterprise MLOps.
+                        </p>
+                    </div>
+                    
+                    <div class="project-body">
+                        <div class="technical-details">
+                            <div class="details-title">
+                                <i class="fas fa-cogs"></i>
+                                Technical Implementation
+                            </div>
+                            <ul class="details-list">
+                                <li class="details-item">MLFlow tracking server installed on AWS ECS-Fargate as a scalable service</li>
+                                <li class="details-item">Track experiments with multiple runs, storing params, metrics, and artifacts</li>
+                                <li class="details-item">Model registry for version control and management</li>
+                                <li class="details-item">Model-URI based predictions and model version updates</li>
+                                <li class="details-item">Integration with SageMaker AI for end-to-end ML workflows</li>
+                                <li class="details-item">Comprehensive logging and monitoring with latency and error rate tracking</li>
+                            </ul>
+                        </div>
+
+                        <div class="infrastructure-schema">
+                            <div class="schema-title">
+                                <i class="fas fa-project-diagram"></i>
+                                Infrastructure Schema
+                            </div>
+                            <div class="schema-flow">
+                                <span class="schema-item">CDK ToolKit (IaC)</span>
+                                <span class="schema-arrow">→</span>
+                                <span class="schema-item">CloudFormation</span>
+                                <span class="schema-arrow">→</span>
+                                <span class="schema-item">ELB Load Balancer</span>
+                                <span class="schema-arrow">→</span>
+                                <span class="schema-item">ECS-Fargate</span>
+                                <span class="schema-arrow">→</span>
+                                <span class="schema-item">S3 Bucket (Artifacts)</span>
+                                <span class="schema-arrow">→</span>
+                                <span class="schema-item">RDS (Metadata)</span>
+                                <span class="schema-arrow">→</span>
+                                <span class="schema-item">IAM Roles</span>
+                                <span class="schema-arrow">→</span>
+                                <span class="schema-item">VPC Network</span>
+                                <span class="schema-arrow">→</span>
+                                <span class="schema-item">SageMaker AI</span>
+                                <span class="schema-arrow">→</span>
+                                <span class="schema-item">EC2-ECR Registry</span>
+                            </div>
+                        </div>
+                        
+                        <div class="tools-section">
+                            <div class="tools-label">Technologies Used</div>
+                            <div class="tools-grid">
+                                <img src="/img/ml-flow.webp" alt="MLFlow" class="tool-logo" title="MLFlow">
+                                <img src="/img/aws.webp" alt="AWS" class="tool-logo" title="AWS">
+                                <img src="/img/docker.webp" alt="Docker" class="tool-logo" title="Docker">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-footer">
+                        <div class="project-actions">
+                            <a href="https://github.com/Rajesh-Arigala/MlFlow_aws_sagemaker_fargate" target="_blank" class="project-btn github-btn">
+                                <i class="fab fa-github"></i>
+                                <span>View on GitHub</span>
+                            </a>
+                            <button class="project-btn material-btn" data-project="mlflow-aws-fargate">
+                                <i class="fas fa-book"></i>
+                                <span>Study Material</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: MLFlow Labs with SageMaker -->
+                <div class="project-card">
+                    <div class="project-image-container">
+                        <img src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="MLFlow Experiments and Model Registry" class="project-image">
+                        <span class="project-category-badge">SageMaker</span>
+                    </div>
+                    
+                    <div class="project-header">
+                        <div class="project-title-container">
+                            <h3 class="project-title">MLFlow Labs with AWS SageMaker</h3>
+                        </div>
+                        <p class="project-description">
+                            Complete MLOps workflow using AWS SageMaker AI with MLFlow for experiment tracking, model training, and deployment to real-time endpoints.
+                        </p>
+                    </div>
+                    
+                    <div class="project-body">
+                        <div class="technical-details">
+                            <div class="details-title">
+                                <i class="fas fa-cogs"></i>
+                                SageMaker AI Workflow
+                            </div>
+                            <ul class="details-list">
+                                <li class="details-item">Data Preparation (DP), Model Training (MT), Model Evaluation (ME), Model Deployment (MD)</li>
+                                <li class="details-item">Build, Train, Deploy machine learning models on AWS SageMaker AI</li>
+                                <li class="details-item">Deploy models to real-time endpoints with auto-scaling and low latency</li>
+                                <li class="details-item">Training and hyperparameter tuning (.tar files management)</li>
+                                <li class="details-item">ML hosting services with auto-scaling capabilities</li>
+                            </ul>
+                        </div>
+
+                        <div class="technical-details">
+                            <div class="details-title">
+                                <i class="fas fa-tasks"></i>
+                                Implementation Procedure
+                            </div>
+                            <ul class="details-list">
+                                <li class="details-item">IAM role configuration for Notebook instances with S3 bucket access</li>
+                                <li class="details-item">Custom permissions for ECR and S3 full access</li>
+                                <li class="details-item">Jupyter Labs environment setup with Git integration</li>
+                                <li class="details-item">Experiment execution and registration on MLFlow server (running on ECS-Fargate)</li>
+                                <li class="details-item">Training code image pulled from EC2-Container Registry</li>
+                                <li class="details-item">Prediction code with model_uri integration for endpoint deployment</li>
+                                <li class="details-item">Model registry updates based on business requirements</li>
+                                <li class="details-item">Comprehensive logging and monitoring: latency (ms), error rates, etc.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tools-section">
+                            <div class="tools-label">Technologies Used</div>
+                            <div class="tools-grid">
+                                <img src="/img/ml-flow.webp" alt="MLFlow" class="tool-logo" title="MLFlow">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" class="tool-logo" title="Python">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/scikitlearn/scikitlearn-original.svg" alt="Scikit-learn" class="tool-logo" title="Scikit-learn">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jupyter/jupyter-original.svg" alt="Jupyter" class="tool-logo" title="Jupyter">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" class="tool-logo" title="Git">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-footer">
+                        <div class="project-actions">
+                            <a href="https://github.com/Rajesh-Arigala/MLFlow-Labs" target="_blank" class="project-btn github-btn">
+                                <i class="fab fa-github"></i>
+                                <span>View on GitHub</span>
+                            </a>
+                            <button class="project-btn material-btn" data-project="mlflow-labs">
+                                <i class="fas fa-book"></i>
+                                <span>Study Material</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: Related MLOps Projects -->
+                <div class="project-card">
+                    <div class="project-image-container">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="MLOps Ecosystem" class="project-image">
+                        <span class="project-category-badge">MLOps</span>
+                    </div>
+                    
+                    <div class="project-header">
+                        <div class="project-title-container">
+                            <h3 class="project-title">MLOps Ecosystem Projects</h3>
+                        </div>
+                        <p class="project-description">
+                            Complementary projects demonstrating the complete MLOps ecosystem with containerization, orchestration, and CI/CD pipelines.
+                        </p>
+                    </div>
+                    
+                    <div class="project-body">
+                        <div class="technical-details">
+                            <div class="details-title">
+                                <i class="fas fa-link"></i>
+                                Related Projects
+                            </div>
+                            <ul class="details-list">
+                                <li class="details-item">
+                                    <strong>AWS CDK for MLFlow Infrastructure:</strong> Programmatic infrastructure deployment using CDK Toolkit
+                                </li>
+                                <li class="details-item">
+                                    <strong>Docker for ML Models:</strong> Containerization of ML applications with Docker and Docker Compose
+                                </li>
+                                <li class="details-item">
+                                    <strong>Kubernetes for ML Deployment:</strong> Orchestration of ML models on Kubernetes clusters
+                                </li>
+                                <li class="details-item">
+                                    <strong>CI/CD Pipelines:</strong> Automated ML pipeline deployment with GitHub Actions and AWS CodePipeline
+                                </li>
+                                <li class="details-item">
+                                    <strong>Multi-Cloud MLOps:</strong> MLFlow deployments across AWS, Azure, and GCP platforms
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="technical-details">
+                            <div class="details-title">
+                                <i class="fas fa-rocket"></i>
+                                MLOps Capabilities
+                            </div>
+                            <ul class="details-list">
+                                <li class="details-item">Experiment tracking across multiple runs and parameters</li>
+                                <li class="details-item">Model versioning and lifecycle management</li>
+                                <li class="details-item">Artifact storage and management (S3 integration)</li>
+                                <li class="details-item">Model registry with staging/production workflows</li>
+                                <li class="details-item">Integration with major ML frameworks (TensorFlow, PyTorch, Scikit-learn)</li>
+                                <li class="details-item">Multi-user collaboration and access control</li>
+                                <li class="details-item">Automated model deployment and monitoring</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tools-section">
+                            <div class="tools-label">Ecosystem Technologies</div>
+                            <div class="tools-grid">
+                                <img src="/img/docker.webp" alt="Docker" class="tool-logo" title="Docker">
+                                <img src="/img/Kubernetes.webp" alt="Kubernetes" class="tool-logo" title="Kubernetes">
+                                <img src="/img/GitHub Actions.webp" alt="GitHub Actions" class="tool-logo" title="GitHub Actions">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azuredevops/azuredevops-original.svg" alt="Azure DevOps" class="tool-logo" title="Azure DevOps">
+                                <img src="/img/Cicd/gcp.webp" alt="Google Cloud" class="tool-logo" title="Google Cloud">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tensorflow/tensorflow-original.svg" alt="TensorFlow" class="tool-logo" title="TensorFlow">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/pytorch/pytorch-original.svg" alt="PyTorch" class="tool-logo" title="PyTorch">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-footer">
+                        <div class="project-actions">
+                            <a href="https://github.com/Rajesh-Arigala?tab=repositories" target="_blank" class="project-btn github-btn">
+                                <i class="fab fa-github"></i>
+                                <span>All Repositories</span>
+                            </a>
+                            <a href="projects" class="project-btn material-btn">
+                                <i class="fas fa-project-diagram"></i>
+                                <span>View All Projects</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer CTA Section -->
+        <section class="container footer-section">
+            <p class="footer-message">
+                Interested in implementing enterprise-grade ML lifecycle management with MLFlow? Let's discuss how to build reproducible, scalable machine learning workflows with comprehensive MLOps capabilities for your organization's AI initiatives.
+            </p>
+            <a href="/index#contact" class="contact-btn">
+                <span>Contact &amp; Collaborate</span>
+                <i class="fas fa-paper-plane"></i>
+            </a>
+        </section>
+    </main>
+
+    <!-- Study Material Modal -->
+    <div class="study-modal">
+        <div class="study-modal-content">
+            <div class="study-modal-header">
+                <h3 class="study-modal-title">Study Material</h3>
+                <button class="study-modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="study-material-list">
+                <!-- MLFlow Core Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">MLFlow Lifecycle Management</div>
+                        <div class="study-material-desc">Comprehensive guide to experiment tracking and model registry management</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Advanced MLFlow Configurations</div>
+                        <div class="study-material-desc">Premium materials for complex ML workflows and multi-cloud deployments</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <!-- MLFlow on AWS Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">MLFlow on AWS Deployment Guide</div>
+                        <div class="study-material-desc">Complete guide to deploying MLFlow on AWS ECS, SageMaker, and Fargate</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Production MLFlow Architecture</div>
+                        <div class="study-material-desc">Enterprise architecture patterns for scalable MLFlow deployments</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <!-- MLOps Best Practices Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">MLOps Best Practices Guide</div>
+                        <div class="study-material-desc">Complete framework for implementing MLOps with MLFlow</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Experiment Tracking &amp; Comparison</div>
+                        <div class="study-material-desc">Advanced techniques for ML experiment tracking and result analysis</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <!-- AWS SageMaker Integration -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">MLFlow with AWS SageMaker</div>
+                        <div class="study-material-desc">Integration guide for MLFlow tracking with SageMaker AI services</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <!-- Infrastructure as Code -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">CDK for MLFlow Infrastructure</div>
+                        <div class="study-material-desc">Infrastructure as Code patterns for MLFlow deployments</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const navToggle = document.querySelector('.nav-toggle');
+            const navList = document.querySelector('.nav-list');
+            
+            if (navToggle && navList) {
+                navToggle.addEventListener('click', function() {
+                    navList.classList.toggle('active');
+                });
+            }
+            
+            // Close menu when clicking outside on mobile
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768 && navList && navList.classList.contains('active') && 
+                    !e.target.closest('.nav') && !e.target.closest('.nav-toggle')) {
+                    navList.classList.remove('active');
+                }
+            });
+            
+            // Animate progress bars
+            const progressBars = document.querySelectorAll('.progress-bar');
+            progressBars.forEach(bar => {
+                const percentage = bar.getAttribute('data-percentage');
+                const circumference = 2 * Math.PI * 80; // 2πr (r = 54)
+                const offset = circumference - (percentage / 100) * circumference;
+                
+                // Set initial state
+                bar.style.strokeDasharray = `${circumference} ${circumference}`;
+                bar.style.strokeDashoffset = circumference;
+                
+                // Animate after a short delay
+                setTimeout(() => {
+                    bar.style.strokeDashoffset = offset;
+                    bar.style.strokeDasharray = `${percentage * circumference / 100} ${circumference}`;
+                }, 300);
+                
+                // Animate progress text
+                const textElement = bar.closest('.progress-container').querySelector('.progress-text');
+                if (textElement) {
+                    let current = 0;
+                    const target = parseInt(percentage);
+                    const duration = 1500;
+                    const increment = target / (duration / 16);
+                    
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            clearInterval(timer);
+                            textElement.textContent = target + '%';
+                        } else {
+                            textElement.textContent = Math.floor(current) + '%';
+                        }
+                    }, 16);
+                }
+            });
+            
+            // Study Material Modal functionality
+            const studyModal = document.querySelector('.study-modal');
+            const studyModalClose = document.querySelector('.study-modal-close');
+            const studyMaterialBtns = document.querySelectorAll('.material-btn');
+            
+            // Open modal when study material button is clicked
+            studyMaterialBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    studyModal.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
+                });
+            });
+            
+            // Close modal
+            studyModalClose.addEventListener('click', function() {
+                studyModal.classList.remove('active');
+                document.body.style.overflow = ''; // Restore scrolling
+            });
+            
+            // Close modal when clicking outside
+            studyModal.addEventListener('click', function(e) {
+                if (e.target === studyModal) {
+                    studyModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && studyModal.classList.contains('active')) {
+                    studyModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    
+                    if (href.startsWith('#') && href !== '#') {
+                        e.preventDefault();
+                        
+                        const targetElement = document.querySelector(href);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // Add hover effect to project cards
+            const projectCards = document.querySelectorAll('.project-card');
+            projectCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Handle window resize for mobile menu
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768 && navList) {
+                    navList.classList.remove('active');
+                }
+            });
+            
+            // Initialize tooltips for tool logos
+            const toolLogos = document.querySelectorAll('.tool-logo');
+            toolLogos.forEach(logo => {
+                logo.addEventListener('mouseenter', function() {
+                    const title = this.getAttribute('title');
+                    if (title) {
+                        // Create tooltip
+                        const tooltip = document.createElement('div');
+                        tooltip.className = 'tooltip';
+                        tooltip.textContent = title;
+                        tooltip.style.position = 'absolute';
+                        tooltip.style.background = 'var(--bg-surface)';
+                        tooltip.style.color = 'var(--text-primary)';
+                        tooltip.style.padding = '0.3rem 0.6rem';
+                        tooltip.style.borderRadius = '4px';
+                        tooltip.style.fontSize = '0.8rem';
+                        tooltip.style.whiteSpace = 'nowrap';
+                        tooltip.style.zIndex = '1000';
+                        tooltip.style.border = '1px solid var(--line-subtle)';
+                        tooltip.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
+                        
+                        const rect = this.getBoundingClientRect();
+                        tooltip.style.top = (rect.top - 35) + 'px';
+                        tooltip.style.left = (rect.left + rect.width/2 - tooltip.offsetWidth/2) + 'px';
+                        
+                        document.body.appendChild(tooltip);
+                        
+                        // Position after it's rendered
+                        setTimeout(() => {
+                            tooltip.style.left = (rect.left + rect.width/2 - tooltip.offsetWidth/2) + 'px';
+                        }, 10);
+                        
+                        this._tooltip = tooltip;
+                    }
+                });
+                
+                logo.addEventListener('mouseleave', function() {
+                    if (this._tooltip) {
+                        this._tooltip.remove();
+                        delete this._tooltip;
+                    }
+                });
+            });
+        });
+    </script>
+
+
+</body></html>

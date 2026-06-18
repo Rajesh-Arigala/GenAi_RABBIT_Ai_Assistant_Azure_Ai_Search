@@ -1,0 +1,71 @@
+{
+  "id": "02_Tech_01_Technical_Skills_01_GitHub",
+  "source_type": "website_rendered_v4_site_crawl",
+  "domain": "rajesharigala.com",
+  "url": "https://rajesharigala.com/tech skills/github",
+  "depth": 0,
+  "parent_url": null,
+  "parent_page_id": "ROOT",
+  "logical_parent_page_id": "02_Technical_Skills",
+  "title": "GitHub & GitHub Actions | Rajesh Arigala",
+  "meta_description": "",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "GitHub & GitHub Actions"
+    },
+    {
+      "level": "h2",
+      "text": "DevOps Projects"
+    },
+    {
+      "level": "h3",
+      "text": "GitHub Repository Portfolio"
+    },
+    {
+      "level": "h3",
+      "text": "GitHub Actions Node.js CI/CD"
+    },
+    {
+      "level": "h3",
+      "text": "Study Material"
+    }
+  ],
+  "paragraphs": [
+    "Version Control, Collaboration & Automation",
+    "Industry-standard platform for version control and collaborative software development, combined with powerful workflow automation using GitHub Actions. This skill enables efficient team collaboration, high-quality code management, and fully automated CI/CD pipelines using YAML-based workflows. From source control to testing, building, and deployment, GitHub provides a complete development-to-production ecosystem.",
+    "GitHub repositories demonstrating version control, collaboration, and CI/CD automation capabilities",
+    "A complete portfolio of DevOps and cloud projects hosted on GitHub, featuring structured repositories, detailed README files, and comprehensive documentation following best practices.",
+    "Automated CI/CD pipeline for Node.js applications using GitHub Actions, including automated testing, build workflows, and deployment pipelines defined using YAML.",
+    "Interested in implementing robust version control, team collaboration, and automated CI/CD pipelines with GitHub and GitHub Actions? Let's discuss how to optimize your development workflow."
+  ],
+  "links": [
+    {
+      "text": "Rajesh Arigala",
+      "href": "https://rajesharigala.com/tech skills/index"
+    },
+    {
+      "text": "Home",
+      "href": "https://rajesharigala.com/"
+    },
+    {
+      "text": "GitHub & GitHub Actions",
+      "href": "https://rajesharigala.com/tech skills/github"
+    },
+    {
+      "text": "All Projects",
+      "href": "https://rajesharigala.com/tech skills/skill"
+    },
+    {
+      "text": "View on GitHub",
+      "href": "https://github.com/Rajesh-Arigala"
+    },
+    {
+      "text": "View on GitHub",
+      "href": "https://github.com/Rajesh-Arigala/github-actions-nodejs-cicd"
+    }
+  ],
+  "content": "GitHub & GitHub Actions Version Control, Collaboration & Automation Primary Level EXPERT 95% Version Control CI/CD Collaboration Workflow Automation Deployment Industry-standard platform for version control and collaborative software development, combined with powerful workflow automation using GitHub Actions. This skill enables efficient team collaboration, high-quality code management, and fully automated CI/CD pipelines using YAML-based workflows. From source control to testing, building, and deployment, GitHub provides a complete development-to-production ecosystem. DevOps Projects GitHub repositories demonstrating version control, collaboration, and CI/CD automation capabilities Complete Portfolio GitHub Repository Portfolio A complete portfolio of DevOps and cloud projects hosted on GitHub, featuring structured repositories, detailed README files, and comprehensive documentation following best practices. Technologies Used View on GitHub Study Material Automation & Deployment GitHub Actions Node.js CI/CD Automated CI/CD pipeline for Node.js applications using GitHub Actions, including automated testing, build workflows, and deployment pipelines defined using YAML. Technologies Used View on GitHub Study Material Interested in implementing robust version control, team collaboration, and automated CI/CD pipelines with GitHub and GitHub Actions? Let's discuss how to optimize your development workflow. Contact & Collaborate",
+  "crawl_timestamp": "2026-06-17T07:10:09.129834+00:00",
+  "raw_html_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/02_Tech_01_Technical_Skills_01_GitHub.html"
+}

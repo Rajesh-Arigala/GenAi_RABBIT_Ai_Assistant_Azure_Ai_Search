@@ -1,0 +1,1346 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub &amp; GitHub Actions | Rajesh Arigala</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Core Surfaces - Quantum Capital Theme */
+            --bg-main: #0C1117;
+            --bg-surface: #121923;
+            --bg-elevated: #161F2B;
+            --card-bg: #161F2B;
+
+            /* Accents */
+            --accent-primary: #B8B2A7;
+            --accent-energy: #7CFFB2;
+            --accent-depth: #3A1F2D;
+
+            /* Text */
+            --text-primary: #E6E9EF;
+            --text-secondary: #A1A8B3;
+            --text-muted: #6F7682;
+
+            /* Lines & Dividers */
+            --line-subtle: #1E2633;
+            --glass-border: rgba(184, 178, 167, 0.15);
+
+            /* Motion */
+            --ease-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+            /* Gradients */
+            --accent-gradient: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+            
+            /* Font */
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ==================== HEADER & NAVIGATION ==================== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(12, 17, 23, 0.9);
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.4s var(--ease-slow);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-primary);
+            transition: width 0.4s var(--ease-slow);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--accent-energy);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+            background: var(--accent-energy);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ==================== MAIN CONTENT ==================== */
+        main {
+            padding-top: 120px;
+            padding-bottom: 4rem;
+        }
+
+        /* ==================== HEADER SECTION ==================== */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 0 1rem;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        /* ==================== SKILL LEVEL SECTION ==================== */
+        .skills-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 4rem;
+            gap: 2rem;
+        }
+
+        .kpi-container {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
+            background: var(--bg-elevated);
+            padding: 2rem 3rem;
+            border-radius: 16px;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .level-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .level-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .level-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-energy);
+        }
+
+        .progress-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+        }
+
+        .progress-circle {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .progress-bg {
+            fill: none;
+            stroke: var(--line-subtle);
+            stroke-width: 8;
+        }
+
+        .progress-bar {
+            fill: none;
+            stroke: var(--accent-energy);
+            stroke-width: 8;
+            stroke-linecap: round;
+            stroke-dasharray: 0 377;
+            transition: stroke-dasharray 1.5s var(--ease-slow);
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-energy);
+        }
+
+        .capability-tags {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .capability-tag {
+            background: rgba(124, 255, 178, 0.1);
+            color: var(--accent-energy);
+            padding: 0.8rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: 1px solid rgba(124, 255, 178, 0.2);
+        }
+
+        /* ==================== DUAL LEVEL INDICATOR ==================== */
+        .dual-level-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 900px;
+            gap: 3rem;
+            margin-top: 1rem;
+        }
+
+        .level-section {
+            flex: 1;
+            background: var(--bg-elevated);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid var(--line-subtle);
+            text-align: center;
+        }
+
+        .level-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .level-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .level-subtitle {
+            font-size: 1rem;
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+
+        .primary-level {
+            border-top: 4px solid var(--accent-energy);
+        }
+
+        .secondary-level {
+            border-top: 4px solid var(--accent-primary);
+        }
+
+        /* ==================== DESCRIPTION SECTION ==================== */
+        .description-section {
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            padding: 2.5rem;
+            background: var(--bg-elevated);
+            border-radius: 16px;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .description-text {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        /* ==================== PROJECTS SECTION ==================== */
+        .projects-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .projects-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .projects-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        /* ==================== PROJECT CARD ==================== */
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-slow);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Project Main Image */
+        .project-image-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(184, 178, 167, 0.1), rgba(124, 255, 178, 0.05));
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--ease-slow);
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+
+        .project-category-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .category-portfolio {
+            background: rgba(124, 255, 178, 0.95);
+            color: var(--bg-main);
+        }
+
+        .category-automation {
+            background: rgba(108, 155, 207, 0.95);
+            color: var(--bg-main);
+        }
+
+        .project-header {
+            padding: 2rem 2rem 1rem;
+        }
+
+        .project-title-container {
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-body {
+            padding: 0 2rem 1.5rem;
+            flex: 1;
+        }
+
+        .tools-section {
+            margin-top: 1.5rem;
+        }
+
+        .tools-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tools-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tool-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: contain;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px;
+            border: 1px solid var(--line-subtle);
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .tool-logo:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-primary);
+            background: rgba(184, 178, 167, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--line-subtle);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .project-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: all 0.3s var(--ease-slow);
+            flex: 1;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .github-btn {
+            background: var(--accent-energy);
+            color: var(--bg-main);
+        }
+
+        .github-btn:hover {
+            background: transparent;
+            color: var(--accent-energy);
+            border-color: var(--accent-energy);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(124, 255, 178, 0.2);
+        }
+
+        .material-btn {
+            background: transparent;
+            color: var(--accent-primary);
+            border-color: var(--accent-primary);
+        }
+
+        .material-btn:hover {
+            background: rgba(184, 178, 167, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(184, 178, 167, 0.1);
+        }
+
+        /* ==================== STUDY MATERIAL MODAL ==================== */
+        .study-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(12, 17, 23, 0.95);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .study-modal.active {
+            display: flex;
+        }
+
+        .study-modal-content {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid var(--line-subtle);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .study-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .study-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .study-modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .study-modal-close:hover {
+            color: var(--accent-energy);
+            background: rgba(124, 255, 178, 0.1);
+        }
+
+        .study-material-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .study-material-item {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            gap: 1.2rem;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .study-material-item:hover {
+            background: rgba(184, 178, 167, 0.05);
+            transform: translateX(5px);
+        }
+
+        .study-material-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(108, 155, 207, 0.1);
+            color: #6C9BCF;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        .study-material-info {
+            flex: 1;
+        }
+
+        .study-material-name {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .study-material-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            background: transparent;
+            border: 2px solid var(--accent-energy);
+            color: var(--accent-energy);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .download-btn:hover {
+            background: rgba(124, 255, 178, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(124, 255, 178, 0.2);
+        }
+
+        /* ==================== FOOTER SECTION ==================== */
+        .footer-section {
+            text-align: center;
+            padding: 4rem 0;
+            border-top: 1px solid var(--line-subtle);
+            position: relative;
+            margin-top: 4rem;
+        }
+
+        .footer-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 20%;
+            right: 20%;
+            height: 1px;
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                var(--accent-primary), 
+                var(--accent-energy), 
+                transparent
+            );
+            opacity: 0.3;
+        }
+
+        .footer-message {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.7;
+        }
+
+        .contact-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: transparent;
+            border: 2px solid var(--accent-primary);
+            color: var(--accent-primary);
+            padding: 1rem 2.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.4s var(--ease-slow);
+            text-decoration: none;
+        }
+
+        .contact-btn:hover {
+            background: rgba(184, 178, 167, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 768px) {
+            .nav-list {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background: var(--bg-surface);
+                padding: 2rem;
+                border-bottom: 1px solid var(--line-subtle);
+                gap: 1.5rem;
+            }
+
+            .nav-list.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .description-section {
+                padding: 1.5rem;
+            }
+
+            .description-text {
+                font-size: 1.1rem;
+            }
+
+            .kpi-container {
+                flex-direction: column;
+                gap: 2rem;
+                padding: 1.5rem;
+            }
+
+            .dual-level-container {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-image-container {
+                height: 180px;
+            }
+
+            .project-actions {
+                flex-direction: column;
+            }
+
+            .project-btn {
+                width: 100%;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .projects-title {
+                font-size: 2rem;
+            }
+
+            .project-image-container {
+                height: 160px;
+            }
+
+            .tools-grid {
+                justify-content: center;
+            }
+
+            .study-modal-content {
+                padding: 1.5rem;
+            }
+
+            .study-material-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .study-material-info {
+                text-align: center;
+            }
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .project-card {
+            animation: fadeInUp 0.6s var(--ease-slow) forwards;
+            opacity: 0;
+        }
+
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .study-modal-content {
+            animation: modalFadeIn 0.3s var(--ease-slow);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="index" class="nav-logo">Rajesh Arigala</a>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="/index" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="#" class="nav-link active">GitHub &amp; GitHub Actions</a></li>
+                <li class="nav-item"><a href="skill" class="nav-link">All Projects</a></li>
+                <li class="nav-item"><a href="/index#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Header Section -->
+        <section class="container hero-section">
+            <h1 class="hero-title">GitHub &amp; GitHub Actions</h1>
+            <p class="hero-subtitle">Version Control, Collaboration &amp; Automation</p>
+        </section>
+
+        <!-- Skill Level Section -->
+        <section class="container skills-section">
+            <!-- KPI Tags -->
+            <div class="kpi-container">
+                <div class="level-badge">
+                    <span class="level-label">Primary Level</span>
+                    <span class="level-value">EXPERT</span>
+                </div>
+                
+                <div class="progress-container">
+                    <svg class="progress-circle" viewBox="0 0 120 120">
+                        <circle class="progress-bg" cx="60" cy="60" r="54"></circle>
+                        <circle class="progress-bar" cx="60" cy="60" r="54" data-percentage="95" style="stroke-dasharray: 328.296, 345.575; stroke-dashoffset: 17.2788;"></circle>
+                    </svg>
+                    <div class="progress-text">95%</div>
+                </div>
+                
+                <div class="capability-tags">
+                    <span class="capability-tag">Version Control</span>
+                    <span class="capability-tag">CI/CD</span>
+                    <span class="capability-tag">Collaboration</span>
+                    <span class="capability-tag">Workflow Automation</span>
+                    <span class="capability-tag">Deployment</span>
+                </div>
+            </div>
+
+            <!-- Dual Level Indicators -->
+            <!-- <div class="dual-level-container">
+                <div class="level-section primary-level">
+                    <div class="level-header">
+                        <h3 class="level-title">GitHub Proficiency</h3>
+                        <div class="level-subtitle">Primary Skill - Expert Level</div>
+                    </div>
+                    <div class="progress-container">
+                        <svg class="progress-circle" viewBox="0 0 100 100">
+                            <circle class="progress-bg" cx="50" cy="50" r="45"></circle>
+                            <circle class="progress-bar" cx="50" cy="50" r="45" data-percentage="95"></circle>
+                        </svg>
+                        <div class="progress-text">95%</div>
+                    </div>
+                </div>
+                
+                <div class="level-section secondary-level">
+                    <div class="level-header">
+                        <h3 class="level-title">GitHub Actions Proficiency</h3>
+                        <div class="level-subtitle">Secondary Skill - Advanced Level</div>
+                    </div>
+                    <div class="progress-container">
+                        <svg class="progress-circle" viewBox="0 0 100 100">
+                            <circle class="progress-bg" cx="50" cy="50" r="45"></circle>
+                            <circle class="progress-bar" cx="50" cy="50" r="45" data-percentage="85"></circle>
+                        </svg>
+                        <div class="progress-text">85%</div>
+                    </div>
+                </div>
+            </div> -->
+        </section>
+
+        <!-- Description Section -->
+        <section class="container description-section">
+            <p class="description-text">
+                Industry-standard platform for version control and collaborative software development, combined with powerful workflow automation using GitHub Actions. This skill enables efficient team collaboration, high-quality code management, and fully automated CI/CD pipelines using YAML-based workflows. From source control to testing, building, and deployment, GitHub provides a complete development-to-production ecosystem.
+            </p>
+        </section>
+
+        <!-- Projects Showcase -->
+        <section class="container">
+            <div class="projects-header">
+                <h2 class="projects-title">DevOps Projects</h2>
+                <p class="projects-subtitle">GitHub repositories demonstrating version control, collaboration, and CI/CD automation capabilities</p>
+            </div>
+            
+            <div class="projects-grid">
+                <!-- Project 1: GitHub Repository Portfolio -->
+                <div class="project-card">
+                    <div class="project-image-container">
+                        <img src="https://images.unsplash.com/photo-1556075798-4825dfaaf498?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="GitHub Repository Portfolio" class="project-image">
+                        <span class="project-category-badge category-portfolio">Complete Portfolio</span>
+                    </div>
+                    
+                    <div class="project-header">
+                        <div class="project-title-container">
+                            <h3 class="project-title">GitHub Repository Portfolio</h3>
+                        </div>
+                        <p class="project-description">
+                            A complete portfolio of DevOps and cloud projects hosted on GitHub, featuring structured repositories, detailed README files, and comprehensive documentation following best practices.
+                        </p>
+                    </div>
+                    
+                    <div class="project-body">
+                        <div class="tools-section">
+                            <div class="tools-label">Technologies Used</div>
+                            <div class="tools-grid">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="tool-logo" title="GitHub">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" class="tool-logo" title="Git">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/markdown/markdown-original.svg" alt="Markdown" class="tool-logo" title="Markdown">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker" class="tool-logo" title="Docker">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg" alt="Terraform" class="tool-logo" title="Terraform">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-footer">
+                        <div class="project-actions">
+                            <a href="https://github.com/Rajesh-Arigala" target="_blank" class="project-btn github-btn">
+                                <i class="fab fa-github"></i>
+                                <span>View on GitHub</span>
+                            </a>
+                            <button class="project-btn material-btn" data-project="github-portfolio">
+                                <i class="fas fa-book"></i>
+                                <span>Study Material</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: GitHub Actions Node.js CI/CD -->
+                <div class="project-card">
+                    <div class="project-image-container">
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&amp;auto=format&amp;fit=crop&amp;w=800&amp;q=80" alt="GitHub Actions Node.js CI/CD Pipeline" class="project-image">
+                        <span class="project-category-badge category-automation">Automation &amp; Deployment</span>
+                    </div>
+                    
+                    <div class="project-header">
+                        <div class="project-title-container">
+                            <h3 class="project-title">GitHub Actions Node.js CI/CD</h3>
+                        </div>
+                        <p class="project-description">
+                            Automated CI/CD pipeline for Node.js applications using GitHub Actions, including automated testing, build workflows, and deployment pipelines defined using YAML.
+                        </p>
+                    </div>
+                    
+                    <div class="project-body">
+                        <div class="tools-section">
+                            <div class="tools-label">Technologies Used</div>
+                            <div class="tools-grid">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="tool-logo" title="GitHub">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/githubactions/githubactions-original.svg" alt="GitHub Actions" class="tool-logo" title="GitHub Actions">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" class="tool-logo" title="Node.js">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker" class="tool-logo" title="Docker">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/yaml/yaml-original.svg" alt="YAML" class="tool-logo" title="YAML">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" class="tool-logo" title="JavaScript">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-footer">
+                        <div class="project-actions">
+                            <a href="https://github.com/Rajesh-Arigala/github-actions-nodejs-cicd" target="_blank" class="project-btn github-btn">
+                                <i class="fab fa-github"></i>
+                                <span>View on GitHub</span>
+                            </a>
+                            <button class="project-btn material-btn" data-project="github-actions-cicd">
+                                <i class="fas fa-book"></i>
+                                <span>Study Material</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer CTA Section -->
+        <section class="container footer-section">
+            <p class="footer-message">
+                Interested in implementing robust version control, team collaboration, and automated CI/CD pipelines with GitHub and GitHub Actions? Let's discuss how to optimize your development workflow.
+            </p>
+            <a href="/index#contact" class="contact-btn">
+                <span>Contact &amp; Collaborate</span>
+                <i class="fas fa-paper-plane"></i>
+            </a>
+        </section>
+    </main>
+
+    <!-- Study Material Modal -->
+    <div class="study-modal">
+        <div class="study-modal-content">
+            <div class="study-modal-header">
+                <h3 class="study-modal-title">Study Material</h3>
+                <button class="study-modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="study-material-list">
+                <!-- GitHub Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">GitHub Mastery Guide</div>
+                        <div class="study-material-desc">Comprehensive guide to GitHub workflows, branching strategies, and collaboration best practices</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Advanced Git Strategies</div>
+                        <div class="study-material-desc">GitFlow, rebasing, cherry-picking, and advanced version control techniques</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <!-- GitHub Actions Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fab fa-github-alt"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">GitHub Actions CI/CD Pipeline</div>
+                        <div class="study-material-desc">Complete guide to building automated pipelines with GitHub Actions YAML workflows</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-code"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">YAML Workflow Templates</div>
+                        <div class="study-material-desc">Ready-to-use YAML templates for testing, building, and deployment workflows</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <!-- DevOps Integration Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">DevOps Integration Guide</div>
+                        <div class="study-material-desc">Integrating GitHub Actions with Docker, Kubernetes, and cloud platforms</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">GitHub Security Best Practices</div>
+                        <div class="study-material-desc">Security guidelines, secrets management, and branch protection rules</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const navToggle = document.querySelector('.nav-toggle');
+            const navList = document.querySelector('.nav-list');
+            
+            if (navToggle && navList) {
+                navToggle.addEventListener('click', function() {
+                    navList.classList.toggle('active');
+                });
+            }
+            
+            // Close menu when clicking outside on mobile
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768 && navList && navList.classList.contains('active') && 
+                    !e.target.closest('.nav') && !e.target.closest('.nav-toggle')) {
+                    navList.classList.remove('active');
+                }
+            });
+            
+            // Animate all progress bars
+            const progressBars = document.querySelectorAll('.progress-bar');
+            progressBars.forEach(bar => {
+                const percentage = bar.getAttribute('data-percentage');
+                const circle = bar.closest('.progress-circle');
+                const viewBox = circle.getAttribute('viewBox');
+                const [x1, y1, x2, y2] = viewBox.split(' ').map(Number);
+                const centerX = x1 + x2 / 2;
+                const centerY = y1 + y2 / 2;
+                const radius = Math.min(x2, y2) / 2 - 5;
+                const circumference = 2 * Math.PI * radius;
+                const offset = circumference - (percentage / 100) * circumference;
+                
+                // Set initial state
+                bar.style.strokeDasharray = `${circumference} ${circumference}`;
+                bar.style.strokeDashoffset = circumference;
+                
+                // Animate after a short delay
+                setTimeout(() => {
+                    bar.style.strokeDashoffset = offset;
+                    bar.style.strokeDasharray = `${percentage * circumference / 100} ${circumference}`;
+                }, 300);
+                
+                // Animate progress text
+                const textElement = bar.closest('.progress-container').querySelector('.progress-text');
+                if (textElement) {
+                    let current = 0;
+                    const target = parseInt(percentage);
+                    const duration = 1500;
+                    const increment = target / (duration / 16);
+                    
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            clearInterval(timer);
+                            textElement.textContent = target + '%';
+                        } else {
+                            textElement.textContent = Math.floor(current) + '%';
+                        }
+                    }, 16);
+                }
+            });
+            
+            // Study Material Modal functionality
+            const studyModal = document.querySelector('.study-modal');
+            const studyModalClose = document.querySelector('.study-modal-close');
+            const studyMaterialBtns = document.querySelectorAll('.material-btn');
+            
+            // Open modal when study material button is clicked
+            studyMaterialBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    studyModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            // Close modal
+            studyModalClose.addEventListener('click', function() {
+                studyModal.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            
+            // Close modal when clicking outside
+            studyModal.addEventListener('click', function(e) {
+                if (e.target === studyModal) {
+                    studyModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && studyModal.classList.contains('active')) {
+                    studyModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    
+                    if (href.startsWith('#') && href !== '#') {
+                        e.preventDefault();
+                        
+                        const targetElement = document.querySelector(href);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+            
+            // Add hover effect to project cards
+            const projectCards = document.querySelectorAll('.project-card');
+            projectCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Handle window resize for mobile menu
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768 && navList) {
+                    navList.classList.remove('active');
+                }
+            });
+            
+            // Initialize tooltips for tool logos
+            const toolLogos = document.querySelectorAll('.tool-logo');
+            toolLogos.forEach(logo => {
+                logo.addEventListener('mouseenter', function() {
+                    const title = this.getAttribute('title');
+                    if (title) {
+                        // Create tooltip
+                        const tooltip = document.createElement('div');
+                        tooltip.className = 'tooltip';
+                        tooltip.textContent = title;
+                        tooltip.style.position = 'absolute';
+                        tooltip.style.background = 'var(--bg-surface)';
+                        tooltip.style.color = 'var(--text-primary)';
+                        tooltip.style.padding = '0.3rem 0.6rem';
+                        tooltip.style.borderRadius = '4px';
+                        tooltip.style.fontSize = '0.8rem';
+                        tooltip.style.whiteSpace = 'nowrap';
+                        tooltip.style.zIndex = '1000';
+                        tooltip.style.border = '1px solid var(--line-subtle)';
+                        tooltip.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
+                        
+                        const rect = this.getBoundingClientRect();
+                        tooltip.style.top = (rect.top - 35) + 'px';
+                        tooltip.style.left = (rect.left + rect.width/2 - 50) + 'px';
+                        
+                        document.body.appendChild(tooltip);
+                        
+                        this._tooltip = tooltip;
+                    }
+                });
+                
+                logo.addEventListener('mouseleave', function() {
+                    if (this._tooltip) {
+                        this._tooltip.remove();
+                        delete this._tooltip;
+                    }
+                });
+            });
+        });
+    </script>
+
+
+</body></html>

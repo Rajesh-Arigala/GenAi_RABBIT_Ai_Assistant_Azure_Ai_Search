@@ -1,0 +1,787 @@
+{
+  "generated_at": "2026-06-17T21:11:46.409346+00:00",
+  "started_at": "2026-06-17T21:10:57.325990+00:00",
+  "summary": {
+    "tests": 13,
+    "modes_per_test": 1,
+    "search_calls_expected": 13,
+    "failures": 0,
+    "categories": [
+      "filter_test",
+      "sensitivity_test",
+      "specificity_test"
+    ]
+  },
+  "failures": [],
+  "tests": [
+    {
+      "id": "sensitivity_001_business_background",
+      "category": "sensitivity_test",
+      "question": "Tell me about Rajesh's business background and leadership experience.",
+      "intent": "Broad business profile retrieval",
+      "modes": [
+        {
+          "mode": "hybrid",
+          "count": 142,
+          "results": [
+            {
+              "score": 0.03279569745063782,
+              "page_id": "01_Business_Skills",
+              "section_id": "01_Business_Skills",
+              "title": "Business Leadership — Rajesh Arigala",
+              "source_url": "https://rajesharigala.com/buiss skills/buissness",
+              "chunk_index": 1,
+              "chunk_total": 2,
+              "snippet": "Title: Business Leadership — Rajesh Arigala Source URL: https://rajesharigala.com/buiss skills/buissness Headings: H1: BusinessLeadership& Execution H2: Not job titles.Owned outcomes. H2: Select an engagementto explore in depth H2: Six domains.One standard. Paragraphs: Six engagements across healthcare, industrial, infrastructure, legal, craft, and"
+            },
+            {
+              "score": 0.03201844170689583,
+              "page_id": "00_Homepage",
+              "section_id": "00_Homepage",
+              "title": "Rajesh Arigala | AI & GenAI Systems · Business Integration!",
+              "source_url": "https://rajesharigala.com/",
+              "chunk_index": 1,
+              "chunk_total": 4,
+              "snippet": "Title: Rajesh Arigala | AI & GenAI Systems · Business Integration! Meta Description: Rajesh Arigala builds production-grade AI and GenAI systems that drive real business outcomes across engineering, intelligence, and business integration. Source URL: https://rajesharigala.com/ Headings: H1: Building Production-Grade AI Systems that Drive Real Busin"
+            },
+            {
+              "score": 0.03159204125404358,
+              "page_id": "00_Homepage",
+              "section_id": "00_Homepage",
+              "title": "Rajesh Arigala | AI & GenAI Systems · Business Integration!",
+              "source_url": "https://rajesharigala.com/",
+              "chunk_index": 4,
+              "chunk_total": 4,
+              "snippet": "Explore Technical Expertise Professional Journey Click on any milestone to explore the details 2025 - Present AI, ML and Platform Systems IISc Bangalore and Independent Build Phase AI ML GenAI Pursued Business Analytics at IISc Bangalore followed by ML, MLOps, and GenAI Shifted from physical ventures to intelligent platform systems Applied system-b"
+            }
+          ],
+          "evaluation": {
+            "expected_signal_hits": [
+              "business leadership"
+            ],
+            "expected_signal_hit_count": 1,
+            "top_page_ids": [
+              "01_Business_Skills",
+              "00_Homepage",
+              "00_Homepage"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "sensitivity_002_technical_capabilities",
+      "category": "sensitivity_test",
+      "question": "What technical and cloud capabilities are shown in this portfolio?",
+      "intent": "Broad technical capability retrieval",
+      "modes": [
+        {
+          "mode": "hybrid",
+          "count": 142,
+          "results": [
+            {
+              "score": 0.03333333507180214,
+              "page_id": "02_Tech_01_Technical_Skills",
+              "section_id": "02_Tech_01_Technical_Skills",
+              "title": "Technical Excellence | Rajesh Arigala",
+              "source_url": "https://rajesharigala.com/tech skills/skill",
+              "chunk_index": 1,
+              "chunk_total": 2,
+              "snippet": "Title: Technical Excellence | Rajesh Arigala Source URL: https://rajesharigala.com/tech skills/skill Headings: H1: Technical Excellence H3: GitHub H3: AWS DevOps & Cloud H3: Azure DevOps & Cloud H3: GitHub Actions & Pages H3: Google Cloud DevOps H3: Docker H3: Kubernetes H3: MLFlow Paragraphs: Real-world DevOps and cloud expertise with production-l"
+            },
+            {
+              "score": 0.028324153274297714,
+              "page_id": "02_Tech_01_Technical_Skills_04_GCP",
+              "section_id": "02_Tech_01_Technical_Skills",
+              "title": "Google Cloud DevOps | Rajesh Arigala",
+              "source_url": "https://rajesharigala.com/tech skills/gcd",
+              "chunk_index": 1,
+              "chunk_total": 1,
+              "snippet": "Title: Google Cloud DevOps | Rajesh Arigala Source URL: https://rajesharigala.com/tech skills/gcd Headings: H1: Google Cloud DevOps H2: Projects Showcase H3: GCP CI/CD for ML H3: GCP Vertex AI H3: Study Material Paragraphs: Containerized Solutions Containerized applications and automated build pipelines using Google Cloud Build, Cloud Run, and IAM "
+            },
+            {
+              "score": 0.026494450867176056,
+              "page_id": "02_Tech_01_Technical_Skills_02_AWS",
+              "section_id": "02_Tech_01_Technical_Skills",
+              "title": "AWS DevOps & Cloud | Rajesh Arigala",
+              "source_url": "https://rajesharigala.com/tech skills/aws",
+              "chunk_index": 1,
+              "chunk_total": 1,
+              "snippet": "Title: AWS DevOps & Cloud | Rajesh Arigala Source URL: https://rajesharigala.com/tech skills/aws Headings: H1: AWS DevOps & Cloud H2: Projects Showcase H3: AWS DevOps CI/CD Pipeline H3: Amazon EKS Managed Stack H3: AWS CDK Programmatic Stack H3: AWS ECS Fargate MLFlow H3: AWS SageMaker AI H3: Study Material Paragraphs: Cloud Infrastructure & Automa"
+            }
+          ],
+          "evaluation": {
+            "expected_signal_hits": [
+              "AWS",
+              "Azure",
+              "GCP",
+              "Docker",
+              "Kubernetes",
+              "MLflow"
+            ],
+            "expected_signal_hit_count": 6,
+            "top_page_ids": [
+              "02_Tech_01_Technical_Skills",
+              "02_Tech_01_Technical_Skills_04_GCP",
+              "02_Tech_01_Technical_Skills_02_AWS"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "sensitivity_003_ai_platform_work",
+      "category": "sensitivity_test",
+      "question": "What kind of AI platform engineering work has Rajesh built?",
+      "intent": "Broad AI platform retrieval",
+      "modes": [
+        {
+          "mode": "hybrid",
+          "count": 138,
+          "results": [
+            {
+              "score": 0.03306011110544205,
+              "page_id": "00_Homepage",
+              "section_id": "00_Homepage",
+              "title": "Rajesh Arigala | AI & GenAI Systems · Business Integration!",
+              "source_url": "https://rajesharigala.com/",
+              "chunk_index": 1,
+              "chunk_total": 4,
+              "snippet": "Title: Rajesh Arigala | AI & GenAI Systems · Business Integration! Meta Description: Rajesh Arigala builds production-grade AI and GenAI systems that drive real business outcomes across engineering, intelligence, and business integration. Source URL: https://rajesharigala.com/ Headings: H1: Building Production-Grade AI Systems that Drive Real Busin"
+            },
+            {
+              "score": 0.03205128386616707,
+              "page_id": "00_Homepage",
+              "section_id": "00_Homepage",
+              "title": "Rajesh Arigala | AI & GenAI Systems · Business Integration!",
+              "source_url": "https://rajesharigala.com/",
+              "chunk_index": 2,
+              "chunk_total": 4,
+              "snippet": "5 Core Competencies Proven leadership across healthcare, industrial platforms, hospitality ventures, and distributed infrastructure systems with a strong focus on strategic scale, market penetration, profitability, and execution excellence. 4 Core Competencies Production-grade DevOps engineering spanning AWS, Azure, GCP, Docker, Kubernetes, GitHub "
+            },
+            {
+              "score": 0.0317540317773819,
+              "page_id": "00_Homepage",
+              "section_id": "00_Homepage",
+              "title": "Rajesh Arigala | AI & GenAI Systems · Business Integration!",
+              "source_url": "https://rajesharigala.com/",
+              "chunk_index": 4,
+              "chunk_total": 4,
+              "snippet": "Explore Technical Expertise Professional Journey Click on any milestone to explore the details 2025 - Present AI, ML and Platform Systems IISc Bangalore and Independent Build Phase AI ML GenAI Pursued Business Analytics at IISc Bangalore followed by ML, MLOps, and GenAI Shifted from physical ventures to intelligent platform systems Applied system-b"
+            }
+          ],
+          "evaluation": {
+            "expected_signal_hits": [
+              "MLOps",
+              "Azure",
+              "AWS",
+              "GCP"
+            ],
+            "expected_signal_hit_count": 4,
+            "top_page_ids": [
+              "00_Homepage",
+              "00_Homepage",
+              "00_Homepage"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "sensitivity_004_deployment_work",
+      "category": "sensitivity_test",
+      "question": "Which work is relevant to deploying machine learning systems into production?",
+      "intent": "General production ML deployment retrieval",
+      "modes": [
+        {
+          "mode": "hybrid",
+          "count": 142,
+          "results": [
+            {
+              "score": 0.0313725508749485,
+              "page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+              "section_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+              "title": "MLOps & AI Systems Portfolio | ML Lifecycle Engineering",
+              "source_url": "https://rajesharigala.com/mlops/mlops,sys",
+              "chunk_index": 2,
+              "chunk_total": 4,
+              "snippet": "Production-grade feature store implementation for consistent feature engineering across training and serving, with unified feature repository, online/offline stores, and feature registry capabilities. Ready to architect production-grade MLOps systems? Let's design scalable ML infrastructure that spans the complete lifecycle from data to deployment."
+            },
+            {
+              "score": 0.03067915514111519,
+              "page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+              "section_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+              "title": "MLOps & AI Systems Portfolio | ML Lifecycle Engineering",
+              "source_url": "https://rajesharigala.com/mlops/mlops,sys",
+              "chunk_index": 1,
+              "chunk_total": 4,
+              "snippet": "Title: MLOps & AI Systems Portfolio | ML Lifecycle Engineering Source URL: https://rajesharigala.com/mlops/mlops,sys Headings: H1: MLOPS & AI SYSTEMS ENGINEERING H2: MLOps Core Systems Architecture H3: End-to-End ML Lifecycle Systems Across Cloud Platforms H3: 1. Training Pipelines H3: End-to-End ML Platform on AWS (MLflow + SageMaker) H3: Azure ML"
+            },
+            {
+              "score": 0.029286926612257957,
+              "page_id": "02_Tech_02_MLOps_02_Containers_02_Kubernetes_03_AWS_EKS_ML_Deployment",
+              "section_id": "02_Tech_02_MLOps_02_Containers",
+              "title": "AWS EKS ML Model Deployment - Project Case Study",
+              "source_url": "https://rajesharigala.com/mlops/aws-eks-ml-deployment",
+              "chunk_index": 1,
+              "chunk_total": 4,
+              "snippet": "Title: AWS EKS ML Model Deployment - Project Case Study Source URL: https://rajesharigala.com/mlops/aws-eks-ml-deployment Headings: H1: AWS EKS ML Model Deployment H2: Project Summary H2: Skills & Technologies Used H2: Key Technologies & Concepts H2: Problem & Objective H2: Solution & Architecture H2: Challenges & Outcomes H2: Kubernetes Architectu"
+            }
+          ],
+          "evaluation": {
+            "expected_signal_hits": [
+              "deployment",
+              "Kubernetes",
+              "MLOps",
+              "pipeline"
+            ],
+            "expected_signal_hit_count": 4,
+            "top_page_ids": [
+              "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+              "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+              "02_Tech_02_MLOps_02_Containers_02_Kubernetes_03_AWS_EKS_ML_Deployment"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "sensitivity_005_recruiter_summary",
+      "category": "sensitivity_test",
+      "question": "Why is this profile relevant for AI engineer or MLOps engineer roles?",
+      "intent": "Recruiter-style broad relevance retrieval",
+      "modes": [
+        {
+          "mode": "hybrid",
+          "count": 142,
+          "results": [
+            {
+              "score": 0.03151364624500275,
+              "page_id": "00_Homepage",
+              "section_id": "00_Homepage",
+              "title": "Rajesh Arigala | AI & GenAI Systems · Business Integration!",
+              "source_url": "https://rajesharigala.com/",
+              "chunk_index": 4,
+              "chunk_total": 4,
+              "snippet": "Explore Technical Expertise Professional Journey Click on any milestone to explore the details 2025 - Present AI, ML and Platform Systems IISc Bangalore and Independent Build Phase AI ML GenAI Pursued Business Analytics at IISc Bangalore followed by ML, MLOps, and GenAI Shifted from physical ventures to intelligent platform systems Applied system-b"
+            },
+            {
+              "score": 0.027304966002702713,
+              "page_id": "00_Homepage",
+              "section_id": "00_Homepage",
+              "title": "Rajesh Arigala | AI & GenAI Systems · Business Integration!",
+              "source_url": "https://rajesharigala.com/",
+              "chunk_index": 2,
+              "chunk_total": 4,
+              "snippet": "5 Core Competencies Proven leadership across healthcare, industrial platforms, hospitality ventures, and distributed infrastructure systems with a strong focus on strategic scale, market penetration, profitability, and execution excellence. 4 Core Competencies Production-grade DevOps engineering spanning AWS, Azure, GCP, Docker, Kubernetes, GitHub "
+            },
+            {
+              "score": 0.026197362691164017,
+              "page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+              "section_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+              "title": "MLOps & AI Systems Portfolio | ML Lifecycle Engineering",
+              "source_url": "https://rajesharigala.com/mlops/mlops,sys",
+              "chunk_index": 1,
+              "chunk_total": 4,
+              "snippet": "Title: MLOps & AI Systems Portfolio | ML Lifecycle Engineering Source URL: https://rajesharigala.com/mlops/mlops,sys Headings: H1: MLOPS & AI SYSTEMS ENGINEERING H2: MLOps Core Systems Architecture H3: End-to-End ML Lifecycle Systems Across Cloud Platforms H3: 1. Training Pipelines H3: End-to-End ML Platform on AWS (MLflow + SageMaker) H3: Azure ML"
+            }
+          ],
+          "evaluation": {
+            "expected_signal_hits": [
+              "AI",
+              "MLOps",
+              "cloud",
+              "platform",
+              "business"
+            ],
+            "expected_signal_hit_count": 5,
+            "top_page_ids": [
+              "00_Homepage",
+              "00_Homepage",
+              "02_Tech_02_MLOps_03_MLOps_ML_Systems"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "specificity_001_bpcl",
+      "category": "specificity_test",
+      "question": "What experience does Rajesh have with BPCL?",
+      "intent": "Specific business page retrieval",
+      "expected_page_ids": [
+        "01_01_Business_Skill_BPCL"
+      ],
+      "modes": [
+        {
+          "mode": "hybrid",
+          "count": 138,
+          "results": [
+            {
+              "score": 0.03333333507180214,
+              "page_id": "01_01_Business_Skill_BPCL",
+              "section_id": "01_Business_Skills",
+              "title": "BPCL — Mission-Critical Refinery Operations & Industrial Platform",
+              "source_url": "https://rajesharigala.com/buiss skills/bpcl",
+              "chunk_index": 3,
+              "chunk_total": 3,
+              "snippet": "Applied structured preventive maintenance and process discipline to achieve measurable operational gains. Critical Project — ₹250 Mn/day Stoppage Loss Avoided Led 25 personnel on a highly critical refinery project — preventing a plant stoppage that would have cost ₹250 million per day. Promoted within 7 months to lead a turnaround project worth ₹62"
+            },
+            {
+              "score": 0.032522473484277725,
+              "page_id": "01_01_Business_Skill_BPCL",
+              "section_id": "01_Business_Skills",
+              "title": "BPCL — Mission-Critical Refinery Operations & Industrial Platform",
+              "source_url": "https://rajesharigala.com/buiss skills/bpcl",
+              "chunk_index": 1,
+              "chunk_total": 3,
+              "snippet": "Title: BPCL — Mission-Critical Refinery Operations & Industrial Platform Source URL: https://rajesharigala.com/buiss skills/bpcl Headings: H1: Mission- Critical Industrial Platform H2: A safety-critical 24×7 refinery operating ecosystem H2: Structural constraints in a live refinery H2: Refinery as an industrial operating system H2: What was operate"
+            },
+            {
+              "score": 0.03151364624500275,
+              "page_id": "00_Homepage",
+              "section_id": "00_Homepage",
+              "title": "Rajesh Arigala | AI & GenAI Systems · Business Integration!",
+              "source_url": "https://rajesharigala.com/",
+              "chunk_index": 3,
+              "chunk_total": 4,
+              "snippet": "I bring a foundation of engineering and business, combining systems thinking from the National Institute of Technology, Surathkal (NITK) with strategic depth from the Indian Institute of Management Calcutta (IIM Calcutta) . Early experience at Bharat Petroleum Corporation Limited (BPCL) and Medtronic India exposed me to real-world operational syste"
+            }
+          ],
+          "evaluation": {
+            "expected_page_id_hit": true,
+            "expected_signal_hits": [
+              "BPCL",
+              "refinery",
+              "maintenance"
+            ],
+            "expected_signal_hit_count": 3,
+            "top_page_ids": [
+              "01_01_Business_Skill_BPCL",
+              "01_01_Business_Skill_BPCL",
+              "00_Homepage"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "specificity_002_kubernetes",
+      "category": "specificity_test",
+      "question": "Which projects use Kubernetes?",
+      "intent": "Specific Kubernetes project retrieval",
+      "expected_page_id_contains": [
+        "Kubernetes",
+        "Kubeflow"
+      ],
+      "modes": [
+        {
+          "mode": "hybrid",
+          "count": 86,
+          "results": [
+            {
+              "score": 0.03279569745063782,
+              "page_id": "02_Tech_02_MLOps_02_Containers_02_Kubernetes_02_Multi_Pod_Flask_ML",
+              "section_id": "02_Tech_02_MLOps_02_Containers",
+              "title": "Kubernetes Project: Create Multiple Pods - EKS Deployment",
+              "source_url": "https://rajesharigala.com/mlops/kubernetes-multi-pod-flask-ml",
+              "chunk_index": 1,
+              "chunk_total": 4,
+              "snippet": "Title: Kubernetes Project: Create Multiple Pods - EKS Deployment Source URL: https://rajesharigala.com/mlops/kubernetes-multi-pod-flask-ml Headings: H1: Kubernetes Project: Create Multiple Pods H2: Project Summary H2: Key Technologies & Concepts H2: Objectives & Use Case H2: Solution & Architecture H2: Deployment Configuration H2: Flask Application"
+            },
+            {
+              "score": 0.03253968432545662,
+              "page_id": "02_Tech_02_MLOps_02_Containers",
+              "section_id": "02_Tech_02_MLOps_02_Containers",
+              "title": "Containers & Orchestration Portfolio | Docker & Kubernetes",
+              "source_url": "https://rajesharigala.com/mlops/ContainersOrchestration",
+              "chunk_index": 1,
+              "chunk_total": 1,
+              "snippet": "Title: Containers & Orchestration Portfolio | Docker & Kubernetes Source URL: https://rajesharigala.com/mlops/ContainersOrchestration Headings: H1: CONTAINERS & ORCHESTRATION H2: Containerization & Orchestration Technologies H3: Docker containerization and Kubernetes orchestration for scalable, portable applications H3: Docker Containerization H3: "
+            },
+            {
+              "score": 0.03177805617451668,
+              "page_id": "02_Tech_01_Technical_Skills_06_Kubernetes",
+              "section_id": "02_Tech_01_Technical_Skills",
+              "title": "Kubernetes Container Orchestration | Rajesh Arigala",
+              "source_url": "https://rajesharigala.com/tech skills/kubernetes",
+              "chunk_index": 1,
+              "chunk_total": 1,
+              "snippet": "Title: Kubernetes Container Orchestration | Rajesh Arigala Source URL: https://rajesharigala.com/tech skills/kubernetes Headings: H1: Kubernetes H2: Projects Showcase H3: AWS EKS ML Deployment H3: Minikube Local Testing H3: Kubernetes Dashboard H3: Study Material Paragraphs: Container Orchestration Container orchestration for automating the deploym"
+            }
+          ],
+          "evaluation": {
+            "expected_page_id_contains_hit": true,
+            "expected_signal_hits": [
+              "Kubernetes",
+              "EKS",
+              "Minikube"
+            ],
+            "expected_signal_hit_count": 3,
+            "top_page_ids": [
+              "02_Tech_02_MLOps_02_Containers_02_Kubernetes_02_Multi_Pod_Flask_ML",
+              "02_Tech_02_MLOps_02_Containers",
+              "02_Tech_01_Technical_Skills_06_Kubernetes"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "specificity_003_azure_modules",
+      "category": "specificity_test",
+      "question": "What are the Azure MLOps modules?",
+      "intent": "Specific Azure AI project module retrieval",
+      "expected_page_ids": [
+        "03_02_AI_Project_Azure_MLOps_Platform",
+        "03_02_01_AI_Project_Azure_Module_01",
+        "03_02_02_AI_Project_Azure_Module_02",
+        "03_02_03_AI_Project_Azure_Module_03"
+      ],
+      "modes": [
+        {
+          "mode": "hybrid",
+          "count": 140,
+          "results": [
+            {
+              "score": 0.03128054738044739,
+              "page_id": "03_02_03_AI_Project_Azure_Module_03",
+              "section_id": "03_AI_Projects",
+              "title": "Azure ML Deployment Pipeline - Project Case Study",
+              "source_url": "https://rajesharigala.com/mlops/ai2/ai2.3",
+              "chunk_index": 2,
+              "chunk_total": 3,
+              "snippet": "Project Summary Comprehensive Project Overview Project Category MLOps + Cloud (Model Deployment & Operations Automation) Industry/Domain Cross-Industry (Enterprise AI Operations / Model Serving Platforms) DevOps Focus MLOps Deployment & Production Operations FLOW Subscription → RBAC (Contributor, Owner, Reader) → Service Principal (cloud) DevOps Or"
+            },
+            {
+              "score": 0.03109932318329811,
+              "page_id": "03_02_03_AI_Project_Azure_Module_03",
+              "section_id": "03_AI_Projects",
+              "title": "Azure ML Deployment Pipeline - Project Case Study",
+              "source_url": "https://rajesharigala.com/mlops/ai2/ai2.3",
+              "chunk_index": 1,
+              "chunk_total": 3,
+              "snippet": "Title: Azure ML Deployment Pipeline - Project Case Study Source URL: https://rajesharigala.com/mlops/ai2/ai2.3 Headings: H1: Azure ML Deployment Pipeline H2: Project Summary H2: Key Technologies & Concepts H2: Problem & Objective H2: Solution & Architecture H2: AI / DevOps Details H2: Skills & Technologies Used H2: Challenges & Outcomes H2: Azure D"
+            },
+            {
+              "score": 0.028431374579668045,
+              "page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+              "section_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+              "title": "MLOps & AI Systems Portfolio | ML Lifecycle Engineering",
+              "source_url": "https://rajesharigala.com/mlops/mlops,sys",
+              "chunk_index": 1,
+              "chunk_total": 4,
+              "snippet": "Title: MLOps & AI Systems Portfolio | ML Lifecycle Engineering Source URL: https://rajesharigala.com/mlops/mlops,sys Headings: H1: MLOPS & AI SYSTEMS ENGINEERING H2: MLOps Core Systems Architecture H3: End-to-End ML Lifecycle Systems Across Cloud Platforms H3: 1. Training Pipelines H3: End-to-End ML Platform on AWS (MLflow + SageMaker) H3: Azure ML"
+            }
+          ],
+          "evaluation": {
+            "expected_page_id_hit": true,
+            "expected_signal_hits": [
+              "Azure",
+              "MLOps",
+              "Module"
+            ],
+            "expected_signal_hit_count": 3,
+            "top_page_ids": [
+              "03_02_03_AI_Project_Azure_Module_03",
+              "03_02_03_AI_Project_Azure_Module_03",
+              "02_Tech_02_MLOps_03_MLOps_ML_Systems"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "specificity_004_cicd",
+      "category": "specificity_test",
+      "question": "Which pages discuss CI/CD pipelines?",
+      "intent": "Specific CI/CD section retrieval",
+      "expected_page_id_contains": [
+        "CICD"
+      ],
+      "modes": [
+        {
+          "mode": "hybrid",
+          "count": 110,
+          "results": [
+            {
+              "score": 0.032258063554763794,
+              "page_id": "02_Tech_02_MLOps_01_CICD",
+              "section_id": "02_Tech_02_MLOps_01_CICD",
+              "title": "CI/CD Automation & Platform Engineering | Multi-Cloud Portfolio",
+              "source_url": "https://rajesharigala.com/mlops/cicd",
+              "chunk_index": 1,
+              "chunk_total": 2,
+              "snippet": "Title: CI/CD Automation & Platform Engineering | Multi-Cloud Portfolio Source URL: https://rajesharigala.com/mlops/cicd Headings: H1: CI/CD AUTOMATION & PLATFORM ENGINEERING H2: Multi-Cloud CI/CD Projects H3: Production-style CI/CD pipelines across Azure, GitHub, AWS, and GCP using Pipeline/Workflow as Code H3: Enterprise CI/CD on Azure H3: Develop"
+            },
+            {
+              "score": 0.03177805617451668,
+              "page_id": "02_Tech_02_MLOps_01_CICD",
+              "section_id": "02_Tech_02_MLOps_01_CICD",
+              "title": "CI/CD Automation & Platform Engineering | Multi-Cloud Portfolio",
+              "source_url": "https://rajesharigala.com/mlops/cicd",
+              "chunk_index": 2,
+              "chunk_total": 2,
+              "snippet": "GitHub Actions Workflow as Code GitHub Pages Event-driven Pipeline as Code Governance & Approvals Secrets & Identity Cloud-Native CI/CD GitHub Actions workflows Branch protection & PR governance Event-driven automation View Project Cloud-Native Cloud-Native CI/CD on AWS AWS AWS CI/CD (CodePipeline / GitHub Actions / SageMaker / ECS / Lambda) with I"
+            },
+            {
+              "score": 0.02753623202443123,
+              "page_id": "02_Tech_02_MLOps_01_CICD_Azure_DevOps_Pipeline",
+              "section_id": "02_Tech_02_MLOps_01_CICD",
+              "title": "Azure DevOps CI/CD Pipeline as Code - Case Study",
+              "source_url": "https://rajesharigala.com/mlops/CI-CD/azure-devops-ci-cd-pipeline-yaml",
+              "chunk_index": 3,
+              "chunk_total": 3,
+              "snippet": "Reliability & Scalability Pipeline pass-rate monitoring and optimization Test pass rate validation and reporting Pipeline duration optimization Resource utilization and cost optimization Architecture Patterns Pipeline Design Approaches Simple Pattern Build → Deploy Direct deployment after build No approval gates Suitable for development environment"
+            }
+          ],
+          "evaluation": {
+            "expected_page_id_contains_hit": true,
+            "expected_signal_hits": [
+              "CI/CD",
+              "pipeline",
+              "GitHub Actions",
+              "Azure DevOps"
+            ],
+            "expected_signal_hit_count": 4,
+            "top_page_ids": [
+              "02_Tech_02_MLOps_01_CICD",
+              "02_Tech_02_MLOps_01_CICD",
+              "02_Tech_02_MLOps_01_CICD_Azure_DevOps_Pipeline"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "specificity_005_iac",
+      "category": "specificity_test",
+      "question": "What infrastructure as code work is included?",
+      "intent": "Specific IaC section retrieval",
+      "expected_page_id_contains": [
+        "IaC"
+      ],
+      "modes": [
+        {
+          "mode": "hybrid",
+          "count": 139,
+          "results": [
+            {
+              "score": 0.03253968432545662,
+              "page_id": "02_Tech_02_MLOps_04_IaC",
+              "section_id": "02_Tech_02_MLOps_04_IaC",
+              "title": "Infrastructure as Code Portfolio | AWS CDK & Terraform",
+              "source_url": "https://rajesharigala.com/mlops/infra-code",
+              "chunk_index": 2,
+              "chunk_total": 2,
+              "snippet": "AWS CDK (Python) Amazon ECS Fargate Amazon RDS (MySQL) Amazon S3 AWS Secrets Manager Application Load Balancer Infrastructure as Code MLOps Platform Production Deployment Auto-Scaling Complete VPC networking with public/private subnets RDS MySQL backend store with Secrets Manager S3 artifact storage with IAM permissions ECS Fargate with CPU-based a"
+            },
+            {
+              "score": 0.032522473484277725,
+              "page_id": "02_Tech_02_MLOps_04_IaC",
+              "section_id": "02_Tech_02_MLOps_04_IaC",
+              "title": "Infrastructure as Code Portfolio | AWS CDK & Terraform",
+              "source_url": "https://rajesharigala.com/mlops/infra-code",
+              "chunk_index": 1,
+              "chunk_total": 2,
+              "snippet": "Title: Infrastructure as Code Portfolio | AWS CDK & Terraform Source URL: https://rajesharigala.com/mlops/infra-code Headings: H1: INFRASTRUCTURE AS CODE PORTFOLIO H2: Infrastructure as Code Projects H3: Programmatic management of cloud infrastructure using AWS CDK, Terraform, and CloudFormation H3: MLflow Platform on AWS ECS Fargate H3: AWS CDK In"
+            },
+            {
+              "score": 0.032522473484277725,
+              "page_id": "02_Tech_02_MLOps_04_IaC_02_Project_2",
+              "section_id": "02_Tech_02_MLOps_04_IaC",
+              "title": "AWS CDK - Infrastructure as Code CI/CD Platform",
+              "source_url": "https://rajesharigala.com/mlops/infra project2",
+              "chunk_index": 1,
+              "chunk_total": 2,
+              "snippet": "Title: AWS CDK - Infrastructure as Code CI/CD Platform Source URL: https://rajesharigala.com/mlops/infra project2 Headings: H1: AWS CDK - Infrastructure as Code H2: Project Summary H2: Key Technologies & Concepts H2: Problem & Objective H2: Solution & Architecture H2: Skills & Technologies Used H2: Pipeline Implementation & Challenges H2: AWS DevOp"
+            }
+          ],
+          "evaluation": {
+            "expected_page_id_contains_hit": true,
+            "expected_signal_hits": [
+              "Infrastructure as Code",
+              "CDK",
+              "Terraform",
+              "IaC"
+            ],
+            "expected_signal_hit_count": 4,
+            "top_page_ids": [
+              "02_Tech_02_MLOps_04_IaC",
+              "02_Tech_02_MLOps_04_IaC",
+              "02_Tech_02_MLOps_04_IaC_02_Project_2"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "filter_001_business_section",
+      "category": "filter_test",
+      "question": "What business leadership examples are available?",
+      "intent": "Filter to business section",
+      "filter": "section_id eq '01_Business_Skills'",
+      "expected_page_id_startswith": [
+        "01_"
+      ],
+      "modes": [
+        {
+          "mode": "hybrid",
+          "count": 21,
+          "results": [
+            {
+              "score": 0.03333333507180214,
+              "page_id": "01_Business_Skills",
+              "section_id": "01_Business_Skills",
+              "title": "Business Leadership — Rajesh Arigala",
+              "source_url": "https://rajesharigala.com/buiss skills/buissness",
+              "chunk_index": 1,
+              "chunk_total": 2,
+              "snippet": "Title: Business Leadership — Rajesh Arigala Source URL: https://rajesharigala.com/buiss skills/buissness Headings: H1: BusinessLeadership& Execution H2: Not job titles.Owned outcomes. H2: Select an engagementto explore in depth H2: Six domains.One standard. Paragraphs: Six engagements across healthcare, industrial, infrastructure, legal, craft, and"
+            },
+            {
+              "score": 0.032786883413791656,
+              "page_id": "01_Business_Skills",
+              "section_id": "01_Business_Skills",
+              "title": "Business Leadership — Rajesh Arigala",
+              "source_url": "https://rajesharigala.com/buiss skills/buissness",
+              "chunk_index": 2,
+              "chunk_total": 2,
+              "snippet": "P&L and Outcome Ownership Full financial accountability across multiple engagements: ₹4.73Cr territory P&L at Medtronic, ₹625Cr turnaround scope at BPCL, and the full capital, operational, and commercial responsibility of R-Cafe as a zero-to-live build. Cross-Domain Execution Credibility Six domains. Healthcare, industrial, infrastructure, law, cra"
+            },
+            {
+              "score": 0.03128054738044739,
+              "page_id": "01_04_Business_Skill_R_Cafe",
+              "section_id": "01_Business_Skills",
+              "title": "R-Cafe by Red Rybbons — Built from Ground Zero",
+              "source_url": "https://rajesharigala.com/buiss skills/r-cafe",
+              "chunk_index": 4,
+              "chunk_total": 4,
+              "snippet": "Recurring Feedback Theme customer.jpg Strategic Capabilities Cafe → Systems Leadership Each dimension of building R-Cafe maps directly to how AI platforms, MLOps systems, and production pipelines are designed and operated today. The cafe was the crucible. End-to-End Execution Ownership Owned the full lifecycle: planning → construction → integration"
+            }
+          ],
+          "evaluation": {
+            "expected_page_id_startswith_hit": true,
+            "top_page_ids": [
+              "01_Business_Skills",
+              "01_Business_Skills",
+              "01_04_Business_Skill_R_Cafe"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "filter_002_ai_projects_section",
+      "category": "filter_test",
+      "question": "What AI platform projects are listed?",
+      "intent": "Filter to AI projects section",
+      "filter": "section_id eq '03_AI_Projects'",
+      "expected_page_id_startswith": [
+        "03_"
+      ],
+      "modes": [
+        {
+          "mode": "hybrid",
+          "count": 48,
+          "results": [
+            {
+              "score": 0.03306011110544205,
+              "page_id": "03_04_AI_Project_GCP_Automation_Platform",
+              "section_id": "03_AI_Projects",
+              "title": "AI GCP AUTOMATION PROJECT · End-to-End Enterprise AI Platform on GCP",
+              "source_url": "https://rajesharigala.com/ai-work/ai-work4",
+              "chunk_index": 1,
+              "chunk_total": 2,
+              "snippet": "Title: AI GCP AUTOMATION PROJECT · End-to-End Enterprise AI Platform on GCP Source URL: https://rajesharigala.com/ai-work/ai-work4 Headings: H1: Enterprise AI Platform on GCP H2: Business Problem H2: What The Project Does H2: Business Architecture Story H2: Complete Architecture Diagram H2: Cost-Aware GCP MLOps (FinOps) H2: Resources Used H3: End-t"
+            },
+            {
+              "score": 0.0320020467042923,
+              "page_id": "03_04_01_AI_Project_GCP_IaC_Details",
+              "section_id": "03_AI_Projects",
+              "title": "AI‑GCP Pipeline‑1 : Agent Platform Platform Foundation · Case Study",
+              "source_url": "https://rajesharigala.com/mlops/ai4/ai4.1",
+              "chunk_index": 4,
+              "chunk_total": 5,
+              "snippet": "Primary Objective Establish a secure, reproducible GCP AI platform foundation by programmatically bootstrapping project context, IAM service accounts, artifact storage (GCS), and pipeline runtime configuration—enabling consistent, governed execution of MLOps pipelines across environments without console‑driven dependencies. Solution & Architecture "
+            },
+            {
+              "score": 0.03177805617451668,
+              "page_id": "03_02_01_AI_Project_Azure_Module_01",
+              "section_id": "03_AI_Projects",
+              "title": "Azure ML Platform IaC - Project Case Study",
+              "source_url": "https://rajesharigala.com/mlops/ai2/ai2.1",
+              "chunk_index": 1,
+              "chunk_total": 3,
+              "snippet": "Title: Azure ML Platform IaC - Project Case Study Source URL: https://rajesharigala.com/mlops/ai2/ai2.1 Headings: H1: Azure ML Platform Infrastructure as Code H2: Project Summary H2: Key Technologies & Concepts H2: Problem & Objective H2: Solution & Architecture H2: AI/ML & DevOps Details H2: Skills & Technologies Used H2: Challenges & Outcomes H2:"
+            }
+          ],
+          "evaluation": {
+            "expected_page_id_startswith_hit": true,
+            "top_page_ids": [
+              "03_04_AI_Project_GCP_Automation_Platform",
+              "03_04_01_AI_Project_GCP_IaC_Details",
+              "03_02_01_AI_Project_Azure_Module_01"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "filter_003_containers_section",
+      "category": "filter_test",
+      "question": "What container and orchestration projects are included?",
+      "intent": "Filter to containers section",
+      "filter": "section_id eq '02_Tech_02_MLOps_02_Containers'",
+      "expected_page_id_contains": [
+        "Containers"
+      ],
+      "modes": [
+        {
+          "mode": "hybrid",
+          "count": 26,
+          "results": [
+            {
+              "score": 0.03333333507180214,
+              "page_id": "02_Tech_02_MLOps_02_Containers",
+              "section_id": "02_Tech_02_MLOps_02_Containers",
+              "title": "Containers & Orchestration Portfolio | Docker & Kubernetes",
+              "source_url": "https://rajesharigala.com/mlops/ContainersOrchestration",
+              "chunk_index": 1,
+              "chunk_total": 1,
+              "snippet": "Title: Containers & Orchestration Portfolio | Docker & Kubernetes Source URL: https://rajesharigala.com/mlops/ContainersOrchestration Headings: H1: CONTAINERS & ORCHESTRATION H2: Containerization & Orchestration Technologies H3: Docker containerization and Kubernetes orchestration for scalable, portable applications H3: Docker Containerization H3: "
+            },
+            {
+              "score": 0.032786883413791656,
+              "page_id": "02_Tech_02_MLOps_02_Containers_01_Dockers",
+              "section_id": "02_Tech_02_MLOps_02_Containers",
+              "title": "Docker Fundamentals & Projects Portfolio",
+              "source_url": "https://rajesharigala.com/mlops/docker",
+              "chunk_index": 1,
+              "chunk_total": 2,
+              "snippet": "Title: Docker Fundamentals & Projects Portfolio Source URL: https://rajesharigala.com/mlops/docker Headings: H1: DOCKER FUNDAMENTALS & INFRASTRUCTURE H2: Docker Conceptual Foundations H2: Docker Projects H2: Docker Workflow Automation H3: Containerization, Orchestration & Production Deployment Patterns H3: Docker Architecture H3: Images vs Containe"
+            },
+            {
+              "score": 0.0320020467042923,
+              "page_id": "02_Tech_02_MLOps_02_Containers_01_Dockers_03_Project_3",
+              "section_id": "02_Tech_02_MLOps_02_Containers",
+              "title": "Docker Compose MLOps - Multi-Container ML Application",
+              "source_url": "https://rajesharigala.com/mlops/docker-project3",
+              "chunk_index": 1,
+              "chunk_total": 3,
+              "snippet": "Title: Docker Compose MLOps - Multi-Container ML Application Source URL: https://rajesharigala.com/mlops/docker-project3 Headings: H1: Multi-Container ML Application using Docker Compose H2: Project Summary H2: Key Technologies & Concepts H2: Problem & Objective H2: Solution & Architecture H2: AI/ML & DevOps Implementation H2: Skills & Technologies"
+            }
+          ],
+          "evaluation": {
+            "expected_page_id_contains_hit": true,
+            "top_page_ids": [
+              "02_Tech_02_MLOps_02_Containers",
+              "02_Tech_02_MLOps_02_Containers_01_Dockers",
+              "02_Tech_02_MLOps_02_Containers_01_Dockers_03_Project_3"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

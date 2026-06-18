@@ -1,0 +1,42 @@
+{
+  "export_version": "azure_export_v1",
+  "index_name": "profile-rag-v1",
+  "input_approved_chunks": "../09_future_output_chunks/approved_chunks_v1.jsonl",
+  "input_approved_manifest": "../09_future_output_chunks/approved_chunks_manifest.json",
+  "output_dir": "../13_output_azure_ready",
+  "embedding": {
+    "status": "not_generated",
+    "vector_field_name": "content_vector",
+    "dimensions": 1536,
+    "model_note": "Placeholder dimension for a future embedding model decision. Confirm dimensions before upload."
+  },
+  "vector_search": {
+    "algorithm_name": "hnsw-profile-rag-v1",
+    "profile_name": "vector-profile-v1",
+    "kind": "hnsw",
+    "metric": "cosine",
+    "m": 4,
+    "efConstruction": 400,
+    "efSearch": 500
+  },
+  "semantic_search": {
+    "configuration_name": "semantic-profile-rag-v1",
+    "title_field": "title",
+    "content_fields": [
+      "content"
+    ],
+    "keyword_fields": [
+      "page_id",
+      "section_id",
+      "source_url",
+      "related_page_ids"
+    ]
+  },
+  "outputs": {
+    "index_schema": "azure_index_schema_v1.json",
+    "upload_documents_jsonl": "azure_upload_documents_v1.jsonl",
+    "upload_documents_batch_json": "azure_upload_documents_batch_v1.json",
+    "export_manifest": "azure_export_manifest.json",
+    "export_report_md": "azure_export_report.md"
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "id": "tech_skills_aws",
+  "source_type": "website_rendered_v4_site_crawl",
+  "domain": "rajesharigala.com",
+  "url": "https://rajesharigala.com/tech skills/aws",
+  "depth": 3,
+  "parent_url": "https://rajesharigala.com/tech skills/skill",
+  "parent_page_id": "02_Technical_Skills",
+  "logical_parent_page_id": "02_Technical_Skills",
+  "title": "AWS DevOps & Cloud | Rajesh Arigala",
+  "meta_description": "",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "AWS DevOps & Cloud"
+    },
+    {
+      "level": "h2",
+      "text": "Projects Showcase"
+    },
+    {
+      "level": "h3",
+      "text": "AWS DevOps CI/CD Pipeline"
+    },
+    {
+      "level": "h3",
+      "text": "Amazon EKS Managed Stack"
+    },
+    {
+      "level": "h3",
+      "text": "AWS CDK Programmatic Stack"
+    },
+    {
+      "level": "h3",
+      "text": "AWS ECS Fargate MLFlow"
+    },
+    {
+      "level": "h3",
+      "text": "AWS SageMaker AI"
+    },
+    {
+      "level": "h3",
+      "text": "Study Material"
+    }
+  ],
+  "paragraphs": [
+    "Cloud Infrastructure & Automation",
+    "Comprehensive cloud infrastructure with automated development practices using AWS CodePipeline, EC2, S3, and AWS CDK for scalable applications. Production-ready CI/CD pipelines and infrastructure-as-code implementations ensure reliability, security, and rapid delivery across environments.",
+    "Real-world implementations demonstrating production-ready AWS DevOps solutions",
+    "Complete CI/CD pipeline implementation using AWS CodePipeline, CodeBuild, and CodeDeploy for automated build, test, and deployment workflows with GitHub as single source of truth.",
+    "Deployment of machine learning models on Amazon EKS cluster using Docker containers with CloudFormation infrastructure provisioning.",
+    "Programmatic cloud infrastructure deployment using AWS CDK Toolkit for reusable, scalable infrastructure-as-code solutions.",
+    "MLFlow tracking server deployment on AWS Fargate with complete infrastructure automation and containerized MLOps workflows.",
+    "End-to-end machine learning workflow with model building, training, and deployment using AWS SageMaker with real-time inference endpoints.",
+    "Interested in implementing production-ready DevOps solutions? Let's discuss how to build scalable, automated infrastructure for your organization's needs."
+  ],
+  "links": [
+    {
+      "text": "Rajesh Arigala",
+      "href": "https://rajesharigala.com/tech skills/index"
+    },
+    {
+      "text": "Home",
+      "href": "https://rajesharigala.com/"
+    },
+    {
+      "text": "AWS DevOps",
+      "href": "https://rajesharigala.com/tech skills/aws"
+    },
+    {
+      "text": "All Projects",
+      "href": "https://rajesharigala.com/tech skills/skill"
+    },
+    {
+      "text": "View on GitHub",
+      "href": "https://github.com/Rajesh-Arigala/aws-devops"
+    },
+    {
+      "text": "View on GitHub",
+      "href": "https://github.com/Rajesh-Arigala/AWS-EKS"
+    },
+    {
+      "text": "View on GitHub",
+      "href": "https://github.com/Rajesh-Arigala/aws-cdk-mycreation"
+    },
+    {
+      "text": "View on GitHub",
+      "href": "https://github.com/Rajesh-Arigala/MlFlow_aws_sagemaker_fargate"
+    },
+    {
+      "text": "View on GitHub",
+      "href": "https://github.com/Rajesh-Arigala/MLFlow-Labs"
+    }
+  ],
+  "content": "AWS DevOps & Cloud Cloud Infrastructure & Automation Comprehensive cloud infrastructure with automated development practices using AWS CodePipeline, EC2, S3, and AWS CDK for scalable applications. Production-ready CI/CD pipelines and infrastructure-as-code implementations ensure reliability, security, and rapid delivery across environments. Level Advanced 88% Cloud Infrastructure CI/CD Automation Projects Showcase Real-world implementations demonstrating production-ready AWS DevOps solutions Console UI AWS DevOps CI/CD Pipeline Complete CI/CD pipeline implementation using AWS CodePipeline, CodeBuild, and CodeDeploy for automated build, test, and deployment workflows with GitHub as single source of truth. Key Components AWS CodePipeline → CodeCommit → CodeBuild → CodeDeploy with rollback option EC2 instances management with S3 bucket roles and policies BuildSpec scripting with key-value pairs for automation Manual approval stages with automated SNS notifications CloudWatch for comprehensive logging and monitoring Technologies Used View on GitHub Study Material K8s Amazon EKS Managed Stack Deployment of machine learning models on Amazon EKS cluster using Docker containers with CloudFormation infrastructure provisioning. Key Components Infrastructure deployed via CloudFormation using EKSCTL CLI ML Model deployment on EKS cluster using KUBECTL CLI Service cluster/IP configuration with load balancer setup Endpoint invocation for prediction (local system & Postman testing) AWS managed control-plane with configurable worker nodes Technologies Used View on GitHub Study Material Own Stack AWS CDK Programmatic Stack Programmatic cloud infrastructure deployment using AWS CDK Toolkit for reusable, scalable infrastructure-as-code solutions. Key Components CDK Bootstrap → CDK Synth (Python/JavaScript) → .yaml files → CDK Deploy App.py and stack.py programmatic infrastructure definition CodeBuild PipelineProject with BuildSpec.from_Object → S3 artifacts Multi-stage pipeline: Source → Build → Deploy with GitHub integration SecretValue.secrets_manager() for secure credential management Technologies Used View on GitHub Study Material MLOps AWS ECS Fargate MLFlow MLFlow tracking server deployment on AWS Fargate with complete infrastructure automation and containerized MLOps workflows. Infrastructure Schema CDK Toolkit (IaC) → CloudFormation → ELB (traffic controller) ECS-Fargate (auto-scalable) with S3 bucket storage RDS for metadata/tables storage with IAM roles/policies VPC networking with SageMaker AI integration EC2-ECR for training code image management Technologies Used View on GitHub Study Material ML AWS SageMaker AI End-to-end machine learning workflow with model building, training, and deployment using AWS SageMaker with real-time inference endpoints. ML Workflow Notebook instances (Jupyter) with IAM roles for S3/ECR access ML training service: training and hyperparameter tuning (.tar files) ML hosting services: auto-scaling, low-latency endpoints MLFlow integration for experiment tracking and model registry Comprehensive logging and monitoring: latency, error rates Technologies Used View on GitHub Study Material Interested in implementing production-ready DevOps solutions? Let's discuss how to build scalable, automated infrastructure for your organization's needs. Contact & Collaborate",
+  "crawl_timestamp": "2026-06-17T06:17:42.417557+00:00",
+  "raw_html_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/tech_skills_aws.html"
+}

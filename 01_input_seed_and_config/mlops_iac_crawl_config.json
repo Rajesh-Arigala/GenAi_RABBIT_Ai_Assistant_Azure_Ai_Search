@@ -1,0 +1,12 @@
+{
+  "seed_urls": [
+    "https://rajesharigala.com/mlops/infra-code"
+  ],
+  "max_pages": 15,
+  "max_depth": 2,
+  "delay_seconds": 0.5,
+  "timeout_ms": 60000,
+  "viewport_width": 1440,
+  "viewport_height": 1800,
+  "same_domain_only": true
+}

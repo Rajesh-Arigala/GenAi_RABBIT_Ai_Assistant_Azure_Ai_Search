@@ -1,0 +1,1971 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kubernetes ML Inference Deployment - Project Case Study</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-main: #0C1117;
+            --bg-surface: #121923;
+            --bg-elevated: #161F2B;
+            --card-bg: #161F2B;
+
+            --accent-primary: #B8B2A7;
+            --accent-energy: #7CFFB2;
+            --accent-depth: #3A1F2D;
+            --accent-kubernetes: #326CE5;
+
+            --text-primary: #E6E9EF;
+            --text-secondary: #A1A8B3;
+            --text-muted: #6F7682;
+
+            --line-subtle: #1E2633;
+            --glass-border: rgba(184, 178, 167, 0.15);
+
+            --ease-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --accent-gradient: linear-gradient(90deg, var(--accent-primary), var(--accent-kubernetes));
+
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* ==================== HEADER & NAVIGATION ==================== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(12, 17, 23, 0.9);
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.4s var(--ease-slow);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-kubernetes);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-kubernetes);
+            transition: width 0.4s var(--ease-slow);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--accent-kubernetes);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+            background: var(--accent-kubernetes);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ==================== MAIN CONTENT ==================== */
+        main {
+            padding-top: 100px;
+            padding-bottom: 4rem;
+        }
+
+        /* ==================== SECTION STYLES ==================== */
+        .section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        .section-header {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-kubernetes);
+            border-radius: 2px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.4s var(--ease-slow);
+        }
+
+        .card:hover {
+            border-color: var(--accent-kubernetes);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .card-title i {
+            color: var(--accent-kubernetes);
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-item {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .list-item::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent-kubernetes);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .highlight-box {
+            background: rgba(50, 108, 229, 0.05);
+            border-left: 4px solid var(--accent-kubernetes);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-text {
+            color: var(--accent-kubernetes);
+            font-weight: 500;
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero-section {
+            text-align: center;
+            padding-top: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-kubernetes), transparent);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 1rem;
+            letter-spacing: -0.02em;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .hero-summary {
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* ==================== ARCHITECTURE VISUAL ==================== */
+        .architecture-visual {
+            background: var(--bg-elevated);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--line-subtle);
+            margin: 2rem 0;
+        }
+
+        .architecture-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* This fills the container, may crop edges */
+            display: block;
+        }
+
+        .architecture-label {
+            position: relative;
+            z-index: 2;
+            background: rgba(12, 17, 23, 0.7);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .flow-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .flow-step {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: var(--accent-kubernetes);
+            color: var(--bg-main);
+            border-radius: 50%;
+            line-height: 30px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* ==================== TECHNOLOGY STACK ==================== */
+        .tech-category {
+            margin-bottom: 2rem;
+        }
+
+        .tech-category-title {
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tech-tag {
+            background: rgba(184, 178, 167, 0.1);
+            color: var(--accent-primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(184, 178, 167, 0.2);
+        }
+
+        .tech-tag.kubernetes {
+            background: rgba(50, 108, 229, 0.1);
+            color: var(--accent-kubernetes);
+            border-color: rgba(50, 108, 229, 0.2);
+        }
+
+        /* ==================== ASSETS SECTION ==================== */
+        .assets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .asset-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--line-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .asset-card:hover {
+            border-color: var(--accent-kubernetes);
+            transform: translateY(-4px);
+        }
+
+        .asset-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(50, 108, 229, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--accent-kubernetes);
+            font-size: 1.5rem;
+        }
+
+        .asset-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .asset-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .asset-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-kubernetes);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .asset-link:hover {
+            text-decoration: underline;
+        }
+
+        .disclaimer {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: rgba(184, 178, 167, 0.05);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid var(--line-subtle);
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ==================== YAML TABLE STYLES ==================== */
+        .yaml-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .yaml-table th {
+            background: rgba(50, 108, 229, 0.1);
+            color: var(--accent-kubernetes);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--line-subtle);
+        }
+
+        .yaml-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--line-subtle);
+            color: var(--text-secondary);
+        }
+
+        .yaml-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .yaml-table tr:hover {
+            background: rgba(184, 178, 167, 0.05);
+        }
+
+        /* ==================== CODE BLOCK STYLES ==================== */
+        .code-block {
+            background: rgba(12, 17, 23, 0.8);
+            border: 1px solid var(--line-subtle);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+            overflow-x: auto;
+        }
+
+        .code-key {
+            color: var(--accent-kubernetes);
+        }
+
+        .code-value {
+            color: #6C9BCF;
+        }
+
+        .code-comment {
+            color: #6F7682;
+        }
+
+        /* ==================== DEMO SECTION ==================== */
+        .demo-section {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .demo-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-kubernetes);
+        }
+
+        .demo-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .trigger-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--accent-kubernetes);
+            color: var(--bg-main);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-slow);
+            text-decoration: none;
+        }
+
+        .trigger-btn:hover {
+            background: transparent;
+            color: var(--accent-kubernetes);
+            border: 2px solid var(--accent-kubernetes);
+            transform: translateY(-2px);
+        }
+
+        /* ==================== STUDY MATERIAL MODAL ==================== */
+        .study-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(12, 17, 23, 0.95);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .study-modal.active {
+            display: flex;
+        }
+
+        .study-modal-content {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid var(--line-subtle);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .study-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .study-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .study-modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .study-modal-close:hover {
+            color: var(--accent-kubernetes);
+            background: rgba(50, 108, 229, 0.1);
+        }
+
+        .study-material-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .study-material-item {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            gap: 1.2rem;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .study-material-item:hover {
+            background: rgba(184, 178, 167, 0.05);
+            transform: translateX(5px);
+        }
+
+        .study-material-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(108, 155, 207, 0.1);
+            color: #6C9BCF;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        .study-material-info {
+            flex: 1;
+        }
+
+        .study-material-name {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .study-material-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            background: transparent;
+            border: 2px solid var(--accent-kubernetes);
+            color: var(--accent-kubernetes);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .download-btn:hover {
+            background: rgba(50, 108, 229, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(50, 108, 229, 0.2);
+        }
+
+        /* ==================== KUBERNETES COMMANDS SECTION ==================== */
+        .kube-commands {
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .command-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.2rem;
+            border-radius: 8px;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .command {
+            font-family: 'Courier New', monospace;
+            color: var(--accent-kubernetes);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .command-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeInUp 0.6s var(--ease-slow) forwards;
+            opacity: 0;
+        }
+
+        .section:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .section:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .section:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .section:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .section:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        /* Animation for modal */
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .study-modal-content {
+            animation: modalFadeIn 0.3s var(--ease-slow);
+        }
+
+        /* ==================== PREDICTION TABLE STYLES ==================== */
+        .prediction-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-elevated);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .prediction-table th {
+            background: rgba(50, 108, 229, 0.1);
+            color: var(--accent-kubernetes);
+            padding: 0.8rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .prediction-table td {
+            padding: 0.8rem;
+            border-bottom: 1px solid var(--line-subtle);
+            color: var(--text-secondary);
+        }
+
+        .prediction-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 768px) {
+            .nav-list {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background: var(--bg-surface);
+                padding: 2rem;
+                border-bottom: 1px solid var(--line-subtle);
+                gap: 1.5rem;
+            }
+
+            .nav-list.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .flow-steps {
+                flex-direction: column;
+            }
+
+            .flow-step {
+                min-width: 100%;
+            }
+
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .yaml-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .study-modal-content {
+                padding: 1.5rem;
+            }
+
+            .study-material-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .study-material-info {
+                text-align: center;
+            }
+
+            .commands-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .demo-title {
+                font-size: 2rem;
+            }
+
+            .study-modal-content {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="nav-logo">Kubernetes ML Inference</a>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#overview" class="nav-link active">Overview</a></li>
+                <li class="nav-item"><a href="#problem" class="nav-link">Problem</a></li>
+                <li class="nav-item"><a href="#architecture" class="nav-link">Architecture</a></li>
+                <li class="nav-item"><a href="#skills" class="nav-link">Skills</a></li>
+                <li class="nav-item"><a href="#details" class="nav-link">AI/DevOps</a></li>
+                <li class="nav-item"><a href="#assets" class="nav-link">Assets</a></li>
+            </ul>
+            <button class="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section id="overview" class="section hero-section" style="opacity: 1; transform: translateY(0px);">
+            <h1 class="hero-title">Kubernetes Single-Container ML Inference</h1>
+            <p class="hero-subtitle">Minikube Deployment with Service Tunneling</p>
+            <div class="hero-summary">
+                <p>Deploying a single-container machine-learning inference service on Kubernetes using Minikube with
+                    service tunneling for local access. This project demonstrates production-like Kubernetes networking,
+                    service abstraction, and operational behavior for ML model serving.</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem; width: 100%;">
+                    <a href="https://hub.docker.com/r/rajesharigala/no-ui-placement-ml-model/tags" target="_blank" class="trigger-btn" style="background: var(--bg-elevated); border: 1px solid var(--line-subtle); color: var(--text-primary); flex: 1; max-width: fit-content; justify-content: center;">
+                        <i class="fab fa-docker" style="color: #2496ed;"></i>
+                        <span>Docker Image: rajesharigala/no-ui-placement-ml-model:v1-arm64</span>
+                    </a>
+                    <a href="https://github.com/Rajesh-Arigala/Kube-config-minikube-local" target="_blank" class="trigger-btn" style="background: var(--bg-elevated); border: 1px solid var(--line-subtle); color: var(--text-primary); flex: 1; max-width: fit-content; justify-content: center;">
+                        <i class="fab fa-github"></i>
+                        <span>GitHub: Kube-config-minikube-local</span>
+                    </a>
+                    <a href="#skills" class="trigger-btn" style="background: var(--bg-elevated); border: 1px solid var(--line-subtle); color: var(--text-primary); flex: 1; max-width: fit-content; justify-content: center;">
+                        <i class="fas fa-code" style="color: var(--accent-kubernetes);"></i>
+                        <span>Tech Stack</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Summary -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Project Summary</h2>
+                <p class="section-subtitle">Comprehensive Project Overview</p>
+            </div>
+
+            <div class="grid-3">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-tag"></i>Project Category</h3>
+                    <div class="card-content">
+                        <p>Kubernetes · MLOps · DevOps (Primary: Kubernetes Infrastructure &amp; Deployment)</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-industry"></i>Industry/Domain</h3>
+                    <div class="card-content">
+                        <p>Information Technology (AI/ML Infrastructure &amp; Platform Engineering)</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-robot"></i>Domain Focus</h3>
+                    <div class="card-content">
+                        <p>Machine Learning Inference Deployment on Kubernetes</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Keywords -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Key Technologies &amp; Concepts</h2>
+                <p class="section-subtitle">Core Technologies Used</p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-key"></i>Kubernetes ML Inference Keywords</h3>
+                <div class="card-content">
+                    <div class="tech-tags">
+                        <span class="tech-tag kubernetes">Kubernetes (Deployment, Service, Pod)</span>
+                        <span class="tech-tag kubernetes">Minikube (Local Kubernetes, Tunneling)</span>
+                        <span class="tech-tag">Kubectl CLI (Cluster Interaction)</span>
+                        <span class="tech-tag kubernetes">Containerized ML Inference</span>
+                        <span class="tech-tag">Docker Image (Docker Hub, Image Pull)</span>
+                        <span class="tech-tag kubernetes">Kubernetes YAML (Deployment.yaml, Service.yaml)</span>
+                        <span class="tech-tag">Service Types (LoadBalancer, ClusterIP)</span>
+                        <span class="tech-tag kubernetes">Minikube Service Tunnel (Local Access)</span>
+                        <span class="tech-tag">Namespace Management (Default, Custom)</span>
+                        <span class="tech-tag kubernetes">Resource Limits (CPU, Memory)</span>
+                        <span class="tech-tag">ReplicaSet &amp; Pod Lifecycle</span>
+                        <span class="tech-tag kubernetes">API-based Model Access (REST Inference)</span>
+                        <span class="tech-tag">Local Development &amp; Testing Environment</span>
+                        <span class="tech-tag kubernetes">Kubernetes Networking (Service → Pod Routing)</span>
+                        <span class="tech-tag">Infrastructure as Code (Declarative Manifests)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem & Objective -->
+        <section id="problem" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Problem &amp; Objective</h2>
+                <p class="section-subtitle">What problem did this project solve?</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Problems Solved</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Running ML inference service reliably in local development with
+                                Kubernetes</li>
+                            <li class="list-item">Cloud-managed load balancers unavailable in local environment</li>
+                            <li class="list-item">Pods are ephemeral - direct container port access not stable</li>
+                            <li class="list-item">Need for production-like Kubernetes networking in development</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-bullseye"></i>Primary Objectives</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Deploy containerized ML inference application as single-container Pod
+                            </li>
+                            <li class="list-item">Expose application using Kubernetes Service (LoadBalancer type)</li>
+                            <li class="list-item">Access externally through Minikube service tunneling</li>
+                            <li class="list-item">Ensure stable, production-like network access in local environment
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution & Architecture -->
+        <section id="architecture" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Solution &amp; Architecture</h2>
+                <p class="section-subtitle">Architectural Overview</p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-sitemap"></i>Solution Overview</h3>
+                <div class="card-content">
+                    <p>The solution deploys a containerized ML inference application as a single-container Pod managed
+                        by a Kubernetes Deployment on a local Minikube cluster. The application is exposed using a
+                        Kubernetes Service (LoadBalancer type) and accessed externally through Minikube service
+                        tunneling.</p>
+
+                    <div class="highlight-box">
+                        <p class="highlight-text">Entire setup is defined using declarative Kubernetes YAML manifests,
+                            ensuring reproducibility, scalability readiness, and alignment with real-world Kubernetes
+                            infrastructure patterns.</p>
+                    </div>
+
+                    <p>This approach provides stable, production-like network access while running locally, with the
+                        ability to seamlessly transition to cloud environments.</p>
+                </div>
+            </div>
+
+            <div class="architecture-visual">
+                <div class="architecture-placeholder">
+                    <img src="../img/CONTAINERS &amp; ORCHESTRATION/Kubernetes1.webp" alt="kubernetes">
+                </div>
+
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Minikube Start</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Apply Deployment</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Create Service</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Minikube Tunnel</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">5</div>
+                        <div class="step-label">Access API</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-cogs"></i>Key Components</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item">Kubernetes (Local Cluster via Minikube)</li>
+                        <li class="list-item">Minikube (Single-node Kubernetes runtime)</li>
+                        <li class="list-item">Docker (Container image runtime)</li>
+                        <li class="list-item">Kubernetes Deployment (Pod lifecycle management)</li>
+                        <li class="list-item">Kubernetes Service - LoadBalancer (Application exposure)</li>
+                        <li class="list-item">Minikube Service Tunneling (Local external access)</li>
+                        <li class="list-item">Kubectl CLI (Cluster and resource management)</li>
+                        <li class="list-item">Containerized ML Inference Application (REST API)</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <p class="highlight-text">Scalability &amp; Reliability: Although implemented as single-replica
+                            deployment, the solution uses Kubernetes Deployment enabling horizontal scaling by
+                            increasing replica count. Kubernetes ensures self-healing by automatically restarting failed
+                            Pods. Resource limits (CPU and memory) prevent container overuse.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI/DevOps Details -->
+        <section id="details" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">AI/DevOps Details</h2>
+                <p class="section-subtitle">MLOps Implementation &amp; Automation</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-robot"></i>AI/ML Focus</h3>
+                    <div class="card-content">
+                        <p>DevOps &amp; MLOps Infrastructure for Machine Learning Inference Deployment</p>
+                        <ul class="list">
+                            <li class="list-item">Primary focus on Kubernetes-based deployment, networking, and
+                                operationalization</li>
+                            <li class="list-item">Emphasis on ML inference service rather than model training</li>
+                            <li class="list-item">Production-style model serving architecture</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-cogs"></i>Automation &amp; Orchestration</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Pre-trained ML model containerized as REST-based API</li>
+                            <li class="list-item">Kubernetes-native operational workflows</li>
+                            <li class="list-item">Declarative Deployment and Service manifests</li>
+                            <li class="list-item">Automated Pod creation, lifecycle management, self-healing</li>
+                            <li class="list-item">Service discovery and load balancing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-tools"></i>Tools &amp; Technologies</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Docker (Containerization of ML inference application)</li>
+                            <li class="list-item">Kubernetes (Container orchestration and workload management)</li>
+                            <li class="list-item">Minikube (Local Kubernetes cluster for development)</li>
+                            <li class="list-item">Kubectl (CLI for deploying and managing resources)</li>
+                            <li class="list-item">Docker Hub (Container image registry for image retrieval)</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-chart-line"></i>Monitoring &amp; Optimization</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Basic monitoring using kubectl commands (get pods, describe pod, logs)
+                            </li>
+                            <li class="list-item">Resource optimization via CPU and memory limits in Deployment</li>
+                            <li class="list-item">Foundation for production monitoring (Prometheus, Grafana)</li>
+                            <li class="list-item">Runtime visibility through container logs</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills & Technologies Used -->
+        <section id="skills" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Skills &amp; Technologies Used</h2>
+                <p class="section-subtitle">Technical Proficiency Demonstrated</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-star"></i>Primary Skills</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Kubernetes Deployment &amp; Services — Intermediate</li>
+                            <li class="list-item">Container Orchestration (Pods, ReplicaSets, Networking) — Intermediate
+                            </li>
+                            <li class="list-item">Docker Containerization — Intermediate</li>
+                            <li class="list-item">Minikube (Local Kubernetes Operations) — Intermediate</li>
+                            <li class="list-item">Kubectl CLI &amp; Resource Management — Intermediate</li>
+                            <li class="list-item">Infrastructure as Code (Kubernetes YAML) — Intermediate</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-tools"></i>Secondary Tools / Frameworks</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Python (REST-based ML inference API)</li>
+                            <li class="list-item">Flask (Lightweight web framework for model serving)</li>
+                            <li class="list-item">Docker Hub (Container image registry)</li>
+                            <li class="list-item">Postman (API testing and validation)</li>
+                            <li class="list-item">Linux / macOS Terminal (CLI-based operations)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-code"></i>Programming Languages</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item">Infrastructure as Code YAML configuration</li>
+                        <li class="list-item">Python (ML inference API development)</li>
+                        <li class="list-item">CLI commands (Minikube, Kubectl, GitHub)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fab fa-kubernetes"></i>Cloud &amp; DevOps Tools</h3>
+                <div class="card-content">
+                    <div class="tech-tags">
+                        <span class="tech-tag kubernetes">Kubernetes</span>
+                        <span class="tech-tag kubernetes">Minikube</span>
+                        <span class="tech-tag kubernetes">Docker</span>
+                        <span class="tech-tag kubernetes">Kubectl</span>
+                        <span class="tech-tag kubernetes">Docker Hub</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kubernetes YAML Manifests -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Kubernetes YAML Manifests</h2>
+                <p class="section-subtitle">Declarative Infrastructure as Code</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-file-code"></i>Deployment Manifest</h3>
+                    <div class="card-content">
+                        <div class="code-block">
+                            <span class="code-comment"># Kubernetes Deployment Manifest</span><br>
+                            <span class="code-comment"># API version for Deployments</span><br>
+                            <span class="code-key">apiVersion</span>: <span class="code-value">apps/v1</span><br>
+                            <span class="code-key">kind</span>: <span class="code-value">Deployment</span><br>
+                            <span class="code-key">metadata</span>:<br>
+                            &nbsp;&nbsp;<span class="code-key">name</span>: <span class="code-value">recruitment-rank-app</span><br>
+                            <span class="code-key">spec</span>:<br>
+                            &nbsp;&nbsp;<span class="code-key">selector</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">matchLabels</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">app</span>: <span class="code-value">recruitment-rank-app</span><br>
+                            &nbsp;&nbsp;<span class="code-key">template</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">metadata</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">labels</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">app</span>: <span class="code-value">recruitment-rank-app</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">spec</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">containers</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="code-key">name</span>: <span class="code-value">placement-app</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">image</span>: <span class="code-value">rajesharigala/no-ui-placement-ml-model:v1-arm64</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">resources</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">limits</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">memory</span>: <span class="code-value">"128Mi"</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">cpu</span>: <span class="code-value">"500m"</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">ports</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="code-key">containerPort</span>: <span class="code-value">9696</span>
+                        </div>
+                        <div class="highlight-box">
+                            <p class="highlight-text">Key Notes: This Deployment creates and manages Pods automatically.
+                                No replicas specified → defaults to 1. Labels connect Deployment ↔ Pods ↔ Service.
+                                Resource limits prevent node exhaustion. Port 9696 matches the Service targetPort.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-network-wired"></i>Service Manifest</h3>
+                    <div class="card-content">
+                        <div class="code-block">
+                            <span class="code-comment"># Kubernetes Service Manifest</span><br>
+                            <span class="code-key">apiVersion</span>: <span class="code-value">v1</span><br>
+                            <span class="code-key">kind</span>: <span class="code-value">Service</span><br>
+                            <span class="code-key">metadata</span>:<br>
+                            &nbsp;&nbsp;<span class="code-key">name</span>: <span class="code-value">recruitment-rank-app</span><br>
+                            <span class="code-key">spec</span>:<br>
+                            &nbsp;&nbsp;<span class="code-key">type</span>: <span class="code-value">LoadBalancer</span><br>
+                            &nbsp;&nbsp;<span class="code-key">selector</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">app</span>: <span class="code-value">recruitment-rank-app</span><br>
+                            &nbsp;&nbsp;<span class="code-key">ports</span>:<br>
+                            &nbsp;&nbsp;- <span class="code-key">protocol</span>: <span class="code-value">"TCP"</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">port</span>: <span class="code-value">80</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">targetPort</span>: <span class="code-value">9696</span>
+                        </div>
+                        <div class="highlight-box">
+                            <p class="highlight-text">Key Notes: Service provides stable IP and DNS name. Decouples
+                                access from ephemeral Pod IPs. Selector links Service → Pods using labels. port (80) is
+                                external-facing. targetPort (9696) is container's listening port. LoadBalancer works
+                                locally via Minikube tunneling.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Challenges & Outcomes -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Challenges &amp; Outcomes</h2>
+                <p class="section-subtitle">Technical challenges and resolutions</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Technical Challenges</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Exposing Kubernetes-hosted application locally without cloud-managed
+                                load balancer</li>
+                            <li class="list-item">Configuring Kubernetes Services, selectors, and port mappings
+                                correctly</li>
+                            <li class="list-item">Managing ephemeral nature of Pods for stable access</li>
+                            <li class="list-item">Diagnosing container startup and networking issues</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-check-circle"></i>Resolutions</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Used Minikube service tunneling for local external access</li>
+                            <li class="list-item">Carefully aligned Service selectors with Pod labels and container
+                                ports</li>
+                            <li class="list-item">Deployed using Kubernetes Deployment for automatic Pod recreation</li>
+                            <li class="list-item">Debugged with kubectl logs, describe, and resource status checks</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-question-circle"></i>Why LoadBalancer Shows &lt;pending&gt; in
+                    Minikube?</h3>
+                <div class="card-content">
+                    <p>Kubernetes assumes: "A cloud provider exists that can create an external load balancer."</p>
+                    <ul class="list">
+                        <li class="list-item">AWS → ELB/ALB</li>
+                        <li class="list-item">Azure → Azure Load Balancer</li>
+                        <li class="list-item">GCP → Cloud Load Balancer</li>
+                    </ul>
+                    <p>In Minikube, LoadBalancer services remain in &lt;pending&gt; state because there is no cloud
+                        provider to provision an external load balancer. Minikube solves this using service tunneling,
+                        which locally exposes the service while preserving production-like Kubernetes networking
+                        behavior.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kubernetes Commands Reference -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Kubernetes Commands Reference</h2>
+                <p class="section-subtitle">Essential kubectl and Minikube commands</p>
+            </div>
+
+            <div class="kube-commands">
+                <div class="commands-grid">
+                    <div class="command-item">
+                        <div class="command">minikube start</div>
+                        <div class="command-desc">Starts the Minikube local Kubernetes cluster</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">minikube status</div>
+                        <div class="command-desc">Checks Minikube cluster status</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">kubectl get all</div>
+                        <div class="command-desc">Lists all Kubernetes resources in current namespace</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">kubectl get namespaces</div>
+                        <div class="command-desc">Lists all namespaces in the cluster</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">kubectl create -f deployment.yaml</div>
+                        <div class="command-desc">Creates resources from deployment manifest</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">kubectl create -f service.yaml</div>
+                        <div class="command-desc">Creates service from service manifest</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">kubectl get deployments</div>
+                        <div class="command-desc">Lists all deployments in current namespace</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">kubectl get services</div>
+                        <div class="command-desc">Lists all services in current namespace</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">minikube service &lt;service-name&gt;</div>
+                        <div class="command-desc">Opens service in browser via Minikube tunnel</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">kubectl logs &lt;pod-name&gt;</div>
+                        <div class="command-desc">Shows logs from a specific pod</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">kubectl describe pod &lt;pod-name&gt;</div>
+                        <div class="command-desc">Shows detailed information about a pod</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">kubectl delete deployment &lt;name&gt;</div>
+                        <div class="command-desc">Deletes a deployment and its pods</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">kubectl delete service &lt;name&gt;</div>
+                        <div class="command-desc">Deletes a service</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">minikube stop</div>
+                        <div class="command-desc">Stops the Minikube cluster</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Model Inference Results -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Model Inference Results</h2>
+                <p class="section-subtitle">Prediction examples from the deployed ML service</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-check-circle"></i>Successful Prediction</h3>
+                    <div class="card-content">
+                        <table class="prediction-table">
+                            <thead>
+                                <tr>
+                                    <th>Prediction</th>
+                                    <th>Probability</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>True</td>
+                                    <td>0.88671875</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>High probability indicates strong prediction confidence for positive outcome.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-times-circle"></i>Negative Prediction</h3>
+                    <div class="card-content">
+                        <table class="prediction-table">
+                            <thead>
+                                <tr>
+                                    <th>Prediction</th>
+                                    <th>Probability</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>False</td>
+                                    <td>0.33984375</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>Lower probability indicates prediction against the positive outcome.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-external-link-alt"></i>Accessing the Application</h3>
+                <div class="card-content">
+                    <p>Access the deployed ML inference service through Minikube tunnel:</p>
+                    <div class="code-block">
+                        <span class="code-comment"># Start Minikube tunnel for service access</span><br>
+                        <span class="code-key">minikube service recruitment-rank-app</span>
+                    </div>
+                    <p>This opens the service in your default browser with a local URL like
+                        <code>127.0.0.1:59256/predict</code>
+                    </p>
+
+                    <div class="highlight-box">
+                        <p class="highlight-text">Postman Inference Method: The ML inference API can also be tested
+                            using Postman with JSON payloads sent to the service endpoint for prediction requests.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Architecture & YAML Mapping -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Architecture &amp; YAML Mapping</h2>
+                <p class="section-subtitle">Architecture to Kubernetes YAML construct mapping</p>
+            </div>
+
+            <div class="card">
+                <div class="card-content">
+                    <table class="yaml-table">
+                        <thead>
+                            <tr>
+                                <th>Architecture Block</th>
+                                <th>Kubernetes YAML Construct</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Client (Browser / Postman)</td>
+                                <td>External consumer (outside cluster)</td>
+                            </tr>
+                            <tr>
+                                <td>API Entry Point</td>
+                                <td>Service</td>
+                            </tr>
+                            <tr>
+                                <td>Service Type</td>
+                                <td>spec.type: LoadBalancer</td>
+                            </tr>
+                            <tr>
+                                <td>Service Port</td>
+                                <td>spec.ports.port: 80</td>
+                            </tr>
+                            <tr>
+                                <td>Target Container Port</td>
+                                <td>spec.ports.targetPort: 9696</td>
+                            </tr>
+                            <tr>
+                                <td>Traffic Routing</td>
+                                <td>spec.selector</td>
+                            </tr>
+                            <tr>
+                                <td>Stable Virtual IP</td>
+                                <td>Service abstraction</td>
+                            </tr>
+                            <tr>
+                                <td>Workload Controller</td>
+                                <td>Deployment</td>
+                            </tr>
+                            <tr>
+                                <td>Pod Lifecycle Management</td>
+                                <td>Deployment</td>
+                            </tr>
+                            <tr>
+                                <td>Pod Template</td>
+                                <td>spec.template</td>
+                            </tr>
+                            <tr>
+                                <td>Pod Labels</td>
+                                <td>spec.template.metadata.labels</td>
+                            </tr>
+                            <tr>
+                                <td>Selector Matching</td>
+                                <td>spec.selector.matchLabels</td>
+                            </tr>
+                            <tr>
+                                <td>Container Definition</td>
+                                <td>spec.template.spec.containers</td>
+                            </tr>
+                            <tr>
+                                <td>Container Image</td>
+                                <td>containers.image</td>
+                            </tr>
+                            <tr>
+                                <td>Resource Limits</td>
+                                <td>containers.resources.limits</td>
+                            </tr>
+                            <tr>
+                                <td>Application Port</td>
+                                <td>containers.ports.containerPort</td>
+                            </tr>
+                            <tr>
+                                <td>Self-Healing</td>
+                                <td>Deployment (ReplicaSet)</td>
+                            </tr>
+                            <tr>
+                                <td>Local LoadBalancer Access</td>
+                                <td>minikube service &lt;service-name&gt;</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assets & References -->
+        <section id="assets" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Assets &amp; References</h2>
+                <p class="section-subtitle">Code, diagrams, study material</p>
+            </div>
+
+
+            <div class="assets-grid">
+                <div class="asset-card">
+                    <div class="asset-icon">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <h3 class="asset-title">GitHub Repository</h3>
+                    <p class="asset-description">Kubernetes configuration files, manifests, and deployment scripts for
+                        the ML inference service.</p>
+                    <a href="https://github.com/Rajesh-Arigala/Kube-config-minikube-local" target="_blank" class="asset-link">
+                        <span>Access Repository</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="card">
+                <div class="demo-section">
+                    <h3 class="demo-title">Study Material Resources</h3>
+                    <p class="demo-subtitle">Click the button below to open the study materials</p>
+                    <a href="/index#contact" class="trigger-btn">
+                        <i class="fas fa-book"></i>
+                        <span>Request Study Material</span>
+                    </a>
+                </div>
+            </div>
+
+
+        </section>
+    </main>
+
+    <!-- STUDY MODAL -->
+    <div class="study-modal" id="studyModal">
+        <div class="study-modal-content">
+            <div class="study-modal-header">
+                <h3 class="study-modal-title">Study Material - Kubernetes ML Inference</h3>
+                <button class="study-modal-close" id="closeModalBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="study-material-list">
+                <!-- Kubernetes Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Kubernetes Deployment Architecture</div>
+                        <div class="study-material-desc">Complete architecture diagram and setup guide for Kubernetes
+                            deployments and services</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Kubernetes YAML Configuration Guide</div>
+                        <div class="study-material-desc">Official documentation and best practices for Kubernetes YAML
+                            manifests</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <!-- Minikube Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Minikube &amp; Local Kubernetes Setup</div>
+                        <div class="study-material-desc">Complete guide to setting up and using Minikube for local
+                            Kubernetes development</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Kubectl CLI Reference Guide</div>
+                        <div class="study-material-desc">Comprehensive reference for kubectl commands and their usage
+                            patterns</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <!-- MLOps on Kubernetes -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">MLOps on Kubernetes Guide</div>
+                        <div class="study-material-desc">Complete guide to deploying ML models on Kubernetes for
+                            production serving</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Kubernetes Networking &amp; Services</div>
+                        <div class="study-material-desc">Deep dive into Kubernetes networking, services, and ingress
+                            controllers</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <!-- Additional Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Production Kubernetes Patterns</div>
+                        <div class="study-material-desc">Enterprise architecture patterns for scalable Kubernetes
+                            deployments</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Infrastructure as Code Best Practices</div>
+                        <div class="study-material-desc">Complete framework for implementing Infrastructure as Code with
+                            Kubernetes</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile menu toggle
+            const navToggle = document.querySelector('.nav-toggle');
+            const navList = document.querySelector('.nav-list');
+
+            if (navToggle && navList) {
+                navToggle.addEventListener('click', function () {
+                    navList.classList.toggle('active');
+                });
+            }
+
+            // Close menu when clicking outside on mobile
+            document.addEventListener('click', function (e) {
+                if (window.innerWidth <= 768 && navList && navList.classList.contains('active') &&
+                    !e.target.closest('.nav') && !e.target.closest('.nav-toggle')) {
+                    navList.classList.remove('active');
+                }
+            });
+
+            // Update active nav link on scroll
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            function updateActiveNavLink() {
+                let current = '';
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 150;
+                    const sectionHeight = section.clientHeight;
+
+                    if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateActiveNavLink);
+
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+
+                    if (href.startsWith('#') && href !== '#') {
+                        e.preventDefault();
+
+                        const targetElement = document.querySelector(href);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+
+                            // Close mobile menu if open
+                            if (navList.classList.contains('active')) {
+                                navList.classList.remove('active');
+                            }
+                        }
+                    }
+                });
+            });
+
+            // Handle window resize for mobile menu
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768 && navList) {
+                    navList.classList.remove('active');
+                }
+            });
+
+            // Add animation on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function (entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all sections for animation
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Initialize all sections as visible on load
+            setTimeout(() => {
+                sections.forEach(section => {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                });
+            }, 500);
+
+            // Modal functionality
+            const studyModal = document.getElementById('studyModal');
+            const openModalBtn = document.getElementById('openModalBtn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+
+            // Open modal when button is clicked
+            if (openModalBtn) {
+                openModalBtn.addEventListener('click', function () {
+                    studyModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            }
+
+            // Close modal when close button is clicked
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', function () {
+                    studyModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            }
+
+            // Close modal when clicking outside the modal content
+            if (studyModal) {
+                studyModal.addEventListener('click', function (e) {
+                    if (e.target === studyModal) {
+                        studyModal.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && studyModal.classList.contains('active')) {
+                    studyModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+    </script>
+
+
+</body></html>

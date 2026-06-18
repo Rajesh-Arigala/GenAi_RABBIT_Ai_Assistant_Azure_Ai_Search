@@ -1,0 +1,1795 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kubernetes Project: Create Multiple Pods - EKS Deployment</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-main: #0C1117;
+            --bg-surface: #121923;
+            --bg-elevated: #161F2B;
+            --card-bg: #161F2B;
+
+            --accent-primary: #B8B2A7;
+            --accent-energy: #7CFFB2;
+            --accent-depth: #3A1F2D;
+
+            --text-primary: #E6E9EF;
+            --text-secondary: #A1A8B3;
+            --text-muted: #6F7682;
+
+            --line-subtle: #1E2633;
+            --glass-border: rgba(184, 178, 167, 0.15);
+
+            --ease-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --accent-gradient: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* ==================== HEADER & NAVIGATION ==================== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(12, 17, 23, 0.9);
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.4s var(--ease-slow);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-primary);
+            transition: width 0.4s var(--ease-slow);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--accent-energy);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+            background: var(--accent-energy);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ==================== MAIN CONTENT ==================== */
+        main {
+            padding-top: 100px;
+            padding-bottom: 4rem;
+        }
+
+        /* ==================== SECTION STYLES ==================== */
+        .section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        .section-header {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-energy);
+            border-radius: 2px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.4s var(--ease-slow);
+        }
+
+        .card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .card-title i {
+            color: var(--accent-energy);
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-item {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .list-item::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent-energy);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .highlight-box {
+            background: rgba(124, 255, 178, 0.05);
+            border-left: 4px solid var(--accent-energy);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-text {
+            color: var(--accent-energy);
+            font-weight: 500;
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero-section {
+            text-align: center;
+            padding-top: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-energy), transparent);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 1rem;
+            letter-spacing: -0.02em;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .hero-summary {
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* ==================== ARCHITECTURE VISUAL ==================== */
+        .architecture-visual {
+            background: var(--bg-elevated);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--line-subtle);
+            margin: 2rem 0;
+        }
+
+        .architecture-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* This fills the container, may crop edges */
+            display: block;
+        }
+
+        .architecture-label {
+            position: relative;
+            z-index: 2;
+            background: rgba(12, 17, 23, 0.7);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .flow-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .flow-step {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: var(--accent-energy);
+            color: var(--bg-main);
+            border-radius: 50%;
+            line-height: 30px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* ==================== PIPELINE STAGES ==================== */
+        .pipeline-stage {
+            margin-bottom: 2.5rem;
+        }
+
+        .stage-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .stage-number {
+            background: var(--accent-energy);
+            color: var(--bg-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .stage-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* ==================== TECHNOLOGY STACK ==================== */
+        .tech-category {
+            margin-bottom: 2rem;
+        }
+
+        .tech-category-title {
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tech-tag {
+            background: rgba(184, 178, 167, 0.1);
+            color: var(--accent-primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(184, 178, 167, 0.2);
+        }
+
+        .tech-tag.energy {
+            background: rgba(124, 255, 178, 0.1);
+            color: var(--accent-energy);
+            border-color: rgba(124, 255, 178, 0.2);
+        }
+
+        /* ==================== ASSETS SECTION ==================== */
+        .assets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .asset-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--line-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .asset-card:hover {
+            border-color: var(--accent-energy);
+            transform: translateY(-4px);
+        }
+
+        .asset-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(124, 255, 178, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--accent-energy);
+            font-size: 1.5rem;
+        }
+
+        .asset-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .asset-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .asset-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-energy);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .asset-link:hover {
+            text-decoration: underline;
+        }
+
+        .disclaimer {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: rgba(184, 178, 167, 0.05);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        /* ==================== YAML TABLE STYLES ==================== */
+        .yaml-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .yaml-table th {
+            background: rgba(124, 255, 178, 0.1);
+            color: var(--accent-energy);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--line-subtle);
+        }
+
+        .yaml-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--line-subtle);
+            color: var(--text-secondary);
+        }
+
+        .yaml-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .yaml-table tr:hover {
+            background: rgba(184, 178, 167, 0.05);
+        }
+
+        /* ==================== CODE BLOCK STYLES ==================== */
+        .code-block {
+            background: rgba(12, 17, 23, 0.8);
+            border: 1px solid var(--line-subtle);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+            overflow-x: auto;
+        }
+
+        .code-key {
+            color: #7CFFB2;
+        }
+
+        .code-value {
+            color: #6C9BCF;
+        }
+
+        .code-comment {
+            color: #6F7682;
+        }
+
+        /* ==================== DEMO SECTION ==================== */
+        .demo-section {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .demo-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-energy);
+        }
+
+        .demo-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .trigger-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--accent-energy);
+            color: var(--bg-main);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-slow);
+            text-decoration: none;
+        }
+
+        .trigger-btn:hover {
+            background: transparent;
+            color: var(--accent-energy);
+            border: 2px solid var(--accent-energy);
+            transform: translateY(-2px);
+        }
+
+        /* ==================== K8S DEPLOYMENT DETAILS ==================== */
+        .deployment-details {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border-left: 4px solid var(--accent-energy);
+        }
+
+        .kubectl-command {
+            background: rgba(124, 255, 178, 0.05);
+            border: 1px solid rgba(124, 255, 178, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            color: var(--accent-energy);
+        }
+
+        .output-block {
+            background: rgba(184, 178, 167, 0.05);
+            border: 1px solid var(--glass-border);
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        /* ==================== STUDY MATERIAL MODAL ==================== */
+        .study-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(12, 17, 23, 0.95);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .study-modal.active {
+            display: flex;
+        }
+
+        .study-modal-content {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid var(--line-subtle);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .study-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .study-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .study-modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .study-modal-close:hover {
+            color: var(--accent-energy);
+            background: rgba(124, 255, 178, 0.1);
+        }
+
+        .study-material-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .study-material-item {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            gap: 1.2rem;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .study-material-item:hover {
+            background: rgba(184, 178, 167, 0.05);
+            transform: translateX(5px);
+        }
+
+        .study-material-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(108, 155, 207, 0.1);
+            color: #6C9BCF;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        .study-material-info {
+            flex: 1;
+        }
+
+        .study-material-name {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .study-material-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            background: transparent;
+            border: 2px solid var(--accent-energy);
+            color: var(--accent-energy);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .download-btn:hover {
+            background: rgba(124, 255, 178, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(124, 255, 178, 0.2);
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeInUp 0.6s var(--ease-slow) forwards;
+            opacity: 0;
+        }
+
+        .section:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .section:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .section:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .section:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .section:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        /* Animation for modal */
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .study-modal-content {
+            animation: modalFadeIn 0.3s var(--ease-slow);
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 768px) {
+            .nav-list {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background: var(--bg-surface);
+                padding: 2rem;
+                border-bottom: 1px solid var(--line-subtle);
+                gap: 1.5rem;
+            }
+
+            .nav-list.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .flow-steps {
+                flex-direction: column;
+            }
+
+            .flow-step {
+                min-width: 100%;
+            }
+
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .yaml-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .study-modal-content {
+                padding: 1.5rem;
+            }
+
+            .study-material-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .study-material-info {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .demo-title {
+                font-size: 2rem;
+            }
+
+            .study-modal-content {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="nav-logo">K8S Project: Multiple Pods</a>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#overview" class="nav-link active">Overview</a></li>
+                <li class="nav-item"><a href="#objectives" class="nav-link">Objectives</a></li>
+                <li class="nav-item"><a href="#architecture" class="nav-link">Architecture</a></li>
+                <li class="nav-item"><a href="#deployment" class="nav-link">Deployment</a></li>
+                <li class="nav-item"><a href="#updates" class="nav-link">Rolling Updates</a></li>
+                <li class="nav-item"><a href="#assets" class="nav-link">Assets</a></li>
+            </ul>
+            <button class="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section id="overview" class="section hero-section" style="opacity: 1; transform: translateY(0px);">
+            <h1 class="hero-title">Kubernetes Project: Create Multiple Pods</h1>
+            <p class="hero-subtitle">K8S Deployment | Flask Applications | Model Inference</p>
+            <div class="hero-summary">
+                <p>This project demonstrates Kubernetes deployment strategies for multiple applications which include
+                    Deployments and Services at scale. It covers deployment of recruitment ranking application and Flask
+                    applications with multiple versions, implementing rolling updates, service exposure, and accessing
+                    machine learning models through web applications using tunnel methods.</p>
+                <div style="display: flex; flex-direction: column; gap: 1rem; align-items: center; margin-top: 2rem; width: 100%;">
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; width: 100%;">
+                        <a href="https://hub.docker.com/r/rajesharigala/placementapp/tags" target="_blank" class="trigger-btn" style="background: var(--bg-elevated); border: 1px solid var(--line-subtle); color: var(--text-primary); flex: 1; max-width: fit-content; justify-content: center;">
+                            <i class="fab fa-docker" style="color: #2496ed;"></i>
+                            <span>Docker Image: rajesharigala/placementapp:v1-arm64</span>
+                        </a>
+                        <a href="https://hub.docker.com/r/rajesharigala/placement-app-flask-ui/tags" target="_blank" class="trigger-btn" style="background: var(--bg-elevated); border: 1px solid var(--line-subtle); color: var(--text-primary); flex: 1; max-width: fit-content; justify-content: center;">
+                            <i class="fab fa-docker" style="color: #2496ed;"></i>
+                            <span>Docker Image: rajesharigala/placement-app-flask-ui:v1-arm64</span>
+                        </a>
+                    </div>
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; width: 100%;">
+                        <a href="https://hub.docker.com/r/rajesharigala/placement-app-flask-ui/tags" target="_blank" class="trigger-btn" style="background: var(--bg-elevated); border: 1px solid var(--line-subtle); color: var(--text-primary); flex: 1; max-width: fit-content; justify-content: center;">
+                            <i class="fab fa-docker" style="color: #2496ed;"></i>
+                            <span>Docker Image: rajesharigala/placement-app-flask-ui:v2-arm64</span>
+                        </a>
+                        <a href="https://github.com/Rajesh-Arigala/minikube-K8S-multicontainer" target="_blank" class="trigger-btn" style="background: var(--bg-elevated); border: 1px solid var(--line-subtle); color: var(--text-primary); flex: 1; max-width: fit-content; justify-content: center;">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub: minikube-K8S-multicontainer</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Summary -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Project Summary</h2>
+                <p class="section-subtitle">Comprehensive Project Overview</p>
+            </div>
+
+            <div class="grid-3">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-tag"></i>Project Category</h3>
+                    <div class="card-content">
+                        <p>Multi-POD K8S deployment on Minikube.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-industry"></i>Environment</h3>
+                    <div class="card-content">
+                        <p>Multi-POD K8S deployment on Minikube.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-code"></i>Applications</h3>
+                    <div class="card-content">
+                        <p>Flask Apps &amp; ML Model Inference</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Keywords -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Key Technologies &amp; Concepts</h2>
+                <p class="section-subtitle">Core Technologies Used</p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-key"></i>Kubernetes Keywords</h3>
+                <div class="card-content">
+                    <div class="tech-tags">
+                        <span class="tech-tag">Kubernetes Deployments</span>
+                        <span class="tech-tag">Multi-POD K8S deployment on Minikube.</span>
+                        <span class="tech-tag energy">Multi-Pod Architecture</span>
+                        <span class="tech-tag">YAML Configuration</span>
+                        <span class="tech-tag energy">Rolling Updates</span>
+                        <span class="tech-tag">Services (ClusterIP, LoadBalancer)</span>
+                        <span class="tech-tag">Pod Management</span>
+                        <span class="tech-tag energy">ReplicaSets &amp; Scaling</span>
+                        <span class="tech-tag">Minikube Local Development</span>
+                        <span class="tech-tag">kubectl Commands</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Objectives & Use Case -->
+        <section id="objectives" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Objectives &amp; Use Case</h2>
+                <p class="section-subtitle">Project Goals and Implementation</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-bullseye"></i>Primary Objectives</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Create multiple pods using Kubernetes Deployments</li>
+                            <li class="list-item">Implement multi-version application deployment (v1 &amp; v2)</li>
+                            <li class="list-item">Configure services for internal and external access</li>
+                            <li class="list-item">Implement rolling update strategy for zero-downtime deployments</li>
+                            <li class="list-item">Access machine learning model through Flask application</li>
+                            <li class="list-item">Monitor and manage application versions with rollout history</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-tasks"></i>Use Case</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Deploy recruitment ranking application with 2 replicas</li>
+                            <li class="list-item">Deploy Flask application versions v1 and v2</li>
+                            <li class="list-item">Expose applications via ClusterIP and LoadBalancer services</li>
+                            <li class="list-item">Access ML model inference through web interface</li>
+                            <li class="list-item">Implement version rollback capabilities</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution & Architecture -->
+        <section id="architecture" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Solution &amp; Architecture</h2>
+                <p class="section-subtitle">Architectural Overview</p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-sitemap"></i>Solution Overview</h3>
+                <div class="card-content">
+                    <p>The project implements a Kubernetes-based deployment architecture with multiple applications
+                        running in pods. Two main applications are deployed:</p>
+
+                    <div class="highlight-box">
+                        <p class="highlight-text">1. Recruitment Rank App - Machine learning model for recruitment
+                            ranking with resource limits (CPU: 500m, Memory: 128Mi)</p>
+                        <p class="highlight-text">2. Flask App - Web application with multiple versions (v1 and v2) for
+                            ML model access</p>
+                    </div>
+
+                    <p>Services are configured for internal communication (ClusterIP) and external access
+                        (LoadBalancer). The architecture supports rolling updates with zero downtime and provides
+                        rollback capabilities.</p>
+                </div>
+            </div>
+
+            <div class="architecture-visual">
+                <div class="architecture-placeholder">
+                    <img src="/img/CONTAINERS &amp; ORCHESTRATION/Kubernetes2.webp" alt="Kubernetes Multi-Pod Deployment Architecture">
+                </div>
+
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Application Source</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-label">K8S Deployment</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Pods Creation</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Services Exposure</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">5</div>
+                        <div class="step-label">User Access</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-cogs"></i>Key Components</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item">Deployments: recruitment-rank-app, flask-app (v1 &amp; v2)</li>
+                        <li class="list-item">Services: ClusterIP for internal, LoadBalancer for external access</li>
+                        <li class="list-item">Pods: Multiple replicas for high availability</li>
+                        <li class="list-item">ReplicaSets: Automatic pod management and scaling</li>
+                        <li class="list-item">Rolling Update Strategy: 25% max unavailable, 25% max surge</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deployment Details -->
+        <section id="deployment" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Deployment Configuration</h2>
+                <p class="section-subtitle">YAML Configurations and Commands</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-file-code"></i>Deployment YAML</h3>
+                    <div class="card-content">
+                        <div class="code-block">
+                            <span class="code-key">apiVersion</span>: <span class="code-value">apps/v1</span><br>
+                            <span class="code-key">kind</span>: <span class="code-value">Deployment</span><br>
+                            <span class="code-key">metadata</span>:<br>
+                            &nbsp;&nbsp;<span class="code-key">name</span>: <span class="code-value">recruitment-rank-app</span><br>
+                            <span class="code-key">spec</span>:<br>
+                            &nbsp;&nbsp;<span class="code-key">replicas</span>: <span class="code-value">2</span><br>
+                            &nbsp;&nbsp;<span class="code-key">selector</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">matchLabels</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">app</span>: <span class="code-value">recruitment-rank-app</span><br>
+                            &nbsp;&nbsp;<span class="code-key">template</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">metadata</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">labels</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">app</span>: <span class="code-value">recruitment-rank-app</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">spec</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">containers</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="code-key">name</span>: <span class="code-value">placement-app</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">image</span>: <span class="code-value">rajesharigala/placementapp:v1-arm64</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">resources</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">limits</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">memory</span>: <span class="code-value">"128Mi"</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">cpu</span>: <span class="code-value">"500m"</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">ports</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="code-key">containerPort</span>: <span class="code-value">9696</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-network-wired"></i>Service YAML</h3>
+                    <div class="card-content">
+                        <div class="code-block">
+                            <span class="code-key">apiVersion</span>: <span class="code-value">v1</span><br>
+                            <span class="code-key">kind</span>: <span class="code-value">Service</span><br>
+                            <span class="code-key">metadata</span>:<br>
+                            &nbsp;&nbsp;<span class="code-key">name</span>: <span class="code-value">recruitment-rank-app</span><br>
+                            <span class="code-key">spec</span>:<br>
+                            &nbsp;&nbsp;<span class="code-key">type</span>: <span class="code-value">ClusterIP</span><br>
+                            &nbsp;&nbsp;<span class="code-key">selector</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">app</span>: <span class="code-value">recruitment-rank-app</span><br>
+                            &nbsp;&nbsp;<span class="code-key">ports</span>:<br>
+                            &nbsp;&nbsp;- <span class="code-key">protocol</span>: <span class="code-value">"TCP"</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">port</span>: <span class="code-value">80</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">targetPort</span>: <span class="code-value">9696</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-terminal"></i>Deployment Commands</h3>
+                <div class="card-content">
+                    <p>Commands used to create and manage deployments:</p>
+                    <div class="kubectl-command">kubectl create -f deployment.yaml</div>
+                    <div class="kubectl-command">kubectl create -f service.yaml</div>
+                    <div class="kubectl-command">kubectl get all</div>
+
+                    <div class="deployment-details">
+                        <h4>Deployment Results:</h4>
+                        <div class="output-block">
+                            (base) jhonny001@rajeshs-MacBook-Pro ml-model % kubectl create -f deployment.yaml
+                            deployment.apps/recruitment-rank-app created
+
+                            (base) jhonny001@rajeshs-MacBook-Pro ml-model % kubectl create -f service.yaml
+                            service/recruitment-rank-app created
+
+                            (base) jhonny001@rajeshs-MacBook-Pro ml-model % kubectl get all
+                            NAME READY STATUS RESTARTS AGE
+                            pod/recruitment-rank-app-8889b6678-5r2rv 1/1 Running 0 67s
+                            pod/recruitment-rank-app-8889b6678-r6km9 1/1 Running 0 67s
+
+                            NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE
+                            service/kubernetes ClusterIP 10.96.0.1 &lt;none&gt; 443/TCP 8d
+                            service/recruitment-rank-app ClusterIP 10.98.93.66 &lt;none&gt; 80/TCP 6s
+
+                            NAME READY UP-TO-DATE AVAILABLE AGE
+                            deployment.apps/recruitment-rank-app 2/2 2 2 67s
+
+                            NAME DESIRED CURRENT READY AGE
+                            replicaset.apps/recruitment-rank-app-8889b6678 2 2 2 67s
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flask Application Deployment -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Flask Application Deployment</h2>
+                <p class="section-subtitle">Web Application with ML Model Access</p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-flask"></i>Flask App Configuration</h3>
+                <div class="card-content">
+                    <div class="code-block">
+                        <span class="code-key">apiVersion</span>: <span class="code-value">apps/v1</span><br>
+                        <span class="code-key">kind</span>: <span class="code-value">Deployment</span><br>
+                        <span class="code-key">metadata</span>:<br>
+                        &nbsp;&nbsp;<span class="code-key">name</span>: <span class="code-value">flask-app</span><br>
+                        &nbsp;&nbsp;<span class="code-key">annotations</span>:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">kubernetes.io/change-cause</span>: <span class="code-value">"Version 1 deployment of Flask app"</span><br>
+                        <span class="code-key">spec</span>:<br>
+                        &nbsp;&nbsp;<span class="code-key">replicas</span>: <span class="code-value">2</span><br>
+                        &nbsp;&nbsp;<span class="code-key">selector</span>:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">matchLabels</span>:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">app</span>: <span class="code-value">flask-app</span><br>
+                        &nbsp;&nbsp;<span class="code-key">template</span>:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">metadata</span>:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">labels</span>:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">app</span>: <span class="code-value">flask-app</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">spec</span>:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">containers</span>:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="code-key">name</span>: <span class="code-value">flask-app</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">image</span>: <span class="code-value">rajesharigala/placement-app-flask-ui:v1-arm64</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">ports</span>:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="code-key">containerPort</span>:
+                        <span class="code-value">5000</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">env</span>:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- <span class="code-key">name</span>: <span class="code-value">PORT</span><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">value</span>:
+                        <span class="code-value">"5000"</span> <span class="code-comment"># Flask's default port</span>
+                    </div>
+
+                    <div class="deployment-details">
+                        <h4>Flask App Service (LoadBalancer):</h4>
+                        <div class="code-block" style="margin-top: 1rem;">
+                            <span class="code-key">apiVersion</span>: <span class="code-value">v1</span><br>
+                            <span class="code-key">kind</span>: <span class="code-value">Service</span><br>
+                            <span class="code-key">metadata</span>:<br>
+                            &nbsp;&nbsp;<span class="code-key">name</span>: <span class="code-value">flask-app-service</span><br>
+                            <span class="code-key">spec</span>:<br>
+                            &nbsp;&nbsp;<span class="code-key">type</span>: <span class="code-value">LoadBalancer</span>
+                            <span class="code-comment"># Use ClusterIP if only internal access is needed</span><br>
+                            &nbsp;&nbsp;<span class="code-key">selector</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">app</span>: <span class="code-value">flask-app</span><br>
+                            &nbsp;&nbsp;<span class="code-key">ports</span>:<br>
+                            &nbsp;&nbsp;- <span class="code-key">protocol</span>: <span class="code-value">TCP</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">port</span>: <span class="code-value">5000</span> <span class="code-comment"># Flask app's container
+                                port</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">targetPort</span>: <span class="code-value">5000</span> <span class="code-comment"># Container listening on port
+                                5000</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-check-circle"></i>Deployment Results</h3>
+                <div class="card-content">
+                    <div class="output-block">
+                        (base) jhonny001@rajeshs-MacBook-Pro ml-model % kubectl get all
+                        NAME READY STATUS RESTARTS AGE
+                        pod/flask-app-559c7bd58f-ljdbx 1/1 Running 0 2m30s
+                        pod/flask-app-559c7bd58f-q9qkf 1/1 Running 0 2m30s
+                        pod/recruitment-rank-app-7b4647ddf4-2x4ff 1/1 Running 0 21m
+                        pod/recruitment-rank-app-7b4647ddf4-fg2gr 1/1 Running 0 21m
+
+                        NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE
+                        service/flask-app-service LoadBalancer 10.98.214.241 &lt;pending&gt; 5000:31996/TCP 12s
+                        service/kubernetes ClusterIP 10.96.0.1 &lt;none&gt; 443/TCP 69d
+                        service/recruitment-rank-app ClusterIP 10.111.184.129 &lt;none&gt; 80/TCP 20m
+
+                        NAME READY UP-TO-DATE AVAILABLE AGE
+                        deployment.apps/flask-app 2/2 2 2 2m30s
+                        deployment.apps/recruitment-rank-app 2/2 2 2 21m
+
+                        NAME DESIRED CURRENT READY AGE
+                        replicaset.apps/flask-app-559c7bd58f 2 2 2 2m30s
+                        replicaset.apps/recruitment-rank-app-7b4647ddf4 2 2 2 21m
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Rolling Updates & Version Management -->
+        <section id="updates" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Rolling Updates &amp; Version Management</h2>
+                <p class="section-subtitle">Implementing Zero-Downtime Deployments</p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-sync-alt"></i>Rolling Update Strategy</h3>
+                <div class="card-content">
+                    <p>Kubernetes implements rolling updates by default when updating a deployment. The strategy:</p>
+                    <ul class="list">
+                        <li class="list-item">Old pods are replaced one by one</li>
+                        <li class="list-item">New pods are created before old pods are terminated</li>
+                        <li class="list-item">One old pod at a time is replaced</li>
+                        <li class="list-item">Strategy configuration: 25% max unavailable, 25% max surge</li>
+                    </ul>
+
+                    <div class="highlight-box">
+                        <p class="highlight-text">Strategy: Rolling Update strategy ensures zero downtime during
+                            application updates.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-code-branch"></i>Version 2 Update</h3>
+                    <div class="card-content">
+                        <p>Updating to Flask App Version 2:</p>
+                        <div class="code-block">
+                            <span class="code-key">apiVersion</span>: <span class="code-value">apps/v1</span><br>
+                            <span class="code-comment"># Version 2 Deployment</span><br>
+                            <span class="code-key">metadata</span>:<br>
+                            &nbsp;&nbsp;<span class="code-key">name</span>: <span class="code-value">flask-app</span><br>
+                            &nbsp;&nbsp;<span class="code-key">annotations</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">kubernetes.io/change-cause</span>: <span class="code-value">"Version 2 deployment of Flask app"</span><br>
+                            <span class="code-key">spec</span>:<br>
+                            &nbsp;&nbsp;<span class="code-key">containers</span>:<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;- <span class="code-key">name</span>: <span class="code-value">flask-app</span><br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">image</span>: <span class="code-value">03asarath/placement-flask-app:v2</span>
+                        </div>
+
+                        <div class="kubectl-command" style="margin-top: 1rem;">kubectl apply -f
+                            placement-flask-deployment.yaml</div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-history"></i>Rollout History &amp; Rollback</h3>
+                    <div class="card-content">
+                        <p>View rollout history and manage versions:</p>
+                        <div class="kubectl-command">kubectl rollout history deployment flask-app</div>
+
+                        <div class="output-block" style="margin-top: 1rem;">
+                            deployment.apps/flask-app
+                            REVISION CHANGE-CAUSE
+                            1 Version 1 deployment of Flask app
+                            2 Version 2 deployment of Flask app
+                        </div>
+
+                        <div class="kubectl-command" style="margin-top: 1rem;">kubectl rollout undo deployment flask-app
+                            --to-revision=1</div>
+                        <div class="kubectl-command">kubectl rollout status deployment flask-app</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-network-wired"></i>Access ML Model through Flask App</h3>
+                <div class="card-content">
+                    <p>Tunnel Method to access the application:</p>
+                    <div class="kubectl-command">minikube service flask-app-service</div>
+
+                    <p>The service provides access to the Model Inference Dashboard where users can input:</p>
+                    <ul class="list">
+                        <li class="list-item">Port Number</li>
+                        <li class="list-item">Gender</li>
+                        <li class="list-item">SSC Percentage &amp; Board</li>
+                        <li class="list-item">HSC Percentage, Board &amp; Stream</li>
+                    </ul>
+
+                    <div class="deployment-details">
+                        <p>Starting tunnel for service flask-app-service. Opening service default/flask-app-service in
+                            default browser...</p>
+                        <p>URL: http://192.168.49.2:31404</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills & Technologies Used -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Skills &amp; Technologies Used</h2>
+                <p class="section-subtitle">Technical Proficiency Demonstrated</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-star"></i>Primary Skills</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Kubernetes Deployment Configuration with YAML</li>
+                            <li class="list-item">Multi-Pod Architecture Design and Implementation</li>
+                            <li class="list-item">Service Configuration (ClusterIP, LoadBalancer)</li>
+                            <li class="list-item">Rolling Update Strategy Implementation</li>
+                            <li class="list-item">Application Version Management</li>
+                            <li class="list-item">kubectl Command Line Proficiency</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-tools"></i>Secondary Tools / Platforms</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Minikube for Local Development</li>
+                            <li class="list-item">Docker Container Images</li>
+                            <li class="list-item">Flask Web Framework</li>
+                            <li class="list-item">Machine Learning Model Integration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-code"></i>Programming &amp; Configuration</h3>
+                <div class="card-content">
+                    <div class="tech-tags">
+                        <span class="tech-tag">YAML Configuration</span>
+                        <span class="tech-tag energy">Kubernetes Deployments</span>
+                        <span class="tech-tag">Flask Applications</span>
+                        <span class="tech-tag energy">Docker Images</span>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag energy">Bash Scripting</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assets & References -->
+        <section id="assets" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Assets &amp; References</h2>
+                <p class="section-subtitle">Code, diagrams, study material</p>
+            </div>
+
+
+
+
+
+            <div class="assets-grid">
+                <div class="asset-card">
+                    <div class="asset-icon">
+                        <i class="fas fa-file-code"></i>
+                    </div>
+                    <h3 class="asset-title">Kubernetes YAML Files</h3>
+                    <p class="asset-description">Complete set of YAML configuration files for deployments, services, and
+                        updates.</p>
+                    <a href="#" class="asset-link">
+                        <span>View Files</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+
+
+            </div>
+
+            <div class="card">
+                <div class="demo-section">
+                    <h3 class="demo-title">Study Material Resources</h3>
+                    <p class="demo-subtitle">Click the button below to open the study materials</p>
+                    <a href="/index#contact" class="trigger-btn">
+                        <i class="fas fa-book"></i>
+                        <span>Request Study Material</span>
+                    </a>
+                </div>
+            </div>
+
+
+        </section>
+    </main>
+
+    <!-- STUDY MODAL -->
+    <div class="study-modal" id="studyModal">
+        <div class="study-modal-content">
+            <div class="study-modal-header">
+                <h3 class="study-modal-title">Study Material - Kubernetes Multi-Pod Deployment</h3>
+                <button class="study-modal-close" id="closeModalBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="study-material-list">
+                <!-- Kubernetes Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Kubernetes Multi-Pod Deployment Guide</div>
+                        <div class="study-material-desc">Complete guide to deploying multiple applications with pods in
+                            Kubernetes</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">YAML Configuration Reference</div>
+                        <div class="study-material-desc">Complete reference for Kubernetes YAML configuration files
+                        </div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <!-- Minikube Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Minikube Deployment Guide</div>
+                        <div class="study-material-desc">Step-by-step guide to Multi-POD K8S deployment on Minikube.
+                        </div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Rolling Update Strategies</div>
+                        <div class="study-material-desc">Comprehensive guide to implementing zero-downtime deployments
+                        </div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <!-- Flask & ML Integration -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Flask App Kubernetes Deployment</div>
+                        <div class="study-material-desc">Guide to deploying Flask applications with ML model integration
+                        </div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">kubectl Command Reference</div>
+                        <div class="study-material-desc">Complete reference for kubectl commands and usage patterns
+                        </div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <!-- Additional Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Production Kubernetes Architecture</div>
+                        <div class="study-material-desc">Enterprise patterns for scalable Kubernetes deployments</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Minikube Development Guide</div>
+                        <div class="study-material-desc">Complete guide to local Kubernetes development with Minikube
+                        </div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile menu toggle
+            const navToggle = document.querySelector('.nav-toggle');
+            const navList = document.querySelector('.nav-list');
+
+            if (navToggle && navList) {
+                navToggle.addEventListener('click', function () {
+                    navList.classList.toggle('active');
+                });
+            }
+
+            // Close menu when clicking outside on mobile
+            document.addEventListener('click', function (e) {
+                if (window.innerWidth <= 768 && navList && navList.classList.contains('active') &&
+                    !e.target.closest('.nav') && !e.target.closest('.nav-toggle')) {
+                    navList.classList.remove('active');
+                }
+            });
+
+            // Update active nav link on scroll
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            function updateActiveNavLink() {
+                let current = '';
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 150;
+                    const sectionHeight = section.clientHeight;
+
+                    if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateActiveNavLink);
+
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+
+                    if (href.startsWith('#') && href !== '#') {
+                        e.preventDefault();
+
+                        const targetElement = document.querySelector(href);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+
+                            // Close mobile menu if open
+                            if (navList.classList.contains('active')) {
+                                navList.classList.remove('active');
+                            }
+                        }
+                    }
+                });
+            });
+
+            // Handle window resize for mobile menu
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768 && navList) {
+                    navList.classList.remove('active');
+                }
+            });
+
+            // Add animation on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function (entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all sections for animation
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Initialize all sections as visible on load
+            setTimeout(() => {
+                sections.forEach(section => {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                });
+            }, 500);
+
+            // Modal functionality
+            const studyModal = document.getElementById('studyModal');
+            const openModalBtn = document.getElementById('openModalBtn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+
+            // Open modal when button is clicked
+            if (openModalBtn) {
+                openModalBtn.addEventListener('click', function () {
+                    studyModal.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
+                });
+            }
+
+            // Close modal when close button is clicked
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', function () {
+                    studyModal.classList.remove('active');
+                    document.body.style.overflow = ''; // Restore scrolling
+                });
+            }
+
+            // Close modal when clicking outside the modal content
+            if (studyModal) {
+                studyModal.addEventListener('click', function (e) {
+                    if (e.target === studyModal) {
+                        studyModal.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && studyModal.classList.contains('active')) {
+                    studyModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+    </script>
+
+
+</body></html>

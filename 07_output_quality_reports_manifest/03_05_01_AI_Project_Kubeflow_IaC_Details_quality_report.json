@@ -1,0 +1,33 @@
+{
+  "version": "v4_site_crawler",
+  "page_id": "03_05_01_AI_Project_Kubeflow_IaC_Details",
+  "url": "https://rajesharigala.com/mlops/ai5/ai5.1",
+  "depth": 1,
+  "parent_url": "https://rajesharigala.com/mlops/infra-code",
+  "parent_page_id": "02_Tech_02_MLOps_04_IaC",
+  "logical_parent_page_id": "03_AI_Projects",
+  "title": "Kubeflow AI Platform · MLOps Foundation",
+  "characters_content": 4482,
+  "words_content": 557,
+  "characters_rag_text": 6855,
+  "words_rag_text": 859,
+  "headings_count": 28,
+  "paragraphs_count": 20,
+  "links_count": 3,
+  "bad_character_counts": {
+    "Â": 0,
+    "â": 0,
+    "ð": 0,
+    "Ã": 0,
+    "�": 0
+  },
+  "suspicious_values": [],
+  "saved_files": {
+    "raw_html": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/03_05_01_AI_Project_Kubeflow_IaC_Details.html",
+    "structured_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/03_output_structured_json/03_05_01_AI_Project_Kubeflow_IaC_Details_structured.json",
+    "clean_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/04_output_clean_json/03_05_01_AI_Project_Kubeflow_IaC_Details_clean.json",
+    "clean_text": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/05_output_clean_text/03_05_01_AI_Project_Kubeflow_IaC_Details_clean.txt",
+    "rag_document": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_05_01_AI_Project_Kubeflow_IaC_Details_rag.txt",
+    "report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_05_01_AI_Project_Kubeflow_IaC_Details_quality_report.json"
+  }
+}

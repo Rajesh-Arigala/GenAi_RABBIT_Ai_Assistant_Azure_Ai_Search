@@ -1,0 +1,33 @@
+{
+  "version": "v4_site_crawler",
+  "page_id": "mlops_infra_project2",
+  "url": "https://rajesharigala.com/mlops/infra project2",
+  "depth": 1,
+  "parent_url": "https://rajesharigala.com/mlops/infra-code",
+  "parent_page_id": "02_Tech_02_MLOps_04_IaC",
+  "logical_parent_page_id": "02_Tech_02_MLOps_04_IaC",
+  "title": "AWS CDK - Infrastructure as Code CI/CD Platform",
+  "characters_content": 6493,
+  "words_content": 868,
+  "characters_rag_text": 9245,
+  "words_rag_text": 1234,
+  "headings_count": 29,
+  "paragraphs_count": 21,
+  "links_count": 5,
+  "bad_character_counts": {
+    "Â": 0,
+    "â": 0,
+    "ð": 0,
+    "Ã": 0,
+    "�": 0
+  },
+  "suspicious_values": [],
+  "saved_files": {
+    "raw_html": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/mlops_infra_project2.html",
+    "structured_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/03_output_structured_json/mlops_infra_project2_structured.json",
+    "clean_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/04_output_clean_json/mlops_infra_project2_clean.json",
+    "clean_text": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/05_output_clean_text/mlops_infra_project2_clean.txt",
+    "rag_document": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/mlops_infra_project2_rag.txt",
+    "report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/mlops_infra_project2_quality_report.json"
+  }
+}

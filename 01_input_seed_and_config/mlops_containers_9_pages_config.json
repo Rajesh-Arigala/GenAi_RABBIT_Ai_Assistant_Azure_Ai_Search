@@ -1,0 +1,20 @@
+{
+  "seed_urls": [
+    "https://rajesharigala.com/mlops/ContainersOrchestration",
+    "https://rajesharigala.com/mlops/docker",
+    "https://rajesharigala.com/mlops/Dockerized-Node.js-App",
+    "https://rajesharigala.com/mlops/docker-project2",
+    "https://rajesharigala.com/mlops/docker-project3",
+    "https://rajesharigala.com/mlops/kubernetes",
+    "https://rajesharigala.com/mlops/kubernetes-ml-inference-minikube.html",
+    "https://rajesharigala.com/mlops/kubernetes-multi-pod-flask-ml",
+    "https://rajesharigala.com/mlops/aws-eks-ml-deployment"
+  ],
+  "max_pages": 9,
+  "max_depth": 0,
+  "delay_seconds": 0.5,
+  "timeout_ms": 60000,
+  "viewport_width": 1440,
+  "viewport_height": 1800,
+  "same_domain_only": true
+}

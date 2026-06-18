@@ -1,0 +1,33 @@
+{
+  "version": "v4_site_crawler",
+  "page_id": "02_Tech_01_Technical_Skills_07_MLflow",
+  "url": "https://rajesharigala.com/tech skills/mlflow",
+  "depth": 0,
+  "parent_url": null,
+  "parent_page_id": "ROOT",
+  "logical_parent_page_id": "02_Technical_Skills",
+  "title": "MLFlow ML Lifecycle Management | Rajesh Arigala",
+  "characters_content": 3777,
+  "words_content": 489,
+  "characters_rag_text": 5193,
+  "words_rag_text": 663,
+  "headings_count": 6,
+  "paragraphs_count": 7,
+  "links_count": 8,
+  "bad_character_counts": {
+    "Â": 0,
+    "â": 0,
+    "ð": 0,
+    "Ã": 0,
+    "�": 0
+  },
+  "suspicious_values": [],
+  "saved_files": {
+    "raw_html": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/02_Tech_01_Technical_Skills_07_MLflow.html",
+    "structured_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/03_output_structured_json/02_Tech_01_Technical_Skills_07_MLflow_structured.json",
+    "clean_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/04_output_clean_json/02_Tech_01_Technical_Skills_07_MLflow_clean.json",
+    "clean_text": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/05_output_clean_text/02_Tech_01_Technical_Skills_07_MLflow_clean.txt",
+    "rag_document": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_01_Technical_Skills_07_MLflow_rag.txt",
+    "report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_01_Technical_Skills_07_MLflow_quality_report.json"
+  }
+}

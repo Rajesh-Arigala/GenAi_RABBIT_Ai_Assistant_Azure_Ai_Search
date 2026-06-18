@@ -1,0 +1,33 @@
+{
+  "version": "v4_site_crawler",
+  "page_id": "02_Technical_Skills",
+  "url": "https://rajesharigala.com/tech skills/skill",
+  "depth": 2,
+  "parent_url": "https://rajesharigala.com/",
+  "parent_page_id": "00_Homepage",
+  "logical_parent_page_id": "00_Homepage",
+  "title": "Technical Excellence | Rajesh Arigala",
+  "characters_content": 4711,
+  "words_content": 618,
+  "characters_rag_text": 8516,
+  "words_rag_text": 1085,
+  "headings_count": 9,
+  "paragraphs_count": 37,
+  "links_count": 11,
+  "bad_character_counts": {
+    "Â": 0,
+    "â": 0,
+    "ð": 0,
+    "Ã": 0,
+    "�": 0
+  },
+  "suspicious_values": [],
+  "saved_files": {
+    "raw_html": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/02_Technical_Skills.html",
+    "structured_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/03_output_structured_json/02_Technical_Skills_structured.json",
+    "clean_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/04_output_clean_json/02_Technical_Skills_clean.json",
+    "clean_text": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/05_output_clean_text/02_Technical_Skills_clean.txt",
+    "rag_document": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Technical_Skills_rag.txt",
+    "report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Technical_Skills_quality_report.json"
+  }
+}

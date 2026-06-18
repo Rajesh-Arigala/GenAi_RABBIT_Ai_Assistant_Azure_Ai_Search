@@ -1,0 +1,80 @@
+{
+  "id": "tech_skills_docker",
+  "source_type": "website_rendered_v4_site_crawl",
+  "domain": "rajesharigala.com",
+  "url": "https://rajesharigala.com/tech skills/docker",
+  "depth": 3,
+  "parent_url": "https://rajesharigala.com/tech skills/skill",
+  "parent_page_id": "02_Technical_Skills",
+  "logical_parent_page_id": "02_Technical_Skills",
+  "title": "Docker & Containerization | Rajesh Arigala",
+  "meta_description": "",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "Docker & Containerization"
+    },
+    {
+      "level": "h2",
+      "text": "Projects Showcase"
+    },
+    {
+      "level": "h3",
+      "text": "Docker Node.js Application"
+    },
+    {
+      "level": "h3",
+      "text": "Docker for ML Documentation"
+    },
+    {
+      "level": "h3",
+      "text": "Docker Compose & Swarm Orchestration"
+    },
+    {
+      "level": "h3",
+      "text": "Study Material"
+    }
+  ],
+  "paragraphs": [
+    "Container Orchestration & DevOps",
+    "Comprehensive containerization solutions using Docker ecosystem including Docker CLI commands, Docker Compose for multi-container orchestration, and Docker Swarm for container orchestration across multiple hosts. Implementation of scalable, reliable, and secure containerized applications with automated deployment workflows.",
+    "Real-world implementations demonstrating production-ready containerization solutions",
+    "Complete Docker setup for a Node.js application with optimized Dockerfile, multi-stage builds, and comprehensive CLI command implementations.",
+    "Docker configurations and best practices for building reproducible machine learning environments and workflows with optimized resource allocation.",
+    "Advanced multi-container orchestration using Docker Compose for local development and Docker Swarm for production container orchestration across multiple hosts.",
+    "Interested in implementing containerized solutions for your applications? Let's discuss how to build scalable, consistent environments for your development and production needs."
+  ],
+  "links": [
+    {
+      "text": "Rajesh Arigala",
+      "href": "https://rajesharigala.com/tech skills/index"
+    },
+    {
+      "text": "Home",
+      "href": "https://rajesharigala.com/"
+    },
+    {
+      "text": "Docker",
+      "href": "https://rajesharigala.com/tech skills/docker"
+    },
+    {
+      "text": "All Projects",
+      "href": "https://rajesharigala.com/tech skills/skill"
+    },
+    {
+      "text": "View on GitHub",
+      "href": "https://github.com/Rajesh-Arigala/docker-node-app"
+    },
+    {
+      "text": "View on GitHub",
+      "href": "https://github.com/Rajesh-Arigala/docker-doc-ml"
+    },
+    {
+      "text": "View on GitHub",
+      "href": "https://github.com/Rajesh-Arigala/docker-compose"
+    }
+  ],
+  "content": "Docker & Containerization Container Orchestration & DevOps Level EXPERT 92% Containers Orchestration DevOps Comprehensive containerization solutions using Docker ecosystem including Docker CLI commands, Docker Compose for multi-container orchestration, and Docker Swarm for container orchestration across multiple hosts. Implementation of scalable, reliable, and secure containerized applications with automated deployment workflows. Projects Showcase Real-world implementations demonstrating production-ready containerization solutions Node.js Docker Node.js Application Complete Docker setup for a Node.js application with optimized Dockerfile, multi-stage builds, and comprehensive CLI command implementations. Docker Architecture & CLI Commands Docker Architecture: Client → Host (Physical Machine/Engine/PC + Docker Desktop) → Daemon → Registry Docker Workflow: DockerFile (Blueprint) → Docker Image (Packed Software) → Container (Model Instance) Docker CLI Commands: build, run, image tag, logs, network (bridge, overlay) Resource Management: Dedicated memory allocation, CPU percentage limits, volume management Container Lifecycle: Start, stop, restart, pause, unpause, and remove operations Technologies Used View on GitHub Study Material MLOps Docker for ML Documentation Docker configurations and best practices for building reproducible machine learning environments and workflows with optimized resource allocation. ML Containerization Features GPU-accelerated containers for machine learning workloads Multi-stage builds for optimized ML model deployment Volume mounts for persistent model storage and data persistence Environment variable configurations for ML parameter tuning Network configurations for distributed ML training Technologies Used View on GitHub Study Material Orchestration Docker Compose & Swarm Orchestration Advanced multi-container orchestration using Docker Compose for local development and Docker Swarm for production container orchestration across multiple hosts. Orchestration Features Docker Compose: service → build → environment_variables → ports → depends_on → networks Container Orchestration: Scalability, Load Balancing, Fault Tolerance, Security, Rolling Updates Docker Swarm: Manage multiple containers over multiple hosts with overlay networks Security: TLS (Transport Layer Security) with automatic certificate management Service Discovery and Load Balancing across swarm nodes Technologies Used View on GitHub Study Material Interested in implementing containerized solutions for your applications? Let's discuss how to build scalable, consistent environments for your development and production needs. Contact & Collaborate",
+  "crawl_timestamp": "2026-06-17T06:17:56.382453+00:00",
+  "raw_html_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/tech_skills_docker.html"
+}

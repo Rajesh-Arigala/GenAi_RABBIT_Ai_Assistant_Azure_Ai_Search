@@ -1,0 +1,39 @@
+{
+  "manifest_version": "chunks_v1_manifest",
+  "generated_at": "2026-06-17T17:42:12.688584+00:00",
+  "chunking_version": "chunking_v1",
+  "source_document_registry": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/01_input_seed_and_config/document_registry.json",
+  "source_hierarchy_registry": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/01_input_seed_and_config/hierarchy_registry.json",
+  "source_cross_reference_report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/V4_Cross_Reference_Report.json",
+  "outputs": {
+    "chunks_jsonl": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/09_future_output_chunks/chunks_v1.jsonl",
+    "chunk_registry": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/09_future_output_chunks/chunk_registry.json",
+    "chunk_manifest": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/09_future_output_chunks/chunks_v1_manifest.json",
+    "quality_report_md": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/09_future_output_chunks/chunk_quality_report.md"
+  },
+  "config": {
+    "target_words": 650,
+    "max_words": 850,
+    "overlap_words": 90,
+    "min_tail_words": 160
+  },
+  "counts": {
+    "source_documents": 53,
+    "documents_chunked": 53,
+    "placeholder_slots_excluded": 3,
+    "chunks_total": 142,
+    "total_chunk_words": 85832,
+    "total_chunk_chars": 648813,
+    "average_chunk_words": 604.45,
+    "min_chunk_words": 161,
+    "max_chunk_words": 861
+  },
+  "validation": {
+    "total_chunks": 142,
+    "duplicate_chunk_ids": 0,
+    "empty_chunks": [],
+    "large_chunks_over_900_words": [],
+    "documents_without_chunks": []
+  },
+  "status": "READY_FOR_REVIEW"
+}

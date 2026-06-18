@@ -1,0 +1,16 @@
+{
+  "seed_urls": [
+    "https://rajesharigala.com/mlops/ai1",
+    "https://rajesharigala.com/ai-work/azure-mlops-platform",
+    "https://rajesharigala.com/ai-work/ai-work3",
+    "https://rajesharigala.com/ai-work/ai-work4",
+    "https://rajesharigala.com/ai-work/ai-work5"
+  ],
+  "max_pages": 40,
+  "max_depth": 3,
+  "delay_seconds": 0.5,
+  "timeout_ms": 60000,
+  "viewport_width": 1440,
+  "viewport_height": 1800,
+  "same_domain_only": true
+}

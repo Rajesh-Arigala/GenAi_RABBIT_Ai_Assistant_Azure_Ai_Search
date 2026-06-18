@@ -1,0 +1,561 @@
+{
+  "version": "v4_final_corpus_manifest_v1",
+  "generated_at": "2026-06-17T07:16:45.395453+00:00",
+  "base_dir": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler",
+  "status": "READY_FOR_CHUNKING_PREP",
+  "notes": [
+    "04_GenAI has no separate approved page set in this corpus yet; GenAI may be handled later if URLs are provided/discovered."
+  ],
+  "sections": [
+    {
+      "section_id": "00_Homepage",
+      "status": "READY",
+      "expected_pages": 1,
+      "ready_pages": 1,
+      "missing_pages": [],
+      "total_rag_words": 2213,
+      "total_rag_bytes": 16558,
+      "suspicious_values_count": 0,
+      "bad_encoding_pages_count": 0,
+      "readiness_report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/00_Homepage_RAG_Readiness_Report.md",
+      "pages": [
+        {
+          "page_id": "00_Homepage",
+          "url": "https://rajesharigala.com/",
+          "title": "Rajesh Arigala | AI & GenAI Systems · Business Integration!",
+          "rag_words": 2213,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/00_Homepage_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/00_Homepage_quality_report.json"
+        }
+      ]
+    },
+    {
+      "section_id": "01_Business_Skills",
+      "status": "READY",
+      "expected_pages": 7,
+      "ready_pages": 7,
+      "missing_pages": [],
+      "total_rag_words": 11612,
+      "total_rag_bytes": 84694,
+      "suspicious_values_count": 0,
+      "bad_encoding_pages_count": 0,
+      "readiness_report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/01_Business_Skills_RAG_Readiness_Report.md",
+      "pages": [
+        {
+          "page_id": "01_Business_Skills",
+          "url": "https://rajesharigala.com/buiss skills/buissness",
+          "title": "Business Leadership — Rajesh Arigala",
+          "rag_words": 1146,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/01_Business_Skills_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/01_Business_Skills_quality_report.json"
+        },
+        {
+          "page_id": "01_01_Business_Skill_BPCL",
+          "url": "https://rajesharigala.com/buiss skills/bpcl",
+          "title": "BPCL — Mission-Critical Refinery Operations & Industrial Platform",
+          "rag_words": 1651,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/01_01_Business_Skill_BPCL_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/01_01_Business_Skill_BPCL_quality_report.json"
+        },
+        {
+          "page_id": "01_02_Business_Skill_Medtronic",
+          "url": "https://rajesharigala.com/buiss skills/medtronic",
+          "title": "Medtronic India — Territory Business Leadership",
+          "rag_words": 1574,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/01_02_Business_Skill_Medtronic_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/01_02_Business_Skill_Medtronic_quality_report.json"
+        },
+        {
+          "page_id": "01_03_Business_Skill_SMAAT",
+          "url": "https://rajesharigala.com/buiss skills/smaat",
+          "title": "SMAAT India — Distributed Water Infrastructure Platform",
+          "rag_words": 2101,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/01_03_Business_Skill_SMAAT_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/01_03_Business_Skill_SMAAT_quality_report.json"
+        },
+        {
+          "page_id": "01_04_Business_Skill_R_Cafe",
+          "url": "https://rajesharigala.com/buiss skills/r-cafe",
+          "title": "R-Cafe by Red Rybbons — Built from Ground Zero",
+          "rag_words": 2280,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/01_04_Business_Skill_R_Cafe_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/01_04_Business_Skill_R_Cafe_quality_report.json"
+        },
+        {
+          "page_id": "01_05_Business_Skill_RedRybbons",
+          "url": "https://rajesharigala.com/buiss skills/redrybbons",
+          "title": "RedRybbons — Craft Innovation Platform",
+          "rag_words": 1453,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/01_05_Business_Skill_RedRybbons_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/01_05_Business_Skill_RedRybbons_quality_report.json"
+        },
+        {
+          "page_id": "01_06_Business_Skill_Law",
+          "url": "https://rajesharigala.com/buiss skills/law",
+          "title": "Supreme Court Advocacy — Constitutional Governance & AI Systems",
+          "rag_words": 1407,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/01_06_Business_Skill_Law_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/01_06_Business_Skill_Law_quality_report.json"
+        }
+      ]
+    },
+    {
+      "section_id": "02_Tech_01_Technical_Skills",
+      "status": "READY",
+      "expected_pages": 8,
+      "ready_pages": 8,
+      "missing_pages": [],
+      "total_rag_words": 4396,
+      "total_rag_bytes": 35284,
+      "suspicious_values_count": 0,
+      "bad_encoding_pages_count": 0,
+      "readiness_report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_01_Technical_Skills_RAG_Readiness_Report.md",
+      "pages": [
+        {
+          "page_id": "02_Tech_01_Technical_Skills",
+          "url": "https://rajesharigala.com/tech skills/skill",
+          "title": "Technical Excellence | Rajesh Arigala",
+          "rag_words": 1085,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_01_Technical_Skills_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_01_Technical_Skills_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_01_Technical_Skills_01_GitHub",
+          "url": "https://rajesharigala.com/tech skills/github",
+          "title": "GitHub & GitHub Actions | Rajesh Arigala",
+          "rag_words": 344,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_01_Technical_Skills_01_GitHub_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_01_Technical_Skills_01_GitHub_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_01_Technical_Skills_02_AWS",
+          "url": "https://rajesharigala.com/tech skills/aws",
+          "title": "AWS DevOps & Cloud | Rajesh Arigala",
+          "rag_words": 622,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_01_Technical_Skills_02_AWS_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_01_Technical_Skills_02_AWS_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_01_Technical_Skills_03_Azure",
+          "url": "https://rajesharigala.com/tech skills/azure",
+          "title": "Azure DevOps & Cloud | Rajesh Arigala",
+          "rag_words": 453,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_01_Technical_Skills_03_Azure_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_01_Technical_Skills_03_Azure_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_01_Technical_Skills_04_GCP",
+          "url": "https://rajesharigala.com/tech skills/gcd",
+          "title": "Google Cloud DevOps | Rajesh Arigala",
+          "rag_words": 301,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_01_Technical_Skills_04_GCP_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_01_Technical_Skills_04_GCP_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_01_Technical_Skills_05_Docker",
+          "url": "https://rajesharigala.com/tech skills/docker",
+          "title": "Docker & Containerization | Rajesh Arigala",
+          "rag_words": 486,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_01_Technical_Skills_05_Docker_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_01_Technical_Skills_05_Docker_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_01_Technical_Skills_06_Kubernetes",
+          "url": "https://rajesharigala.com/tech skills/kubernetes",
+          "title": "Kubernetes Container Orchestration | Rajesh Arigala",
+          "rag_words": 442,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_01_Technical_Skills_06_Kubernetes_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_01_Technical_Skills_06_Kubernetes_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_01_Technical_Skills_07_MLflow",
+          "url": "https://rajesharigala.com/tech skills/mlflow",
+          "title": "MLFlow ML Lifecycle Management | Rajesh Arigala",
+          "rag_words": 663,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_01_Technical_Skills_07_MLflow_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_01_Technical_Skills_07_MLflow_quality_report.json"
+        }
+      ]
+    },
+    {
+      "section_id": "02_Tech_02_MLOps_01_CICD",
+      "status": "READY",
+      "expected_pages": 6,
+      "ready_pages": 6,
+      "missing_pages": [],
+      "total_rag_words": 7291,
+      "total_rag_bytes": 53700,
+      "suspicious_values_count": 0,
+      "bad_encoding_pages_count": 0,
+      "readiness_report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_01_CICD_RAG_Readiness_Report.md",
+      "pages": [
+        {
+          "page_id": "02_Tech_02_MLOps_01_CICD",
+          "url": "https://rajesharigala.com/mlops/cicd",
+          "title": "CI/CD Automation & Platform Engineering | Multi-Cloud Portfolio",
+          "rag_words": 898,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_01_CICD_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_01_CICD_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_02_MLOps_01_CICD_Azure_DevOps_Pipeline",
+          "url": "https://rajesharigala.com/mlops/CI-CD/azure-devops-ci-cd-pipeline-yaml",
+          "title": "Azure DevOps CI/CD Pipeline as Code - Case Study",
+          "rag_words": 1212,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_01_CICD_Azure_DevOps_Pipeline_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_01_CICD_Azure_DevOps_Pipeline_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_02_MLOps_01_CICD_GitHub_Actions_Pipeline",
+          "url": "https://rajesharigala.com/mlops/CI-CD/github-actions-ci-cd-pipeline-yaml",
+          "title": "GitHub Actions CI/CD Pipeline - Project Case Study",
+          "rag_words": 1121,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_01_CICD_GitHub_Actions_Pipeline_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_01_CICD_GitHub_Actions_Pipeline_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_02_MLOps_01_CICD_AWS_DevOps_Pipeline",
+          "url": "https://rajesharigala.com/mlops/CI-CD/aws-cicd-pipeline-devops",
+          "title": "AWS DevOps CI/CD Pipeline - Project Case Study",
+          "rag_words": 1516,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_01_CICD_AWS_DevOps_Pipeline_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_01_CICD_AWS_DevOps_Pipeline_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_02_MLOps_01_CICD_GCP_Cloud_Build_Pipeline",
+          "url": "https://rajesharigala.com/mlops/CI-CD/gcp-cloud-build-ci-cd-pipeline-yaml",
+          "title": "Google Cloud Build CI/CD Pipeline - Project Case Study",
+          "rag_words": 1311,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_01_CICD_GCP_Cloud_Build_Pipeline_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_01_CICD_GCP_Cloud_Build_Pipeline_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_02_MLOps_01_CICD_AWS_CDK_IaC_Platform",
+          "url": "https://rajesharigala.com/mlops/CI-CD/cicd-project5",
+          "title": "AWS CDK - Infrastructure as Code CI/CD Platform",
+          "rag_words": 1233,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_01_CICD_AWS_CDK_IaC_Platform_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_01_CICD_AWS_CDK_IaC_Platform_quality_report.json"
+        }
+      ]
+    },
+    {
+      "section_id": "02_Tech_02_MLOps_02_Containers",
+      "status": "READY",
+      "expected_pages": 9,
+      "ready_pages": 9,
+      "missing_pages": [],
+      "total_rag_words": 11839,
+      "total_rag_bytes": 92574,
+      "suspicious_values_count": 0,
+      "bad_encoding_pages_count": 0,
+      "readiness_report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_02_Containers_RAG_Readiness_Report.md",
+      "pages": [
+        {
+          "page_id": "02_Tech_02_MLOps_02_Containers",
+          "url": "https://rajesharigala.com/mlops/ContainersOrchestration",
+          "title": "Containers & Orchestration Portfolio | Docker & Kubernetes",
+          "rag_words": 423,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_02_Containers_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_02_Containers_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_02_MLOps_02_Containers_01_Dockers",
+          "url": "https://rajesharigala.com/mlops/docker",
+          "title": "Docker Fundamentals & Projects Portfolio",
+          "rag_words": 929,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_02_Containers_01_Dockers_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_02_Containers_01_Dockers_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_02_MLOps_02_Containers_01_Dockers_01_NodeJS_App",
+          "url": "https://rajesharigala.com/mlops/Dockerized-Node.js-App",
+          "title": "Dockerized Node.js Application - Container Execution Layer",
+          "rag_words": 1417,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_02_Containers_01_Dockers_01_NodeJS_App_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_02_Containers_01_Dockers_01_NodeJS_App_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_02_MLOps_02_Containers_01_Dockers_02_Project_2",
+          "url": "https://rajesharigala.com/mlops/docker-project2",
+          "title": "Dockerized ML Inference Service - Project Case Study",
+          "rag_words": 1607,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_02_Containers_01_Dockers_02_Project_2_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_02_Containers_01_Dockers_02_Project_2_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_02_MLOps_02_Containers_01_Dockers_03_Project_3",
+          "url": "https://rajesharigala.com/mlops/docker-project3",
+          "title": "Docker Compose MLOps - Multi-Container ML Application",
+          "rag_words": 1433,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_02_Containers_01_Dockers_03_Project_3_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_02_Containers_01_Dockers_03_Project_3_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_02_MLOps_02_Containers_02_Kubernetes",
+          "url": "https://rajesharigala.com/mlops/kubernetes",
+          "title": "Kubernetes Infrastructure & AWS EKS | Rajesh Arigala",
+          "rag_words": 694,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_02_Containers_02_Kubernetes_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_02_Containers_02_Kubernetes_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_02_MLOps_02_Containers_02_Kubernetes_01_ML_Inference_Minikube",
+          "url": "https://rajesharigala.com/mlops/kubernetes-ml-inference-minikube.html",
+          "title": "Kubernetes ML Inference Deployment - Project Case Study",
+          "rag_words": 1943,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_02_Containers_02_Kubernetes_01_ML_Inference_Minikube_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_02_Containers_02_Kubernetes_01_ML_Inference_Minikube_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_02_MLOps_02_Containers_02_Kubernetes_02_Multi_Pod_Flask_ML",
+          "url": "https://rajesharigala.com/mlops/kubernetes-multi-pod-flask-ml",
+          "title": "Kubernetes Project: Create Multiple Pods - EKS Deployment",
+          "rag_words": 1511,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_02_Containers_02_Kubernetes_02_Multi_Pod_Flask_ML_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_02_Containers_02_Kubernetes_02_Multi_Pod_Flask_ML_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_02_MLOps_02_Containers_02_Kubernetes_03_AWS_EKS_ML_Deployment",
+          "url": "https://rajesharigala.com/mlops/aws-eks-ml-deployment",
+          "title": "AWS EKS ML Model Deployment - Project Case Study",
+          "rag_words": 1882,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_02_Containers_02_Kubernetes_03_AWS_EKS_ML_Deployment_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_02_Containers_02_Kubernetes_03_AWS_EKS_ML_Deployment_quality_report.json"
+        }
+      ]
+    },
+    {
+      "section_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+      "status": "READY",
+      "expected_pages": 2,
+      "ready_pages": 2,
+      "missing_pages": [],
+      "total_rag_words": 3669,
+      "total_rag_bytes": 27774,
+      "suspicious_values_count": 0,
+      "bad_encoding_pages_count": 0,
+      "readiness_report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_03_MLOps_ML_Systems_RAG_Readiness_Report.md",
+      "pages": [
+        {
+          "page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+          "url": "https://rajesharigala.com/mlops/mlops,sys",
+          "title": "MLOps & AI Systems Portfolio | ML Lifecycle Engineering",
+          "rag_words": 2012,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_03_MLOps_ML_Systems_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_03_MLOps_ML_Systems_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems_MLflow_AWS_Project",
+          "url": "https://rajesharigala.com/mlops/ml-project4",
+          "title": "MLflow on AWS - CDK IaC + SageMaker Project Case Study",
+          "rag_words": 1657,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_03_MLOps_ML_Systems_MLflow_AWS_Project_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_03_MLOps_ML_Systems_MLflow_AWS_Project_quality_report.json"
+        }
+      ]
+    },
+    {
+      "section_id": "02_Tech_02_MLOps_04_IaC",
+      "status": "READY",
+      "expected_pages": 3,
+      "ready_pages": 3,
+      "missing_pages": [],
+      "total_rag_words": 3993,
+      "total_rag_bytes": 30414,
+      "suspicious_values_count": 0,
+      "bad_encoding_pages_count": 0,
+      "readiness_report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_04_IaC_RAG_Readiness_Report.md",
+      "pages": [
+        {
+          "page_id": "02_Tech_02_MLOps_04_IaC",
+          "url": "https://rajesharigala.com/mlops/infra-code",
+          "title": "Infrastructure as Code Portfolio | AWS CDK & Terraform",
+          "rag_words": 1105,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_04_IaC_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_04_IaC_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_02_MLOps_04_IaC_01_Project_1",
+          "url": "https://rajesharigala.com/mlops/infra project1",
+          "title": "MLflow Platform Deployment on AWS ECS Fargate - Project Case Study",
+          "rag_words": 1654,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_04_IaC_01_Project_1_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_04_IaC_01_Project_1_quality_report.json"
+        },
+        {
+          "page_id": "02_Tech_02_MLOps_04_IaC_02_Project_2",
+          "url": "https://rajesharigala.com/mlops/infra project2",
+          "title": "AWS CDK - Infrastructure as Code CI/CD Platform",
+          "rag_words": 1234,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_04_IaC_02_Project_2_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_04_IaC_02_Project_2_quality_report.json"
+        }
+      ]
+    },
+    {
+      "section_id": "03_AI_Projects",
+      "status": "READY",
+      "expected_pages": 17,
+      "ready_pages": 17,
+      "missing_pages": [],
+      "total_rag_words": 24952,
+      "total_rag_bytes": 191794,
+      "suspicious_values_count": 0,
+      "bad_encoding_pages_count": 0,
+      "readiness_report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_AI_Projects_RAG_Readiness_Report.md",
+      "pages": [
+        {
+          "page_id": "03_01_AI_Project_MLflow_AWS_Platform",
+          "url": "https://rajesharigala.com/mlops/ai1",
+          "title": "MLflow ML Platform on AWS - Project Case Study",
+          "rag_words": 1495,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_01_AI_Project_MLflow_AWS_Platform_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_01_AI_Project_MLflow_AWS_Platform_quality_report.json"
+        },
+        {
+          "page_id": "03_02_AI_Project_Azure_MLOps_Platform",
+          "url": "https://rajesharigala.com/ai-work/azure-mlops-platform",
+          "title": "Enterprise AI Platform on Azure | End-to-End Azure MLOps Pipelines",
+          "rag_words": 2076,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_02_AI_Project_Azure_MLOps_Platform_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_02_AI_Project_Azure_MLOps_Platform_quality_report.json"
+        },
+        {
+          "page_id": "03_02_01_AI_Project_Azure_Module_01",
+          "url": "https://rajesharigala.com/mlops/ai2/ai2.1",
+          "title": "Azure ML Platform IaC - Project Case Study",
+          "rag_words": 1518,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_02_01_AI_Project_Azure_Module_01_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_02_01_AI_Project_Azure_Module_01_quality_report.json"
+        },
+        {
+          "page_id": "03_02_02_AI_Project_Azure_Module_02",
+          "url": "https://rajesharigala.com/mlops/ai2/ai2.2",
+          "title": "Azure ML Training Pipeline - Project Case Study",
+          "rag_words": 1538,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_02_02_AI_Project_Azure_Module_02_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_02_02_AI_Project_Azure_Module_02_quality_report.json"
+        },
+        {
+          "page_id": "03_02_03_AI_Project_Azure_Module_03",
+          "url": "https://rajesharigala.com/mlops/ai2/ai2.3",
+          "title": "Azure ML Deployment Pipeline - Project Case Study",
+          "rag_words": 1481,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_02_03_AI_Project_Azure_Module_03_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_02_03_AI_Project_Azure_Module_03_quality_report.json"
+        },
+        {
+          "page_id": "03_03_AI_Project_AWS_SageMaker_MLOps_Platform",
+          "url": "https://rajesharigala.com/ai-work/ai-work3",
+          "title": "Enterprise AI Platform on AWS · SageMaker MLOps Pipelines",
+          "rag_words": 1281,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_03_AI_Project_AWS_SageMaker_MLOps_Platform_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_03_AI_Project_AWS_SageMaker_MLOps_Platform_quality_report.json"
+        },
+        {
+          "page_id": "03_03_01_AI_Project_AWS_IaC_Details",
+          "url": "https://rajesharigala.com/mlops/ai6/ai6.1",
+          "title": "AWS AI Platform · IaC Pipeline (CDK + SageMaker)",
+          "rag_words": 1391,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_03_01_AI_Project_AWS_IaC_Details_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_03_01_AI_Project_AWS_IaC_Details_quality_report.json"
+        },
+        {
+          "page_id": "03_03_02_AI_Project_AWS_Training_Pipeline",
+          "url": "https://rajesharigala.com/mlops/ai6/ai6.2",
+          "title": "AWS SageMaker MLOps · Pipeline 2 (Train/Evaluate/Register)",
+          "rag_words": 1170,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_03_02_AI_Project_AWS_Training_Pipeline_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_03_02_AI_Project_AWS_Training_Pipeline_quality_report.json"
+        },
+        {
+          "page_id": "03_03_03_AI_Project_AWS_Deployment_Details",
+          "url": "https://rajesharigala.com/mlops/ai6/ai6.3",
+          "title": "AWS AI Deployment Pipeline · CDK · MLOps",
+          "rag_words": 960,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_03_03_AI_Project_AWS_Deployment_Details_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_03_03_AI_Project_AWS_Deployment_Details_quality_report.json"
+        },
+        {
+          "page_id": "03_04_AI_Project_GCP_Automation_Platform",
+          "url": "https://rajesharigala.com/ai-work/ai-work4",
+          "title": "AI GCP AUTOMATION PROJECT · End-to-End Enterprise AI Platform on GCP",
+          "rag_words": 1089,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_04_AI_Project_GCP_Automation_Platform_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_04_AI_Project_GCP_Automation_Platform_quality_report.json"
+        },
+        {
+          "page_id": "03_04_01_AI_Project_GCP_IaC_Details",
+          "url": "https://rajesharigala.com/mlops/ai4/ai4.1",
+          "title": "AI‑GCP Pipeline‑1 : Agent Platform Platform Foundation · Case Study",
+          "rag_words": 2354,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_04_01_AI_Project_GCP_IaC_Details_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_04_01_AI_Project_GCP_IaC_Details_quality_report.json"
+        },
+        {
+          "page_id": "03_04_02_AI_Project_GCP_Training_Pipeline",
+          "url": "https://rajesharigala.com/mlops/ai4/ai4.2",
+          "title": "AI‑GCP Pipeline‑2 · Agent Platform MLOps",
+          "rag_words": 2368,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_04_02_AI_Project_GCP_Training_Pipeline_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_04_02_AI_Project_GCP_Training_Pipeline_quality_report.json"
+        },
+        {
+          "page_id": "03_04_03_AI_Project_GCP_Deployment_Details",
+          "url": "https://rajesharigala.com/mlops/ai4/ai4.3",
+          "title": "AI‑GCP Pipeline‑3 : Agent Platform Deployment & Endpoints · Case Study",
+          "rag_words": 2105,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_04_03_AI_Project_GCP_Deployment_Details_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_04_03_AI_Project_GCP_Deployment_Details_quality_report.json"
+        },
+        {
+          "page_id": "03_05_AI_Project_Kubeflow_MLOps_Platform",
+          "url": "https://rajesharigala.com/ai-work/ai-work5",
+          "title": "Enterprise Kubeflow MLOps Platform | Open‑Source Kubernetes AI",
+          "rag_words": 1143,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_05_AI_Project_Kubeflow_MLOps_Platform_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_05_AI_Project_Kubeflow_MLOps_Platform_quality_report.json"
+        },
+        {
+          "page_id": "03_05_01_AI_Project_Kubeflow_IaC_Details",
+          "url": "https://rajesharigala.com/mlops/ai5/ai5.1",
+          "title": "Kubeflow AI Platform · MLOps Foundation",
+          "rag_words": 859,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_05_01_AI_Project_Kubeflow_IaC_Details_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_05_01_AI_Project_Kubeflow_IaC_Details_quality_report.json"
+        },
+        {
+          "page_id": "03_05_02_AI_Project_Kubeflow_Training_Pipeline",
+          "url": "https://rajesharigala.com/mlops/ai5/ai5.2",
+          "title": "Kubeflow ML Pipeline · MLOps case study",
+          "rag_words": 1208,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_05_02_AI_Project_Kubeflow_Training_Pipeline_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_05_02_AI_Project_Kubeflow_Training_Pipeline_quality_report.json"
+        },
+        {
+          "page_id": "03_05_03_AI_Project_Kubeflow_Deployment_Details",
+          "url": "https://rajesharigala.com/mlops/ai5/ai5.3",
+          "title": "AI‑Kubeflow Pipeline‑3 : Model Deployment & Serving (K8s Native) · Case Study",
+          "rag_words": 916,
+          "rag_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_05_03_AI_Project_Kubeflow_Deployment_Details_rag.txt",
+          "quality_report_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_05_03_AI_Project_Kubeflow_Deployment_Details_quality_report.json"
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "sections": 8,
+    "expected_pages": 53,
+    "ready_pages": 53,
+    "unique_ready_pages": 53,
+    "total_rag_words": 69965,
+    "total_rag_bytes": 532792,
+    "suspicious_values_count": 0,
+    "bad_encoding_pages_count": 0
+  },
+  "supporting_reports": {
+    "cross_reference_markdown": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/V4_Cross_Reference_Report.md",
+    "cross_reference_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/V4_Cross_Reference_Report.json"
+  }
+}

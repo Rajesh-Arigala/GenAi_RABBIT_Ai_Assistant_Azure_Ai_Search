@@ -1,0 +1,163 @@
+{
+  "id": "03_03_AI_Project_AWS_SageMaker_MLOps_Platform",
+  "source_type": "website_rendered_v4_site_crawl",
+  "domain": "rajesharigala.com",
+  "url": "https://rajesharigala.com/ai-work/ai-work3",
+  "depth": 0,
+  "parent_url": null,
+  "parent_page_id": "ROOT",
+  "logical_parent_page_id": "03_AI_Projects",
+  "title": "Enterprise AI Platform on AWS · SageMaker MLOps Pipelines",
+  "meta_description": "",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "Enterprise AI Platform on AWS"
+    },
+    {
+      "level": "h2",
+      "text": "End-to-End AWS SageMaker MLOps"
+    },
+    {
+      "level": "h2",
+      "text": "Business Problem"
+    },
+    {
+      "level": "h2",
+      "text": "What The Project Does"
+    },
+    {
+      "level": "h2",
+      "text": "Business Use Cases"
+    },
+    {
+      "level": "h2",
+      "text": "Business Architecture Story"
+    },
+    {
+      "level": "h2",
+      "text": "Complete Architecture Diagram"
+    },
+    {
+      "level": "h2",
+      "text": "Cost-Aware AWS MLOps (FinOps)"
+    },
+    {
+      "level": "h2",
+      "text": "Resources Used"
+    },
+    {
+      "level": "h3",
+      "text": "End-to-End AWS SageMaker MLOps Pipelines for Production ML Deployment"
+    },
+    {
+      "level": "h3",
+      "text": "Secure CI/CD"
+    },
+    {
+      "level": "h3",
+      "text": "Governed promotion"
+    },
+    {
+      "level": "h3",
+      "text": "Automation first"
+    },
+    {
+      "level": "h3",
+      "text": "The pain"
+    },
+    {
+      "level": "h3",
+      "text": "The solution"
+    },
+    {
+      "level": "h3",
+      "text": "Enterprise SageMaker Foundation"
+    },
+    {
+      "level": "h3",
+      "text": "SageMaker Pipeline Process→Train→Evaluate→Register"
+    },
+    {
+      "level": "h3",
+      "text": "Registry-Driven Serving Approved→Endpoint"
+    },
+    {
+      "level": "h3",
+      "text": "Key capabilities"
+    },
+    {
+      "level": "h3",
+      "text": "Business value"
+    },
+    {
+      "level": "h3",
+      "text": "Cross-industry applications"
+    },
+    {
+      "level": "h3",
+      "text": "Plain-text flow"
+    },
+    {
+      "level": "h3",
+      "text": "Key cost controls"
+    },
+    {
+      "level": "h3",
+      "text": "Estimated monthly cost profile"
+    },
+    {
+      "level": "h3",
+      "text": "Core stack"
+    },
+    {
+      "level": "h3",
+      "text": "Supporting services"
+    }
+  ],
+  "paragraphs": [
+    "Enterprise AI Platform on AWS: a complete, enterprise‑grade MLOps foundation built with Amazon SageMaker, AWS CDK (IaC), GitHub Actions, and OIDC authentication. It automates infrastructure provisioning, model training with quality gates, governed registry approvals, and production endpoint deployment across Dev / Pre‑Prod / Prod.",
+    "The demo use case is Abalone Age Prediction (regression). The real value is the reusable platform pattern—portable to demand forecasting, pricing, churn, risk scoring, and predictive maintenance.",
+    "This project demonstrates a complete enterprise‑grade MLOps platform on AWS using Amazon SageMaker, AWS CDK (Infrastructure as Code), GitHub Actions, and OIDC authentication. It automates the ML lifecycle across infrastructure, training with quality gates, and registry‑driven production deployment.",
+    "OIDC‑based GitHub Actions avoids static cloud credentials. Deployments are scoped with least‑privilege IAM and can be cleanly separated per environment.",
+    "Models are versioned in SageMaker Model Registry and promoted only after manual approval gates to reduce risk.",
+    "Infrastructure, training, evaluation, registration, and deployment are automated so teams can iterate quickly with traceability.",
+    "Notebook models are easy. Production ML is hard without a repeatable delivery platform.",
+    "Many teams train models manually and deploy inconsistently. They lack governance, monitoring, and secure automation—leading to delays, quality issues, security risks, and high operational overhead.",
+    "This project delivers a reusable AWS MLOps foundation that standardizes training, evaluation, registry governance, and production deployment using native AWS services.",
+    "The platform is built as three modular pipelines.",
+    "AWS CDK · Service Catalog · Organization Templates · SageMaker Domain",
+    "XGBoost · quality gates · Model Registry · manual approval",
+    "AWS CDK · registry promotion · real-time + batch · multi-env",
+    "Abalone Age Prediction is the demo. The same architecture powers real enterprise workloads.",
+    "A business team provides historical data. The MLOps platform handles preparation, training, evaluation with quality gates, governed registration, and automated promotion to scalable production endpoints for applications to consume.",
+    "Designed with FinOps principles: scale-to-zero jobs, on-demand endpoints, and quality gates to prevent wasteful deployments.",
+    "Core AWS services and compute profiles that power the platform.",
+    "Ready to deploy an enterprise AI platform on AWS? Let's build automated infrastructure, training pipelines, and production-grade serving with full governance and cost optimisation."
+  ],
+  "links": [
+    {
+      "text": "Enterprise AI Platform (AWS)",
+      "href": "https://rajesharigala.com/ai-work/ai-work3"
+    },
+    {
+      "text": "View IaC details",
+      "href": "https://rajesharigala.com/mlops/ai6/ai6.1"
+    },
+    {
+      "text": "View training pipeline",
+      "href": "https://rajesharigala.com/mlops/ai6/ai6.2"
+    },
+    {
+      "text": "View deployment details",
+      "href": "https://rajesharigala.com/mlops/ai6/ai6.3"
+    },
+    {
+      "text": "Discuss AWS AI Platform Strategy",
+      "href": "https://rajesharigala.com/"
+    }
+  ],
+  "content": "End-to-End AWS SageMaker MLOps This project demonstrates a complete enterprise‑grade MLOps platform on AWS using Amazon SageMaker, AWS CDK (Infrastructure as Code), GitHub Actions, and OIDC authentication. It automates the ML lifecycle across infrastructure, training with quality gates, and registry‑driven production deployment. Secure CI/CD OIDC‑based GitHub Actions avoids static cloud credentials. Deployments are scoped with least‑privilege IAM and can be cleanly separated per environment. Governed promotion Models are versioned in SageMaker Model Registry and promoted only after manual approval gates to reduce risk. Automation first Infrastructure, training, evaluation, registration, and deployment are automated so teams can iterate quickly with traceability. Business Problem Notebook models are easy. Production ML is hard without a repeatable delivery platform. The pain Many teams train models manually and deploy inconsistently. They lack governance, monitoring, and secure automation—leading to delays, quality issues, security risks, and high operational overhead. Impact: slow releases, fragile deployments, limited auditability, and expensive rework. The solution This project delivers a reusable AWS MLOps foundation that standardizes training, evaluation, registry governance, and production deployment using native AWS services. Outcome: consistent, reproducible, and governed ML operations across environments. What The Project Does The platform is built as three modular pipelines. Pipeline‑1 · Infrastructure (IaC) Enterprise SageMaker Foundation AWS CDK · Service Catalog · Organization Templates · SageMaker Domain SageMaker Domain + Studio provisioning Organization Templates (Service Catalog) IAM least‑privilege, KMS, S3 artifacts GitHub Actions OIDC + CDK bootstrap/synth/deploy View IaC details Pipeline‑2 · Training SageMaker Pipeline Process→Train→Evaluate→Register XGBoost · quality gates · Model Registry · manual approval Automated preprocessing, training, evaluation MSE quality gate – conditional registration Model Registry + manual approval stage GitHub Actions + OIDC orchestration View training pipeline Pipeline‑3 · Deployment Registry-Driven Serving Approved→Endpoint AWS CDK · registry promotion · real-time + batch · multi-env Registry‑driven model promotion (latest Approved) SageMaker Model + EndpointConfig + Endpoint YAML instance config, traffic weights GitHub Actions CDK deploy + OIDC View deployment details Key capabilities Infrastructure as Code with AWS CDK (Python) Secure CI/CD using GitHub Actions + OIDC (no static credentials) Quality gates during training evaluation Model governance with SageMaker Model Registry + manual approval Multi‑environment support (Dev / Pre‑Prod / Prod) Support for both real‑time and batch inference Business value Faster time from model development to production Consistent, reproducible, and auditable ML processes Strong governance and traceability via Model Registry Reduced manual effort and operational risk Clear separation of infrastructure, training, and deployment Secure, scalable, cost‑aware design using AWS services Business Use Cases Abalone Age Prediction is the demo. The same architecture powers real enterprise workloads. Cross-industry applications Transportation: fare prediction, ETA, demand forecasting, route optimization Retail: sales forecasting, dynamic pricing, inventory optimization Finance: credit risk scoring, fraud detection, customer churn prediction Healthcare: patient risk scoring, readmission prediction Manufacturing: predictive maintenance, quality control, yield optimization Marketing: customer lifetime value, next-best-action recommendation Business Architecture Story A business team provides historical data. The MLOps platform handles preparation, training, evaluation with quality gates, governed registration, and automated promotion to scalable production endpoints for applications to consume. Plain-text flow Business Data → GitHub (IaC + Seed Code) → Pipeline‑1: Infrastructure (CDK + Service Catalog) → SageMaker Domain + Templates → Pipeline‑2: Training (SageMaker Pipelines) → Process → Train → Evaluate → Model Registry → Pipeline‑3: Deployment (CDK) → Approved Model → Real-time Endpoint / Batch → Business Applications → Predictions → Decisions + Monitoring + Retraining 1 Business Data 2 GitHub + OIDC 3 IaC (Pipeline‑1) 4 Train + Gates 5 Registry Approval 6 Deploy + Monitor Complete Architecture Diagram GitHub Actions OIDC + IAM CDK (IaC) SageMaker Endpoints End-to-end automation: CDK provisions enterprise-ready SageMaker infrastructure, pipelines train with quality gates, approved models promote to real-time or batch endpoints—governed by OIDC and least-privilege IAM. Cost-Aware AWS MLOps (FinOps) Designed with FinOps principles: scale-to-zero jobs, on-demand endpoints, and quality gates to prevent wasteful deployments. Key cost controls Scale-to-zero training and processing jobs On-demand SageMaker endpoints (easy to create/delete) Infrastructure as Code for quick spin-up/teardown Quality gates to prevent wasteful deployments Batch Transform for non-urgent workloads Main cost driver: real-time SageMaker endpoints. Delete endpoints after testing for portfolio/demo projects to stay under ~$60/month. Estimated monthly cost profile Scenario Description Approx. monthly cost Portfolio / Demo No running endpoint $15 – $60 Active Development Occasional training + testing $50 – $150 Production Pilot One real-time endpoint + retraining $120 – $280 Small Production Endpoint + monitoring + weekly retraining $200 – $500 Recommendation: use Batch Transform where latency is not critical; keep real-time endpoints only when the business requires low-latency predictions. Resources Used Core AWS services and compute profiles that power the platform. Core stack AWS CDK (Python) + GitHub Actions + OIDC Amazon SageMaker (Domain, Pipelines, Model Registry, Endpoints) Training / Processing: ml.m5.xlarge (scale-to-zero) Real-time Endpoint: ml.m5.xlarge Supporting services S3, ECR, CloudWatch KMS, SSM Parameter Store AWS Service Catalog (Organization Templates) Multi-environment support (Dev / Pre-Prod / Prod)",
+  "crawl_timestamp": "2026-06-17T06:14:51.498799+00:00",
+  "raw_html_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/03_03_AI_Project_AWS_SageMaker_MLOps_Platform.html"
+}

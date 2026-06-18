@@ -1,0 +1,957 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI‑GCP Pipeline‑2 · Agent Platform MLOps</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-main: #0C1117;
+            --bg-surface: #121923;
+            --bg-elevated: #161F2B;
+            --card-bg: #161F2B;
+
+            --accent-primary: #B8B2A7;
+            --accent-energy: #7CFFB2;
+            --accent-depth: #3A1F2D;
+
+            --text-primary: #E6E9EF;
+            --text-secondary: #A1A8B3;
+            --text-muted: #6F7682;
+
+            --line-subtle: #1E2633;
+            --glass-border: rgba(184, 178, 167, 0.15);
+
+            --ease-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --accent-gradient: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(12, 17, 23, 0.9);
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.4s var(--ease-slow);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-primary);
+            transition: width 0.4s var(--ease-slow);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--accent-energy);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+            background: var(--accent-energy);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        main {
+            padding-top: 100px;
+            padding-bottom: 4rem;
+        }
+
+        .section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        .section-header {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-energy);
+            border-radius: 2px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.4s var(--ease-slow);
+        }
+
+        .card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .card-title i {
+            color: var(--accent-energy);
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-item {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .list-item::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent-energy);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .highlight-box {
+            background: rgba(124, 255, 178, 0.05);
+            border-left: 4px solid var(--accent-energy);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-text {
+            color: var(--accent-energy);
+            font-weight: 500;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding-top: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-energy), transparent);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 1rem;
+            letter-spacing: -0.02em;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .hero-summary {
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .architecture-visual {
+            background: var(--bg-elevated);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--line-subtle);
+            margin: 2rem 0;
+        }
+
+        .architecture-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This fills the container, may crop edges */
+    display: block;
+}
+
+        .architecture-label {
+            position: relative;
+            z-index: 2;
+            background: rgba(12, 17, 23, 0.7);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .flow-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .flow-step {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: var(--accent-energy);
+            color: var(--bg-main);
+            border-radius: 50%;
+            line-height: 30px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .pipeline-stage {
+            margin-bottom: 2.5rem;
+        }
+
+        .stage-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .stage-number {
+            background: var(--accent-energy);
+            color: var(--bg-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .stage-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .tech-category {
+            margin-bottom: 2rem;
+        }
+
+        .tech-category-title {
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tech-tag {
+            background: rgba(184, 178, 167, 0.1);
+            color: var(--accent-primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(184, 178, 167, 0.2);
+        }
+
+        .tech-tag.energy {
+            background: rgba(124, 255, 178, 0.1);
+            color: var(--accent-energy);
+            border-color: rgba(124, 255, 178, 0.2);
+        }
+
+        .assets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .asset-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--line-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .asset-card:hover {
+            border-color: var(--accent-energy);
+            transform: translateY(-4px);
+        }
+
+        .asset-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(124, 255, 178, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--accent-energy);
+            font-size: 1.5rem;
+        }
+
+        .asset-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .asset-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .asset-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-energy);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .asset-link:hover {
+            text-decoration: underline;
+        }
+
+        .yaml-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .yaml-table th {
+            background: rgba(124, 255, 178, 0.1);
+            color: var(--accent-energy);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--line-subtle);
+        }
+
+        .yaml-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--line-subtle);
+            color: var(--text-secondary);
+        }
+
+        .yaml-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .yaml-table tr:hover {
+            background: rgba(184, 178, 167, 0.05);
+        }
+
+        .demo-section {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .demo-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-energy);
+        }
+
+        .trigger-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--accent-energy);
+            color: var(--bg-main);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-slow);
+         text-decoration: none; }
+
+        .trigger-btn:hover {
+            background: transparent;
+            color: var(--accent-energy);
+            border: 2px solid var(--accent-energy);
+            transform: translateY(-2px);
+        }
+
+        .study-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(12, 17, 23, 0.95);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .study-modal.active {
+            display: flex;
+        }
+
+        .study-modal-content {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid var(--line-subtle);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .study-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .study-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .study-modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .study-modal-close:hover {
+            color: var(--accent-energy);
+        }
+
+        .study-material-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .study-material-item {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            gap: 1.2rem;
+            transition: all 0.3s;
+        }
+
+        .study-material-item:hover {
+            background: rgba(184, 178, 167, 0.05);
+        }
+
+        .study-material-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(108, 155, 207, 0.1);
+            color: #6C9BCF;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        .study-material-info {
+            flex: 1;
+        }
+
+        .study-material-name {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .study-material-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            background: transparent;
+            border: 2px solid var(--accent-energy);
+            color: var(--accent-energy);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .download-btn:hover {
+            background: rgba(124, 255, 178, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid var(--line-subtle);
+            margin-top: 4rem;
+            color: var(--text-muted);
+        }
+
+        .disclaimer {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: rgba(184, 178, 167, 0.05);
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .section { animation: fadeInUp 0.6s var(--ease-slow) forwards; opacity: 0; }
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+
+        @media (max-width: 768px) {
+            .nav-list { display: none; position: absolute; top: 70px; left: 0; width: 100%; flex-direction: column; background: var(--bg-surface); padding: 2rem; border-bottom: 1px solid var(--line-subtle); gap: 1.5rem; }
+            .nav-list.active { display: flex; }
+            .nav-toggle { display: block; }
+            .hero-title { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="nav-logo">AI‑GCP Pipeline‑2</a>
+            <ul class="nav-list">
+                <li><a href="#overview" class="nav-link active">Overview</a></li>
+                <li><a href="#problem" class="nav-link">Problem</a></li>
+                <li><a href="#architecture" class="nav-link">Architecture</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#pipeline" class="nav-link">Pipeline</a></li>
+                <li><a href="#assets" class="nav-link">Assets</a></li>
+            </ul>
+            <button class="nav-toggle"><i class="fas fa-bars"></i></button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- HERO -->
+        <section id="overview" class="section hero-section">
+            <h1 class="hero-title">Agent Platform Training &amp; Evaluation Pipeline</h1>
+            <p class="hero-subtitle">Kubeflow Pipelines v2 · Production‑grade MLOps on GCP</p>
+            <div class="hero-summary">
+                <p>Production‑grade ML training, evaluation, gating, and conditional deployment pipeline on Google Agent Platform using Kubeflow Pipelines (KFP v2). Enforces model quality, tracks lineage, and deploys only validated models.</p>
+            </div>
+        </section>
+
+        <!-- SUMMARY CARDS -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Project Summary</h2>
+                <p class="section-subtitle">AI + MLOps + Cloud Platform Engineering</p>
+            </div>
+            <div class="grid-3">
+                <div class="card"><h3 class="card-title"><i class="fas fa-tag"></i>Category</h3><div class="card-content"><p>AI/ML · MLOps · Platform Engineering</p></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-industry"></i>Industry</h3><div class="card-content"><p>Cross‑industry Enterprise AI Platform</p></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-code"></i>MLOps Focus</h3><div class="card-content"><p>Training · Evaluation · Gating · Conditional Deploy</p></div></div>
+            </div>
+        </section>
+
+        <!-- KEYWORDS -->
+        <section class="section">
+            <div class="section-header"><h2 class="section-title">Key Technologies &amp; Concepts</h2><p class="section-subtitle">ML/AI platform primitives</p></div>
+            <div class="card">
+                <div class="card-content">
+                    <div class="tech-tags">
+                        <span class="tech-tag energy">Agent Platform Pipelines (KFP v2)</span>
+                        <span class="tech-tag energy">Kubeflow Pipelines SDK</span>
+                        <span class="tech-tag">Agent Platform Training</span>
+                        <span class="tech-tag energy">Agent Platform Metadata Store</span>
+                        <span class="tech-tag">Google Cloud Storage</span>
+                        <span class="tech-tag">Artifact Registry</span>
+                        <span class="tech-tag energy">Service Accounts &amp; IAM</span>
+                        <span class="tech-tag">Workload Identity Federation</span>
+                        <span class="tech-tag energy">Conditional Pipelines (eval gate)</span>
+                        <span class="tech-tag">Agent Platform Endpoints</span>
+                        <span class="tech-tag">Cloud Logging</span>
+                        <span class="tech-tag energy">ML Governance · Lineage</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROBLEM & OBJECTIVE -->
+        <section id="problem" class="section">
+            <div class="section-header"><h2 class="section-title">Problem &amp; Objective</h2><p class="section-subtitle">Why this pipeline exists</p></div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Problem</h3><div class="card-content"><p>Manual, notebook‑driven ML workflows lack reproducibility, governance, automated evaluation gates, and production discipline. No structured way to enforce model quality before deployment in GCP.</p></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-bullseye"></i>Objective</h3><div class="card-content"><p>Build a production‑grade, automated ML training/evaluation pipeline on GCP that enforces quality gates, tracks lineage, and conditionally deploys models to Agent Platform endpoints using native MLOps primitives.</p></div></div>
+            </div>
+        </section>
+
+        <!-- SOLUTION & ARCHITECTURE -->
+        <section id="architecture" class="section">
+            <div class="section-header"><h2 class="section-title">Solution &amp; Architecture</h2><p class="section-subtitle">Agent Platform native orchestration</p></div>
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-sitemap"></i>Overview</h3>
+                <div class="card-content">
+                    <p>Agent Platform Pipelines (KFP v2) orchestrates data preparation, model training (RandomForest), evaluation (ROC, confusion matrix, accuracy), quality gating, conditional deployment to Agent Platform Endpoints, and scheduled retraining.</p>
+                    <p>Our platform automates machine learning workflows using Components as modular building blocks for specific tasks. These are orchestrated via a DSL (Domain Specific Language), which serves as the instruction manual for connecting them, while Conditions provide the "if‑then" logic to ensure the pipeline makes smart, real‑time decisions during execution.</p>
+                    <div class="highlight-box"><span class="highlight-text">Representation: <code>@dsl.component</code> or <code>@component</code> · <code>@dsl.pipeline</code> · <code>with dsl.Condition(accuracy &gt; 0.8):</code></span></div>
+                    <div class="highlight-box"><span class="highlight-text">Managed training • serverless orchestration • artifact persistence in GCS • conditional gates</span></div>
+                </div>
+            </div>
+            <div class="architecture-visual">
+                <div class="architecture-placeholder">
+                    <img src="/img/ml-systems/project in 1.4.webp" alt=" GCS → Data prep → Train (Agent Platform Training) → Eval (ROC/CM) → Quality gate → Conditional deploy → Endpoint">
+                <div class="flow-steps">
+                    <div class="flow-step"><div class="step-number">1</div><div class="step-label">GitHub / Trigger</div></div>
+                    <div class="flow-step"><div class="step-number">2</div><div class="step-label">Agent Platform Pipeline</div></div>
+                    <div class="flow-step"><div class="step-number">3</div><div class="step-label">Train (RF)</div></div>
+                    <div class="flow-step"><div class="step-number">4</div><div class="step-label">Eval + Gate</div></div>
+                    <div class="flow-step"><div class="step-number">5</div><div class="step-label">Deploy / Registry</div></div>
+                </div>
+            </div>
+        </div></section>
+
+        <!-- SKILLS & TECHNOLOGIES -->
+        <section id="skills" class="section">
+            <div class="section-header"><h2 class="section-title">Skills &amp; Technologies</h2><p class="section-subtitle">ML/platform engineering stack</p></div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fas fa-star"></i>Primary (Advanced)</h3><div class="card-content"><ul class="list"><li class="list-item">MLOps Architecture</li><li class="list-item">Agent Platform Pipelines / KFP v2</li><li class="list-item">Cloud AI Platform Engineering</li><li class="list-item">Production ML Workflow Design</li></ul></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-tools"></i>Secondary</h3><div class="card-content"><ul class="list"><li class="list-item">Kubeflow Pipelines SDK</li><li class="list-item">scikit‑learn · Agent Platform SDK</li><li class="list-item">GCS · IAM · Workload Identity</li><li class="list-item">GitHub Actions (CI trigger)</li></ul></div></div>
+            </div>
+            <div class="card"><h3 class="card-title"><i class="fas fa-code"></i>Languages &amp; DevOps</h3><div class="card-content"><div class="tech-tags"><span class="tech-tag energy">Python</span><span class="tech-tag">YAML</span><span class="tech-tag energy">KFP components</span><span class="tech-tag">Agent Platform</span><span class="tech-tag energy">GitHub Actions</span></div></div></div>
+        </section>
+
+        <!-- PIPELINE EXECUTION & GOVERNANCE -->
+        <section id="pipeline" class="section">
+            <div class="section-header"><h2 class="section-title">Pipeline Execution &amp; Governance</h2><p class="section-subtitle">Conditional gates, lineage, scheduling</p></div>
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-play-circle"></i>Execution</h3>
+                <div class="card-content"><ul class="list"><li class="list-item">Manual / CI trigger → Agent Platform Pipeline run</li><li class="list-item">KFP v2 components: data prep, training, evaluation, deploy</li><li class="list-item">Artifacts stored in GCS, metrics in Agent Platform Metadata</li></ul></div>
+            </div>
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-shield-alt"></i>Governance</h3>
+                <div class="card-content"><ul class="list"><li class="list-item">Explicit evaluation gate (accuracy/ROC threshold)</li><li class="list-item">Conditional pipeline branch: deploy only if gate passes</li><li class="list-item">Model versioning in Agent Platform Model Registry</li><li class="list-item">IAM least‑privilege + Workload Identity Federation</li></ul></div>
+            </div>
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Challenges &amp; Resolutions</h3>
+                <div class="card-content">
+                    <p><strong>Wiring KFP v2 components → Agent Platform Pipelines:</strong> used native KFP interfaces.<br>
+                    <strong>ROC/metrics logging:</strong> sanitized inputs for Agent Platform metrics APIs.<br>
+                    <strong>Conditional gates:</strong> pipeline condition with threshold check.<br>
+                    <strong>Model format for serving:</strong> packaged as Agent Platform-compatible artifact.<br>
+                    <strong>Notebook to production:</strong> refactored into pipeline components.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ARCHITECTURE TO YAML MAPPING -->
+        <section class="section">
+            <div class="section-header"><h2 class="section-title">GCP CI/CD · Architecture &amp; YAML Mapping</h2><p class="section-subtitle">Pipeline‑2 model training, evaluation, and governance constructs</p></div>
+            <div class="card">
+                <table class="yaml-table">
+                    <thead><tr><th>Architecture Block</th><th>GCP CI/CD / MLOps Construct (Pipeline‑2 – Modelling)</th><th>YAML / Pipeline Spec Mapping</th></tr></thead>
+                    <tbody>
+                        <tr><td>Source Repository</td><td>GitHub (modeling / pipelines repo)</td><td><code>repository</code>, <code>workflow.checkout</code></td></tr>
+                        <tr><td>Source Trigger</td><td>Manual / CI trigger (GitHub Actions or local notebook execution)</td><td><code>on.workflow_dispatch</code>, <code>on.push</code>, <code>notebook_runtime</code></td></tr>
+                        <tr><td>CI Runner</td><td>GitHub Actions Linux Runner (ubuntu-latest), optional for CI-driven runs</td><td><code>jobs.pipeline.runs-on: ubuntu-latest</code></td></tr>
+                        <tr><td>Build / Pipeline Execution</td><td>Agent Platform Pipelines (KFP v2: Data → Train → Evaluate → Condition)</td><td><code>pipelineSpec.root</code>, <code>pipelineInfo.name</code>, <code>deploymentSpec</code></td></tr>
+                        <tr><td>Training Orchestration</td><td>Agent Platform Pipelines (KFP v2)</td><td><code>@dsl.pipeline</code>, <code>tasks.train</code></td></tr>
+                        <tr><td>Data Processing</td><td>Agent Platform Pipeline Component (Pandas + Scikit‑Learn preprocessing)</td><td><code>@dsl.component</code>, <code>components.data-prep</code></td></tr>
+                        <tr><td>Model Training</td><td>RandomForestClassifier training pipeline / managed training runtime</td><td><code>components.train.container.image</code>, <code>args</code>, <code>model_output</code></td></tr>
+                        <tr><td>Model Evaluation</td><td>Pipeline component for ROC, Confusion Matrix, Accuracy</td><td><code>components.evaluate.outputs.metrics</code>, <code>classificationMetrics</code></td></tr>
+                        <tr><td>Artifact Storage</td><td>Google Cloud Storage (datasets, model artifacts, metrics JSON)</td><td><code>pipeline_root: gs://...</code>, <code>artifact_uri</code>, <code>metrics_path</code></td></tr>
+                        <tr><td>Container Registry</td><td>Artifact Registry (Agent Platform managed serving container)</td><td><code>image.repository</code>, <code>image.tag</code></td></tr>
+                        <tr><td>Model Registry</td><td>Agent Platform Model Registry (governed model versions)</td><td><code>components.upload-model</code>, <code>model.display_name</code>, <code>version_aliases</code></td></tr>
+                        <tr><td>Approval Gate</td><td>Pipeline Condition (metric threshold gate for deployment)</td><td><code>with dsl.Condition(accuracy &gt; 0.8)</code>, <code>threshold</code></td></tr>
+                        <tr><td>Security &amp; Auth</td><td>GCP Service Account + IAM (least privilege for pipelines)</td><td><code>service_account</code>, <code>roles/aiplatform.user</code>, <code>roles/storage.objectAdmin</code></td></tr>
+                        <tr><td>Secrets / Config</td><td>Environment variables + GCP IAM, optionally Secret Manager</td><td><code>env.PROJECT_ID</code>, <code>env.REGION</code>, <code>env.BUCKET_URI</code>, <code>secretEnv</code></td></tr>
+                        <tr><td>Monitoring &amp; Logs</td><td>Agent Platform Pipelines UI + Cloud Logging</td><td><code>pipeline_job_name</code>, <code>logging.enabled</code></td></tr>
+                        <tr><td>Lineage &amp; Governance</td><td>Agent Platform Pipelines lineage + Model Registry versions</td><td><code>metadata</code>, <code>metrics</code>, <code>artifact.uri</code></td></tr>
+                        <tr><td>Infrastructure Backend</td><td>Agent Platform Managed Pipelines (no separate IaC needed)</td><td><code>managed_pipeline: true</code>, <code>location</code></td></tr>
+                    </tbody>
+                </table>
+                <p class="highlight-text" style="margin-top:1rem;"><i class="fas fa-quote-left"></i> Pipeline‑2 standardizes reproducible training workflows, centralized GCS artifacts, metric logging (ROC, confusion matrix, accuracy), and governed model versioning for controlled promotion toward deployment.</p>
+            </div>
+        </section>
+
+        <!-- Complete PDF content -->
+        <section id="pdf-details" class="section">
+            <div class="section-header"><h2 class="section-title">Complete Project Details</h2><p class="section-subtitle">All content from the Pipeline‑2 PDF</p></div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fas fa-clipboard-list"></i>Project Summary</h3><div class="card-content"><ul class="list"><li class="list-item"><strong>Project Name:</strong> AI‑GCP Pipeline‑2 – Agent Platform Training &amp; Evaluation Pipeline</li><li class="list-item"><strong>One‑Line Description:</strong> Production‑grade ML training, evaluation, gating, and conditional deployment pipeline on Google Agent Platform using Kubeflow Pipelines (KFP v2).</li><li class="list-item"><strong>Category:</strong> AI + MLOps + Cloud Platform Engineering</li><li class="list-item"><strong>Industry:</strong> Cross‑industry (Enterprise AI Platform / MLOps Infrastructure)</li><li class="list-item"><strong>Domain:</strong> Machine Learning Platform Engineering / AI Model Lifecycle Automation</li></ul></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-tags"></i>Key Words</h3><div class="card-content"><ul class="list"><li class="list-item">Agent Platform Pipelines (KFP v2 Orchestration)</li><li class="list-item">Kubeflow Pipelines SDK (Pipeline as Code)</li><li class="list-item">Agent Platform Training Jobs (Managed Training Runtime)</li><li class="list-item">Agent Platform Metadata Store (Lineage &amp; Governance)</li><li class="list-item">Google Cloud Storage (Datasets, Models, Metrics Artifacts)</li><li class="list-item">Artifact Registry (Training / Inference Containers)</li><li class="list-item">Service Accounts &amp; IAM (Least‑Privilege MLOps Security)</li><li class="list-item">Workload Identity Federation (GitHub → GCP Auth)</li><li class="list-item">Conditional Pipelines (Evaluation Gate → Deploy)</li><li class="list-item">Agent Platform Model Upload (Model Registry Equivalent)</li><li class="list-item">Agent Platform Endpoints (Online Inference Targets)</li><li class="list-item">Pipeline Scheduling (Agent Platform Pipeline Scheduler)</li><li class="list-item">Cloud Logging (Training / Pipeline Logs)</li><li class="list-item">ML Governance (Metadata, Metrics, Model Lineage)</li></ul></div></div>
+            </div>
+            <div class="grid-2"><div class="card"><h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Problem Solved</h3><div class="card-content"><p>Manual, notebook‑driven ML workflows lack reproducibility, governance, automated evaluation gates, and production deployment discipline. There was no structured way to enforce model quality before deployment in GCP.</p></div></div><div class="card"><h3 class="card-title"><i class="fas fa-bullseye"></i>Primary Objective</h3><div class="card-content"><p>Build a production‑grade, automated ML training and evaluation pipeline on GCP that enforces quality gates, tracks lineage, and conditionally deploys models to Agent Platform endpoints using platform‑native MLOps primitives.</p></div></div></div>
+            <div class="card"><h3 class="card-title"><i class="fas fa-project-diagram"></i>Solution &amp; Architecture</h3><div class="card-content"><p>Implemented an Agent Platform Pipelines (KFP v2) based ML pipeline that performs data preparation, model training, evaluation (ROC, confusion matrix, accuracy), quality gating, conditional deployment to Agent Platform Endpoints, and scheduled retraining.</p><p>Our platform automates machine learning workflows using Components as modular building blocks for specific tasks. These are orchestrated via a DSL (Domain Specific Language), which serves as the instruction manual for connecting them, while Conditions provide the if‑then logic to ensure smart, real‑time decisions during execution.</p><ul class="list"><li class="list-item"><strong>Representation:</strong> <code>@dsl.component</code> or <code>@component</code>; <code>@dsl.pipeline</code>; <code>with dsl.Condition(accuracy &gt; 0.8):</code></li><li class="list-item"><strong>Cloud Platform:</strong> Google Cloud Platform (Agent Platform)</li><li class="list-item"><strong>Components:</strong> Agent Platform Pipelines, KFP v2 Components, managed training runtime, endpoints, GCS, Artifact Registry, Agent Platform Metadata Store, Service Accounts + IAM</li><li class="list-item"><strong>Reliability:</strong> managed training jobs, serverless orchestration, GCS persistence, idempotent re‑runnable steps, and conditional deployment gates</li></ul></div></div>
+            <div class="grid-2"><div class="card"><h3 class="card-title"><i class="fas fa-robot"></i>AI / DevOps Details</h3><div class="card-content"><ul class="list"><li class="list-item"><strong>Focus:</strong> Supervised ML training + MLOps automation (training, evaluation, gating, deployment)</li><li class="list-item"><strong>Implemented:</strong> RandomForestClassifier training pipeline; Data → Train → Evaluate → Gate → Deploy; ROC, confusion matrix, accuracy logging; conditional deployment logic; scheduled retraining pipelines</li><li class="list-item"><strong>CI/CD / Orchestration:</strong> GitHub Actions, Kubeflow Pipelines v2, Agent Platform Pipelines, optional Artifact Registry for containerized components</li></ul></div></div><div class="card"><h3 class="card-title"><i class="fas fa-chart-line"></i>Monitoring, Logging &amp; Optimization</h3><div class="card-content"><ul class="list"><li class="list-item">Agent Platform Pipelines UI for observability</li><li class="list-item">Cloud Logging for job‑level logs</li><li class="list-item">Agent Platform Metadata Store for metrics + lineage</li><li class="list-item">Model KPI logging with accuracy thresholds for gating</li></ul></div></div></div>
+            <div class="grid-2"><div class="card"><h3 class="card-title"><i class="fas fa-star"></i>Skills &amp; Technologies Used</h3><div class="card-content"><ul class="list"><li class="list-item"><strong>Primary:</strong> MLOps Architecture, Agent Platform Pipelines / KFP v2, Cloud AI Platform Engineering, Production ML Workflow Design — Advanced</li><li class="list-item"><strong>Secondary:</strong> Kubeflow Pipelines SDK, scikit‑learn, Agent Platform SDK (Python), Google Cloud Storage, GitHub Actions</li><li class="list-item"><strong>Languages:</strong> Python (primary), YAML (configuration / pipeline specs where applicable)</li><li class="list-item"><strong>Cloud &amp; DevOps:</strong> Google Agent Platform, GCS, Artifact Registry, IAM / Service Accounts, GitHub Actions, Workload Identity Federation</li></ul></div></div><div class="card"><h3 class="card-title"><i class="fas fa-check-circle"></i>Challenges &amp; Resolutions</h3><div class="card-content"><ul class="list"><li class="list-item">Wiring KFP v2 components correctly with Agent Platform Pipelines → used KFP v2 native component interfaces</li><li class="list-item">ROC / metrics logging compatibility → sanitized ROC inputs to satisfy metrics APIs</li><li class="list-item">Conditional deployment gates → implemented explicit evaluation gates with pipeline conditions</li><li class="list-item">Model artifact formats for serving → packaged models to match serving container expectations</li><li class="list-item">Notebook‑level code to production pipeline → converted notebook workflows into pipeline‑native components</li></ul></div></div></div>
+            <div class="card"><h3 class="card-title"><i class="fas fa-route"></i>GCP Production‑Grade Implementation Details</h3><div class="card-content"><p><strong>Architecture:</strong> Agent Platform Pipelines → Training → Evaluation → Conditional Deployment → Endpoints; artifact persistence in GCS; lineage in Agent Platform Metadata Store.</p><ul class="list"><li class="list-item"><strong>High‑level flow:</strong> GitHub Trigger → Agent Platform Pipeline Execution → Data Prep Component → Training Component (Agent Platform Training) → Evaluation Component (ROC / Accuracy / Confusion Matrix) → Quality Gate → Conditional Deployment to Agent Platform Endpoint → Scheduled Re‑training</li><li class="list-item"><strong>Architecture implemented on GCP:</strong> Raw Data → Agent Platform Pipeline (Data Prep → Train → Evaluate → Gate) → Model Artifacts (GCS) → Agent Platform Model Registry → Approved Model for Deployment</li><li class="list-item"><strong>Top lane — Training &amp; Evaluation Path:</strong> Raw Dataset (GCS / External Source) → Data Preparation Component → Custom Training Job → Model Evaluation → Quality Gate → Model Upload</li><li class="list-item"><strong>Bottom lane — Experiment Tracking &amp; Lineage:</strong> Training &amp; Evaluation Runs → Pipelines Lineage / Experiments → Metrics, Artifacts, Parameters stored in GCS → Governed Model Versioning in Model Registry</li><li class="list-item">The main project document has detailed view.</li></ul></div></div>
+            <div class="grid-2"><div class="card"><h3 class="card-title"><i class="fab fa-github"></i>Assets &amp; References</h3><div class="card-content"><ul class="list"><li class="list-item"><strong>GitHub / Repository Link:</strong> <a href="https://github.com/Rajesh-Arigala/vertex-ai-mlops-kfp2" target="_blank" rel="noopener noreferrer" class="asset-link">https://github.com/Rajesh-Arigala/vertex-ai-mlops-kfp2 <i class="fas fa-external-link-alt"></i></a></li><li class="list-item"><strong>Notebook:</strong> <a href="https://github.com/Rajesh-Arigala/vertex-ai-mlops-kfp2/blob/main/Vertex_AI_kfp2_pipeline.ipynb" target="_blank" rel="noopener noreferrer" class="asset-link">Vertex_AI_kfp2_pipeline.ipynb <i class="fas fa-external-link-alt"></i></a></li><li class="list-item"><strong>Weblink:</strong> https://rajesharigala.com/mlops/ai4/ai4.2</li><li class="list-item"><strong>Proof Link:</strong> later</li></ul></div></div><div class="card"><h3 class="card-title"><i class="fas fa-book"></i>Study Material</h3><div class="card-content"><ul class="list"><li class="list-item"><strong>Public:</strong> Official documentation of KFP, YAML file for GCP, Python SDK; downloadable PDF if available</li><li class="list-item"><strong>Restricted:</strong> KFP file specific, Colab Google specific; downloadable PDF with access limited to authorised users</li></ul></div></div></div>
+            <div class="card"><h3 class="card-title"><i class="fas fa-sync-alt"></i>Pipeline‑2 Summary</h3><div class="card-content"><p>Production‑grade model development and orchestration on Google Cloud using Agent Platform Pipelines (KFP v2) to automate data preparation, model training, evaluation, and quality gates. This layer standardizes reproducible training workflows, centralized artifact storage in GCS, metric logging into experiments, and governed model versioning via the Model Registry, enabling controlled promotion of validated models toward deployment.</p></div></div>
+        </section>
+
+        <!-- ASSETS & REFERENCES -->
+        <section id="assets" class="section">
+            <div class="section-header"><h2 class="section-title">Assets &amp; References</h2><p class="section-subtitle">Code, diagrams, study material</p></div>
+                        <div class="assets-grid">
+                <div class="asset-card"><div class="asset-icon"><i class="fab fa-github"></i></div><h3 class="asset-title">Repository</h3><p class="asset-description">Full training/evaluation pipeline code, components, and deployment specs.</p><a href="https://github.com/Rajesh-Arigala/vertex-ai-mlops-kfp2" target="_blank" rel="noopener noreferrer" class="asset-link"><span>vertex-ai-mlops-kfp2</span> <i class="fas fa-external-link-alt"></i></a></div>
+                <div class="asset-card"><div class="asset-icon"><i class="fas fa-file-code"></i></div><h3 class="asset-title">Notebook</h3><p class="asset-description">KFP v2 notebook for Agent Platform pipeline implementation.</p><a href="https://github.com/Rajesh-Arigala/vertex-ai-mlops-kfp2/blob/main/Vertex_AI_kfp2_pipeline.ipynb" target="_blank" rel="noopener noreferrer" class="asset-link"><span>Vertex_AI_kfp2_pipeline.ipynb</span> <i class="fas fa-external-link-alt"></i></a></div>
+                <div class="asset-card"><div class="asset-icon"><i class="fas fa-link"></i></div><h3 class="asset-title">Weblink</h3><p class="asset-description">Published project page for Pipeline‑2.</p><a href="https://rajesharigala.com/mlops/ai4/ai4.2" target="_blank" rel="noopener noreferrer" class="asset-link"><span>rajesharigala.com/mlops/ai4/ai4.2</span> <i class="fas fa-external-link-alt"></i></a></div>
+                <div class="asset-card"><div class="asset-icon"><i class="fas fa-clock"></i></div><h3 class="asset-title">Proof Link</h3><p class="asset-description">Proof link placeholder from the project brief.</p><a href="#" class="asset-link"><span>Proof link: later</span> <i class="fas fa-clock"></i></a></div>
+            </div>
+
+            <!-- study modal trigger -->
+            <div class="card">
+                <div class="demo-section">
+                    <h3 class="demo-title">Study Material Resources</h3>
+                    <p class="demo-subtitle">Official docs, restricted KFP guides, Colab notebooks</p>
+                    <a href="/index#contact" class="trigger-btn"><i class="fas fa-book"></i>Request Study Material</a>
+                </div>
+            </div>
+            
+        </section>
+    </main>
+
+    <!-- MODAL -->
+    <div class="study-modal" id="studyModal">
+        <div class="study-modal-content">
+            <div class="study-modal-header"><h3 class="study-modal-title">Study Material – Agent Platform MLOps</h3><button class="study-modal-close" id="closeModalBtn"><i class="fas fa-times"></i></button></div>
+            <div class="study-material-list">
+                <div class="study-material-item"><div class="study-material-icon"><i class="fas fa-file-pdf"></i></div><div class="study-material-info"><div class="study-material-name">KFP v2 official documentation</div><div class="study-material-desc">Pipeline as Code for Agent Platform</div></div><a href="#" class="download-btn"><span>Download</span><i class="fas fa-download"></i></a></div>
+                <div class="study-material-item"><div class="study-material-icon"><i class="fas fa-file-pdf"></i></div><div class="study-material-info"><div class="study-material-name">YAML pipeline specs (GCP)</div><div class="study-material-desc">component definitions, conditionals</div></div><a href="#" class="download-btn"><span>Download</span><i class="fas fa-download"></i></a></div>
+                <div class="study-material-item"><div class="study-material-icon"><i class="fas fa-file-pdf"></i></div><div class="study-material-info"><div class="study-material-name">KFP file specific + Colab notebooks</div><div class="study-material-desc">restricted – authorised users only</div></div><a href="#" class="download-btn"><span>Download</span><i class="fas fa-download"></i></a></div>
+                <div class="study-material-item"><div class="study-material-icon"><i class="fas fa-file-pdf"></i></div><div class="study-material-info"><div class="study-material-name">Agent Platform Metadata &amp; lineage</div><div class="study-material-desc">governance deep dive</div></div><a href="#" class="download-btn"><span>Download</span><i class="fas fa-download"></i></a></div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navToggle = document.querySelector('.nav-toggle');
+            const navList = document.querySelector('.nav-list');
+            navToggle?.addEventListener('click', () => navList.classList.toggle('active'));
+
+            // smooth scroll & active link
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(s => { const top = s.offsetTop-150; if (scrollY >= top && scrollY < top+s.clientHeight) current = s.getAttribute('id'); });
+                navLinks.forEach(l => { l.classList.remove('active'); if (l.getAttribute('href') === `#${current}`) l.classList.add('active'); });
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href.startsWith('#') && href !== '#') { e.preventDefault(); document.querySelector(href)?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest', top: -100 }); }
+                    if (navList.classList.contains('active')) navList.classList.remove('active');
+                });
+            });
+
+            // modal
+            const modal = document.getElementById('studyModal');
+            document.getElementById('openModalBtn').addEventListener('click', () => { modal.classList.add('active'); document.body.style.overflow = 'hidden'; });
+            document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+            modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) closeModal(); });
+            function closeModal() { modal.classList.remove('active'); document.body.style.overflow = ''; }
+
+            // animation on load
+            setTimeout(() => { document.querySelectorAll('.section').forEach(s => { s.style.opacity = '1'; s.style.transform = 'translateY(0)'; }); }, 300);
+        });
+    </script>
+
+
+</body></html>

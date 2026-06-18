@@ -1,0 +1,19 @@
+{
+  "seed_urls": [
+    "https://rajesharigala.com/tech skills/skill",
+    "https://rajesharigala.com/tech skills/github",
+    "https://rajesharigala.com/tech skills/aws",
+    "https://rajesharigala.com/tech skills/azure",
+    "https://rajesharigala.com/tech skills/gcd",
+    "https://rajesharigala.com/tech skills/docker",
+    "https://rajesharigala.com/tech skills/kubernetes",
+    "https://rajesharigala.com/tech skills/mlflow"
+  ],
+  "max_pages": 8,
+  "max_depth": 0,
+  "delay_seconds": 0.5,
+  "timeout_ms": 60000,
+  "viewport_width": 1440,
+  "viewport_height": 1800,
+  "same_domain_only": true
+}

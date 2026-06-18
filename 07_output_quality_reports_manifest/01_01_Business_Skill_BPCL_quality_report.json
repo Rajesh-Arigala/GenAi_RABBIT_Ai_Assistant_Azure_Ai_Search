@@ -1,0 +1,33 @@
+{
+  "version": "v4_site_crawler",
+  "page_id": "01_01_Business_Skill_BPCL",
+  "url": "https://rajesharigala.com/buiss skills/bpcl",
+  "depth": 2,
+  "parent_url": "https://rajesharigala.com/",
+  "parent_page_id": "00_Homepage",
+  "logical_parent_page_id": "01_Business_Skills",
+  "title": "BPCL — Mission-Critical Refinery Operations & Industrial Platform",
+  "characters_content": 10496,
+  "words_content": 1336,
+  "characters_rag_text": 12935,
+  "words_rag_text": 1651,
+  "headings_count": 9,
+  "paragraphs_count": 8,
+  "links_count": 2,
+  "bad_character_counts": {
+    "Â": 0,
+    "â": 0,
+    "ð": 0,
+    "Ã": 0,
+    "�": 0
+  },
+  "suspicious_values": [],
+  "saved_files": {
+    "raw_html": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/01_01_Business_Skill_BPCL.html",
+    "structured_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/03_output_structured_json/01_01_Business_Skill_BPCL_structured.json",
+    "clean_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/04_output_clean_json/01_01_Business_Skill_BPCL_clean.json",
+    "clean_text": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/05_output_clean_text/01_01_Business_Skill_BPCL_clean.txt",
+    "rag_document": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/01_01_Business_Skill_BPCL_rag.txt",
+    "report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/01_01_Business_Skill_BPCL_quality_report.json"
+  }
+}

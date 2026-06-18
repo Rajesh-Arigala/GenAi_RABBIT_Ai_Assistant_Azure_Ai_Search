@@ -1,0 +1,2754 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <title>Rajesh Arigala | AI &amp; GenAI Systems · Business Integration!</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <meta name="description" content="Rajesh Arigala builds production-grade AI and GenAI systems that drive real business outcomes across engineering, intelligence, and business integration.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Rajesh Arigala | AI &amp; GenAI Systems · Business Integration!">
+    <meta property="og:description" content="Building production-grade AI systems that drive real business outcomes across engineering, ML, MLOps, and GenAI.">
+    <meta property="og:url" content="https://rajesharigala.com/">
+    <meta property="og:image" content="https://rajesharigala.com/img/ra.webp">
+    <meta property="og:image:secure_url" content="https://rajesharigala.com/img/ra.webp">
+    <meta property="og:image:width" content="460">
+    <meta property="og:image:height" content="460">
+    <meta property="og:image:alt" content="Rajesh Arigala hero portrait">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rajesh Arigala | AI &amp; GenAI Systems · Business Integration!">
+    <meta name="twitter:description" content="Building production-grade AI systems that drive real business outcomes across engineering, ML, MLOps, and GenAI.">
+    <meta name="twitter:image" content="https://rajesharigala.com/img/ra.webp">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <!-- CSS File -->
+    <link rel="stylesheet" href="./style.css">
+    <style>
+        /* ========== HERO SPLIT LAYOUT ========== */
+        .hero-split-section {
+            position: relative;
+            padding: 0 !important;
+            min-height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at top left, rgba(124,255,178,0.12), transparent 28%),
+                linear-gradient(180deg, #0b141d 0%, #111b25 100%);
+        }
+        .hero-spline-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            background:
+                linear-gradient(90deg, rgba(12, 19, 28, 0.28) 0%, rgba(12, 19, 28, 0.08) 100%),
+                #071018;
+        }
+        .hero-matrix-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+            background: #091119;
+        }
+        .hero-matrix-glow {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at center, rgba(0, 255, 120, 0.05), transparent 60%),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.14));
+            mix-blend-mode: screen;
+        }
+        .hero-matrix-scanline {
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(255, 255, 255, 0.02) 0px,
+                rgba(255, 255, 255, 0.02) 1px,
+                transparent 2px,
+                transparent 4px
+            );
+            opacity: 0.12;
+        }
+        .hero-spline-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(90deg, rgba(10, 15, 22, 0.82) 0%, rgba(10, 15, 22, 0.74) 48%, rgba(10, 15, 22, 0.28) 70%, rgba(10, 15, 22, 0.6) 100%),
+                radial-gradient(circle at 18% 22%, rgba(124,255,178,0.16), transparent 28%),
+                linear-gradient(180deg, rgba(8, 12, 18, 0.14), rgba(8, 12, 18, 0.5));
+            z-index: 1;
+            pointer-events: none;
+        }
+        .hero-split-container {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: minmax(0, 1.45fr) minmax(240px, 0.55fr);
+            min-height: auto;
+            width: min(1500px, calc(100% - clamp(1rem, 4vw, 4rem)));
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 0;
+            gap: clamp(1rem, 2vw, 2rem);
+            align-items: start;
+            justify-content: start;
+            padding-top: clamp(5.8rem, 9vw, 6.8rem);
+            padding-bottom: 0;
+        }
+        .hero-right {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100%;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .hero-profile-wrap {
+            position: sticky;
+            top: 8.5rem;
+            width: min(100%, 340px);
+            display: flex;
+            justify-content: center;
+            pointer-events: auto;
+        }
+        .hero-profile-card {
+            position: relative;
+            width: 100%;
+            max-width: 340px;
+            padding: 0.9rem;
+            border-radius: 999px;
+            background: linear-gradient(180deg, rgba(18, 26, 36, 0.42), rgba(10, 16, 24, 0.2));
+            border: 1px solid rgba(230, 233, 239, 0.16);
+            box-shadow:
+                0 24px 70px rgba(0, 0, 0, 0.34),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(18px) saturate(1.15);
+            -webkit-backdrop-filter: blur(18px) saturate(1.15);
+            overflow: hidden;
+        }
+        .hero-profile-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background:
+                radial-gradient(circle at top left, rgba(124, 255, 178, 0.18), transparent 34%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
+            pointer-events: none;
+        }
+        .hero-profile-image {
+            position: relative;
+            display: block;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            z-index: 1;
+        }
+        .hero-availability-badge {
+            position: absolute;
+            left: 50%;
+            bottom: 0.85rem;
+            transform: translateX(-50%);
+            z-index: 2;
+            width: calc(100% - 3.2rem);
+            max-width: 270px;
+            padding: 0.65rem 0.8rem;
+            border-radius: 999px;
+            background: rgba(7, 12, 18, 0.58);
+            border: 1px solid rgba(230, 233, 239, 0.16);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.24);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            text-align: center;
+        }
+        .hero-availability-label {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            font-size: 0.68rem;
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--text-primary);
+            text-wrap: balance;
+        }
+        .hero-availability-label::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--accent-energy);
+            box-shadow: 0 0 12px rgba(124, 255, 178, 0.55);
+            flex-shrink: 0;
+        }
+
+        /* LEFT */
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            width: 100%;
+            max-width: 1000px;
+            padding-top: 0.5rem;
+            padding-bottom: 0;
+            position: relative;
+            z-index: 2;
+        }
+        .hero-group {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+            padding-bottom: 0.6rem;
+        }
+        .hero-group::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: min(100%, 980px);
+            height: 1px;
+            background: linear-gradient(90deg, rgba(212, 223, 234, 0.72) 0%, rgba(212, 223, 234, 0.24) 58%, rgba(212, 223, 234, 0) 100%);
+        }
+        .hero-group-top::after {
+            width: min(100%, 980px);
+        }
+        .hero-group-main::after {
+            width: min(100%, 1000px);
+        }
+        .hero-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.98rem;
+            font-weight: 700;
+            letter-spacing: -0.01em;
+            color: #82b2f6;
+        }
+        .hero-label-dot {
+            display: none;
+        }
+        .hero-split-title {
+            font-size: clamp(2rem, 3.05vw, 3.55rem);
+            font-weight: 800;
+            line-height: 1.12;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            margin: 0;
+            padding-top: 0.45rem;
+            max-width: 100%;
+        }
+        .hero-pipeline {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.98rem;
+            color: #d7e0ea;
+        }
+        .pipe-arrow { color: var(--text-muted); }
+        .pipe-highlight { color: #82b2f6; font-weight: 700; }
+        .hero-techstack {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.98rem;
+        }
+        .tech-item { color: #d7e0ea; font-weight: 700; }
+        .tech-sep { color: rgba(215, 224, 234, 0.55); }
+        .hero-education {
+            font-size: 0.83rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding-left: 0;
+            border-left: 0;
+            background: transparent;
+            border-radius: 0;
+            white-space: normal;
+            overflow-wrap: anywhere;
+        }
+
+        /* ===== ARCH CAROUSEL ===== */
+        .arch-carousel-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+            margin-top: 0.05rem;
+            width: min(100%, 980px);
+            padding-right: clamp(3.75rem, 12vw, 14rem);
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .arch-carousel-viewport {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            border-radius: 28px;
+            position: relative;
+            padding: 0.25rem 0 0.9rem;
+        }
+        .arch-carousel-viewport::before,
+        .arch-carousel-viewport::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 5.5rem;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .arch-carousel-viewport::before {
+            left: 0;
+            background: linear-gradient(90deg, rgba(8, 12, 18, 0.95), rgba(8, 12, 18, 0));
+        }
+        .arch-carousel-viewport::after {
+            right: 0;
+            background: linear-gradient(270deg, rgba(8, 12, 18, 0.95), rgba(8, 12, 18, 0));
+        }
+        .arch-track {
+            display: flex;
+            align-items: center;
+            transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+            gap: 1.35rem;
+            padding: 0 clamp(2.75rem, 7vw, 7rem);
+            will-change: transform;
+        }
+        .arch-card {
+            min-width: clamp(240px, 40vw, 520px);
+            flex: 0 0 clamp(240px, 40vw, 520px);
+            min-height: 188px;
+            display: block;
+            color: inherit;
+            text-decoration: none;
+            background:
+                linear-gradient(180deg, rgba(21, 30, 42, 0.82), rgba(12, 18, 26, 0.68)),
+                radial-gradient(circle at top left, rgba(124, 255, 178, 0.08), transparent 34%);
+            border: 1px solid rgba(230, 233, 239, 0.12);
+            border-radius: 24px;
+            padding: 1.15rem 1.2rem 1.05rem;
+            transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease, border-color 0.45s ease, box-shadow 0.45s ease, filter 0.45s ease;
+            opacity: 0.34;
+            transform: scale(0.84);
+            filter: saturate(0.7) blur(0.2px);
+            box-shadow:
+                0 18px 45px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(16px) saturate(1.05);
+            -webkit-backdrop-filter: blur(16px) saturate(1.05);
+            position: relative;
+            overflow: hidden;
+        }
+        .arch-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0)),
+                radial-gradient(circle at 12% 10%, rgba(124, 255, 178, 0.12), transparent 26%);
+            pointer-events: none;
+        }
+        .arch-card.arch-active {
+            opacity: 1;
+            transform: scale(1);
+            filter: saturate(1) blur(0);
+            border-color: rgba(236, 225, 210, 0.78);
+            box-shadow:
+                0 26px 72px rgba(0, 0, 0, 0.34),
+                0 0 0 1px rgba(236, 225, 210, 0.16),
+                inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        }
+        .arch-card.arch-side {
+            opacity: 0.42;
+            transform: scale(0.91);
+            filter: saturate(0.82);
+        }
+        .arch-card-title {
+            font-size: 1rem;
+            font-weight: 750;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+            line-height: 1.3;
+            position: relative;
+            z-index: 1;
+        }
+        .arch-card-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 0.85rem;
+            position: relative;
+            z-index: 1;
+        }
+        .arch-card-list li {
+            font-size: 0.94rem;
+            color: #dce4ec;
+            padding: 0.2rem 0;
+            line-height: 1.35;
+        }
+        .arch-card-list li::before {
+            content: "• ";
+            color: var(--accent-energy);
+        }
+        .arch-card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            position: relative;
+            z-index: 1;
+        }
+        .arch-card-tags span {
+            font-size: 0.88rem;
+            background: rgba(124,255,178,0.1);
+            color: var(--accent-energy);
+            border: 1px solid rgba(124,255,178,0.24);
+            border-radius: 12px;
+            padding: 0.34rem 0.7rem;
+            font-weight: 650;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+        .arch-arrow {
+            background: rgba(24, 34, 48, 0.86);
+            border: 1px solid rgba(230, 233, 239, 0.12);
+            color: var(--text-primary);
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.25s ease;
+            flex-shrink: 0;
+            box-shadow:
+                0 14px 26px rgba(0, 0, 0, 0.22),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 4;
+        }
+        .arch-arrow:hover {
+            background: rgba(124, 255, 178, 0.14);
+            border-color: rgba(124, 255, 178, 0.4);
+            color: var(--accent-energy);
+            transform: translateY(-1px) scale(1.03);
+        }
+        .arch-arrow-right {
+            position: absolute;
+            top: 50%;
+            right: clamp(0.5rem, 10vw, 12.5rem);
+            transform: translateY(-50%);
+        }
+        .arch-arrow-right:hover {
+            transform: translateY(calc(-50% - 1px)) scale(1.03);
+        }
+        .arch-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.45rem;
+            margin-top: 0.4rem;
+        }
+        .arch-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(230, 233, 239, 0.18);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .arch-dot.active {
+            background: var(--accent-energy);
+            width: 28px;
+            border-radius: 999px;
+            box-shadow: 0 0 18px rgba(124, 255, 178, 0.3);
+        }
+
+        @media (max-width: 900px) {
+            .arch-carousel-wrap {
+                gap: 0.5rem;
+                width: 100%;
+                padding-right: 0;
+                overflow: visible;
+            }
+            .arch-carousel-viewport::before,
+            .arch-carousel-viewport::after {
+                width: 2.5rem;
+            }
+            .arch-track {
+                gap: 0.9rem;
+                padding: 0 2.9rem;
+            }
+            .arch-card {
+                min-width: min(100%, 380px);
+                flex-basis: min(100%, 380px);
+                padding: 1rem;
+            }
+            .arch-card-title {
+                font-size: 0.9rem;
+            }
+            .arch-card-list li {
+                font-size: 0.82rem;
+            }
+            .arch-card-tags span {
+                font-size: 0.74rem;
+            }
+            .arch-arrow {
+                width: 38px;
+                height: 38px;
+                font-size: 1.7rem;
+            }
+            .arch-arrow-right {
+                position: static;
+                transform: none;
+            }
+            .arch-arrow-right:hover {
+                transform: translateY(-1px) scale(1.03);
+            }
+        }
+
+        /* CTA ROW */
+        .hero-cta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.85rem;
+            align-items: center;
+            margin-top: 0.3rem;
+        }
+        .hero-cta-btn {
+            font-size: 0.88rem;
+            padding: 0.62rem 1.3rem;
+            white-space: nowrap;
+            border-radius: 22px;
+            font-weight: 650;
+            letter-spacing: -0.01em;
+        }
+        .hero-cta-primary {
+            background: var(--accent-energy);
+            border-color: var(--accent-energy);
+            color: #081018;
+            box-shadow: 0 10px 26px rgba(124, 255, 178, 0.16);
+        }
+        .hero-cta-primary:hover {
+            background: #93ffc0;
+            border-color: #93ffc0;
+            color: #081018;
+            transform: translateY(-1px);
+            box-shadow: 0 14px 30px rgba(124, 255, 178, 0.2);
+        }
+        .hero-cta-hire {
+            background: transparent;
+            border-color: rgba(230, 233, 239, 0.78);
+            color: var(--text-primary);
+        }
+        .hero-cta-hire:hover {
+            background: rgba(230, 233, 239, 0.06);
+            border-color: rgba(230, 233, 239, 0.95);
+            color: var(--text-primary);
+            transform: translateY(-1px);
+        }
+        .hero-cta-subtle {
+            background: transparent;
+            border-color: rgba(230, 233, 239, 0.3);
+            color: rgba(230, 233, 239, 0.84);
+            padding-left: 1rem;
+            padding-right: 1rem;
+            border-radius: 999px;
+        }
+        .hero-cta-subtle:hover {
+            background: rgba(230, 233, 239, 0.03);
+            border-color: rgba(230, 233, 239, 0.45);
+            color: var(--text-primary);
+            transform: translateY(-1px);
+        }
+        .hero-cta-hire .cta-arrow { margin-left: 4px; }
+        .hero-tagline {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.45rem;
+        }
+        .hero-role-scope {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+        .hero-line-divider {
+            color: rgba(230, 233, 239, 0.5);
+            font-weight: 700;
+            letter-spacing: 0.08em;
+        }
+        .scope-dot { display: none; }
+
+        /* WHERE I CONTRIBUTE */
+        .contribute-section {
+            padding-top: 2rem !important;
+        }
+        .contribute-title { margin-bottom: 0.5rem !important; }
+        .contribute-sub { max-width: 680px; margin: 0 auto 2rem; font-size: 0.9rem; }
+        .contribute-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 1.5rem;
+            position: relative;
+            z-index: 80;
+        }
+        .contribute-card {
+            background: linear-gradient(180deg, rgba(36, 50, 66, 0.92), rgba(24, 34, 46, 0.88));
+            border: 1px solid rgba(230, 233, 239, 0.22);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow:
+                0 24px 60px rgba(0, 0, 0, 0.34),
+                inset 0 1px 0 rgba(255, 255, 255, 0.14),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(14px) saturate(1.08);
+            -webkit-backdrop-filter: blur(14px) saturate(1.08);
+            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+            z-index: 90;
+        }
+        .contribute-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at top left, rgba(255, 255, 255, 0.12), transparent 28%),
+                linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0));
+            pointer-events: none;
+        }
+        .contribute-card:hover {
+            transform: translateY(-4px);
+            box-shadow:
+                0 28px 70px rgba(0,0,0,0.36),
+                inset 0 1px 0 rgba(255,255,255,0.16);
+            border-color: rgba(184, 178, 167, 0.58);
+        }
+        .contribute-card-accent {
+            border-color: rgba(184, 178, 167, 0.75);
+            background: linear-gradient(135deg, rgba(42, 56, 72, 0.95), rgba(28, 40, 54, 0.9));
+            box-shadow:
+                0 30px 76px rgba(0,0,0,0.38),
+                inset 0 1px 0 rgba(255,255,255,0.18);
+        }
+        .contribute-card-icon {
+            margin-bottom: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+        .contribute-card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            line-height: 1.3;
+        }
+        .contribute-card-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 0.9rem;
+        }
+        .contribute-card-list li {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            padding: 3px 0;
+        }
+        .contribute-card-list li::before { content: "• "; color: var(--accent-energy); }
+        .contribute-card-desc {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .hero-contribute-peek {
+            display: block;
+            width: min(1400px, calc(100% - clamp(1rem, 4vw, 4rem)));
+            max-width: 1400px;
+            margin: 0.35rem auto 1.2rem;
+            padding: 0;
+            padding-bottom: 0;
+            clear: both;
+            order: 2;
+            flex: 0 0 auto;
+            position: relative;
+            z-index: 70;
+        }
+        .contribute-shell {
+            width: 100%;
+            margin: 0;
+            background: linear-gradient(180deg, rgba(16, 24, 32, 0.88), rgba(12, 18, 26, 0.8));
+            border: 1px solid transparent;
+            border-radius: 18px;
+            padding: 1.2rem clamp(1rem, 3vw, 2.5rem) clamp(1.5rem, 3vw, 2.5rem);
+            box-shadow:
+                0 34px 90px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+            backdrop-filter: blur(16px) saturate(1.08);
+            -webkit-backdrop-filter: blur(16px) saturate(1.08);
+            position: relative;
+            overflow: hidden;
+            grid-column: 1 / -1;
+            z-index: 75;
+        }
+        .contribute-shell::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 50% 10%, rgba(184,178,167,0.12), transparent 30%),
+                radial-gradient(circle at 88% 40%, rgba(124,255,178,0.1), transparent 24%),
+                linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0));
+            pointer-events: none;
+        }
+        .contribute-shell::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            padding: 1px;
+            border-radius: inherit;
+            background: linear-gradient(
+                180deg,
+                rgba(184, 178, 167, 0.8) 0%,
+                rgba(124, 255, 178, 0.38) 12%,
+                rgba(124, 255, 178, 0.14) 34%,
+                rgba(124, 255, 178, 0.04) 58%,
+                rgba(124, 255, 178, 0) 100%
+            );
+            -webkit-mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask:
+                linear-gradient(#fff 0 0) content-box,
+                linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        .contribute-shell .section-header {
+            position: relative;
+            z-index: 85;
+            margin-bottom: 1rem;
+        }
+        .contribute-shell .section-title {
+            margin-bottom: 0.55rem;
+        }
+        .contribute-shell .section-description {
+            max-width: 860px;
+            font-size: 0.82rem;
+            line-height: 1.45;
+        }
+        .contribute-grid {
+            position: relative;
+            z-index: 1;
+        }
+        .about-story-compact {
+            margin-bottom: 1.2rem;
+        }
+        #about > .container > .section-header {
+            margin-bottom: 1.6rem;
+            padding-top: 0.75rem;
+        }
+        #about > .container > .section-header > .section-title {
+            padding-top: 1rem;
+            margin-bottom: 1.2rem;
+        }
+        #about > .container > .section-header > .section-description {
+            margin-bottom: 0;
+            max-width: 1100px;
+        }
+        #about .stats-container {
+            margin-top: 1.25rem;
+        }
+        #about .principles-grid {
+            margin-top: 2.5rem;
+            gap: 2rem;
+            padding: 0 0.5rem;
+        }
+        .contact-text a,
+        .contact-text a:visited,
+        .contact-text a:hover,
+        .contact-text a:active {
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        .about-story-compact p {
+            font-size: 1.06rem;
+            line-height: 1.58;
+            margin-bottom: 0.72rem;
+        }
+        .about-story-compact p:last-child {
+            margin-bottom: 0;
+        }
+        .about-story-compact strong {
+            color: var(--accent-energy);
+            font-weight: 600;
+        }
+        .about-journey-compact {
+            grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+            gap: clamp(0.75rem, 2vw, 1.5rem);
+            margin-bottom: 1.2rem;
+            align-items: start;
+        }
+        .about-journey-compact .about-text {
+            display: flex;
+            min-height: auto;
+            padding-right: 0.15rem;
+        }
+        .about-journey-compact .about-story-compact {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            min-height: 100%;
+            width: 100%;
+        }
+        .about-journey-compact .journey-visual {
+            display: flex;
+            justify-content: flex-end;
+            min-height: auto;
+        }
+        .about-journey-compact .journey-carousel-container {
+            width: 100%;
+            max-width: min(100%, 620px);
+            height: clamp(400px, 42vw, 500px);
+            min-height: clamp(400px, 42vw, 500px);
+            padding-right: 0;
+            align-items: stretch;
+            justify-content: stretch;
+            overflow: hidden;
+            mask-image: none;
+            -webkit-mask-image: none;
+        }
+        .about-journey-compact .journey-carousel-container .journey-card {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            min-height: 100%;
+            border-radius: 18px;
+            border: 0;
+            box-shadow: none;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.45s ease;
+        }
+        .about-journey-compact .journey-carousel-container .journey-card > a {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+        .about-journey-compact .journey-carousel-container .blog-image {
+            height: 100%;
+        }
+        .about-journey-compact .journey-carousel-container .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        .about-journey-compact .journey-carousel-container .carousel-list {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            gap: 0;
+        }
+        .about-journey-compact .journey-carousel-container .carousel-controls {
+            top: 50%;
+            right: 1rem;
+            bottom: auto;
+            transform: translateY(-50%);
+            flex-direction: row;
+            align-items: center;
+            gap: 0.75rem;
+            pointer-events: auto;
+        }
+        .about-journey-compact .journey-carousel-container .carousel-controls .nav-arrow {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            vertical-align: middle;
+        }
+        .about-journey-compact .journey-carousel-container .carousel-controls .nav-arrow svg {
+            display: block;
+            margin: 0;
+        }
+        .about-journey-compact .journey-carousel-container .journey-card.active {
+            opacity: 1;
+            pointer-events: auto;
+            border-color: transparent;
+            box-shadow: none;
+        }
+
+        /* Mobile Landscape / Large Phones */
+@media (max-width: 768px) {
+    .hero-spline-overlay {
+        background:
+            linear-gradient(180deg, rgba(8, 12, 18, 0.76) 0%, rgba(8, 12, 18, 0.92) 60%, rgba(8, 12, 18, 0.98) 100%),
+            radial-gradient(circle at 20% 12%, rgba(124,255,178,0.1), transparent 26%);
+    }
+    .arch-carousel-wrap {
+        gap: 0;
+        padding: 0 0 0 2.75rem;
+    }
+    .arch-carousel-viewport { min-width: 0; }
+    .arch-arrow {
+        width: 32px;
+        height: 32px;
+        font-size: 1rem;
+        position: absolute;
+        left: 0;
+        z-index: 2;
+    }
+    .arch-arrow-left { top: calc(50% - 20px); }
+    .arch-arrow-right { top: calc(50% + 20px); }
+    .hero-split-container {
+        grid-template-columns: 1fr;
+        padding-top: 7rem;
+        width: min(100%, calc(100% - 2rem));
+    }
+    .hero-left {
+        max-width: 100%;
+        min-width: 0;
+    }
+    .hero-right {
+        display: flex;
+        order: 2;
+        width: 100%;
+        min-height: auto;
+        margin-top: 1rem;
+        justify-content: center;
+    }
+    .hero-profile-wrap {
+        position: relative;
+        top: auto;
+        width: min(100%, 280px);
+    }
+    .hero-profile-card {
+        max-width: 280px;
+        padding: 0.7rem;
+    }
+    .hero-availability-badge {
+        width: calc(100% - 2.4rem);
+        bottom: 0.65rem;
+    }
+    .hero-group { padding-bottom: 0.65rem; }
+    .hero-label,
+    .hero-pipeline,
+    .hero-techstack { font-size: 0.9rem; }
+    .hero-split-title {
+        max-width: 100%;
+        font-size: clamp(1.72rem, 7.2vw, 2.35rem);
+        margin-top: 0;
+    }
+    .hero-education {
+        font-size: 0.8rem;
+        white-space: normal;
+    }
+    .contribute-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1rem;
+    }
+    .contribute-card {
+        width: 100%;
+        min-width: 0;
+    }
+    .arch-card { min-width: 160px; flex-basis: 160px; }
+    .hero-cta-row { gap: 0.55rem; }
+    .hero-cta-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+        min-width: 0;
+        white-space: normal;
+        border-radius: 16px;
+        font-size: 0.8rem;
+        padding: 0.85rem 1rem;
+    }
+    .hero-cta-subtle { padding-left: 0.78rem; padding-right: 0.78rem; }
+    .hero-contribute-peek { width: min(100%, calc(100% - 2rem)); margin-top: 0.15rem; }
+    .contribute-shell { padding: 1.8rem 1.1rem 1.1rem; }
+    .about-journey-compact {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+        margin-bottom: 1.5rem;
+    }
+    .about-journey-compact .journey-visual,
+    .about-journey-compact .journey-carousel-container {
+        min-height: auto;
+    }
+    .about-journey-compact .about-text {
+        min-height: auto;
+        padding-right: 0;
+    }
+    .about-journey-compact .about-story-compact {
+        display: block;
+        min-height: auto;
+    }
+    .about-journey-compact .journey-visual {
+        justify-content: center;
+        width: 100%;
+        min-width: 0;
+        overflow: hidden;
+    }
+    .about-journey-compact .journey-carousel-container {
+        width: 100%;
+        max-width: calc(100vw - 2rem);
+        padding-right: 0;
+        padding-bottom: 0;
+        height: auto;
+        min-height: 0;
+        aspect-ratio: 924 / 846;
+        margin: 0 auto;
+        box-sizing: border-box;
+        overflow: hidden;
+        mask-image: none;
+        -webkit-mask-image: none;
+    }
+    .about-journey-compact .journey-carousel-container .carousel-list {
+        gap: 0;
+    }
+    .about-journey-compact .journey-carousel-container .journey-card {
+        width: 100%;
+        min-height: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+    .about-journey-compact .journey-carousel-container .blog-image {
+        height: 100%;
+    }
+    .about-journey-compact .journey-carousel-container .blog-image img {
+        object-fit: contain;
+        object-position: center;
+    }
+    .about-journey-compact .journey-carousel-container .carousel-controls {
+        position: absolute;
+        right: 0.5rem;
+        bottom: 5.65rem;
+        align-items: center;
+        justify-content: center;
+        margin-top: 0;
+    }
+    .about-story-compact p {
+        font-size: 0.96rem;
+        line-height: 1.58;
+    }
+}
+@media (max-width: 1200px) {
+    .contribute-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+@media (max-width: 1024px) and (min-width: 769px) {
+    .hero-split-container {
+        grid-template-columns: minmax(0, 1.3fr) minmax(220px, 260px);
+        width: min(1200px, calc(100% - 3rem));
+    }
+    .hero-left { max-width: 780px; }
+    .hero-profile-wrap {
+        top: 8rem;
+        width: min(100%, 240px);
+    }
+    .contribute-grid { grid-template-columns: repeat(3,1fr); gap: 1rem; }
+    .hero-split-title {
+        font-size: 2.5rem;
+        max-width: 100%;
+    }
+    .hero-education {
+        font-size: 0.76rem;
+        white-space: normal;
+    }
+    .about-journey-compact .journey-visual {
+        min-height: auto;
+    }
+    .about-journey-compact .about-text {
+        min-height: auto;
+    }
+    .about-journey-compact .journey-carousel-container {
+        height: clamp(420px, 52vw, 600px);
+        min-height: clamp(420px, 52vw, 600px);
+        max-width: min(100%, 500px);
+    }
+}
+
+        /* Mobile Landscape / Large Phones */
+@media (max-width: 768px) {
+    .carousel-container {
+        height: 450px;
+    }
+    .flashcard {
+        width: 250px;
+        height: 350px;
+    }
+    /* On mobile, we stack them tighter or hide side cards partially */
+    .flashcard.left {
+        transform: translateX(-70%) scale(0.7); 
+        opacity: 0.3; /* Fade out side cards more to focus on center */
+    }
+    .flashcard.right {
+        transform: translateX(70%) scale(0.7);
+        opacity: 0.3;
+    }
+    .card-kpis {
+        grid-template-columns: 1fr; /* Stack KPIs vertically on mobile */
+        gap: 0.4rem;
+    }
+}
+
+/* Small Mobile Phones */
+@media (max-width: 480px) {
+    .carousel-container {
+        height: 400px;
+    }
+    .flashcard {
+        width: 220px;
+        height: 320px;
+    }
+    /* Extreme tight fit for small screens */
+    .flashcard.left {
+        transform: translateX(-50%) scale(0.6);
+        opacity: 0.1;
+    }
+    .flashcard.right {
+        transform: translateX(50%) scale(0.6);
+        opacity: 0.1;
+    }
+    .side-nav {
+        padding: 0 5px; /* Bring arrows closer to edges */
+    }
+    .side-arrow {
+        width: 40px;
+        height: 40px;
+    }
+    #about > .container > .section-header {
+        margin-bottom: 1rem;
+    }
+    .about-journey-compact {
+        gap: 1rem;
+    }
+    .about-story-compact p {
+        font-size: 0.92rem;
+        line-height: 1.55;
+    }
+    .hero-split-title {
+        margin-top: 1.65rem;
+    }
+    .hero-split-container,
+    .hero-contribute-peek {
+        width: min(100%, calc(100% - 1rem));
+    }
+    .hero-group::after {
+        width: 100%;
+    }
+    .about-journey-compact .journey-carousel-container {
+        height: clamp(330px, 92vw, 460px);
+        min-height: clamp(330px, 92vw, 460px);
+    }
+}
+@media (min-width: 1600px) {
+    .hero-split-container,
+    .hero-contribute-peek {
+        width: min(1600px, calc(100% - 5rem));
+    }
+}
+    </style>
+<style id="slideOutRight-animation">
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+    </style></head>
+<body>
+    <!-- ============================================
+        PARTICLE BACKGROUND
+    ============================================= -->
+    <canvas id="particle-canvas" width="1440" height="1800" style="transform: translateZ(0px);"></canvas>
+
+    <!-- ============================================
+        NAVIGATION SECTION
+    ============================================= -->
+    <header class="header">
+        <nav class="nav container">
+            <!-- Logo -->
+            <a href="index" class="nav-logo">
+                <span class="nav-brand-topline">
+                    <span class="nav-brand-name">Rajesh Arigala</span>
+                    <span class="nav-brand-sep">|</span>
+                    <span class="nav-brand-role">AI &amp; GenAI Systems <span class="nav-brand-dot">·</span> Business Integration<span class="nav-brand-accent">!</span></span>
+                </span>
+                <span class="nav-brand-mobile-role">Rajesh Arigala <span class="nav-brand-mobile-sep">|</span><br>AI &amp; GenAI Systems <span class="nav-brand-dot">·</span> Business Integration<span class="nav-brand-accent">!</span></span>
+                <span class="nav-brand-mobile-education">🎓 IIM Calcutta (MBA) · IISc (Biz Analytics &amp; ML) ·<br>ISB (Product Mgmt.) · NIT Surathkal (Mech. Engg.)</span>
+                <span class="nav-brand-education">🎓 IIM Calcutta (MBA) · IISc (Biz Analytics &amp; ML) · ISB (Product Mgmt.) · NIT Surathkal (Mech. Engg.)</span>
+            </a>
+            
+            <!-- Desktop Navigation (visible on desktop) -->
+            <div class="desktop-nav">
+                <ul class="nav-list">
+                    <li class="nav-item"><a href="#home" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="#about" class="nav-link active">About</a></li>
+                    <li class="nav-item"><a href="#skills" class="nav-link">Skills</a></li>
+                    <li class="nav-item"><a href="#experience" class="nav-link">Experience</a></li>
+                    <li class="nav-item"><a href="#projects" class="nav-link">Projects</a></li>
+                    <li class="nav-item"><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </div>
+            
+            <!-- Hamburger Menu Button (visible on mobile) -->
+            <div class="hamburger-btn" id="hamburgerBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <!-- Mobile Menu Overlay -->
+            <div class="mobile-overlay" id="mobileOverlay"></div>
+            
+            <!-- Mobile Navigation Menu -->
+            <div class="mobile-nav" id="mobileNav">
+                <ul class="mobile-nav-list">
+                    <li><a href="#home" class="mobile-nav-link">Home</a></li>
+                    <li><a href="#about" class="mobile-nav-link active">About</a></li>
+                    <li><a href="#skills" class="mobile-nav-link">Skills</a></li>
+                    <li><a href="#experience" class="mobile-nav-link">Experience</a></li>
+                    <li><a href="#projects" class="mobile-nav-link">Projects</a></li>
+                    <li><a href="#contact" class="mobile-nav-link">Contact</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ============================================
+        MAIN CONTENT
+    ============================================= -->
+    <main>
+        <!-- ============================================
+            HERO / HOME SECTION
+        ============================================= -->
+<!-- ============================================
+    HERO / HOME SECTION — SPLIT LAYOUT
+============================================= -->
+<section id="home" class="hero section hero-split-section fade-in">
+    <div class="hero-spline-bg" aria-hidden="true">
+        <canvas class="hero-matrix-canvas" id="heroMatrixCanvas" width="1440" height="1193"></canvas>
+        <div class="hero-matrix-glow"></div>
+        <div class="hero-matrix-scanline"></div>
+    </div>
+    <div class="hero-spline-overlay" aria-hidden="true"></div>
+    <div class="hero-split-container">
+
+        <!-- ===== LEFT COLUMN 55% ===== -->
+        <div class="hero-left">
+
+            <div class="hero-group hero-group-main">
+                <!-- Headline -->
+                <h1 class="hero-split-title">
+                    Building Production-Grade AI Systems<br>that Drive Real Business Outcomes
+                </h1>
+
+                <!-- Pipeline Line -->
+                <div class="hero-pipeline">
+                    <span>From Data</span>
+                    <span class="pipe-arrow">→</span>
+                    <span class="pipe-highlight">ML</span>
+                    <span class="pipe-arrow">→</span>
+                    <span class="pipe-highlight">MLOps</span>
+                    <span class="pipe-arrow">→</span>
+                    <span class="pipe-highlight">GenAI</span>
+                    <span class="pipe-arrow">→</span>
+                    <span>Business Results</span>
+                </div>
+
+                <!-- Tech Stack -->
+                <div class="hero-techstack">
+                    <span class="tech-item">AWS</span>
+                    <span class="tech-sep">·</span>
+                    <span class="tech-item">Azure</span>
+                    <span class="tech-sep">·</span>
+                    <span class="tech-item">GCP</span>
+                    <span class="tech-sep">·</span>
+                    <span class="tech-item">Kubernetes</span>
+                    <span class="tech-sep">·</span>
+                    <span class="tech-item">Kubeflow</span>
+                    <span class="tech-sep">·</span>
+                    <span class="tech-item">Argo</span>
+                </div>
+            </div>
+
+
+            <!-- ===== AI PLATFORM ARCHITECTURE CAROUSEL ===== -->
+            <div class="arch-carousel-wrap">
+                <button class="arch-arrow arch-arrow-left" onclick="archPrev()">‹</button>
+                <div class="arch-carousel-viewport">
+                    <div class="arch-track" id="archTrack" style="transform: translateX(-528.5px);">
+
+                        <div class="arch-card arch-side">
+                            <div class="arch-card-title">Data &amp; Analytics Platform</div>
+                            <ul class="arch-card-list">
+                                <li>EDA (Python, R)</li>
+                                <li>Probability &amp; Statistics</li>
+                                <li>Analytics &amp; Optimization</li>
+                            </ul>
+                            <div class="arch-card-tags">
+                                <span>Projects</span><span>Algorithms</span><span>End-to-End</span>
+                            </div>
+                        </div>
+
+                        <div class="arch-card arch-active">
+                            <div class="arch-card-title">Machine Learning Systems</div>
+                            <ul class="arch-card-list">
+                                <li>Feature Engineering</li>
+                                <li>Training &amp; Evaluation</li>
+                                <li>Optimization</li>
+                            </ul>
+                            <div class="arch-card-tags">
+                                <span>Projects</span><span>Models</span><span>End-to-End</span>
+                            </div>
+                        </div>
+
+                        <a href="mlops/ml-ops" class="arch-card arch-side">
+                            <div class="arch-card-title">MLOps &amp; AI Platform Engineering</div>
+                            <ul class="arch-card-list">
+                                <li>Data Pipelines</li>
+                                <li>CI/CD · MLflow</li>
+                                <li>Kubernetes</li>
+                            </ul>
+                            <div class="arch-card-tags">
+                                <span>Infra</span><span>Deployment</span><span>Scale</span>
+                            </div>
+                        </a>
+
+                        <div class="arch-card">
+                            <div class="arch-card-title">Generative AI Systems</div>
+                            <ul class="arch-card-list">
+                                <li>RAG</li>
+                                <li>LLM Pipelines</li>
+                                <li>Vector DB</li>
+                            </ul>
+                            <div class="arch-card-tags">
+                                <span>LLM</span><span>GenAI</span><span>Apps</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <button class="arch-arrow arch-arrow-right" onclick="archNext()">›</button>
+            </div>
+            <!-- Dots -->
+            <div class="arch-dots" id="archDots"><span class="arch-dot"></span><span class="arch-dot active"></span><span class="arch-dot"></span><span class="arch-dot"></span></div>
+
+            <!-- CTA Row -->
+            <div class="hero-cta-row">
+                <a href="#5project" class="btn hero-cta-btn hero-cta-primary">Explore AI Systems</a>
+                <a href="#contact" class="btn hero-cta-btn hero-cta-hire">Hire Me <span class="cta-arrow">›</span></a>
+                <a href="assets/resume.pdf" class="btn hero-cta-btn hero-cta-subtle" download="">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" style="vertical-align:middle;margin-right:5px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    Download Résumé
+                </a>
+            </div>
+
+            <!-- Tagline -->
+            <div class="hero-tagline">
+                <strong class="gradient-text">AI Platform</strong> | ML Systems | Business AI
+                <span class="hero-line-divider">||</span>
+                <span class="hero-role-scope">Enterprise | Consulting | Global Roles</span>
+            </div>
+
+        </div><!-- /hero-left -->
+
+        <div class="hero-right" aria-hidden="false">
+            <div class="hero-profile-wrap">
+                <div class="hero-profile-card">
+                    <img class="hero-profile-image" src="/img/ra.webp" alt="Rajesh Arigala portrait">
+                    <div class="hero-availability-badge">
+                        <div class="hero-availability-label">Available for AI &amp; GenAI Systems · Business Integration Roles</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- /hero-split-container -->
+
+    <div class="hero-contribute-peek">
+        <div class="contribute-shell">
+            <div class="section-header">
+                <h2 class="section-title">Where I <span class="gradient-text">Contribute</span></h2>
+                <p class="section-description">
+                    Building and operating AI systems across engineering, intelligence, and business layers — enabling
+                    <em><strong>enterprise transformation, consulting delivery, and global scale</strong></em>
+                </p>
+            </div>
+
+            <div class="contribute-grid">
+                <div class="contribute-card">
+                    <div class="contribute-card-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M22 12h-4l-3 9L9 3l-3 9H2" stroke="var(--accent-energy)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                    </div>
+                    <h3 class="contribute-card-title">Business AI Transformation</h3>
+                    <ul class="contribute-card-list">
+                        <li>Business problems → AI solutions</li>
+                        <li>Enterprise &amp; consulting delivery</li>
+                        <li>Measurable outcomes</li>
+                    </ul>
+                    <p class="contribute-card-desc">Translating business challenges into AI-driven solutions and leading implementation across enterprise and consulting environments.</p>
+                </div>
+
+                <div class="contribute-card contribute-card-accent">
+                    <div class="contribute-card-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="3" stroke="var(--accent-energy)" stroke-width="1.5"></circle><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" stroke="var(--accent-energy)" stroke-width="1.5" stroke-linecap="round"></path></svg>
+                    </div>
+                    <h3 class="contribute-card-title gradient-text">Machine Learning &amp; GenAI Systems</h3>
+                    <ul class="contribute-card-list">
+                        <li>ML pipelines &amp; model systems</li>
+                        <li>RAG, LLM workflows</li>
+                        <li>Data → model → inference</li>
+                    </ul>
+                    <p class="contribute-card-desc">Designing and deploying end-to-end ML and GenAI systems including pipelines and intelligent applications.</p>
+                </div>
+
+                <div class="contribute-card">
+                    <div class="contribute-card-icon">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" stroke="var(--accent-energy)" stroke-width="1.5"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96" stroke="var(--accent-energy)" stroke-width="1.5"></polyline><line x1="12" y1="22.08" x2="12" y2="12" stroke="var(--accent-energy)" stroke-width="1.5"></line></svg>
+                    </div>
+                    <h3 class="contribute-card-title">AI Platform Engineering</h3>
+                    <ul class="contribute-card-list">
+                        <li>Infrastructure &amp; system design</li>
+                        <li>Kubernetes, Kubeflow, Argo</li>
+                        <li>Multi-cloud architecture</li>
+                    </ul>
+                    <p class="contribute-card-desc">Building scalable AI infrastructure and platform systems enabling reliable, production-grade machine learning.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+        <!-- ============================================
+            ABOUT / JOURNEY SECTION
+        ============================================= -->
+        <section id="about" class="about section fade-in">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">My <span class="gradient-text">Journey</span></h2>
+                    <p class="section-description"><i><u>  Engineering + management foundation from NITK and IIM Calcutta, refined through BPCL, Medtronic, SMAAT, and entrepreneurship, now applied to building practical, production-grade AI and GenAI systems for real-world business workflows.</u></i></p>
+                </div>
+                
+                <div class="about-content about-journey-compact">
+                    <!-- Left: Text Content -->
+                    <div class="about-text">
+                        <div class="narrative about-story-compact">
+                            <p>
+                                I bring a foundation of engineering and business, combining systems thinking from the <strong>National Institute of Technology, Surathkal (NITK)</strong> with strategic depth from the <strong>Indian Institute of Management Calcutta (IIM Calcutta)</strong>. Early experience at <strong>Bharat Petroleum Corporation Limited (BPCL)</strong> and <strong>Medtronic India</strong> exposed me to real-world operational systems where reliability, process discipline, and stakeholder alignment were critical.
+                            </p>
+                            <p>
+                                I later extended this into infrastructure systems through my work with <strong>SMAAT India-Water</strong>, contributing to digitizing physical operations and bridging physical, data, and decision systems.
+                            </p>
+                            <p>
+                                Building on this, I moved into entrepreneurship, creating <strong>RedRybbons</strong> and <strong>R-Cafe</strong> from the ground up—executing end-to-end systems across infrastructure, operations, and customer experience in highly unstructured environments.
+                            </p>
+                            <p>
+                                This shaped my core strength: <u>designing systems that work beyond theory</u>.
+                            </p>
+                            <p>
+                                Today, I focus on <strong>AI and GenAI platforms</strong>, building scalable, production-grade solutions aligned with real-world business workflows.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Right: Journey Carousel -->
+                    <div class="journey-visual">
+                        <div class="journey-carousel-container">
+                            <div class="carousel-list" id="carouselList">
+                                <div class="journey-card">
+                                    <a href="/buiss skills/r-cafe"><div class="blog-image">
+                                        <img src="../img/home rc.webp" alt="Business Strategy">
+                                    </div></a>
+                                </div>
+                                
+                                <div class="journey-card active">
+                                    <a href="/buiss skills/redrybbons"><div class="blog-image">
+                                        <img src="../img/home rr.webp" alt="Technical Mastery">
+                                    </div></a>
+                                </div>
+                                
+                                <div class="journey-card">
+                                    <a href="/buiss skills/law"><div class="blog-image">
+                                        <img src="../img/home sc.webp" alt="Leadership Impact">
+                                    </div></a>
+                                </div>
+                            </div>
+                            
+                            <!-- Carousel Controls -->
+                            <div class="carousel-controls">
+                                <button class="nav-arrow" onclick="moveJourney(-1)">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M19 12H5M12 19L5 12L12 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                </button>
+                                <button class="nav-arrow" onclick="moveJourney(1)">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M5 12H19M12 5L19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ============================================
+                    STATISTICS SECTION
+                ============================================= -->
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <div class="stat-value" data-target="13">13+</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">₹50L+</div>
+                        <div class="stat-label">Revenue Impact</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" data-target="15">15+</div>
+                        <div class="stat-label">Mentees Guided</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" data-target="6">6+</div>
+                        <div class="stat-label">Industries Served</div>
+                    </div>
+                </div>
+                
+                <!-- ============================================
+                    PRINCIPLES GRID
+                ============================================= -->
+                <div class="principles-grid">
+                    <div class="principle-item">
+                        <a href="/buiss skills/medtronic"><div class="principle-visual">
+                            <img src="./buiss skills/img/medi2.webp" alt="ROI Metrics Dashboard">
+                        </div></a>
+                        <div class="principle-info">
+                            <h3>Medtronic India</h3>
+                            <p>
+                                Built and scaled a regulated healthcare territory with full P&amp;L ownership, therapy adoption strategy, and channel risk management.
+                            </p>
+                            <div class="principle-tags">
+                                <span class="tag">₹4.73 Cr P&amp;L ownership</span>
+                                <span class="tag">+12% Therapy adoption strategy</span>
+                                <span class="tag">₹0.3 Cr +7% Channel risk management</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="principle-item">
+                        <a href="/buiss skills/bpcl"><div class="principle-visual">
+                            <img src="./buiss skills/img/bpcl1.webp" alt="Explainable AI Visualization">
+                        </div></a>
+                        <div class="principle-info">
+                            <h3>BPCL</h3>
+                            <p>
+                                Operated within a live refinery operating system — coordinating maintenance, turnarounds, assets, budgets, and SAP workflows in a safety-critical industrial environment.
+                            </p>
+                            <div class="principle-tags">
+                                <span class="tag">₹625 Cr Turnaround Led</span>
+                                <span class="tag">Preventive Maintenance</span>
+                                <span class="tag">SAP-Driven Execution</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="principle-item">
+                        <a href="/buiss skills/smaat"><div class="principle-visual">
+                            <img src="./buiss skills/img/smaat5.webp" alt="Continuous Delivery Pipeline">
+                        </div></a>
+                        <div class="principle-info">
+                            <h3>SMAAT India</h3>
+                            <p>
+                                Led cross-functional teams to deploy and scale production water-infrastructure systems, ensuring uptime, SLA compliance, and reliable public operations.
+                            </p>
+                            <div class="principle-tags">
+                                <span class="tag">835+ live water centres (3 states)</span>
+                                <span class="tag">Service uptime + SLA governance</span>
+                                <span class="tag">Execution at scale (800+ plants)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+            SKILLS SECTION
+        ============================================= -->
+        <section id="skills" class="skills section fade-in">
+            <div class="container">
+                <h2 class="section-title" id="center">Strategic <span class="gradient-text">Capabilities</span></h2>
+                <p class="section-description">
+                    A hybrid blend of business leadership and technical expertise. 
+                    Click to explore detailed breakdowns.
+                </p>
+                
+                <div class="skills-overview">
+                    <!-- Business Leadership Card -->
+                    <div class="overview-card">
+                        <div class="overview-header">
+                            <div class="overview-icon"><img src="../img/buissness.webp" height="60px" alt="Business Icon"></div>
+                            <div class="overview-title">
+                                <h3>Executive Business Leadership</h3>
+                                <p class="overview-count">5 Core Competencies</p>
+                            </div>
+                        </div>
+                        
+                        <div class="overview-highlights">
+                            <div class="highlight-item">
+                                <span class="highlight-name">Enterprise Strategy</span>
+                                <span class="highlight-level">Expert</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-name">Revenue Acceleration</span>
+                                <span class="highlight-level">Advanced</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-name">Territory Expansion</span>
+                                <span class="highlight-level">Expert</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-name">P&amp;L Optimization</span>
+                                <span class="highlight-level">Advanced</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-name">High-Performance Teams</span>
+                                <span class="highlight-level">Expert</span>
+                            </div>
+                        </div>
+                        
+                        <p class="overview-summary">
+                            Proven leadership across healthcare, industrial platforms, hospitality ventures, and distributed infrastructure systems with a strong focus on strategic scale, market penetration, profitability, and execution excellence.
+                        </p>
+                        
+                        <div class="overview-button">
+                            <a href="/buiss skills/buissness" class="btn btn-secondary btn-small">
+                                <span>Explore Business Impact</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                    <path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Technical Excellence Card -->
+                    <div class="overview-card">
+                        <div class="overview-header">
+                            <div class="overview-icon"><img src="../img/tech.webp" height="60px" alt="Technology Icon"></div>
+                            <div class="overview-title">
+                                <h3>Technical Excellence</h3>
+                                <p class="overview-count">4 Core Competencies</p>
+                            </div>
+                        </div>
+                        
+                        <div class="overview-highlights">
+                            <div class="highlight-item">
+                                <span class="highlight-name">Multi-Cloud Architecture</span>
+                                <span class="highlight-level">Expert</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-name">Container Orchestration</span>
+                                <span class="highlight-level">Expert</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-name">CI/CD Automation</span>
+                                <span class="highlight-level">Advanced</span>
+                            </div>
+                            <div class="highlight-item">
+                                <span class="highlight-name">MLOps Lifecycle Systems</span>
+                                <span class="highlight-level">Advanced</span>
+                            </div>
+                        </div>
+                        
+                        <p class="overview-summary">
+                            Production-grade DevOps engineering spanning AWS, Azure, GCP, Docker, Kubernetes, GitHub Actions, and MLflow for scalable cloud-native deployment, automation, and enterprise-grade reliability.
+                        </p>
+                        
+                        <div class="overview-button">
+                            <a href="/tech skills/skill" class="btn btn-secondary btn-small">
+                                <span>Explore Technical Expertise</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                                    <path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+            EXPERIENCE SECTION
+        ============================================= -->
+        <section id="experience" class="experience section fade-in">
+            <div class="container">
+                <h2 class="section-title" id="center">Professional <span class="gradient-text">Journey</span></h2>
+                <p class="section-description">Click on any milestone to explore the details</p>
+
+                <div class="compact-timeline">
+                    <div class="timeline-row">
+                        <div class="year-column">
+                            <div class="year-badge">2025 - Present</div>
+                        </div>
+                        <div class="role-column">
+                            <div class="role-card">
+                                <div class="role-header">
+                                    <div class="role-main-info">
+                                        <h3>AI, ML and Platform Systems</h3>
+                                        <h4>IISc Bangalore and Independent Build Phase</h4>
+                                    </div>
+                                    <div class="role-kpi-summary">
+                                        <span class="kpi-chip">AI</span>
+                                        <span class="kpi-chip">ML</span>
+                                        <span class="kpi-chip">GenAI</span>
+                                    </div>
+                                    <button class="expand-btn active">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                            <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="role-details active" style="max-height: 186px;">
+                                    <div class="details-content">
+                                        <ul>
+                                            <li>Pursued Business Analytics at IISc Bangalore followed by ML, MLOps, and GenAI</li>
+                                            <li>Shifted from physical ventures to intelligent platform systems</li>
+                                            <li>Applied system-building principles from operations and business platforms to AI systems</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-row">
+                        <div class="year-column">
+                            <div class="year-badge">2023 - 2024</div>
+                        </div>
+                        <div class="role-column">
+                            <div class="role-card">
+                                <div class="role-header">
+                                    <div class="role-main-info">
+                                        <h3>Entrepreneur - Commercial Launch and Strategic Pivot</h3>
+                                        <h4>R-Cafe / RedRybbons</h4>
+                                    </div>
+                                    <div class="role-kpi-summary">
+                                        <span class="kpi-chip">Launch</span>
+                                        <span class="kpi-chip">Pivot</span>
+                                        <span class="kpi-chip">Recovery</span>
+                                    </div>
+                                    <button class="expand-btn">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                            <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="role-details" style="max-height: 0px;">
+                                    <div class="details-content">
+                                        <ul>
+                                            <li>Launched live commercial operations at R-Cafe on January 1, 2023</li>
+                                            <li>Validated an experience-led retail model combining manufacturing, customer experience, and direct sales</li>
+                                            <li>Managed regulatory disruption and personal recovery while preparing the next expansion model</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-row">
+                        <div class="year-column">
+                            <div class="year-badge">2016 - 2022</div>
+                        </div>
+                        <div class="role-column">
+                            <div class="role-card">
+                                <div class="role-header">
+                                    <div class="role-main-info">
+                                        <h3>Entrepreneur - RedRybbons to R-Cafe Buildout</h3>
+                                        <h4>Craft Innovation, Platform Design, and Physical Execution</h4>
+                                    </div>
+                                    <div class="role-kpi-summary">
+                                        <span class="kpi-chip">Craft</span>
+                                        <span class="kpi-chip">Platform</span>
+                                        <span class="kpi-chip">Retail Hub</span>
+                                    </div>
+                                    <button class="expand-btn">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                            <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="role-details" style="max-height: 0px;">
+                                    <div class="details-content">
+                                        <ul>
+                                            <li>Explored Indian handicrafts, diagnosed artisan-system bottlenecks, and conceptualized RedRybbons</li>
+                                            <li>Built designer-artisan collaboration, prototype pipelines, SKU systems, and the broader business model</li>
+                                            <li>Pivoted manufacturing for IP protection and later built R-Cafe as a manufacturing, experience, and retail hub</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-row">
+                        <div class="year-column">
+                            <div class="year-badge">2013 - 2016</div>
+                        </div>
+                        <div class="role-column">
+                            <div class="role-card">
+                                <div class="role-header">
+                                    <div class="role-main-info">
+                                        <h3>Independent Consultant - SMAAT Systems and Public Interest Litigation</h3>
+                                        <h4>Operations, Automation, and Constitutional Action</h4>
+                                    </div>
+                                    <div class="role-kpi-summary">
+                                        <span class="kpi-chip">835 Plants</span>
+                                        <span class="kpi-chip">7 PILs</span>
+                                        <span class="kpi-chip">COO Track</span>
+                                    </div>
+                                    <button class="expand-btn">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                            <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="role-details" style="max-height: 0px;">
+                                    <div class="details-content">
+                                        <ul>
+                                            <li>Joined SMAAT, built ground operating systems, deployed Plant Management System, and scaled operations across 835 centres in 3 states</li>
+                                            <li>Implemented payments, workforce incentives, automation, and revenue systems while earning a COO-track leadership position</li>
+                                            <li>Independently filed, pursued, and argued multiple PILs before the Supreme Court of India end-to-end</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-row">
+                        <div class="year-column">
+                            <div class="year-badge">2011 - 2013</div>
+                        </div>
+                        <div class="role-column">
+                            <div class="role-card">
+                                <div class="role-header">
+                                    <div class="role-main-info">
+                                        <h3>Territory Manager - Regional Business Leadership</h3>
+                                        <h4>Medtronic India</h4>
+                                    </div>
+                                    <div class="role-kpi-summary">
+                                        <span class="kpi-chip">P&amp;L</span>
+                                        <span class="kpi-chip">100 Accounts</span>
+                                        <span class="kpi-chip">15 KOLs</span>
+                                    </div>
+                                    <button class="expand-btn">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                            <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="role-details" style="max-height: 0px;">
+                                    <div class="details-content">
+                                        <ul>
+                                            <li>Owned Karnataka and Goa as Territory Manager with full regional business responsibility</li>
+                                            <li>Managed P&amp;L, pricing, forecasting, 100 accounts, and 15 key opinion leaders to drive therapy adoption</li>
+                                            <li>Expanded the market through events, outreach, and CRM-led process standardization</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-row">
+                        <div class="year-column">
+                            <div class="year-badge">2008 - 2011</div>
+                        </div>
+                        <div class="role-column">
+                            <div class="role-card">
+                                <div class="role-header">
+                                    <div class="role-main-info">
+                                        <h3>Engineering Foundation and MBA Transition</h3>
+                                        <h4>BPCL to IIM Calcutta</h4>
+                                    </div>
+                                    <div class="role-kpi-summary">
+                                        <span class="kpi-chip">BPCL</span>
+                                        <span class="kpi-chip">Turnarounds</span>
+                                        <span class="kpi-chip">MBA</span>
+                                    </div>
+                                    <button class="expand-btn">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                            <path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div class="role-details" style="max-height: 0px;">
+                                    <div class="details-content">
+                                        <ul>
+                                            <li>Started at BPCL as Graduate Engineer Trainee, rotated across refinery units, and built a core operations base</li>
+                                            <li>Worked in maintenance engineering and major refinery turnarounds using SAP PM, MM, and PS workflows</li>
+                                            <li>Completed MBA at IIM Calcutta, shifting from engineering execution into business and strategy leadership</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+            PROJECTS SECTION
+        ============================================= -->
+        <section id="projects" class="projects section fade-in">
+            <div class="container">
+                <h2 class="section-title" id="center">Project <span class="gradient-text">Atlas</span></h2>
+                <p class="section-description">
+                    A curated showcase of high-impact work across advocacy, business, and technology.
+                    Each project reflects real-world problem solving with measurable outcomes.
+                </p>
+
+                <!-- Projects Grid -->
+<div class="projects-grid">
+    <!-- Business - Data Science Card -->
+    <div class="project-card" data-coming-soon="true" tabindex="0">
+        <div class="project-image">
+            <img src="../img/comming soon.webp" alt="Business Data Science" class="project-gif">
+            <div class="project-overlay"></div>
+        </div>
+        <div class="project-content">
+            <h3>BUSINESS – DATA SCIENCE</h3>
+            <p>
+                I transform raw business data into strategic intelligence. From KPI frameworks to decision dashboards, I design data systems that reveal patterns, optimize operations, and drive measurable business growth.
+            </p>
+        
+            <div class="project-button">
+                <a href="mlops/ai6/ai6.3" class="btn btn-primary btn-small">
+                    <span>View Details</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Business - Data Modeling Card -->
+    <div class="project-card" data-coming-soon="true" tabindex="0">
+        <div class="project-image">
+            <img src="../img/comming soon.webp" alt="Business Data Modeling" class="project-gif">
+            <div class="project-overlay"></div>
+        </div>
+        <div class="project-content">
+            <h3>BUSINESS – DATA MODELING</h3>
+            <p>
+                I build predictive business models to forecast trends, risks, and opportunities. These systems convert historical data into future-ready insights that power smarter planning and competitive advantage.
+            </p>
+           
+            <div class="project-button">
+                <a href="#" class="btn btn-primary btn-small">
+                    <span>View Details</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Business - Machine Learning Operations Card -->
+    <div class="project-card">
+        <div class="project-image">
+            <img src="../img/b-mlops.webp" alt="Business MLOps" class="project-gif">
+            <div class="project-overlay"></div>
+        </div>
+        <div class="project-content">
+            <h3>BUSINESS – MACHINE LEARNING OPERATIONS</h3>
+            <p>
+                I architect infrastructure using cloud and operational pipelines—designing deployment, monitoring, and cost strategies for both short-term efficiency and long-term scalability across enterprise-grade systems.
+            </p>
+            
+            <div class="project-button">
+                <a href="/mlops/ml-ops" class="btn btn-primary btn-small">
+                    <span>View Details</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Business - Generative AI Card -->
+    <div class="project-card" data-coming-soon="true" tabindex="0">
+        <div class="project-image">
+            <img src="../img/comming soon.webp" alt="Business Generative AI" class="project-gif">
+            <div class="project-overlay"></div>
+        </div>
+        <div class="project-content">
+            <h3>BUSINESS – GENERATIVE AI</h3>
+            <p>
+                I develop solutions for enterprise applications—creating intelligent systems for content generation, decision support, and automation that transform business processes and customer experiences.
+            </p>
+            
+            <div class="project-button">
+                <a href="#" class="btn btn-primary btn-small">
+                    <span>View Details</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 5L16 12L9 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+                <!-- ============================================
+                    SIGNATURE WORK CAROUSEL
+                ============================================= -->
+                <h2 class="section-title" id="5project" style="margin-top: 4rem;">AI Project <span class="gradient-text">Work</span></h2>
+<div class="carousel-wrapper marquee-mode">
+    <div class="carousel-track-container">
+        <div class="carousel-track" id="carousel-track"><article class="project-marquee-card marquee-card">
+        <img src="../img/ai1.webp" class="card-image" loading="lazy" alt="End-to-End ML Platform on AWS">
+        <div class="card-content">
+            <div class="card-number">#01</div>
+            <h3 class="card-title">End-to-End ML Platform on AWS</h3>
+            <p class="card-description">MLflow + SageMaker with Infrastructure as Code (AWS CDK).</p>
+            <div class="card-kpis">
+        <div class="kpi-item">
+            <span class="kpi-value">AWS</span>
+            <span class="kpi-label">Cloud Platform</span>
+        </div>
+    
+        <div class="kpi-item">
+            <span class="kpi-value">Advanced</span>
+            <span class="kpi-label">MLOps</span>
+        </div>
+    </div>
+            <div class="card-actions">
+                <button class="project-btn" onclick="event.stopPropagation(); window.location.href='/mlops/ai1'">View Project</button>
+            </div>
+        </div>
+    </article><article class="project-marquee-card marquee-card">
+        <img src="../img/ai2.webp" class="card-image" loading="lazy" alt="Enterprise AI Platform on Azure">
+        <div class="card-content">
+            <div class="card-number">#02</div>
+            <h3 class="card-title">Enterprise AI Platform on Azure</h3>
+            <p class="card-description">End-to-End MLOps Program.</p>
+            <div class="card-kpis">
+        <div class="kpi-item">
+            <span class="kpi-value">Azure ML</span>
+            <span class="kpi-label">Cloud Platform</span>
+        </div>
+    
+        <div class="kpi-item">
+            <span class="kpi-value">CI/CD</span>
+            <span class="kpi-label">MLOps Pipeline</span>
+        </div>
+    </div>
+            <div class="card-actions">
+                <button class="project-btn" onclick="event.stopPropagation(); window.location.href='/ai-work/azure-mlops-platform'">View Project</button>
+            </div>
+        </div>
+    </article><article class="project-marquee-card marquee-card">
+        <img src="../img/ai3.webp" class="card-image" loading="lazy" alt="AI AWS AUTOMATION PROJECT">
+        <div class="card-content">
+            <div class="card-number">#03</div>
+            <h3 class="card-title">AI AWS AUTOMATION PROJECT</h3>
+            <p class="card-description">Enterprise-grade AI platform on AWS</p>
+            <div class="card-kpis">
+        <div class="kpi-item">
+            <span class="kpi-value">3-Phase</span>
+            <span class="kpi-label">End-to-End MLOps</span>
+        </div>
+    
+        <div class="kpi-item">
+            <span class="kpi-value">CDK</span>
+            <span class="kpi-label">Infrastructure as Code</span>
+        </div>
+    </div>
+            <div class="card-actions">
+                <button class="project-btn" onclick="event.stopPropagation(); window.location.href='/ai-work/ai-work3'">View Project</button>
+            </div>
+        </div>
+    </article><article class="project-marquee-card marquee-card">
+        <img src="../img/ai4.webp" class="card-image" loading="lazy" alt="AI GCP AUTOMATION PROJECT">
+        <div class="card-content">
+            <div class="card-number">#04</div>
+            <h3 class="card-title">AI GCP AUTOMATION PROJECT</h3>
+            <p class="card-description">Enterprise-grade AI platform on GCP</p>
+            <div class="card-kpis">
+        <div class="kpi-item">
+            <span class="kpi-value">3-Phase</span>
+            <span class="kpi-label">End-to-End MLOps</span>
+        </div>
+    
+        <div class="kpi-item">
+            <span class="kpi-value">Vertex AI</span>
+            <span class="kpi-label">Training &amp; Serving</span>
+        </div>
+    </div>
+            <div class="card-actions">
+                <button class="project-btn" onclick="event.stopPropagation(); window.location.href='/ai-work/ai-work4'">View Project</button>
+            </div>
+        </div>
+    </article><article class="project-marquee-card marquee-card">
+        <img src="../img/ai5.webp" class="card-image" loading="lazy" alt="Kubeflow AI Automation Project">
+        <div class="card-content">
+            <div class="card-number">#05</div>
+            <h3 class="card-title">Kubeflow AI Automation Project</h3>
+            <p class="card-description">Enterprise AI on Kubernetes</p>
+            <div class="card-kpis">
+        <div class="kpi-item">
+            <span class="kpi-value">3-Phase</span>
+            <span class="kpi-label">End-to-End MLOps</span>
+        </div>
+    
+        <div class="kpi-item">
+            <span class="kpi-value">KFP v2</span>
+            <span class="kpi-label">Pipeline Orchestration</span>
+        </div>
+    </div>
+            <div class="card-actions">
+                <button class="project-btn" onclick="event.stopPropagation(); window.location.href='/ai-work/ai-work5'">View Project</button>
+            </div>
+        </div>
+    </article><article class="project-marquee-card marquee-card">
+        <img src="../img/ai1.webp" class="card-image" loading="lazy" alt="End-to-End ML Platform on AWS">
+        <div class="card-content">
+            <div class="card-number">#01</div>
+            <h3 class="card-title">End-to-End ML Platform on AWS</h3>
+            <p class="card-description">MLflow + SageMaker with Infrastructure as Code (AWS CDK).</p>
+            <div class="card-kpis">
+        <div class="kpi-item">
+            <span class="kpi-value">AWS</span>
+            <span class="kpi-label">Cloud Platform</span>
+        </div>
+    
+        <div class="kpi-item">
+            <span class="kpi-value">Advanced</span>
+            <span class="kpi-label">MLOps</span>
+        </div>
+    </div>
+            <div class="card-actions">
+                <button class="project-btn" onclick="event.stopPropagation(); window.location.href='/mlops/ai1'">View Project</button>
+            </div>
+        </div>
+    </article><article class="project-marquee-card marquee-card">
+        <img src="../img/ai2.webp" class="card-image" loading="lazy" alt="Enterprise AI Platform on Azure">
+        <div class="card-content">
+            <div class="card-number">#02</div>
+            <h3 class="card-title">Enterprise AI Platform on Azure</h3>
+            <p class="card-description">End-to-End MLOps Program.</p>
+            <div class="card-kpis">
+        <div class="kpi-item">
+            <span class="kpi-value">Azure ML</span>
+            <span class="kpi-label">Cloud Platform</span>
+        </div>
+    
+        <div class="kpi-item">
+            <span class="kpi-value">CI/CD</span>
+            <span class="kpi-label">MLOps Pipeline</span>
+        </div>
+    </div>
+            <div class="card-actions">
+                <button class="project-btn" onclick="event.stopPropagation(); window.location.href='/ai-work/azure-mlops-platform'">View Project</button>
+            </div>
+        </div>
+    </article><article class="project-marquee-card marquee-card">
+        <img src="../img/ai3.webp" class="card-image" loading="lazy" alt="AI AWS AUTOMATION PROJECT">
+        <div class="card-content">
+            <div class="card-number">#03</div>
+            <h3 class="card-title">AI AWS AUTOMATION PROJECT</h3>
+            <p class="card-description">Enterprise-grade AI platform on AWS</p>
+            <div class="card-kpis">
+        <div class="kpi-item">
+            <span class="kpi-value">3-Phase</span>
+            <span class="kpi-label">End-to-End MLOps</span>
+        </div>
+    
+        <div class="kpi-item">
+            <span class="kpi-value">CDK</span>
+            <span class="kpi-label">Infrastructure as Code</span>
+        </div>
+    </div>
+            <div class="card-actions">
+                <button class="project-btn" onclick="event.stopPropagation(); window.location.href='/ai-work/ai-work3'">View Project</button>
+            </div>
+        </div>
+    </article><article class="project-marquee-card marquee-card">
+        <img src="../img/ai4.webp" class="card-image" loading="lazy" alt="AI GCP AUTOMATION PROJECT">
+        <div class="card-content">
+            <div class="card-number">#04</div>
+            <h3 class="card-title">AI GCP AUTOMATION PROJECT</h3>
+            <p class="card-description">Enterprise-grade AI platform on GCP</p>
+            <div class="card-kpis">
+        <div class="kpi-item">
+            <span class="kpi-value">3-Phase</span>
+            <span class="kpi-label">End-to-End MLOps</span>
+        </div>
+    
+        <div class="kpi-item">
+            <span class="kpi-value">Vertex AI</span>
+            <span class="kpi-label">Training &amp; Serving</span>
+        </div>
+    </div>
+            <div class="card-actions">
+                <button class="project-btn" onclick="event.stopPropagation(); window.location.href='/ai-work/ai-work4'">View Project</button>
+            </div>
+        </div>
+    </article><article class="project-marquee-card marquee-card">
+        <img src="../img/ai5.webp" class="card-image" loading="lazy" alt="Kubeflow AI Automation Project">
+        <div class="card-content">
+            <div class="card-number">#05</div>
+            <h3 class="card-title">Kubeflow AI Automation Project</h3>
+            <p class="card-description">Enterprise AI on Kubernetes</p>
+            <div class="card-kpis">
+        <div class="kpi-item">
+            <span class="kpi-value">3-Phase</span>
+            <span class="kpi-label">End-to-End MLOps</span>
+        </div>
+    
+        <div class="kpi-item">
+            <span class="kpi-value">KFP v2</span>
+            <span class="kpi-label">Pipeline Orchestration</span>
+        </div>
+    </div>
+            <div class="card-actions">
+                <button class="project-btn" onclick="event.stopPropagation(); window.location.href='/ai-work/ai-work5'">View Project</button>
+            </div>
+        </div>
+    </article></div>
+    </div>
+</div>
+                <!-- Case Study Teaser -->
+                <!-- <div class="case-study">
+                    <div class="case-study-content">
+                        <h3>Project Title Heading</h3>
+                        <p>
+                            A comprehensive case study on identifying at-risk customers and implementing targeted 
+                            interventions that significantly improved retention metrics and customer lifetime value.{Sub-heading}
+                        </p>
+                        <a href="#" class="btn btn-secondary">Read Case Study</a>
+                    </div>
+                </div> -->
+            </div>
+        </section>
+
+        <!-- ============================================
+            CONTACT SECTION
+        ============================================= -->
+        <section id="contact" class="contact section fade-in">
+            <div class="container">
+                <h2 class="section-title" id="center">Let's <span class="gradient-text">Connect</span></h2>
+                <p class="section-description">
+                    I'm interested in senior technology leadership roles where both deep technical knowledge 
+                    and strong business understanding drive innovation and growth.
+                </p>
+                
+                <div class="contact-container">
+                    <!-- Left: Contact Info -->
+                    <div class="contact-info">
+                        <div class="contact-card">
+                            <h3>Get In Touch</h3>
+                            <p>
+                                I'm currently available for consulting engagements and executive technology roles. 
+                                Let's discuss how I can contribute to your organization's success.
+                            </p>
+                            
+                            <div class="contact-details">
+                                <!-- Email -->
+                                <div class="contact-detail-item">
+                                    <div class="contact-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M22 6L12 13L2 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="contact-text">
+                                        <h4>Email</h4>
+                                        <p><a href="mailto:rajesh.arigala@redlegos.com">rajesh.arigala@redlegos.com</a></p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Phone -->
+                                <div class="contact-detail-item">
+                                    <div class="contact-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+    <rect x="6" y="2" width="12" height="20" rx="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></rect>
+    <path d="M11 5H13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    <circle cx="12" cy="18" r="1" fill="currentColor"></circle>
+</svg>
+                                    </div>
+                                    <div class="contact-text">
+                                        <h4>Phone</h4>
+                                        <p>+1 (555) 123-4567</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Location -->
+                                <div class="contact-detail-item">
+                                    <div class="contact-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M12 21C15.5 17.4 19 14.1764 19 10.2C19 6.22355 15.866 3 12 3C8.13401 3 5 6.22355 5 10.2C5 14.1764 8.5 17.4 12 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            <path d="M12 12.9C13.4912 12.9 14.7 11.6418 14.7 10.1C14.7 8.5582 13.4912 7.3 12 7.3C10.5088 7.3 9.3 8.5582 9.3 10.1C9.3 11.6418 10.5088 12.9 12 12.9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="contact-text">
+                                        <h4>Location</h4>
+                                        <p>Bangalore, India</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Social Media Section -->
+                            <div class="social-section">
+                                <h3>Follow My Work</h3>
+                                <div class="social-grid">
+                                    <!-- LinkedIn -->
+                                    <a href="https://in.linkedin.com/in/rajesh-arigala-06262513" class="social-card" title="LinkedIn" target="_blank" rel="noopener noreferrer">
+                                        <div class="social-icon">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path d="M16 8C17.5913 8 19.1174 8.63214 20.2426 9.75736C21.3679 10.8826 22 12.4087 22 14V21H18V14C18 13.4696 17.7893 12.9609 17.4142 12.5858C17.0391 12.2107 16.5304 12 16 12C15.4696 12 14.9609 12.2107 14.5858 12.5858C14.2107 12.9609 14 13.4696 14 14V21H10V14C10 12.4087 10.6321 10.8826 11.7574 9.75736C12.8826 8.63214 14.4087 8 16 8Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path d="M6 9H2V21H6V9Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path d="M4 6C5.10457 6 6 5.10457 6 4C6 2.89543 5.10457 2 4 2C2.89543 2 2 2.89543 2 4C2 5.10457 2.89543 6 4 6Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </div>
+                                    </a>
+                                    
+                                    <!-- GitHub -->
+                                    <a href="https://github.com/Rajesh-Arigala" class="social-card" title="GitHub" target="_blank" rel="noopener noreferrer">
+                                        <div class="social-icon">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path d="M15 22V18C15.1392 16.7473 14.78 15.4901 14 14.5C17 14.5 20 12.5 20 9C20.08 7.75 19.73 6.52 19 5.5C19.28 4.35 19.28 3.15 19 2C19 2 18 2 16 3.5C13.36 3 10.64 3 8 3.5C6 2 5 2 5 2C4.7 3.15 4.7 4.35 5 5.5C4.27187 6.51588 3.91851 7.75279 4 9C4 12.5 7 14.5 10 14.5C9.61 14.99 9.32 15.55 9.15 16.15C8.98 16.75 8.93 17.38 9 18V22" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                                <path d="M9 18C4.49 20 4 16 2 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                            </svg>
+                                        </div>
+                                    </a>
+
+                                    <!-- WhatsApp -->
+                                    <a href="https://wa.me/919880419590" class="social-card" title="WhatsApp" target="_blank" rel="noopener noreferrer">
+                                        <div class="social-icon">
+                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                <path d="M20.52 3.48C18.27 1.23 15.27 0 12.09 0C5.53 0 0.18 5.35 0.18 11.91C0.18 14.01 0.73 16.06 1.78 17.86L0 24L6.29 22.35C8.02 23.29 9.97 23.79 11.95 23.79H11.96C18.52 23.79 23.87 18.44 23.87 11.88C23.88 8.7 22.64 5.73 20.52 3.48ZM11.96 21.78H11.95C10.17 21.78 8.43 21.3 6.91 20.4L6.55 20.19L2.82 21.17L3.82 17.54L3.58 17.16C2.59 15.59 2.07 13.78 2.07 11.91C2.07 6.39 6.56 1.9 12.08 1.9C14.75 1.9 17.25 2.94 19.14 4.84C21.03 6.73 22.08 9.24 22.08 11.9C22.07 17.42 17.58 21.78 11.96 21.78ZM17.48 14.32C17.18 14.17 15.72 13.45 15.45 13.36C15.18 13.26 14.98 13.21 14.78 13.51C14.58 13.81 13.99 14.52 13.81 14.72C13.63 14.92 13.45 14.95 13.15 14.8C12.85 14.65 11.88 14.34 10.73 13.32C9.84 12.53 9.23 11.56 9.05 11.26C8.87 10.96 9.03 10.8 9.19 10.65C9.33 10.51 9.49 10.29 9.64 10.12C9.79 9.94 9.84 9.82 9.94 9.62C10.04 9.42 9.99 9.25 9.91 9.1C9.84 8.95 9.24 7.49 8.98 6.88C8.73 6.29 8.48 6.37 8.29 6.36H7.74C7.54 6.36 7.22 6.43 6.95 6.73C6.68 7.03 5.91 7.74 5.91 9.18C5.91 10.62 6.98 12.01 7.12 12.21C7.27 12.41 9.12 15.26 11.95 16.48C14.79 17.71 14.79 17.3 15.37 17.25C15.95 17.2 17.23 16.53 17.48 15.83C17.74 15.14 17.74 14.55 17.66 14.42C17.59 14.3 17.39 14.22 17.48 14.32Z" fill="white"></path>
+                                            </svg>
+                                        </div>
+                                    </a>
+                                    
+                                </div>
+                            </div>
+                            
+                            <!-- Availability Indicator -->
+                            <div class="availability">
+                                <div class="availability-indicator"></div>
+                                <span>Currently available for new opportunities</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right: Contact Form -->
+                    <div class="contact-form-wrapper">
+                        <form class="contact-form" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+                            <h3>Send a Message</h3>
+                            <input type="hidden" name="access_key" value="690c205c-34c6-4844-b5bc-ee257e6c3c04">
+                            
+                            <!-- Form Row 1 -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="name">Full Name</label>
+                                    <input type="text" id="name" name="name" placeholder="Enter your name" required="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" name="email" placeholder="Enter your email" required="">
+                                </div>
+                            </div>
+                            
+                            <!-- Form Row 2 -->
+                            <div class="form-group">
+                                <label for="subject">Subject</label>
+                                <input type="text" id="subject" name="subject" placeholder="What is this regarding?" required="">
+                            </div>
+                            
+                            <!-- Form Row 3 -->
+                            <div class="form-group">
+                                <label for="message">Your Message</label>
+                                <textarea id="message" name="message" rows="6" placeholder="Tell me about your project or opportunity..." required=""></textarea>
+                            </div>
+                            
+                            <!-- Form Footer -->
+                            <div class="form-footer">
+                                <div class="form-notice">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                        <path d="M12 8V12M12 16H12.01" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                    <span>I typically respond within 24 hours</span>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    Send Message
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M22 2L11 13M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ============================================
+        FOOTER
+    ============================================= -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <!-- Quick Links Column -->
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About &amp; Journey</a></li>
+                        <li><a href="#skills">Strategic Capabilities</a></li>
+                        <li><a href="#experience">Professional Journey</a></li>
+                        <li><a href="#projects">Featured Projects</a></li>
+                        <li><a href="#contact">Let's Connect</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Social Links Column -->
+                <div class="footer-column">
+                    <h3>Connect</h3>
+                    <div class="social-links">
+                        <a href="https://in.linkedin.com/in/rajesh-arigala-06262513" class="social-link" target="_blank" rel="noopener noreferrer">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20.447 20.452H16.893V14.883C16.893 13.555 16.866 11.846 15.041 11.846C13.188 11.846 12.905 13.291 12.905 14.785V20.452H9.351V9H12.765V10.561H12.811C13.288 9.661 14.448 8.711 16.181 8.711C19.782 8.711 20.448 11.081 20.448 14.166V20.452H20.447ZM5.337 7.433C4.193 7.433 3.274 6.507 3.274 5.368C3.274 4.23 4.194 3.305 5.337 3.305C6.477 3.305 7.401 4.23 7.401 5.368C7.401 6.507 6.477 7.433 5.337 7.433ZM7.119 20.452H3.555V9H7.119V20.452ZM22.225 0H1.771C0.792 0 0 0.774 0 1.729V22.271C0 23.227 0.792 24 1.771 24H22.222C23.2 24 24 23.227 24 22.271V1.729C24 0.774 23.2 0 22.222 0H22.225Z" fill="currentColor"></path>
+                            </svg>
+                            LinkedIn
+                        </a>
+                        <a href="https://github.com/Rajesh-Arigala" class="social-link" target="_blank" rel="noopener noreferrer">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0C5.37 0 0 5.37 0 12C0 17.31 3.435 21.795 8.205 23.385C8.805 23.49 9.03 23.13 9.03 22.815C9.03 22.53 9.015 21.585 9.015 20.58C6 21.135 5.22 19.845 4.98 19.17C4.845 18.825 4.26 17.76 3.75 17.475C3.33 17.25 2.73 16.665 3.735 16.65C4.68 16.635 5.355 17.55 5.58 17.91C6.66 19.725 8.385 19.215 9.075 18.9C9.18 18.12 9.495 17.595 9.84 17.295C7.17 16.995 4.38 15.96 4.38 11.37C4.38 10.065 4.845 8.985 5.61 8.145C5.49 7.845 5.07 6.615 5.73 4.965C5.73 4.965 6.735 4.65 9.03 6.195C9.99 5.925 11.01 5.79 12.03 5.79C13.05 5.79 14.07 5.925 15.03 6.195C17.325 4.635 18.33 4.965 18.33 4.965C18.99 6.615 18.57 7.845 18.45 8.145C19.215 8.985 19.68 10.05 19.68 11.37C19.68 15.975 16.875 16.995 14.205 17.295C14.64 17.67 15.015 18.39 15.015 19.515C15.015 21.12 15 22.41 15 22.815C15 23.13 15.225 23.505 15.825 23.385C18.2072 22.5807 20.2773 21.0497 21.7437 19.0074C23.2101 16.9651 23.9994 14.5143 24 12C24 5.37 18.63 0 12 0Z" fill="currentColor"></path>
+                            </svg>
+                            GitHub
+                        </a>
+                        <a href="mailto:rajesh.arigala@redlegos.com" class="social-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M22 6L12 13L2 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                            Email
+                        </a>
+                        <a href="https://wa.me/919880419590" class="social-link" target="_blank" rel="noopener noreferrer">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20.52 3.48C18.27 1.23 15.27 0 12.09 0C5.53 0 0.18 5.35 0.18 11.91C0.18 14.01 0.73 16.06 1.78 17.86L0 24L6.29 22.35C8.02 23.29 9.97 23.79 11.95 23.79H11.96C18.52 23.79 23.87 18.44 23.87 11.88C23.88 8.7 22.64 5.73 20.52 3.48ZM11.96 21.78H11.95C10.17 21.78 8.43 21.3 6.91 20.4L6.55 20.19L2.82 21.17L3.82 17.54L3.58 17.16C2.59 15.59 2.07 13.78 2.07 11.91C2.07 6.39 6.56 1.9 12.08 1.9C14.75 1.9 17.25 2.94 19.14 4.84C21.03 6.73 22.08 9.24 22.08 11.9C22.07 17.42 17.58 21.78 11.96 21.78ZM17.48 14.32C17.18 14.17 15.72 13.45 15.45 13.36C15.18 13.26 14.98 13.21 14.78 13.51C14.58 13.81 13.99 14.52 13.81 14.72C13.63 14.92 13.45 14.95 13.15 14.8C12.85 14.65 11.88 14.34 10.73 13.32C9.84 12.53 9.23 11.56 9.05 11.26C8.87 10.96 9.03 10.8 9.19 10.65C9.33 10.51 9.49 10.29 9.64 10.12C9.79 9.94 9.84 9.82 9.94 9.62C10.04 9.42 9.99 9.25 9.91 9.1C9.84 8.95 9.24 7.49 8.98 6.88C8.73 6.29 8.48 6.37 8.29 6.36H7.74C7.54 6.36 7.22 6.43 6.95 6.73C6.68 7.03 5.91 7.74 5.91 9.18C5.91 10.62 6.98 12.01 7.12 12.21C7.27 12.41 9.12 15.26 11.95 16.48C14.79 17.71 14.79 17.3 15.37 17.25C15.95 17.2 17.23 16.53 17.48 15.83C17.74 15.14 17.74 14.55 17.66 14.42C17.59 14.3 17.39 14.22 17.48 14.32Z" fill="currentColor"></path>
+                            </svg>
+                            WhatsApp
+                        </a>
+                        <a href="#" class="social-link">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M23 7V17C23 17.5304 22.7893 18.0391 22.4142 18.4142C22.0391 18.7893 21.5304 19 21 19H3C2.46957 19 1.96086 18.7893 1.58579 18.4142C1.21071 18.0391 1 17.5304 1 17V7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M8 12C8 12.7956 8.31607 13.5587 8.87868 14.1213C9.44129 14.6839 10.2044 15 11 15C11.7956 15 12.5587 14.6839 13.1213 14.1213C13.6839 13.5587 14 12.7956 14 12C14 11.2044 13.6839 10.4413 13.1213 9.87868C12.5587 9.31607 11.7956 9 11 9C10.2044 9 9.44129 9.31607 8.87868 9.87868C8.31607 10.4413 8 11.2044 8 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M15 19V5C15 4.46957 15.2107 3.96086 15.5858 3.58579C15.9609 3.21071 16.4696 3 17 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                                <path d="M19 19H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                            Résumé
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Expertise Tags Column -->
+                <div class="footer-column">
+                    <h3>Core Expertise</h3>
+                    <div class="expertise-tags">
+                        <span class="expertise-tag">Business Strategy</span>
+                        <span class="expertise-tag">P&amp;L Management</span>
+                        <span class="expertise-tag">Machine Learning</span>
+                        <span class="expertise-tag">Team Leadership</span>
+                        <span class="expertise-tag">Deep Learning</span>
+                        <span class="expertise-tag">AI Systems </span>
+                    </div>
+                </div>
+                
+                <!-- CTA Column -->
+                <div class="footer-column">
+                    <h3>Get In Touch</h3>
+                    <p class="footer-text">
+                        Interested in discussing how my unique combination of business leadership 
+                        and technical expertise can drive innovation and growth in your organization?
+                    </p>
+                    <a href="#contact" class="footer-cta">
+                        Start a Conversation
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>© 2026 Rajesh J Arigala — All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ============================================
+        BACKGROUND ELEMENTS
+    ============================================= -->
+    <!-- Only essential background elements kept -->
+    <canvas id="particle-canvas"></canvas>
+    
+    <!-- Simple Floating Dots -->
+    <div class="floating-dots">
+        <div class="floating-dot"></div>
+        <div class="floating-dot"></div>
+        <div class="floating-dot"></div>
+        <div class="floating-dot"></div>
+    </div>
+
+    <div class="coming-soon-modal" id="comingSoonModal" aria-hidden="true">
+        <div class="coming-soon-dialog" role="dialog" aria-modal="true" aria-labelledby="comingSoonTitle">
+            <button class="coming-soon-close" id="comingSoonClose" aria-label="Close popup">×</button>
+            <p class="coming-soon-eyebrow">Project Update</p>
+            <h3 id="comingSoonTitle">Coming soon</h3>
+            <p class="coming-soon-copy">This project section is being prepared and will be available soon.</p>
+        </div>
+    </div>
+
+    <!-- ============================================
+        SCRIPTS
+    ===================================    ============================================= -->
+    <script src="./script.js"></script>
+
+    <script>
+    (function() {
+        const contactForm = document.getElementById('contact-form');
+        const statusMessage = document.getElementById('form-status');
+        const web3FormsEndpoint = 'https://api.web3forms.com/submit';
+
+        if (!contactForm || !statusMessage) return;
+
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+            const submitButtonLabel = submitButton ? submitButton.innerHTML : '';
+
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.innerHTML = 'Sending...';
+            }
+
+            try {
+                const formData = new FormData(contactForm);
+                const payload = Object.fromEntries(formData.entries());
+                payload.from_name = payload.name;
+                payload.replyto = payload.email;
+
+                const response = await fetch(web3FormsEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Accept: 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                let result = {};
+                const responseType = response.headers.get('content-type') || '';
+                if (responseType.includes('application/json')) {
+                    result = await response.json();
+                }
+
+                const isSuccess = response.ok && (result.success === true || result.success === 'true');
+                if (isSuccess) {
+                    statusMessage.textContent = 'Message sent successfully';
+                    contactForm.reset();
+                } else {
+                    statusMessage.textContent = 'Message not sent. Please try again';
+                }
+            } catch (error) {
+                statusMessage.textContent = 'Message not sent. Please try again';
+            } finally {
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = submitButtonLabel;
+                }
+            }
+        });
+    })();
+    </script>
+
+    <!-- Arch Carousel JS -->
+    <script>
+    (function() {
+        const cards = document.querySelectorAll('.arch-card');
+        const track = document.getElementById('archTrack');
+        const dotsContainer = document.getElementById('archDots');
+        let archCurrent = 0;
+        const total = cards.length;
+        let archTimer;
+
+        // Build dots
+        cards.forEach((_, i) => {
+            const d = document.createElement('span');
+            d.className = 'arch-dot' + (i === 0 ? ' active' : '');
+            d.onclick = () => archGoTo(i);
+            dotsContainer.appendChild(d);
+        });
+
+        function archGoTo(idx) {
+            archCurrent = (idx + total) % total;
+            // Mark active card
+            cards.forEach((c, i) => {
+                c.classList.toggle('arch-active', i === archCurrent);
+                const isSideCard = i === (archCurrent - 1 + total) % total || i === (archCurrent + 1) % total;
+                c.classList.toggle('arch-side', isSideCard && i !== archCurrent);
+            });
+            // Center the active card using its real position inside the track.
+            const activeCard = cards[archCurrent];
+            const viewport = track.parentElement;
+            const viewportWidth = viewport.clientWidth;
+            const cardCenter = activeCard.offsetLeft + (activeCard.offsetWidth / 2);
+            const translateX = (viewportWidth / 2) - cardCenter;
+            track.style.transform = `translateX(${translateX}px)`;
+            // Update dots
+            dotsContainer.querySelectorAll('.arch-dot').forEach((d, i) => {
+                d.classList.toggle('active', i === archCurrent);
+            });
+        }
+
+        function archNext() { archGoTo(archCurrent + 1); resetArchTimer(); }
+        function archPrev() { archGoTo(archCurrent - 1); resetArchTimer(); }
+
+        function resetArchTimer() {
+            clearInterval(archTimer);
+            archTimer = setInterval(() => archGoTo(archCurrent + 1), 3500);
+        }
+
+        // Expose to onclick
+        window.archNext = archNext;
+        window.archPrev = archPrev;
+
+        // Init
+        archGoTo(0);
+        resetArchTimer();
+        window.addEventListener('resize', () => archGoTo(archCurrent));
+    })();
+    </script>
+
+    <script>
+    (function() {
+        const canvas = document.getElementById('heroMatrixCanvas');
+        const heroBackground = canvas?.closest('.hero-spline-bg');
+
+        if (!canvas || !heroBackground) return;
+
+        const ctx = canvas.getContext('2d');
+        const chars = "01";
+        const fontSize = 16;
+        let width = 0;
+        let height = 0;
+        let columns = 0;
+        let drops = [];
+        let animationFrameId = null;
+        let lastFrame = 0;
+        const frameDelay = 30;
+
+        function resizeCanvas() {
+            const rect = heroBackground.getBoundingClientRect();
+            width = Math.max(1, Math.floor(rect.width));
+            height = Math.max(1, Math.floor(rect.height));
+
+            canvas.width = width;
+            canvas.height = height;
+
+            columns = Math.max(1, Math.floor(width / fontSize));
+            drops = Array(columns).fill(1);
+        }
+
+        function draw(timestamp) {
+            if (timestamp - lastFrame >= frameDelay) {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+                ctx.fillRect(0, 0, width, height);
+
+                ctx.font = fontSize + 'px Courier New';
+
+                for (let i = 0; i < drops.length; i++) {
+                    const char = chars[Math.floor(Math.random() * chars.length)];
+                    const x = i * fontSize;
+                    const y = drops[i] * fontSize;
+
+                    ctx.fillStyle = '#b6ffcc';
+                    ctx.fillText(char, x, y);
+                    ctx.fillStyle = '#00ff66';
+
+                    if (y > height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+
+                    drops[i]++;
+                }
+
+                lastFrame = timestamp;
+            }
+
+            animationFrameId = window.requestAnimationFrame(draw);
+        }
+
+        resizeCanvas();
+        animationFrameId = window.requestAnimationFrame(draw);
+
+        window.addEventListener('resize', resizeCanvas);
+
+        if ('ResizeObserver' in window) {
+            const observer = new ResizeObserver(resizeCanvas);
+            observer.observe(heroBackground);
+        }
+
+        window.addEventListener('beforeunload', function() {
+            if (animationFrameId) {
+                window.cancelAnimationFrame(animationFrameId);
+            }
+        });
+    })();
+    </script>
+
+
+</body></html>

@@ -1,0 +1,29 @@
+{
+  "manifest_version": "embedding_manifest_v1",
+  "generated_at": "2026-06-17T20:13:17.612320+00:00",
+  "started_at": "2026-06-17T20:12:08.878319+00:00",
+  "status": "READY_FOR_AZURE_INDEX_UPLOAD",
+  "source_documents": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/13_output_azure_ready/azure_upload_documents_v1.jsonl",
+  "output_jsonl": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/14_output_embeddings/azure_upload_documents_with_vectors_v1.jsonl",
+  "output_batch_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/14_output_embeddings/azure_upload_documents_with_vectors_batch_v1.json",
+  "embedding_endpoint_host": "https://rajesh-3714-resource.cognitiveservices.azure.com",
+  "embedding_api_version": "2024-02-01",
+  "embedding_deployment": "text-embedding-3-small",
+  "embedding_dimensions": 1536,
+  "batch_size": 16,
+  "counts": {
+    "input_documents": 142,
+    "vectorized_documents": 142,
+    "failed_batches": 0,
+    "failed_documents": 0
+  },
+  "validation": {
+    "documents_total": 142,
+    "missing_vectors": [],
+    "wrong_dimension_vectors": [],
+    "empty_content_documents": [],
+    "expected_dimensions": 1536,
+    "all_vectors_valid": true
+  },
+  "failed_batches": []
+}

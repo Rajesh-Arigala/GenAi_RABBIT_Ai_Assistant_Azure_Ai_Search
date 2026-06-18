@@ -1,0 +1,1034 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RedRybbons — Craft Innovation Platform</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,300;1,9..144,400;1,9..144,700&amp;family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&amp;family=Jost:wght@200;300;400;500;600&amp;family=DM+Mono:wght@300;400&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+
+:root{
+  /* ── TRUE BRAND PALETTE ─── */
+  --crimson:   #7a1515;
+  --crimson2:  #9e1a1a;
+  --crimson3:  #c42020;
+  --crimson4:  #d94444;
+  --crimson-dim: rgba(122,21,21,0.08);
+  --crimson-mid: rgba(122,21,21,0.18);
+  --crimson-hi:  rgba(122,21,21,0.38);
+
+  /* ── BACKGROUNDS (dark, warm, slightly red-tinted) ─── */
+  --bg:        #080404;
+  --bg1:       #0f0606;
+  --bg2:       #160808;
+  --bg3:       #1e0c0c;
+  --bg4:       #261010;
+
+  /* ── TEXT ─── */
+  --ivory:     #f5eeea;
+  --cream:     #ede0d8;
+  --text:      #c4b0a8;
+  --text2:     #7a6560;
+  --text3:     #3e2820;
+  --white:     #ffffff;
+
+  /* ── BORDERS ─── */
+  --border:    rgba(255,255,255,0.04);
+  --border2:   rgba(122,21,21,0.22);
+  --border3:   rgba(122,21,21,0.42);
+
+  /* ── TYPOGRAPHY ─── */
+  --ff-serif:  'Fraunces', Georgia, serif;
+  --ff-bask:   'Libre Baskerville', Georgia, serif;
+  --ff-body:   'Jost', sans-serif;
+  --ff-mono:   'DM Mono', monospace;
+}
+
+body{background:var(--bg);color:var(--text);font-family:var(--ff-body);font-weight:300;line-height:1.65;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+strong{color:var(--ivory);font-weight:500}
+img{display:block;max-width:100%;height:auto}
+
+::-webkit-scrollbar{width:2px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--crimson2);border-radius:2px}
+
+/* ── NOISE GRAIN ─── */
+body::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px 160px}
+
+/* ── CURSOR GLOW ─── */
+.cglow{pointer-events:none;position:fixed;top:0;left:0;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(122,21,21,0.07) 0%,transparent 70%);transform:translate(-50%,-50%);z-index:1;transition:transform 0.09s linear}
+
+/* ── PINWHEEL SVG MOTIF (inline reusable) ─── */
+.pinwheel{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+.pinwheel svg{width:100%;height:100%}
+
+/* ── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:300;padding:1.5rem 3.5rem;display:flex;align-items:center;justify-content:space-between;transition:all 0.5s}
+nav.scrolled{background:rgba(8,4,4,0.95);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:1rem 3.5rem}
+.nav-brand{display:flex;align-items:center;gap:0.8rem;flex:0 0 260px}
+.nav-logo-img{height:auto;width:100%;max-width:260px;filter:brightness(0) invert(1) sepia(1) saturate(5) hue-rotate(320deg) brightness(0.8)}
+.nav-brand-name{font-family:var(--ff-serif);font-size:1.15rem;font-weight:600;color:var(--ivory);letter-spacing:0.04em}
+.nav-links{display:flex;gap:1.45rem;list-style:none}
+.nav-links a{font-family:var(--ff-mono);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2);transition:color 0.3s;white-space:nowrap}
+.nav-links a:hover{color:var(--crimson4)}
+.nav-pill{font-family:var(--ff-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);border:1px solid rgba(196,32,32,0.55);padding:0.62rem 1.35rem;border-radius:999px;background:linear-gradient(180deg,rgba(122,21,21,0.28),rgba(122,21,21,0.12));box-shadow:0 0 0 1px rgba(196,32,32,0.08) inset,0 10px 26px rgba(80,8,8,0.28);transition:all 0.3s}
+.nav-pill:hover{background:linear-gradient(180deg,rgba(196,32,32,0.34),rgba(122,21,21,0.2));border-color:rgba(217,68,68,0.75);color:var(--white);transform:translateY(-2px);box-shadow:0 14px 34px rgba(122,21,21,0.34),0 0 24px rgba(196,32,32,0.16)}
+
+/* ── HERO ─── */
+.hero{position:relative;height:100svh;min-height:700px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;background:
+  linear-gradient(90deg, rgba(8,4,4,0.9) 0%, rgba(8,4,4,0.78) 34%, rgba(8,4,4,0.42) 62%, rgba(8,4,4,0.58) 100%),
+  url("img/rr-hero.webp");
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat}
+.hero-left{position:relative;z-index:5;display:flex;flex-direction:column;justify-content:flex-end;padding:0 4rem 3.75rem 3.5rem}
+.hero-left::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,4,4,0.86) 50%,rgba(8,4,4,0.72) 80%,transparent 100%);z-index:0}
+.hero-left-inner{position:relative;z-index:1}
+.hero-right{display:none}
+.hero-right img{width:100%;height:100%;object-fit:cover;object-position:center;filter:saturate(0.6) contrast(1.15) brightness(0.7);transition:transform 14s ease}
+.hero-right:hover img{transform:scale(1.05)}
+.hero-right-ph{width:100%;height:100%;background:linear-gradient(135deg,#2a0808,#100404);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.7rem}
+.hero-right-ph span{font-family:var(--ff-mono);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson2);opacity:0.4}
+.hero-overlay-r{position:absolute;inset:0;background:linear-gradient(270deg,rgba(8,4,4,0.15) 0%,rgba(8,4,4,0.75) 65%,var(--bg) 100%)}
+
+.hero-eyebrow{display:inline-flex;align-items:center;gap:0.9rem;margin-bottom:0.4rem;opacity:0;animation:fadeUp 0.9s ease 0.2s forwards}
+.eyebrow-star{display:flex;animation:spinStar 12s linear infinite}
+.eyebrow-star svg{width:14px;height:14px}
+.eyebrow-txt{font-family:var(--ff-mono);font-size:0.74rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--crimson4)}
+.eyebrow-rule{width:28px;height:1px;background:var(--crimson2)}
+
+.hero-title{font-family:var(--ff-serif);font-size:clamp(3.4rem,6.2vw,7rem);font-weight:300;line-height:0.9;letter-spacing:-0.02em;color:var(--ivory);opacity:0;animation:fadeUp 1.1s ease 0.32s forwards;margin-bottom:1.6rem}
+.hero-title em{font-style:italic;color:var(--crimson4);font-weight:300}
+.hero-title .rr-word{font-weight:700;display:block}
+
+.hero-flow{display:flex;align-items:center;gap:0.4rem;flex-wrap:wrap;opacity:0;animation:fadeUp 0.9s ease 0.55s forwards;margin-bottom:2rem}
+.hf-node{font-family:var(--ff-mono);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--crimson4)}
+.hf-node.hl{color:var(--crimson4)}
+.hf-arr{color:var(--crimson2);font-size:0.65rem;line-height:1;margin:0 0.1rem}
+
+.hero-sub{font-size:1.08rem;color:var(--text2);line-height:1.82;max-width:460px;opacity:0;animation:fadeUp 0.9s ease 0.68s forwards;margin-bottom:2.8rem}
+
+.hero-ctas{display:flex;gap:1rem;opacity:0;animation:fadeUp 0.9s ease 0.8s forwards}
+.btn-crimson{font-family:var(--ff-mono);font-size:0.74rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);background:var(--crimson2);padding:0.88rem 2rem;border-radius:999px;transition:all 0.3s;border:1px solid transparent}
+.btn-crimson:hover{background:var(--crimson3);transform:translateY(-2px);box-shadow:0 12px 35px rgba(122,21,21,0.4)}
+.btn-ghost{font-family:var(--ff-mono);font-size:0.74rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson4);border:1px solid var(--border2);padding:0.88rem 2rem;border-radius:999px;transition:all 0.3s}
+.btn-ghost:hover{background:var(--crimson-dim);border-color:var(--border3);transform:translateY(-2px)}
+
+.hero-scroll{position:absolute;bottom:2rem;right:3.5rem;z-index:10;display:flex;flex-direction:column;align-items:center;gap:0.6rem;opacity:0;animation:fadeIn 1s ease 1.4s forwards}
+.scroll-lbl{font-family:var(--ff-mono);font-size:0.66rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);writing-mode:vertical-rl}
+.scroll-line{width:1px;height:50px;background:linear-gradient(var(--crimson2),transparent);animation:scrollPulse 2.3s ease-in-out infinite}
+
+/* ── LAYOUT ─── */
+.wrap{max-width:1320px;margin:0 auto;padding:0 3.5rem}
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--border2) 20%,var(--border2) 80%,transparent)}
+.sec-label{font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--crimson2);display:flex;align-items:center;gap:0.8rem;margin-bottom:0.8rem}
+.sec-label::before{content:'';display:block;width:20px;height:1px;background:var(--crimson2)}
+.sec-head{font-family:var(--ff-serif);font-size:clamp(2.4rem,4.5vw,4.2rem);font-weight:300;line-height:1.04;letter-spacing:-0.01em;color:var(--ivory);margin-bottom:1rem}
+.sec-head em{font-style:italic;color:var(--crimson4);font-weight:300}
+.sec-head strong{font-weight:700}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.8s ease,transform 0.8s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── IMG PLACEHOLDER ─── */
+.img-ph{background:linear-gradient(135deg,var(--bg3),var(--bg4));border:1px solid var(--border);border-radius:1.2rem;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:0.5rem;overflow:hidden;position:relative}
+.img-ph::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(122,21,21,0.07),transparent 60%)}
+.img-ph span{font-family:var(--ff-mono);font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);position:relative;z-index:1;text-align:center;padding:0 1rem}
+.img-ph img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0}
+
+/* ── PINWHEEL DECORATIVE ─── */
+.pw-deco{position:absolute;opacity:0.04;pointer-events:none;z-index:0}
+
+/* ── STORY SECTION ─── */
+.story-section{padding:9rem 0 8rem}
+.story-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:8rem;align-items:start}
+.story-body{font-size:1.04rem;color:var(--text2);line-height:1.9}
+.story-body p+p{margin-top:1.3rem}
+.story-pull-wrap{grid-column:1/-1;display:grid;grid-template-columns:1.2fr 0.9fr;gap:1.2rem;align-items:stretch;margin-top:2.2rem}
+.story-pull{font-family:var(--ff-bask);font-size:clamp(1.55rem,2.8vw,2.2rem);font-weight:400;font-style:italic;line-height:1.55;color:var(--ivory);padding:1.8rem 2rem;border-left:2px solid var(--crimson2);background:var(--crimson-dim);border-radius:0 1.2rem 1.2rem 0;margin:0}
+.story-video-card{position:relative;border:1px solid var(--border);border-radius:1.2rem;overflow:hidden;background:linear-gradient(135deg,var(--bg2),var(--bg3));min-height:280px}
+.story-video-card video,.story-video-thumb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.story-video-card video{display:block}
+.story-video-thumb{z-index:2;transition:opacity 0.25s ease;pointer-events:none}
+.story-video-card.playing .story-video-thumb{opacity:0}
+.story-video-overlay{position:absolute;inset:auto 1rem 1rem 1rem;z-index:3;display:flex;justify-content:space-between;align-items:center;gap:1rem}
+.story-video-pill{font-family:var(--ff-mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--ivory);padding:0.55rem 0.85rem;border-radius:999px;background:rgba(8,4,4,0.68);border:1px solid rgba(255,255,255,0.06)}
+.story-video-note{font-family:var(--ff-mono);font-size:0.55rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text2)}
+.story-stats{display:flex;flex-direction:column;gap:1rem}
+.stat-tile{background:var(--bg2);border:1px solid var(--border);border-radius:1.5rem;padding:2rem 2.2rem;transition:all 0.35s;position:relative;overflow:hidden}
+.stat-tile::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(122,21,21,0.3),transparent)}
+.stat-tile:hover{border-color:var(--border3);background:var(--bg3);transform:translateX(5px)}
+.stat-tile.prime{background:linear-gradient(135deg,rgba(122,21,21,0.15),rgba(8,4,4,0.8));border-color:rgba(122,21,21,0.22)}
+.stat-n{font-family:var(--ff-serif);font-size:3.4rem;font-weight:700;line-height:1;color:var(--crimson4);margin-bottom:0.3rem}
+.stat-l{font-family:var(--ff-mono);font-size:0.61rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2);margin-bottom:0.4rem}
+.stat-d{font-size:0.9rem;color:var(--text2);line-height:1.6}
+
+/* ── OPERATING FLOW ─── */
+.flow-section{padding:8rem 0}
+.flow-diagram{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1.25rem;margin-top:3.5rem}
+.flow-node{min-height:330px;background:linear-gradient(180deg,rgba(41,10,10,0.78),rgba(27,8,8,0.94));border:1px solid rgba(122,21,21,0.24);border-radius:1.9rem;padding:2.2rem 2rem;position:relative;overflow:hidden;transition:transform 0.35s,border-color 0.35s,background 0.35s,box-shadow 0.35s}
+.flow-node::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at bottom right,rgba(196,32,32,0.08),transparent 42%)}
+.flow-node::after{content:'';position:absolute;bottom:1rem;right:1.15rem;width:36px;height:36px;opacity:0.06;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='24,2 27.5,13 36,6 29,15.5 40,19 28.5,22.5 36,31 22,26 24,38 20,27 11,34 17.5,22 6,19 17.5,16.5 10,7 22,13.5' fill='none' stroke='white' stroke-width='1.4' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat}
+.flow-node:hover{transform:translateY(-6px);border-color:rgba(122,21,21,0.44);background:linear-gradient(180deg,rgba(55,12,12,0.82),rgba(31,8,8,0.98));box-shadow:0 24px 50px rgba(0,0,0,0.5)}
+.flow-node-num{font-family:var(--ff-mono);font-size:1rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--crimson4);margin-bottom:1.4rem;position:relative;z-index:1}
+.flow-node-icon{width:58px;height:58px;border:1px solid rgba(255,255,255,0.06);border-radius:1rem;display:flex;align-items:center;justify-content:center;margin-bottom:1.7rem;position:relative;z-index:1}
+.flow-node-icon svg{width:25px;height:25px}
+.flow-node-title{font-family:var(--ff-serif);font-size:1.18rem;font-weight:600;color:var(--ivory);line-height:1.12;margin-bottom:0.8rem;position:relative;z-index:1}
+.flow-node-sub{font-size:0.92rem;color:var(--text2);line-height:1.78;position:relative;z-index:1}
+
+/* ── 4 PILLARS ─── */
+.pillars-section{padding:8rem 0}
+.pillars-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.2rem;margin-top:3.5rem}
+.pillar-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.6rem;padding:2.4rem 2rem;transition:all 0.35s;position:relative;overflow:hidden}
+.pillar-card::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--crimson2),transparent);opacity:0;transition:opacity 0.35s}
+.pillar-card:hover{border-color:var(--border3);background:var(--bg3);transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,0.6)}
+.pillar-card:hover::before{opacity:1}
+.pillar-num{font-family:var(--ff-mono);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:1rem}
+.pillar-icon{width:44px;height:44px;border:1px solid var(--border);border-radius:0.9rem;display:flex;align-items:center;justify-content:center;margin-bottom:1.3rem;transition:border-color 0.3s}
+.pillar-icon svg{width:22px;height:22px}
+.pillar-card:hover .pillar-icon{border-color:var(--border2)}
+.pillar-title{font-family:var(--ff-serif);font-size:1.18rem;font-weight:600;color:var(--ivory);line-height:1.2;margin-bottom:0.65rem}
+.pillar-desc{font-size:0.88rem;color:var(--text2);line-height:1.72}
+.pillar-wm{position:absolute;bottom:1rem;right:1.5rem;width:36px;height:36px;opacity:0.05}
+.pillar-wm svg{width:100%;height:100%}
+
+/* ── BUILD TIMELINE ─── */
+.timeline-section{padding:8rem 0}
+.tl-header{display:grid;grid-template-columns:1fr 1fr;gap:6rem;margin-bottom:5rem}
+.build-steps{display:flex;flex-direction:column}
+.build-step{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;padding:4rem 0;border-bottom:1px solid var(--border)}
+.build-step:last-child{border-bottom:none}
+.build-step.rev{direction:rtl}
+.build-step.rev>*{direction:ltr}
+.step-img{height:360px;border-radius:1.6rem;overflow:hidden;transition:transform 0.45s,box-shadow 0.45s}
+.build-step:hover .step-img{transform:scale(1.02);box-shadow:0 28px 65px rgba(0,0,0,0.65)}
+.step-img .img-ph{height:100%;border-radius:1.6rem}
+.step-phase{font-family:var(--ff-mono);font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--crimson2);margin-bottom:0.8rem;display:flex;align-items:center;gap:0.6rem}
+.step-phase::before{content:'';width:18px;height:1px;background:var(--crimson2)}
+.step-title{font-family:var(--ff-serif);font-size:clamp(1.45rem,2.6vw,2.1rem);font-weight:400;color:var(--ivory);line-height:1.2;margin-bottom:1rem}
+.step-desc{font-size:0.95rem;color:var(--text2);line-height:1.84}
+
+/* ── PROBLEM / SOLUTION ─── */
+.ps-section{padding:8rem 0}
+.ps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:3.5rem}
+.ps-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.6rem;padding:2.5rem;transition:all 0.35s}
+.ps-card:hover{border-color:var(--border3);background:var(--bg3);transform:translateY(-4px)}
+.ps-card-label{font-family:var(--ff-mono);font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:0.6rem}
+.ps-card-label::before{content:'';width:14px;height:1px}
+.ps-card-label.prob{color:#d46a6a}.ps-card-label.prob::before{background:#d46a6a}
+.ps-card-label.sol{color:#6aaa6a}.ps-card-label.sol::before{background:#6aaa6a}
+.ps-card-label.real{color:var(--crimson4)}.ps-card-label.real::before{background:var(--crimson4)}
+.ps-card-title{font-family:var(--ff-serif);font-size:1.35rem;font-weight:600;color:var(--ivory);margin-bottom:1rem;line-height:1.2}
+.ps-list{list-style:none;display:flex;flex-direction:column;gap:0.75rem}
+.ps-list li{font-size:0.91rem;color:var(--text2);line-height:1.62;padding-left:1.1rem;position:relative}
+.ps-list li::before{content:'→';position:absolute;left:0;color:var(--crimson2);font-size:0.75rem;top:0.05em}
+
+/* ── INAUGURATION ─── */
+.inauguration-section{padding:8rem 0}
+.inau-inner{position:relative;border-radius:2.5rem;overflow:hidden;min-height:560px;display:flex;align-items:flex-end}
+.inau-img-wrap{position:absolute;inset:0}
+.inau-img-wrap img{width:100%;height:100%;object-fit:cover;filter:saturate(0.65) brightness(0.7)}
+.inau-img-wrap .img-ph{height:100%;min-height:560px;border-radius:0;border:none}
+.inau-fade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(8,4,4,0.97) 0%,rgba(8,4,4,0.55) 40%,rgba(8,4,4,0.12) 100%)}
+.inau-content{position:relative;z-index:2;padding:4rem 4.5rem;width:100%}
+.inau-lbl{font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--crimson4);display:flex;align-items:center;gap:0.8rem;margin-bottom:1.5rem}
+.inau-lbl::before{content:'';width:20px;height:1px;background:var(--crimson4)}
+.inau-title{font-family:var(--ff-serif);font-size:clamp(2.2rem,5vw,4.5rem);font-weight:300;line-height:0.96;color:var(--ivory);margin-bottom:1.4rem}
+.inau-title em{font-style:italic;color:var(--crimson4)}
+.inau-sub{font-size:0.98rem;color:var(--text2);line-height:1.78;max-width:560px;margin-bottom:2rem}
+.inau-meta{display:flex;gap:3rem;flex-wrap:wrap}
+.im-item{display:flex;flex-direction:column;gap:0.2rem}
+.im-num{font-family:var(--ff-serif);font-size:1.75rem;font-weight:700;color:var(--crimson4);line-height:1}
+.im-lbl{font-family:var(--ff-mono);font-size:0.57rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2)}
+
+/* ── GALLERY ─── */
+.gallery-section{padding:8rem 0}
+.gallery-mosaic{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:auto auto;gap:1.2rem;margin-top:3.5rem}
+.gallery-item{border-radius:1.4rem;overflow:hidden;transition:transform 0.4s,box-shadow 0.4s;cursor:pointer}
+.gallery-item:hover{transform:scale(1.022);box-shadow:0 22px 55px rgba(0,0,0,0.65)}
+.gallery-item.tall{grid-row:span 2}
+.gallery-item .img-ph{border-radius:1.4rem}
+.gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s}
+.gallery-item:hover img{transform:scale(1.06)}
+.lightbox{position:fixed;inset:0;background:rgba(5,2,2,0.92);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:center;padding:2rem;z-index:500;opacity:0;visibility:hidden;transition:opacity 0.3s ease,visibility 0.3s ease}
+.lightbox.open{opacity:1;visibility:visible}
+.lightbox-inner{position:relative;max-width:min(92vw,1280px);max-height:88vh;width:100%;display:flex;align-items:center;justify-content:center}
+.lightbox img{max-width:100%;max-height:88vh;border-radius:1.6rem;display:block;box-shadow:0 30px 80px rgba(0,0,0,0.65)}
+.lightbox-close{position:absolute;top:-0.75rem;right:-0.25rem;width:44px;height:44px;border-radius:999px;border:1px solid rgba(217,68,68,0.45);background:rgba(20,6,6,0.9);color:var(--ivory);font-family:var(--ff-mono);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.lightbox-close:hover{background:rgba(122,21,21,0.7)}
+
+/* ── STATS ─── */
+.stats-section{padding:8rem 0}
+.stats-inner{background:var(--bg2);border:1px solid var(--border);border-radius:2.5rem;padding:5rem;position:relative;overflow:hidden}
+.stats-inner::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--crimson2),transparent)}
+.stats-inner::after{content:'';position:absolute;top:-70px;right:-70px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(122,21,21,0.08),transparent 70%)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:4rem;position:relative;z-index:1}
+.stat-big{text-align:center}
+.stat-big-num{font-family:var(--ff-serif);font-size:clamp(3rem,5.5vw,5.2rem);font-weight:700;line-height:1;color:var(--crimson4);letter-spacing:-0.03em}
+.stat-big-unit{font-family:var(--ff-serif);font-size:clamp(1.4rem,2.5vw,2.2rem);color:var(--crimson2)}
+.stat-big-lbl{font-family:var(--ff-mono);font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2);margin-top:0.8rem;line-height:1.45}
+
+/* ── CAPABILITIES ─── */
+.cap-section{padding:8rem 0}
+.cap-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:3.5rem}
+.cap-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.4rem;padding:2.2rem;display:flex;gap:1.5rem;align-items:flex-start;transition:all 0.35s}
+.cap-card:hover{border-color:var(--border3);background:var(--bg3);transform:translateX(4px)}
+.cap-icon{width:44px;height:44px;border:1px solid var(--border);border-radius:0.8rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color 0.3s}
+.cap-icon svg{width:20px;height:20px}
+.cap-card:hover .cap-icon{border-color:var(--border2)}
+.cap-title{font-family:var(--ff-serif);font-size:1.12rem;font-weight:600;color:var(--ivory);margin-bottom:0.5rem;line-height:1.2}
+.cap-desc{font-size:0.89rem;color:var(--text2);line-height:1.72}
+
+/* ── CHRONO TIMELINE ─── */
+.chrono-section{padding:8rem 0}
+.chrono-grid{display:grid;grid-template-columns:360px 1fr;gap:6rem;align-items:start}
+.chrono-line{position:relative;padding-left:2.6rem}
+.chrono-vert{position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--crimson2) 0%,rgba(122,21,21,0.08) 100%)}
+.chrono-entry{padding:2rem 0;border-bottom:1px solid var(--border);position:relative}
+.chrono-entry:last-child{border-bottom:none}
+.chrono-entry::before{content:'';position:absolute;left:-2.6rem;top:2.4rem;width:8px;height:8px;border-radius:50%;border:1px solid var(--crimson2);background:var(--bg);transform:translateX(-3.5px);transition:all 0.3s}
+.chrono-entry:hover::before{background:var(--crimson2);box-shadow:0 0 14px rgba(122,21,21,0.55)}
+.chrono-year{font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--crimson2);margin-bottom:0.45rem}
+.chrono-text{font-size:0.95rem;color:var(--text);line-height:1.65}
+.chrono-badge{display:inline-block;font-family:var(--ff-mono);font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.22rem 0.65rem;border-radius:999px;margin-top:0.5rem}
+.chrono-badge.craft{color:#c8923a;border:1px solid rgba(200,146,58,0.3);background:rgba(200,146,58,0.06)}
+.chrono-badge.build{color:var(--crimson4);border:1px solid rgba(122,21,21,0.3);background:rgba(122,21,21,0.06)}
+.chrono-badge.live{color:#5adc9a;border:1px solid rgba(90,220,154,0.3);background:rgba(90,220,154,0.06)}
+
+/* ── POSITIONING ─── */
+.pos-section{padding:8rem 0}
+.pos-inner{background:var(--bg1);border:1px solid var(--border);border-radius:2.5rem;padding:5.5rem;position:relative;overflow:hidden;text-align:center}
+.pos-inner::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--crimson2),transparent)}
+.pos-bg-star{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:500px;opacity:0.025;pointer-events:none}
+.pos-bg-star svg{width:100%;height:100%}
+.pos-quote{font-family:var(--ff-bask);font-size:clamp(1.35rem,2.7vw,2.1rem);font-weight:400;font-style:italic;line-height:1.58;color:var(--ivory);max-width:880px;margin:0 auto 3rem;position:relative;z-index:1}
+.pos-quote em{color:var(--crimson4);font-style:normal;font-weight:700}
+.pos-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1rem;position:relative;z-index:1;max-width:980px;margin:0 auto}
+.pos-shot{height:210px;border-radius:1.5rem;overflow:hidden}
+.pos-shot .img-ph{height:100%;border-radius:1.5rem}
+.pos-bridge{font-family:var(--ff-mono);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);border-top:1px solid var(--border);padding-top:2rem;position:relative;z-index:1}
+.pos-bridge strong{color:var(--crimson4)}
+
+/* ── FOOTER ─── */
+footer{padding:3.5rem;border-top:1px solid var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:1rem;position:relative;z-index:2}
+.foot-brand{font-family:var(--ff-serif);font-size:1.1rem;font-weight:600;color:var(--text2);display:flex;align-items:center;gap:0.7rem}
+.foot-note{font-family:var(--ff-mono);font-size:0.61rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3)}
+.foot-live{color:var(--crimson4)}
+
+/* ── ANIMATIONS ─── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scrollPulse{0%,100%{opacity:0.3;transform:scaleY(0.7)}50%{opacity:1;transform:scaleY(1)}}
+@keyframes spinStar{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* ── RESPONSIVE ─── */
+@media(max-width:1100px){
+  .hero{grid-template-columns:1fr}
+  .hero-right{display:none}
+  .story-grid,.chrono-grid,.tl-header,.story-pull-wrap{grid-template-columns:1fr;gap:3rem}
+  .pillars-grid{grid-template-columns:repeat(2,1fr)}
+  .ps-grid,.stats-grid{grid-template-columns:repeat(2,1fr)}
+  .cap-grid{grid-template-columns:1fr}
+  .gallery-mosaic{grid-template-columns:1fr 1fr}
+  .gallery-item.tall{grid-row:auto}
+  .flow-diagram{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:768px){
+  nav{padding:1.2rem 1.5rem}
+  .nav-links,.nav-pill{display:none}
+  .wrap{padding:0 1.5rem}
+  .story-section,.flow-section,.pillars-section,.timeline-section,.ps-section,.inauguration-section,.gallery-section,.stats-section,.cap-section,.chrono-section,.pos-section{padding:5rem 0}
+  .pillars-grid,.ps-grid,.stats-grid,.cap-grid{grid-template-columns:1fr}
+  .flow-diagram{grid-template-columns:1fr}
+  .pos-gallery{grid-template-columns:1fr}
+  .gallery-mosaic{grid-template-columns:1fr}
+  .lightbox{padding:1.25rem}
+  .lightbox-close{top:0.5rem;right:0.5rem}
+  .inau-content{padding:2.5rem 2rem}
+  .stats-inner,.pos-inner{padding:3rem 2rem}
+  .build-step,.build-step.rev{grid-template-columns:1fr;direction:ltr;gap:2rem;padding:2.5rem 0}
+  .step-img{height:230px}
+  footer{flex-direction:column;gap:1rem;text-align:center;padding:2.5rem 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="cglow" id="cglow"></div>
+
+<!-- ════════════════════ PINWHEEL SVG DEFS ════════════════════ -->
+<!-- Reusable inline SVG pinwheel (brand motif) -->
+<svg style="display:none">
+  <symbol id="pinwheel" viewBox="0 0 48 48">
+    <!-- 8-pointed star outline -->
+    <polygon points="24,2 27.5,13 36,6 29,15.5 40,19 28.5,22.5 36,31 22,26 24,38 20,27 11,34 17.5,22 6,19 17.5,16.5 10,7 22,13.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"></polygon>
+    <!-- spiral inner -->
+    <path d="M24,24 Q28,20 26,16 Q22,12 18,16 Q14,20 18,24 Q22,28 26,24 Q30,20 28,14" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"></path>
+  </symbol>
+  <symbol id="arrow-right" viewBox="0 0 16 16">
+    <line x1="2" y1="8" x2="14" y2="8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></line>
+    <polyline points="10,4 14,8 10,12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></polyline>
+  </symbol>
+  <!-- Icon set for pillars/caps — minimal line icons -->
+  <symbol id="ic-hub" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.4"></circle>
+    <line x1="12" y1="2" x2="12" y2="7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></line>
+    <line x1="12" y1="17" x2="12" y2="22" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></line>
+    <line x1="2" y1="12" x2="7" y2="12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></line>
+    <line x1="17" y1="12" x2="22" y2="12" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></line>
+    <line x1="4.9" y1="4.9" x2="8.3" y2="8.3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></line>
+    <line x1="15.7" y1="15.7" x2="19.1" y2="19.1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></line>
+    <line x1="19.1" y1="4.9" x2="15.7" y2="8.3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></line>
+    <line x1="8.3" y1="15.7" x2="4.9" y2="19.1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></line>
+  </symbol>
+  <symbol id="ic-sku" viewBox="0 0 24 24">
+    <rect x="3" y="3" width="8" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"></rect>
+    <rect x="13" y="3" width="8" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"></rect>
+    <rect x="3" y="13" width="8" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"></rect>
+    <rect x="13" y="13" width="8" height="8" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"></rect>
+  </symbol>
+  <symbol id="ic-mfg" viewBox="0 0 24 24">
+    <path d="M3 9l4-4 4 4 4-4 4 4v10a1 1 0 01-1 1H4a1 1 0 01-1-1z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path>
+    <rect x="9" y="14" width="6" height="5" rx="0.5" fill="none" stroke="currentColor" stroke-width="1.3"></rect>
+  </symbol>
+  <symbol id="ic-loop" viewBox="0 0 24 24">
+    <path d="M3 12a9 9 0 1 0 9-9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></path>
+    <polyline points="3,12 6,9 9,12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+  </symbol>
+  <symbol id="ic-exp" viewBox="0 0 24 24">
+    <path d="M3 9l6-6 6 6M15 9l6-6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></path>
+    <rect x="5" y="9" width="14" height="12" rx="1" fill="none" stroke="currentColor" stroke-width="1.4"></rect>
+    <line x1="10" y1="21" x2="10" y2="15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></line>
+    <line x1="14" y1="21" x2="14" y2="15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></line>
+    <line x1="10" y1="15" x2="14" y2="15" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></line>
+  </symbol>
+  <symbol id="ic-research" viewBox="0 0 24 24">
+    <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="1.4"></circle>
+    <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></line>
+    <line x1="11" y1="8" x2="11" y2="14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></line>
+    <line x1="8" y1="11" x2="14" y2="11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"></line>
+  </symbol>
+  <symbol id="ic-label" viewBox="0 0 24 24">
+    <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path>
+    <circle cx="7" cy="7" r="1.2" fill="currentColor"></circle>
+  </symbol>
+  <symbol id="ic-eng" viewBox="0 0 24 24">
+    <polyline points="16 18 22 12 16 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+    <polyline points="8 6 2 12 8 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+  </symbol>
+  <symbol id="ic-ctrl" viewBox="0 0 24 24">
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path>
+  </symbol>
+  <symbol id="ic-comm" viewBox="0 0 24 24">
+    <path d="M3 3h18v13H3z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"></path>
+    <polyline points="3 16 9 10 13 14 17 10 21 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+  </symbol>
+</svg>
+
+<!-- ════════════════════ NAV ════════════════════ -->
+<nav id="nav" class="scrolled">
+  <div class="nav-brand">
+    <img src="img/rr-logo.webp" alt="RedRybbons" class="nav-logo-img" style="filter:none;opacity:0.9" onerror="this.style.display='none'">
+    <span class="nav-brand-name" style="display:none" id="nav-text-fallback">RedRybbons</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#story" style="">Story</a></li>
+    <li><a href="#problem" style="">Problem</a></li>
+    <li><a href="#platform" style="">Platform</a></li>
+    <li><a href="#action" style="">Action</a></li>
+    <li><a href="#chronology" style="">Journey</a></li>
+    <li><a href="#statement" style="">R-Cafe</a></li>
+    <li><a href="#numbers" style="">Numbers</a></li>
+  </ul>
+  <a href="#timeline" class="nav-pill"> Contact </a>
+</nav>
+
+<!-- ════════════════════ HERO ════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <div class="hero-left-inner">
+
+      <div class="hero-eyebrow">
+        <div class="eyebrow-star">
+          <svg width="14" height="14" viewBox="0 0 48 48" fill="none">
+            <use href="#pinwheel" color="#c42020"></use>
+          </svg>
+        </div>
+        <span class="eyebrow-txt">Craft Innovation Platform, Chennapatna, Ramanagara, Koramangala, Bengaluru</span>
+        <!-- <div class="eyebrow-rule"></div> -->
+      </div>
+
+      <h1 class="hero-title">
+        <span class="rr-word">RedRybbons</span>
+        Craft.<br><em>Engineered.</em><br>Commercialised.
+      </h1>
+
+      <div class="hero-flow">
+        <span class="hf-node hl">Design R&amp;D</span>
+        <span class="hf-arr">→</span>
+        <span class="hf-node">Product SKUs</span>
+        <span class="hf-arr">→</span>
+        <span class="hf-node">Controlled Mfg</span>
+        <span class="hf-arr">→</span>
+        <span class="hf-node">Experiential Retail</span>
+        <span class="hf-arr">→</span>
+        <span class="hf-node">Revenue Flywheel</span>
+      </div>
+
+      <p class="hero-sub">A real-world platform built to convert traditional Indian crafts into manufacturable products — and commercialise them sustainably through controlled production and experiential retail.</p>
+
+      <div class="hero-ctas">
+        <a href="#timeline" class="btn-crimson">See the Build</a>
+        <a href="#platform" class="btn-ghost">The Platform</a>
+      </div>
+
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="img-ph hero-right-ph" style="border-radius:0;border:none;width:100%;height:100%">
+      <img src="/buiss skills/img/rr-hero.webp" alt="R-Cafe aerial" onerror="this.style.display='none'">
+      <span>Aerial — R-Cafe by RedRybbons</span>
+      <!-- brand pinwheel watermark in hero -->
+      <svg style="position:absolute;bottom:3rem;right:3rem;width:90px;height:90px;opacity:0.06" viewBox="0 0 48 48" fill="none">
+        <use href="#pinwheel" color="#ffffff"></use>
+      </svg>
+    </div>
+    <div class="hero-overlay-r"></div>
+  </div>
+  <div class="hero-scroll">
+    <span class="scroll-lbl">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════ STORY ════════════════════ -->
+<section class="story-section" id="story">
+  <div class="wrap">
+    <div class="story-grid">
+
+      <div class="reveal visible">
+        <div class="sec-label">The Origin</div>
+        <h2 class="sec-head">A Craft Innovation<br><em>Platform Built</em><br><strong>From Nothing</strong></h2>
+        <div class="story-body">
+          <p>RedRybbons is a craft innovation and commercialisation platform conceptualised and built to convert traditional Indian crafts into manufacturable, standardised products — and take them to market through controlled manufacturing and experiential retail.</p>
+          <p>This was not a marketplace listing website, not an NGO programme, and not a grant-driven initiative. It was a self-funded, founder-led, execution-heavy platform spanning craft research across artisan clusters, designer–artisan collaboration, product engineering from design to SKU, controlled manufacturing to prevent copycats, and a full brand and commercialisation strategy.</p>
+          <p>The core insight: <strong>craft without product engineering stagnates. Manufacturing without brand commoditises.</strong> RedRybbons was designed as an operating system for crafts — where innovation, productisation, manufacturing, and retail reinforce each other in a sustainable flywheel.</p>
+          <p>Field immersion began at Channapatna, mapping artisan capabilities, tooling constraints, and quality variability. The insight formed the founding thesis.</p>
+        </div>
+      </div>
+
+      <div class="story-stats reveal visible" style="transition-delay:0.15s">
+        <div class="stat-tile prime">
+          <div class="stat-n">25+</div>
+          <div class="stat-l">Product Categories</div>
+          <div class="stat-d">Lamps, vases, clocks, kitchenware, idols, toys, jewellery, frames, mementos, decor, Montessori items — across wholesale and retail channels.</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-n">4M</div>
+          <div class="stat-l">Formula: Money · Material · Manpower · Machinery</div>
+          <div class="stat-d">The core framework used to productise Indian craft into a scalable, repeatable commercial operation.</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-n">2</div>
+          <div class="stat-l">Founders · IIM Calcutta + VIT Vellore</div>
+          <div class="stat-d">Rajesh Arigala (strategy, product) &amp; Kishanth Mathuku — GOD: General Operations Director, leading supply chain with precision.</div>
+        </div>
+        <div class="stat-tile">
+          <div class="stat-n">1</div>
+          <div class="stat-l">Integrated Operating System</div>
+          <div class="stat-d">Design R&amp;D → Product Engineering → Controlled Manufacturing → Experiential Retail. One platform, one brand, one execution model.</div>
+        </div>
+      </div>
+
+      <div class="story-pull-wrap reveal visible" style="transition-delay:0.2s">
+        <div class="story-pull">
+          “If one creates value, he is in business. The rest is unaccounted.” — Founder, RedRybbons · IIM Calcutta
+        </div>
+        <div class="story-video-card" id="storyVideoCard">
+          <video id="storyVideo" loop="" playsinline="" preload="none" poster="/buiss skills/img/rr-thumbnail.webp">
+            <source src="/buiss skills/img/rr.mp4" type="video/mp4">
+          </video>
+          <img src="/buiss skills/img/rr-thumbnail.webp" alt="RedRybbons video thumbnail" class="story-video-thumb">
+          <div class="story-video-overlay">
+            <span class="story-video-pill">Show Journey</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════ PROBLEM / SOLUTION ════════════════════ -->
+<section class="ps-section" id="problem">
+  <div class="wrap">
+    <div class="reveal visible">
+      <div class="sec-label">Why This Model Exists</div>
+      <h2 class="sec-head">The <em>Problem</em> We<br>Were Built to Solve</h2>
+      <p style="color:var(--text2);font-size:1rem;line-height:1.78;max-width:620px;margin-top:1rem">RedRybbons was built to close the systemic gap between craft potential and commercial reality across productisation, manufacturing control, and market access.</p>
+    </div>
+    <div class="ps-grid">
+      <div class="ps-card reveal visible" style="transition-delay:0.05s">
+        <div class="ps-card-label prob">The Gap</div>
+        <div class="ps-card-title">Craft Was Rich. Systems Were Missing.</div>
+        <ul class="ps-list">
+          <li>Open clusters made design copying easy and long-term value difficult to protect</li>
+          <li>Craft without engineering led to inconsistency in quality, finish, and repeatability</li>
+          <li>Manufacturing without brand pulled products into commodity pricing</li>
+          <li>Distribution remained fragmented and margin-heavy because of intermediaries</li>
+          <li>Retail rarely communicated the story, precision, or premium nature of the work</li>
+        </ul>
+      </div>
+      <div class="ps-card reveal visible" style="transition-delay:0.1s">
+        <div class="ps-card-label sol">The Response</div>
+        <div class="ps-card-title">One Integrated Platform</div>
+        <ul class="ps-list">
+          <li>Innovation Hub creates new concepts, prototypes, and design direction</li>
+          <li>Product engineering translates craft into manufacturable SKUs</li>
+          <li>Controlled manufacturing protects IP and improves production quality</li>
+          <li>Experience-led retail turns making into a live brand environment</li>
+          <li>Revenue recirculates back into innovation, inventory, and scale</li>
+        </ul>
+      </div>
+      <div class="ps-card reveal visible" style="transition-delay:0.15s">
+        <div class="ps-card-label real">Executed Reality</div>
+        <div class="ps-card-title">What Was Built in Practice</div>
+        <ul class="ps-list">
+          <li>A café, workshop, and retail layer built from barren land to live operations</li>
+          <li>Two-shift operations running in a real urban consumer environment</li>
+          <li>Construction carried through vendor collapse and pandemic disruption</li>
+          <li>Commercial model adapted under regulatory and category pressure</li>
+          <li>A platform structured for long-term scale, not one-off craft transactions</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════ OPERATING FLOW ════════════════════ -->
+<section class="flow-section" id="platform">
+  <div class="wrap">
+    <div class="reveal visible">
+      <div class="sec-label">Operating Model</div>
+      <h2 class="sec-head">The <em>Platform</em> in One Diagram</h2>
+      <p style="color:var(--text2);font-size:1rem;line-height:1.78;max-width:660px;margin-top:1rem">The model is simple by design: insight becomes product, product enters controlled production, production becomes experience, and experience funds the next cycle.</p>
+    </div>
+
+    <div class="flow-diagram reveal visible" style="transition-delay:0.1s">
+      <div class="flow-node">
+        <div class="flow-node-num">01</div>
+        <div class="flow-node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--crimson2)" stroke-width="1.4" stroke-linecap="round"><use href="#ic-hub"></use></svg></div>
+        <div class="flow-node-title">Origin Insight</div>
+        <div class="flow-node-sub">Craft research · Cluster mapping · Founding thesis</div>
+      </div>
+      <div class="flow-node">
+        <div class="flow-node-num">02</div>
+        <div class="flow-node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--crimson2)" stroke-width="1.4"><use href="#ic-sku"></use></svg></div>
+        <div class="flow-node-title">Craft to SKU</div>
+        <div class="flow-node-sub">Specs · Dimensions · Finishes · Product categories</div>
+      </div>
+      <div class="flow-node">
+        <div class="flow-node-num">03</div>
+        <div class="flow-node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--crimson2)" stroke-width="1.4"><use href="#ic-mfg"></use></svg></div>
+        <div class="flow-node-title">Controlled Production</div>
+        <div class="flow-node-sub">R-Cafe layer · Quality control · IP-aware manufacturing</div>
+      </div>
+      <div class="flow-node">
+        <div class="flow-node-num">04</div>
+        <div class="flow-node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--crimson2)" stroke-width="1.4"><use href="#ic-exp"></use></svg></div>
+        <div class="flow-node-title">Brand-Led Retail</div>
+        <div class="flow-node-sub">Factory-in-view · Consumer experience · Direct sales</div>
+      </div>
+      <div class="flow-node">
+        <div class="flow-node-num">05</div>
+        <div class="flow-node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--crimson2)" stroke-width="1.4"><use href="#ic-loop"></use></svg></div>
+        <div class="flow-node-title">Sustainable Scale</div>
+        <div class="flow-node-sub">Revenue flywheel · New innovation · Platform growth</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════ GALLERY ════════════════════ -->
+<section class="gallery-section" id="action">
+  <div class="wrap">
+    <div class="reveal visible">
+      <div class="sec-label">The Platform in Action</div>
+      <h2 class="sec-head">Live Experience,<br><em>Real Craft, Real People</em></h2>
+      <p style="color:var(--text2);font-size:1rem;line-height:1.78;max-width:600px;margin-top:1rem">R-Cafe is where the model becomes visible: people, production, product display, and retail all operating in the same premium environment.</p>
+    </div>
+    <div class="gallery-mosaic reveal visible" style="transition-delay:0.1s">
+      <div class="gallery-item tall" style="height:500px">
+        <div class="img-ph" style="height:100%;border-radius:1.4rem">
+          <img src="/buiss skills/img/rr-gallery/1.1.jpg" alt="RedRybbons gallery image 1" onerror="this.style.display='none'">
+          
+        </div>
+      </div>
+      <div class="gallery-item" style="height:240px">
+        <div class="img-ph" style="height:100%;border-radius:1.4rem">
+          <img src="/buiss skills/img/rr-gallery/1.2.jpg" alt="RedRybbons gallery image 2" onerror="this.style.display='none'">
+          
+        </div>
+      </div>
+      <div class="gallery-item" style="height:240px">
+        <div class="img-ph" style="height:100%;border-radius:1.4rem">
+          <img src="/buiss skills/img/rr-gallery/1.3.jpg" alt="RedRybbons gallery image 3" onerror="this.style.display='none'">
+         
+        </div>
+      </div>
+      <div class="gallery-item" style="height:240px">
+        <div class="img-ph" style="height:100%;border-radius:1.4rem">
+          <img src="/buiss skills/img/rr-gallery/1.4.jpeg" alt="RedRybbons gallery image 4" onerror="this.style.display='none'">
+          
+        </div>
+      </div>
+      <div class="gallery-item" style="height:240px">
+        <div class="img-ph" style="height:100%;border-radius:1.4rem">
+          <img src="/buiss skills/img/rr-gallery/1.5.JPG" alt="RedRybbons gallery image 5" onerror="this.style.display='none'">
+         
+        </div>
+      </div>
+    </div>
+    <p style="font-family:var(--ff-mono);font-size:0.61rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);text-align:center;margin-top:2rem">#2, 16B2 Main Road, Koramangala 4th Block · Behind Canara Bank · Bengaluru – 34</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════ CHRONO TIMELINE ════════════════════ -->
+<section class="chrono-section" id="chronology">
+  <div class="wrap">
+    <div class="chrono-grid">
+      <div class="reveal visible">
+        <div class="sec-label">Chronology</div>
+        <h2 class="sec-head">Platform <em>Journey</em></h2>
+        <p style="color:var(--text2);font-size:1rem;line-height:1.82;margin-top:1rem;margin-bottom:2.5rem">The journey moved in sequence: learn from the field, design the system, build the platform, and bring it live in the market.</p>
+        <div class="img-ph" style="height:220px;border-radius:1.4rem">
+          <img src="/buiss skills/img/rr-last.webp" alt="Craft products" onerror="this.style.display='none'">
+        </div>
+      </div>
+
+      <div class="chrono-line reveal visible" style="transition-delay:0.15s">
+        <div class="chrono-vert"></div>
+        <div class="chrono-entry">
+          <div class="chrono-year">2016 – 2017</div>
+          <div class="chrono-text">Field immersion across artisan clusters established the core thesis: Indian craft needed a productisation and commercialisation layer.</div>
+          <span class="chrono-badge craft">Origin Research</span>
+        </div>
+        <div class="chrono-entry">
+          <div class="chrono-year">2017</div>
+          <div class="chrono-text">Designer-artisan collaboration begins and the Innovation Hub concept takes shape with academic support and structured experimentation.</div>
+          <span class="chrono-badge craft">Innovation Hub</span>
+        </div>
+        <div class="chrono-entry">
+          <div class="chrono-year">2017 – 2018</div>
+          <div class="chrono-text">Prototypes become engineered SKUs across 25+ categories, forming the first repeatable commercial product base.</div>
+          <span class="chrono-badge craft">Product Engineering</span>
+        </div>
+        <div class="chrono-entry">
+          <div class="chrono-year">2018 – 2019</div>
+          <div class="chrono-text">The platform architecture is formalised, with R-Cafe defined as the physical engine for manufacturing visibility, brand experience, and retail conversion.</div>
+          <span class="chrono-badge craft">Platform Design</span>
+        </div>
+        <div class="chrono-entry">
+          <div class="chrono-year">2019 – 2022</div>
+          <div class="chrono-text">Construction moves from empty land to live-ready infrastructure through vendor collapse, COVID disruption, and full founder-led execution on site.</div>
+          <span class="chrono-badge build">Construction</span>
+        </div>
+        <div class="chrono-entry">
+          <div class="chrono-year">1 Jan 2023 – Present</div>
+          <div class="chrono-text">R-Cafe goes live as the active commercialisation layer of the platform, operating with real production, real customers, and a working revenue loop.</div>
+          <span class="chrono-badge live">Live Platform</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════ POSITIONING ════════════════════ -->
+<section class="pos-section" id="statement">
+  <div class="wrap">
+    <div class="pos-inner reveal visible">
+      <div class="pos-bg-star">
+        <svg viewBox="0 0 48 48" fill="none"><use href="#pinwheel" color="var(--crimson2)"></use></svg>
+      </div>
+      <p class="pos-quote">
+        “R-Cafe by RedRybbons is not just a café — it is the commercialisation engine of our craft innovation platform, enabling secure manufacturing, brand-led retail, and sustainable scale.”
+      </p>
+      <div class="pos-gallery">
+        <div class="pos-shot">
+          <div class="img-ph">
+            <img src="/buiss skills/img/rcafe-steps5.webp" alt="R-Cafe construction step 5" onerror="this.style.display='none'">
+            <span></span>
+          </div>
+        </div>
+        <div class="pos-shot">
+          <div class="img-ph">
+            <img src="/buiss skills/img/rcafe-img6.webp" alt="R-Cafe image 6" style="object-position:center top" onerror="this.style.display='none'">
+            <span></span>
+          </div>
+        </div>
+        <div class="pos-shot">
+          <div class="img-ph">
+            <img src="/buiss skills/img/rcafe5.webp" alt="R-Cafe image 5" onerror="this.style.display='none'">
+            <span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════ STATS ════════════════════ -->
+<section class="stats-section" id="numbers">
+  <div class="wrap">
+    <div class="stats-inner reveal visible">
+      <div class="sec-label" style="justify-content:center;margin-bottom:3rem">By the Numbers</div>
+      <div class="stats-grid">
+        <div class="stat-big">
+          <div class="stat-big-num">10<span class="stat-big-unit">K</span></div>
+          <div class="stat-big-lbl">Square Feet<br>Built from Barren Land</div>
+        </div>
+        <div class="stat-big">
+          <div class="stat-big-num">16<span class="stat-big-unit">hr</span></div>
+          <div class="stat-big-lbl">Daily Operations<br>2 Shifts · Competing Live</div>
+        </div>
+        <div class="stat-big">
+          <div class="stat-big-num">25<span class="stat-big-unit">+</span></div>
+          <div class="stat-big-lbl">Product Categories<br>Wholesale + Retail</div>
+        </div>
+        <div class="stat-big">
+          <div class="stat-big-num">Jan<span class="stat-big-unit" style="font-size:1.6rem"> '23</span></div>
+          <div class="stat-big-lbl">Live Since<br>1st January 2023</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════ BUILD TIMELINE ════════════════════ -->
+<section class="timeline-section" id="timeline">
+  <div class="wrap">
+    <div class="tl-header reveal visible">
+      <div>
+        <div class="sec-label">Construction Phase</div>
+        <h2 class="sec-head">From <em>Barren Land</em><br>to <strong>Live Production</strong></h2>
+      </div>
+      <div style="padding-top:0.8rem">
+        <p style="color:var(--text2);font-size:1rem;line-height:1.84">The build journey is the physical proof of the platform: a premium operating environment created from scratch to house production, hospitality, display, and retail in one place.</p>
+      </div>
+    </div>
+
+    <div class="build-steps">
+      <div class="build-step reveal visible">
+        <div class="step-img">
+          <div class="img-ph" style="height:100%;border-radius:1.6rem">
+            <img src="/buiss skills/img/buiss/r-cafe steps/1.webp" alt="Foundation phase" onerror="this.style.display='none'" style="display: none;">
+            <span>Phase 01 · Foundation &amp; Land Development</span>
+          </div>
+        </div>
+        <div class="step-text">
+          <div class="step-phase">Phase 01 · 2019</div>
+          <div class="step-title">Breaking Ground on a Barren 10,000 sq. ft. Plot</div>
+          <div class="step-desc">An empty Koramangala plot becomes the site for a fully integrated platform, beginning with land development, planning, and structural foundation.</div>
+        </div>
+      </div>
+
+      <div class="build-step rev reveal visible" style="transition-delay:0.05s">
+        <div class="step-img">
+          <div class="img-ph" style="height:100%;border-radius:1.6rem">
+            <img src="/buiss skills/img/buiss/r-cafe steps/2.webp" alt="Steel structure" onerror="this.style.display='none'" style="display: none;">
+            <span>Phase 02 · Steel Frame Erection</span>
+          </div>
+        </div>
+        <div class="step-text">
+          <div class="step-phase">Phase 02 · 2019–2020</div>
+          <div class="step-title">The Structure Rises Into Uncertainty</div>
+          <div class="step-desc">The steel frame goes up, but the project is hit by vendor abandonment and pandemic disruption, leaving execution stalled mid-build.</div>
+        </div>
+      </div>
+
+      <div class="build-step reveal visible" style="transition-delay:0.1s">
+        <div class="step-img">
+          <div class="img-ph" style="height:100%;border-radius:1.6rem">
+            <img src="/buiss skills/img/buiss/r-cafe steps/3.webp" alt="Roofing phase" onerror="this.style.display='none'" style="display: none;">
+            <span>Phase 03 · Roofing &amp; Enclosure</span>
+          </div>
+        </div>
+        <div class="step-text">
+          <div class="step-phase">Phase 03 · 2022</div>
+          <div class="step-title">Execution Resumes Under Full Ownership</div>
+          <div class="step-desc">Work restarts under direct founder supervision across civil execution, electrical planning, plumbing, structural coordination, and enclosure.</div>
+        </div>
+      </div>
+
+      <div class="build-step rev reveal visible" style="transition-delay:0.15s">
+        <div class="step-img">
+          <div class="img-ph" style="height:100%;border-radius:1.6rem">
+            <img src="/buiss skills/img/buiss/r-cafe steps/4.webp" alt="Interiors" onerror="this.style.display='none'" style="display: none;">
+            <span>Phase 04 · Interiors &amp; Operations Setup</span>
+          </div>
+        </div>
+        <div class="step-text">
+          <div class="step-phase">Phase 04 · Late 2022</div>
+          <div class="step-title">Interiors, Workshop Systems, and Spatial Logic</div>
+          <div class="step-desc">Kitchen infrastructure, workshop zones, seating, service counters, and display areas are installed as one unified operating environment.</div>
+        </div>
+      </div>
+
+      <div class="build-step reveal visible" style="transition-delay:0.2s">
+        <div class="step-img">
+          <div class="img-ph" style="height:100%;border-radius:1.6rem">
+            <img src="/buiss skills/img/buiss/r-cafe steps/5.webp" alt="Final build" onerror="this.style.display='none'" style="display: none;">
+            <span>Phase 05 · Final Fit-Out &amp; Go-Live</span>
+          </div>
+        </div>
+        <div class="step-text">
+          <div class="step-phase">Phase 05 · 1 January 2023</div>
+          <div class="step-title">The Platform Goes Live</div>
+          <div class="step-desc">Branding, landscaping, operations systems, and staff readiness come together as R-Cafe opens as the live commercialisation engine of RedRybbons.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ════════════════════ FOOTER ════════════════════ -->
+<footer>
+  <div class="foot-brand">
+    <svg width="18" height="18" viewBox="0 0 48 48" fill="none" style="opacity:0.4"><use href="#pinwheel" color="var(--crimson2)"></use></svg>
+    RedRybbons · Under Red Legos
+  </div>
+</footer>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Close image">×</button>
+    <img id="lightboxImage" src="" alt="">
+  </div>
+</div>
+
+<script>
+// Cursor glow
+const cg = document.getElementById('cglow');
+document.addEventListener('mousemove', e => {
+  cg.style.transform = `translate(${e.clientX - 230}px, ${e.clientY - 230}px)`;
+});
+
+// Nav scroll + logo fallback
+const nav = document.getElementById('nav');
+const logoImg = nav.querySelector('img');
+logoImg.addEventListener('error', () => {
+  logoImg.style.display = 'none';
+  document.getElementById('nav-text-fallback').style.display = 'inline';
+});
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 70);
+});
+
+// Scroll reveal
+const revs = document.querySelectorAll('.reveal');
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }
+  });
+}, { threshold: 0.07, rootMargin: '0px 0px -30px 0px' });
+revs.forEach(el => ro.observe(el));
+
+// Active nav link
+const secs = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.nav-links a');
+const sio = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) links.forEach(l => {
+      l.style.color = l.getAttribute('href') === '#' + e.target.id ? 'var(--crimson4)' : '';
+    });
+  });
+}, { threshold: 0.35 });
+secs.forEach(s => sio.observe(s));
+
+// Gallery lightbox
+const lightbox = document.getElementById('lightbox');
+const lightboxImage = document.getElementById('lightboxImage');
+const lightboxClose = document.getElementById('lightboxClose');
+
+document.querySelectorAll('.gallery-item img').forEach(img => {
+  img.addEventListener('click', () => {
+    lightboxImage.src = img.src;
+    lightboxImage.alt = img.alt;
+    lightbox.classList.add('open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  lightbox.setAttribute('aria-hidden', 'true');
+  lightboxImage.src = '';
+  lightboxImage.alt = '';
+  document.body.style.overflow = '';
+}
+
+lightboxClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => {
+  if (e.target === lightbox) closeLightbox();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
+});
+
+// Story video hover play
+const storyVideoCard = document.getElementById('storyVideoCard');
+const storyVideo = document.getElementById('storyVideo');
+if (storyVideoCard && storyVideo) {
+  const playStoryVideo = () => {
+    storyVideoCard.classList.add('playing');
+    storyVideo.muted = false;
+    storyVideo.volume = 1;
+    const playAttempt = storyVideo.play();
+    if (playAttempt && typeof playAttempt.catch === 'function') playAttempt.catch(() => {});
+  };
+  const resetStoryVideo = () => {
+    storyVideo.pause();
+    storyVideo.currentTime = 0;
+    storyVideoCard.classList.remove('playing');
+    storyVideo.load();
+  };
+  storyVideoCard.addEventListener('mouseenter', playStoryVideo);
+  storyVideoCard.addEventListener('mouseleave', resetStoryVideo);
+}
+
+// Pillar card subtle tilt on mouse
+document.querySelectorAll('.pillar-card, .ps-card').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const r = card.getBoundingClientRect();
+    const x = (e.clientX - r.left - r.width / 2) / (r.width / 2);
+    const y = (e.clientY - r.top - r.height / 2) / (r.height / 2);
+    card.style.transform = `translateY(-5px) rotateX(${(-y * 2).toFixed(1)}deg) rotateY(${(x * 2).toFixed(1)}deg)`;
+  });
+  card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+});
+</script>
+
+
+</body></html>

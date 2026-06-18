@@ -1,0 +1,22 @@
+{
+  "manifest_version": "approved_chunks_manifest_v1",
+  "generated_at": "2026-06-17T17:56:34.445493+00:00",
+  "source_chunks": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/09_future_output_chunks/chunks_v1.jsonl",
+  "approved_chunks_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/09_future_output_chunks/approved_chunks_v1.jsonl",
+  "status": "APPROVED_FOR_AZURE_EXPORT_PREP",
+  "counts": {
+    "approved_chunks": 142,
+    "documents_represented": 53,
+    "pages_represented": 53,
+    "total_words": 85832,
+    "total_chars": 648813,
+    "min_chunk_words": 161,
+    "max_chunk_words": 861
+  },
+  "validation": {
+    "duplicate_chunk_ids": 0,
+    "empty_active_chunks": [],
+    "approved_chunks_without_content": [],
+    "approved_chunks_not_indexable": []
+  }
+}

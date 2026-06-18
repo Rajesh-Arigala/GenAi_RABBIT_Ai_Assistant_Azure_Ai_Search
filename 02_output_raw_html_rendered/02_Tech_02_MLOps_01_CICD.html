@@ -1,0 +1,2056 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CI/CD Automation &amp; Platform Engineering | Multi-Cloud Portfolio</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=IBM+Plex+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet">
+    <style>
+        /* ==================== RESET AND BASE STYLES ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Core Surfaces - Updated Theme */
+            --bg-main: #0C1117;
+            --bg-surface: #121923;
+            --bg-elevated: #161F2B;
+            --card-bg: #161F2B;
+
+            /* Updated Accents */
+            --accent-primary: #B8B2A7;
+            --accent-energy: #7CFFB2;
+            --accent-depth: #3A1F2D;
+            --accent-secondary: #6C9BCF;
+            --accent-tertiary: #8A7CC5;
+
+            /* Text */
+            --text-primary: #E6E9EF;
+            --text-secondary: #A1A8B3;
+            --text-muted: #6F7682;
+
+            /* Lines & Dividers */
+            --line-subtle: #1E2633;
+            --glass-border: rgba(184, 178, 167, 0.15);
+
+            /* Motion */
+            --ease-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+            /* Gradients */
+            --accent-gradient: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+            --depth-gradient: linear-gradient(135deg, var(--accent-depth), transparent 70%);
+            
+            /* Fonts */
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes pipelineFlow {
+            0% {
+                background-position: 0% 0%;
+            }
+            100% {
+                background-position: 100px 100px;
+            }
+        }
+
+        @keyframes infraPulse {
+            0%, 100% {
+                opacity: 0.05;
+            }
+            50% {
+                opacity: 0.12;
+            }
+        }
+
+        @keyframes cloudNode {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.1;
+            }
+            50% {
+                transform: translate(3px, -3px) scale(1.03);
+                opacity: 0.2;
+            }
+            100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.1;
+            }
+        }
+
+        @keyframes terminalBlink {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes badgePulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(184, 178, 167, 0.3);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(184, 178, 167, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(184, 178, 167, 0);
+            }
+        }
+
+        @keyframes terminalTyping {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* ==================== BACKGROUND PATTERNS ==================== */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: 
+                /* Main gradient */
+                linear-gradient(
+                    135deg,
+                    var(--bg-main) 0%,
+                    var(--bg-surface) 50%,
+                    var(--bg-main) 100%
+                ),
+                /* Infrastructure grid */
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 39px,
+                    rgba(184, 178, 167, 0.02) 39px,
+                    rgba(184, 178, 167, 0.02) 40px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 39px,
+                    rgba(124, 255, 178, 0.02) 39px,
+                    rgba(124, 255, 178, 0.02) 40px
+                ),
+                /* Pipeline patterns */
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 15px,
+                    rgba(58, 31, 45, 0.03) 15px,
+                    rgba(58, 31, 45, 0.03) 30px
+                ),
+                /* Depth accents */
+                radial-gradient(
+                    circle at 20% 30%,
+                    rgba(184, 178, 167, 0.04) 0%,
+                    transparent 40%
+                );
+            
+            background-size: 
+                400% 400%,
+                80px 80px,
+                80px 80px,
+                60px 60px,
+                300px 300px;
+            
+            animation: 
+                pipelineFlow 30s linear infinite,
+                infraPulse 20s ease-in-out infinite;
+            
+            pointer-events: none;
+            z-index: -2;
+            opacity: 0.6;
+        }
+
+        /* Animated infrastructure nodes */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: 
+                /* Cloud service nodes */
+                radial-gradient(
+                    5px circle at 10% 20%,
+                    var(--accent-primary) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    4px circle at 25% 45%,
+                    var(--accent-energy) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    4px circle at 40% 75%,
+                    var(--accent-primary) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    5px circle at 60% 25%,
+                    var(--accent-energy) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    4px circle at 75% 60%,
+                    var(--accent-primary) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    4px circle at 90% 35%,
+                    var(--accent-energy) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    5px circle at 15% 85%,
+                    var(--accent-primary) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    4px circle at 85% 85%,
+                    var(--accent-energy) 50%,
+                    transparent 100%
+                );
+            
+            background-repeat: no-repeat;
+            background-size: 
+                100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
+                100% 100%, 100% 100%, 100% 100%;
+            
+            animation: 
+                cloudNode 15s ease-in-out infinite,
+                terminalBlink 4s ease-in-out infinite;
+            
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.25;
+            mix-blend-mode: screen;
+        }
+
+        /* ==================== CONTAINER ==================== */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ==================== PAGE HEADER ==================== */
+        .page-header {
+            padding: 5rem 0 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                var(--accent-primary), 
+                var(--accent-energy), 
+                transparent
+            );
+            opacity: 0.5;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+            opacity: 0.7;
+        }
+
+        .page-title {
+            font-size: 3.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-energy) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        .page-intro {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 900px;
+            margin: 2rem auto 1.5rem;
+            line-height: 1.7;
+        }
+
+        .infra-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, 
+                rgba(184, 178, 167, 0.1) 0%, 
+                rgba(124, 255, 178, 0.1) 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-energy);
+            backdrop-filter: blur(10px);
+            animation: badgePulse 3s ease-in-out infinite;
+        }
+
+        /* ==================== MAIN CONTENT SECTION ==================== */
+        .main-section {
+            position: relative;
+            padding: 4rem 0;
+            background: rgba(12, 17, 23, 0.8);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+            border-radius: 2px;
+        }
+
+        .section-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 4rem;
+            text-align: center;
+            line-height: 1.7;
+        }
+
+        /* ==================== PROJECTS GRID ==================== */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        @media (max-width: 1100px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* ==================== PROJECT CARD ==================== */
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-slow);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s var(--ease-slow) forwards;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+        .project-card:nth-child(3) { animation-delay: 0.3s; }
+        .project-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+            opacity: 0;
+            transition: opacity 0.4s var(--ease-slow);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Project Image */
+        .project-image {
+            height: 280px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, 
+                rgba(184, 178, 167, 0.1), 
+                rgba(124, 255, 178, 0.1));
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--ease-slow);
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+        }
+
+        .project-image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(12, 17, 23, 0.9) 100%
+            );
+            display: flex;
+            align-items: flex-end;
+            padding: 1.2rem;
+        }
+
+        .project-type {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(184, 178, 167, 0.15);
+            color: var(--accent-primary);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Project Content */
+        .project-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.3;
+            flex: 1;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            font-size: 0.9rem;
+            flex-grow: 1;
+        }
+
+        /* Cloud Provider Badges */
+        .cloud-provider {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.9rem;
+            background: rgba(184, 178, 167, 0.1);
+            border: 1px solid rgba(184, 178, 167, 0.2);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            font-family: var(--font-mono);
+            margin-left: 1rem;
+            flex-shrink: 0;
+        }
+
+        .cloud-provider.aws { 
+            background: rgba(255, 153, 0, 0.1); 
+            border-color: rgba(255, 153, 0, 0.2);
+            color: #FF9900;
+        }
+
+        .cloud-provider.azure { 
+            background: rgba(0, 120, 212, 0.1); 
+            border-color: rgba(0, 120, 212, 0.2);
+            color: #0078D4;
+        }
+
+        .cloud-provider.gcp { 
+            background: rgba(66, 133, 244, 0.1); 
+            border-color: rgba(66, 133, 244, 0.2);
+            color: #4285F4;
+        }
+
+        .cloud-provider.github { 
+            background: rgba(36, 41, 46, 0.1); 
+            border-color: rgba(36, 41, 46, 0.2);
+            color: #24292E;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .tech-tag {
+            padding: 0.3rem 0.7rem;
+            background: rgba(184, 178, 167, 0.08);
+            border: 1px solid rgba(184, 178, 167, 0.15);
+            border-radius: 15px;
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            font-weight: 500;
+            font-family: var(--font-mono);
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .tech-tag:hover {
+            background: rgba(124, 255, 178, 0.15);
+            color: var(--accent-energy);
+            transform: translateY(-1px);
+        }
+
+        /* Key Capabilities */
+        .capabilities {
+            margin-bottom: 1.2rem;
+        }
+
+        .capability-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .capability-item i {
+            color: var(--accent-energy);
+            font-size: 0.8rem;
+            width: 16px;
+        }
+
+        /* Project Tags Section */
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(184, 178, 167, 0.1);
+        }
+
+        .project-tag {
+            padding: 0.25rem 0.6rem;
+            background: rgba(124, 255, 178, 0.1);
+            border: 1px solid rgba(124, 255, 178, 0.2);
+            border-radius: 12px;
+            font-size: 0.7rem;
+            color: var(--accent-energy);
+            font-weight: 500;
+            font-family: var(--font-mono);
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .project-tag:hover {
+            background: rgba(124, 255, 178, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* Project Actions */
+        .project-actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: auto;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.4s var(--ease-slow);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            position: relative;
+            overflow: hidden;
+            flex: 1;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-github {
+            background: rgba(184, 178, 167, 0.05);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .btn-github:hover {
+            background: rgba(184, 178, 167, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn-icon {
+            transition: transform 0.4s var(--ease-slow);
+        }
+
+        .btn:hover .btn-icon {
+            transform: translateX(3px);
+        }
+
+        /* ==================== PLATFORM COMPARISON SECTION ==================== */
+        .platform-comparison {
+            margin-top: 4rem;
+            padding: 3rem;
+            background: linear-gradient(
+                135deg,
+                rgba(22, 31, 43, 0.8) 0%,
+                rgba(12, 17, 23, 0.8) 100%
+            );
+            border-radius: 20px;
+            border: 1px solid var(--line-subtle);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .platform-comparison::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                var(--accent-primary), 
+                var(--accent-energy), 
+                transparent
+            );
+            opacity: 0.5;
+        }
+
+        .comparison-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 2.5rem;
+            color: var(--text-primary);
+            text-align: center;
+            position: relative;
+        }
+
+        .comparison-title::after {
+            content: '';
+            position: absolute;
+            bottom: -0.75rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: var(--accent-primary);
+            opacity: 0.7;
+        }
+
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 992px) {
+            .platforms-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .platforms-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .platform-item {
+            background: rgba(12, 17, 23, 0.6);
+            border: 1px solid var(--line-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.4s var(--ease-slow);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .platform-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                var(--accent-primary),
+                var(--accent-energy)
+            );
+            opacity: 0;
+            transition: opacity 0.4s var(--ease-slow);
+        }
+
+        .platform-item:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-3px);
+        }
+
+        .platform-item:hover::before {
+            opacity: 1;
+        }
+
+        .platform-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, 
+                rgba(184, 178, 167, 0.1) 0%,
+                rgba(124, 255, 178, 0.1) 100%);
+            color: var(--accent-primary);
+            border: 2px solid var(--glass-border);
+            transition: all 0.4s var(--ease-slow);
+        }
+
+        .platform-item:hover .platform-icon {
+            background: var(--accent-primary);
+            color: var(--bg-main);
+            transform: scale(1.1);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 20px rgba(184, 178, 167, 0.3);
+        }
+
+        .platform-name {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-family: var(--font-mono);
+        }
+
+        .platform-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Pipeline Principles */
+        .principles-grid {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .principles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .principle {
+            background: rgba(12, 17, 23, 0.6);
+            border: 1px solid var(--line-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.4s var(--ease-slow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .principle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                var(--accent-primary),
+                var(--accent-energy)
+            );
+            opacity: 0;
+            transition: opacity 0.4s var(--ease-slow);
+        }
+
+        .principle:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-3px);
+        }
+
+        .principle:hover::before {
+            opacity: 1;
+        }
+
+        .principle-title {
+            font-size: 1rem;
+            color: var(--accent-primary);
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-family: var(--font-mono);
+        }
+
+        .principle-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ==================== TERMINAL VISUALIZATION ==================== */
+        .terminal-section {
+            margin-top: 5rem;
+            text-align: center;
+        }
+
+        .terminal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 2.5rem;
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .terminal-title::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+        }
+
+        .terminal-window {
+            width: 100%;
+            max-width: 800px;
+            height: 320px;
+            margin: 0 auto;
+            background: rgba(12, 17, 23, 0.95);
+            border: 1px solid var(--line-subtle);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            font-family: var(--font-mono);
+        }
+
+        .terminal-header {
+            background: rgba(22, 31, 43, 0.95);
+            padding: 0.8rem 1.2rem;
+            border-bottom: 1px solid var(--line-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .terminal-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .terminal-dot.red { 
+            background: #FF5F56;
+            border: 1px solid rgba(255, 95, 86, 0.3);
+        }
+        .terminal-dot.red:hover { 
+            background: #ff3d32;
+            box-shadow: 0 0 8px rgba(255, 95, 86, 0.3);
+        }
+
+        .terminal-dot.yellow { 
+            background: #FFBD2E;
+            border: 1px solid rgba(255, 189, 46, 0.3);
+        }
+        .terminal-dot.yellow:hover { 
+            background: #ffab00;
+            box-shadow: 0 0 8px rgba(255, 189, 46, 0.3);
+        }
+
+        .terminal-dot.green { 
+            background: #27CA40;
+            border: 1px solid rgba(39, 202, 64, 0.3);
+        }
+        .terminal-dot.green:hover { 
+            background: #1db336;
+            box-shadow: 0 0 8px rgba(39, 202, 64, 0.3);
+        }
+
+        .terminal-window-title {
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .terminal-content {
+            padding: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            text-align: left;
+            overflow: hidden;
+            height: calc(100% - 54px);
+            background: 
+                repeating-linear-gradient(
+                    transparent,
+                    transparent 23px,
+                    rgba(184, 178, 167, 0.03) 23px,
+                    rgba(184, 178, 167, 0.03) 24px
+                );
+        }
+
+        .terminal-line {
+            margin-bottom: 0.4rem;
+            opacity: 0;
+            animation: terminalTyping 0.5s forwards;
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            min-height: 20px;
+        }
+
+        .terminal-line:nth-child(1) { animation-delay: 0.2s; }
+        .terminal-line:nth-child(2) { animation-delay: 0.4s; }
+        .terminal-line:nth-child(3) { animation-delay: 0.8s; }
+        .terminal-line:nth-child(4) { animation-delay: 1.2s; }
+        .terminal-line:nth-child(5) { animation-delay: 1.6s; }
+        .terminal-line:nth-child(6) { animation-delay: 2.0s; }
+        .terminal-line:nth-child(7) { animation-delay: 2.4s; }
+        .terminal-line:nth-child(8) { animation-delay: 2.8s; }
+        .terminal-line:nth-child(9) { animation-delay: 3.2s; }
+
+        .terminal-prompt {
+            color: var(--accent-energy);
+            font-weight: 600;
+            flex-shrink: 0;
+            min-width: 15px;
+        }
+
+        .terminal-command {
+            color: var(--accent-primary);
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .terminal-output {
+            color: var(--text-secondary);
+            flex: 1;
+        }
+
+        .terminal-success {
+            color: var(--accent-energy);
+            font-weight: 600;
+        }
+
+        .terminal-warning {
+            color: #FFBD2E;
+            font-weight: 500;
+        }
+
+        .terminal-icon {
+            color: var(--accent-energy);
+            margin-right: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .terminal-line.success .terminal-icon {
+            color: var(--accent-energy);
+            animation: pulse 2s infinite;
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background-color: var(--accent-energy);
+            margin-left: 2px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        /* ==================== FLOATING ELEMENTS ==================== */
+        .floating-element {
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.08;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, var(--accent-primary), transparent);
+            animation: cloudNode 25s infinite ease-in-out;
+        }
+
+        .floating-element:nth-child(2) {
+            top: 60%;
+            right: 10%;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, transparent, var(--accent-energy));
+            animation: cloudNode 30s infinite ease-in-out reverse;
+            animation-delay: 5s;
+        }
+
+        .floating-element:nth-child(3) {
+            bottom: 20%;
+            left: 15%;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-energy));
+            animation: cloudNode 20s infinite ease-in-out;
+            animation-delay: 10s;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            text-align: center;
+            padding: 5rem 0 6rem;
+            position: relative;
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                rgba(12, 17, 23, 0.3) 20%,
+                rgba(12, 17, 23, 0.6) 100%
+            );
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 600px;
+            height: 1px;
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                var(--accent-primary), 
+                var(--accent-energy), 
+                transparent
+            );
+            opacity: 0.3;
+        }
+
+        .footer-message {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .contact-btn {
+            background: linear-gradient(
+                135deg,
+                rgba(184, 178, 167, 0.1) 0%,
+                rgba(124, 255, 178, 0.1) 100%
+            );
+            border: 1px solid var(--glass-border);
+            color: var(--accent-primary);
+            padding: 1.2rem 3rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.4s var(--ease-slow);
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(124, 255, 178, 0.1),
+                transparent
+            );
+            transition: left 0.6s var(--ease-slow);
+        }
+
+        .contact-btn:hover {
+            background: linear-gradient(
+                135deg,
+                rgba(184, 178, 167, 0.2) 0%,
+                rgba(124, 255, 178, 0.2) 100%
+            );
+            transform: translateY(-3px);
+            border-color: var(--accent-energy);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-btn:hover::before {
+            left: 100%;
+        }
+
+        .contact-btn i {
+            transition: transform 0.4s var(--ease-slow);
+        }
+
+        .contact-btn:hover i {
+            transform: translateX(5px) translateY(-2px);
+        }
+
+        .contact-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 992px) {
+            .platforms-grid {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 2rem;
+            }
+            
+            .platform-item {
+                flex: 0 0 calc(50% - 1rem);
+            }
+            
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+            
+            .page-header {
+                padding: 3rem 0 2rem;
+            }
+            
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .page-subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                max-width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .project-content {
+                padding: 1.2rem;
+            }
+            
+            .project-title {
+                font-size: 1.2rem;
+            }
+            
+            .project-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .platform-comparison {
+                padding: 2rem;
+            }
+            
+            .platform-item {
+                flex: 0 0 100%;
+                margin-bottom: 1.5rem;
+            }
+            
+            .terminal-window {
+                height: 320px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .project-title {
+                font-size: 1.1rem;
+            }
+            
+            .project-image {
+                height: 160px;
+            }
+            
+            .tech-stack {
+                gap: 0.4rem;
+            }
+            
+            .tech-tag {
+                padding: 0.25rem 0.6rem;
+                font-size: 0.7rem;
+            }
+            
+            .project-actions {
+                gap: 0.6rem;
+            }
+            
+            .platform-item {
+                flex: 0 0 100%;
+            }
+            
+            .platform-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            
+            .platform-name {
+                font-size: 1rem;
+            }
+            
+            .terminal-window {
+                height: 360px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Elements -->
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Page Header -->
+        <header class="page-header">
+            <div class="container">
+                <h1 class="page-title">CI/CD AUTOMATION &amp; PLATFORM ENGINEERING</h1>
+                <h3 class="page-subtitle">Production-style CI/CD pipelines across Azure, GitHub, AWS, and GCP using Pipeline/Workflow as Code</h3>
+                
+                <p class="page-intro">
+                    Designing and implementing production-style CI/CD pipelines across multiple cloud platforms with governance controls, security integration, and environment-based deployments. These projects demonstrate the same CI/CD capability implemented across multiple platforms, highlighting agnostic design, governance awareness, and production-ready automation.
+                </p>
+                
+                <div class="infra-badge">
+                    <i class="fas fa-server"></i>
+                    <span>Pipeline as Code · Multi-Cloud Governance · Production Automation · Security-First CI/CD</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Section -->
+        <section class="main-section">
+            <div class="container">
+                <h2 class="section-title">Multi-Cloud CI/CD Projects</h2>
+                <p class="section-description">
+                    Four production-grade CI/CD implementations across major cloud platforms, each demonstrating Pipeline/Workflow as Code, governance controls, and environment-based deployments.
+                </p>
+                
+                <div class="projects-grid">
+                    <!-- Project 1: Enterprise CI/CD on Azure -->
+                    <article class="project-card" onclick="window.location.href='./CI-CD/azure-devops-ci-cd-pipeline-yaml'" style="opacity: 1; transform: translateY(0px);">
+                        <div class="project-image">
+                            <div class="project-image-overlay">
+                                <span class="project-type">Enterprise CI/CD</span>
+                            </div>
+                            <img src="../img/Cicd/banner1.webp" alt="Azure DevOps CI/CD">
+                        </div>
+                        
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">Enterprise CI/CD on Azure</h3>
+                                <div class="cloud-provider azure">Azure</div>
+                            </div>
+                            
+                            <p class="project-description">
+                                Azure DevOps CI/CD – Pipeline as Code (YAML) with manual approval gates, environment-based governance, and Azure Static Web App deployment.
+                            </p>
+                            
+                            <div class="tech-stack">
+                                <span class="tech-tag">Azure DevOps</span>
+                                <span class="tech-tag">YAML Pipelines</span>
+                                <span class="tech-tag">Static Web Apps</span>
+                                <span class="tech-tag">Manual Gates</span>
+                            </div>
+
+                            <div class="project-tags">
+                                <span class="project-tag">Pipeline as Code</span>
+                                <span class="project-tag">Governance &amp; Approvals</span>
+                                <span class="project-tag">Multi-Stage Deployments</span>
+                                <span class="project-tag">Cloud-Native CI/CD</span>
+                            </div>
+                            
+                            <div class="capabilities">
+                                <div class="capability-item">
+                                    <i class="fas fa-code"></i>
+                                    <span>Pipeline as Code (YAML)</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>Manual approval gates</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-sitemap"></i>
+                                    <span>Environment-based governance</span>
+                                </div>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <a href="./CI-CD/azure-devops-ci-cd-pipeline-yaml" class="btn btn-github">
+                                    <i class="fas fa-external-link-alt btn-icon"></i>
+                                    <span>View Project</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 2: Developer Platform CI/CD on GitHub -->
+                    <article class="project-card" onclick="window.location.href='./CI-CD/github-actions-ci-cd-pipeline-yaml'" style="opacity: 1; transform: translateY(0px);">
+                        <div class="project-image">
+                            <div class="project-image-overlay">
+                                <span class="project-type">Developer Platform</span>
+                            </div>
+                            <img src="../img/Cicd/banner2.webp" alt="GitHub Actions CI/CD">
+                        </div>
+                        
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">Developer Platform CI/CD</h3>
+                                <div class="cloud-provider github">GitHub</div>
+                            </div>
+                            
+                            <p class="project-description">
+                                GitHub Actions CI/CD – Workflow as Code with event-driven automation, branch protection &amp; PR-based governance, and GitHub Pages deployment.
+                            </p>
+                            
+                            <div class="tech-stack">
+                                <span class="tech-tag">GitHub Actions</span>
+                                <span class="tech-tag">Workflow as Code</span>
+                                <span class="tech-tag">GitHub Pages</span>
+                                <span class="tech-tag">Event-driven</span>
+                            </div>
+
+                            <div class="project-tags">
+                                <span class="project-tag">Pipeline as Code</span>
+                                <span class="project-tag">Governance &amp; Approvals</span>
+                                <span class="project-tag">Secrets &amp; Identity</span>
+                                <span class="project-tag">Cloud-Native CI/CD</span>
+                            </div>
+                            
+                            <div class="capabilities">
+                                <div class="capability-item">
+                                    <i class="fab fa-github"></i>
+                                    <span>GitHub Actions workflows</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-code-branch"></i>
+                                    <span>Branch protection &amp; PR governance</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>Event-driven automation</span>
+                                </div>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <a href="./CI-CD/github-actions-ci-cd-pipeline-yaml" class="btn btn-github">
+                                    <i class="fas fa-external-link-alt btn-icon"></i>
+                                    <span>View Project</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 3: Cloud-Native CI/CD on AWS -->
+                    <article class="project-card" onclick="window.location.href='./CI-CD/aws-cicd-pipeline-devops'" style="opacity: 1; transform: translateY(0px);">
+                        <div class="project-image">
+                            <div class="project-image-overlay">
+                                <span class="project-type">Cloud-Native</span>
+                            </div>
+                            <img src="../img/Cicd/banner4.webp" alt="AWS Cloud-Native CI/CD">
+                        </div>
+                        
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">Cloud-Native CI/CD on AWS</h3>
+                                <div class="cloud-provider aws">AWS</div>
+                            </div>
+                            
+                            <p class="project-description">
+                                AWS CI/CD (CodePipeline / GitHub Actions / SageMaker / ECS / Lambda) with IAM-based security, artifact &amp; model deployment, and production-style cloud workflows.
+                            </p>
+                            
+                            <div class="tech-stack">
+                                <span class="tech-tag">AWS CodePipeline</span>
+                                <span class="tech-tag">IAM Security</span>
+                                <span class="tech-tag">ECS/Lambda</span>
+                                <span class="tech-tag">SageMaker</span>
+                            </div>
+
+                            <div class="project-tags">
+                                <span class="project-tag">Pipeline as Code</span>
+                                <span class="project-tag">Secrets &amp; Identity</span>
+                                <span class="project-tag">Multi-Stage Deployments</span>
+                                <span class="project-tag">Cloud-Native CI/CD</span>
+                            </div>
+                            
+                            <div class="capabilities">
+                                <div class="capability-item">
+                                    <i class="fas fa-lock"></i>
+                                    <span>IAM-based security</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-box"></i>
+                                    <span>Artifact &amp; model deployment</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-cloud"></i>
+                                    <span>Production cloud workflows</span>
+                                </div>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <a href="./CI-CD/aws-cicd-pipeline-devops" class="btn btn-github">
+                                    <i class="fas fa-external-link-alt btn-icon"></i>
+                                    <span>View Project</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 4: Cloud-Native CI/CD on GCP -->
+                    <article class="project-card" onclick="window.location.href='./CI-CD/gcp-cloud-build-ci-cd-pipeline-yaml'" style="opacity: 1; transform: translateY(0px);">
+                        <div class="project-image">
+                            <div class="project-image-overlay">
+                                <span class="project-type">Cloud-Native</span>
+                            </div>
+                            <img src="../img/Cicd/banner3.webp" alt="GCP Cloud-Native CI/CD">
+                        </div>
+                        
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">Cloud-Native CI/CD on GCP</h3>
+                                <div class="cloud-provider gcp">GCP</div>
+                            </div>
+                            
+                            <p class="project-description">
+                                GCP CI/CD (Cloud Build / GitHub Actions / Vertex AI / GKE) with service-account-based security, environment separation, and cloud-native deployment strategy.
+                            </p>
+                            
+                            <div class="tech-stack">
+                                <span class="tech-tag">Cloud Build</span>
+                                <span class="tech-tag">Service Accounts</span>
+                                <span class="tech-tag">Vertex AI</span>
+                                <span class="tech-tag">GKE</span>
+                            </div>
+
+                            <div class="project-tags">
+                                <span class="project-tag">Pipeline as Code</span>
+                                <span class="project-tag">Secrets &amp; Identity</span>
+                                <span class="project-tag">Multi-Stage Deployments</span>
+                                <span class="project-tag">Cloud-Native CI/CD</span>
+                            </div>
+                            
+                            <div class="capabilities">
+                                <div class="capability-item">
+                                    <i class="fas fa-user-shield"></i>
+                                    <span>Service-account-based security</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-layer-group"></i>
+                                    <span>Environment separation</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-rocket"></i>
+                                    <span>Cloud-native deployment</span>
+                                </div>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <a href="./CI-CD/gcp-cloud-build-ci-cd-pipeline-yaml" class="btn btn-github">
+                                    <i class="fas fa-external-link-alt btn-icon"></i>
+                                    <span>View Project</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+
+                    <!-- Project: CI/CD Platform Engineering using AWS CDK -->
+<article class="project-card" onclick="window.location.href='./CI-CD/aws-cicd-pipeline-devops'" style="opacity: 1; transform: translateY(0px);">
+    <div class="project-image">
+        <div class="project-image-overlay">
+            <span class="project-type">Platform Engineering</span>
+        </div>
+        <img src="/img/GitHub Actions.webp" alt="AWS CDK CI/CD Platform Engineering">
+    </div>
+    
+    <div class="project-content">
+        <div class="project-header">
+            <h3 class="project-title">CI/CD Platform Engineering using AWS CDK</h3>
+            <div class="cloud-provider aws">AWS</div>
+        </div>
+        
+        <p class="project-description">
+            Provisioned a production-style CI/CD platform on AWS using CDK (Python),
+            integrating GitHub, CodePipeline, CodeBuild, IAM, Secrets Manager, and S3
+            through Infrastructure as Code for reproducible and secure deployments.
+        </p>
+        
+        <div class="tech-stack">
+            <span class="tech-tag">AWS CDK (Python)</span>
+            <span class="tech-tag">CodePipeline</span>
+            <span class="tech-tag">CodeBuild</span>
+            <span class="tech-tag">IAM</span>
+            <span class="tech-tag">S3</span>
+        </div>
+
+        <div class="project-tags">
+            <span class="project-tag">Infrastructure as Code</span>
+            <span class="project-tag">Pipeline as Code</span>
+            <span class="project-tag">Multi-Stage CI/CD</span>
+            <span class="project-tag">Platform Engineering</span>
+        </div>
+        
+        <div class="capabilities">
+            <div class="capability-item">
+                <i class="fas fa-lock"></i>
+                <span>IAM roles &amp; least-privilege security</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-box"></i>
+                <span>Artifact storage via Amazon S3</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-cogs"></i>
+                <span>Reproducible CI/CD via AWS CDK</span>
+            </div>
+        </div>
+        
+        <div class="project-actions">
+            <a href="./CI-CD/cicd-project5" class="btn btn-github">
+                <i class="fas fa-external-link-alt btn-icon"></i>
+                <span>View Project</span>
+            </a>
+        </div>
+    </div>
+</article>
+
+                </div>
+
+                <!-- Platform Comparison Section -->
+                <div class="platform-comparison">
+                    <h3 class="comparison-title">Multi-Cloud Platform Capabilities</h3>
+                    
+                    <div class="platforms-grid" style="opacity: 1; transform: translateY(0px);">
+                        <div class="platform-item" style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow);">
+                            <div class="platform-icon">
+                                <i class="fab fa-microsoft"></i>
+                            </div>
+                            <h4 class="platform-name">Azure</h4>
+                            <p class="platform-desc">
+                                Azure DevOps CI/CD – Pipeline as Code (YAML) with manual approval gates and environment-based governance
+                            </p>
+                        </div>
+                        
+                        <div class="platform-item" style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow);">
+                            <div class="platform-icon">
+                                <i class="fab fa-github"></i>
+                            </div>
+                            <h4 class="platform-name">GitHub</h4>
+                            <p class="platform-desc">
+                                GitHub Actions – Workflow as Code with event-driven automation and PR-based governance
+                            </p>
+                        </div>
+                        
+                        <div class="platform-item" style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow);">
+                            <div class="platform-icon">
+                                <i class="fab fa-aws"></i>
+                            </div>
+                            <h4 class="platform-name">AWS</h4>
+                            <p class="platform-desc">
+                                AWS CI/CD with IAM-based security, artifact management, and production-style cloud workflows
+                            </p>
+                        </div>
+                        
+                        <div class="platform-item" style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow);">
+                            <div class="platform-icon">
+                                <i class="fab fa-google"></i>
+                            </div>
+                            <h4 class="platform-name">GCP</h4>
+                            <p class="platform-desc">
+                                GCP CI/CD with service-account-based security, environment separation, and cloud-native deployment
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="principles-grid">
+                        <div class="principle">
+                            <h4 class="principle-title">PIPELINE AS CODE</h4>
+                            <p class="principle-desc">YAML-based pipeline definitions, version-controlled and repeatable across all cloud platforms.</p>
+                        </div>
+                        
+                        <div class="principle">
+                            <h4 class="principle-title">GOVERNANCE AWARENESS</h4>
+                            <p class="principle-desc">Manual approval gates, branch protection, and environment-based controls for production deployments.</p>
+                        </div>
+                        
+                        <div class="principle">
+                            <h4 class="principle-title">SECURITY-FIRST CI/CD</h4>
+                            <p class="principle-desc">IAM policies, service accounts, and secrets management integrated into every pipeline stage.</p>
+                        </div>
+                        
+                        <div class="principle">
+                            <h4 class="principle-title">CLOUD-NATIVE AUTOMATION</h4>
+                            <p class="principle-desc">Platform-specific native services leveraged for optimal performance and integration.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terminal Visualization -->
+                <div class="terminal-section">
+                    <h3 class="terminal-title">CI/CD Automation Pipeline</h3>
+                    
+                    <div class="terminal-window" style="opacity: 1; transform: translateY(0px);">
+                        <div class="terminal-header">
+                            <div class="terminal-controls">
+                                <div class="terminal-dot red"></div>
+                                <div class="terminal-dot yellow"></div>
+                                <div class="terminal-dot green"></div>
+                            </div>
+                            <span class="terminal-window-title">ci-cd-pipeline.sh</span>
+                            <div style="width: 80px;"></div> <!-- Spacer for balance -->
+                        </div>
+                        
+                        <div class="terminal-content">
+                            <div class="terminal-line" style="animation-play-state: running;">
+                                <span class="terminal-prompt">$</span>
+                                <span class="terminal-command">git push origin main</span>
+                                <span class="terminal-cursor" style="opacity: 1;"></span>
+                            </div>
+                            <div class="terminal-line" style="animation-play-state: running;">
+                                <span class="terminal-output">Triggering CI/CD pipeline...</span>
+                            </div>
+                            <div class="terminal-line success" style="animation-play-state: running;">
+                                <span class="terminal-icon">✓</span>
+                                <span class="terminal-output">Code checkout completed</span>
+                            </div>
+                            <div class="terminal-line success" style="animation-play-state: running;">
+                                <span class="terminal-icon">✓</span>
+                                <span class="terminal-output">Build and test completed</span>
+                            </div>
+                            <div class="terminal-line success" style="animation-play-state: running;">
+                                <span class="terminal-icon">✓</span>
+                                <span class="terminal-output">Security scanning passed</span>
+                            </div>
+                            <div class="terminal-line success" style="animation-play-state: running;">
+                                <span class="terminal-icon">✓</span>
+                                <span class="terminal-output">Deployment to staging environment</span>
+                            </div>
+                            <div class="terminal-line" style="animation-play-state: running;">
+                                <span class="terminal-warning">⏸️</span>
+                                <span class="terminal-output">Manual approval required for production</span>
+                            </div>
+                            <div class="terminal-line" style="animation-play-state: running;">
+                                <span class="terminal-success">🚀 Application deployed successfully!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-message">
+                Ready to implement enterprise-grade CI/CD across multiple cloud platforms? Let's architect production-ready automation pipelines with governance and security at their core.
+            </p>
+            <a href="/index#contact" class="contact-btn">
+                <span>Discuss CI/CD Strategy</span>
+                <i class="fas fa-paper-plane"></i>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Project card interactions
+            const projectCards = document.querySelectorAll('.project-card');
+            
+            projectCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    const icon = card.querySelector('.btn-icon');
+                    if (icon) {
+                        icon.style.transform = 'translateX(3px)';
+                    }
+                    
+                    // Animate tags
+                    const tags = card.querySelectorAll('.project-tag');
+                    tags.forEach((tag, index) => {
+                        setTimeout(() => {
+                            tag.style.transform = 'translateY(-2px)';
+                        }, index * 50);
+                    });
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    const icon = card.querySelector('.btn-icon');
+                    if (icon) {
+                        icon.style.transform = 'translateX(0)';
+                    }
+                    
+                    // Reset tags
+                    const tags = card.querySelectorAll('.project-tag');
+                    tags.forEach(tag => {
+                        tag.style.transform = 'translateY(0)';
+                    });
+                });
+
+                // Click navigation
+                card.addEventListener('click', (e) => {
+                    // Only navigate if not clicking on a link inside
+                    if (!e.target.closest('a')) {
+                        const projectLink = card.querySelector('a.btn-github');
+                        if (projectLink && projectLink.href) {
+                            window.location.href = projectLink.href;
+                        }
+                    }
+                });
+            });
+            
+            // Animate elements on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        
+                        // Animate terminal lines
+                        if (entry.target.classList.contains('terminal-window')) {
+                            const lines = entry.target.querySelectorAll('.terminal-line');
+                            lines.forEach((line, index) => {
+                                setTimeout(() => {
+                                    line.style.animationPlayState = 'running';
+                                }, index * 300);
+                            });
+                        }
+
+                        // Animate platform items
+                        if (entry.target.classList.contains('platforms-grid')) {
+                            const items = entry.target.querySelectorAll('.platform-item');
+                            items.forEach((item, index) => {
+                                setTimeout(() => {
+                                    item.style.opacity = '1';
+                                    item.style.transform = 'translateY(0)';
+                                }, index * 200);
+                            });
+                        }
+                    }
+                });
+            }, observerOptions);
+            
+            projectCards.forEach(card => {
+                observer.observe(card);
+            });
+            
+            // Animate platform comparison items
+            const platformItems = document.querySelectorAll('.platform-item');
+            platformItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    item.style.transition = 'opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow)';
+                }, index * 200);
+            });
+
+            // Observe platform grid
+            const platformsGrid = document.querySelector('.platforms-grid');
+            if (platformsGrid) {
+                observer.observe(platformsGrid);
+            }
+            
+            // Terminal animation
+            const terminalWindow = document.querySelector('.terminal-window');
+            if (terminalWindow) {
+                observer.observe(terminalWindow);
+            }
+            
+            // Cloud provider badges hover effect
+            const cloudBadges = document.querySelectorAll('.cloud-provider');
+            cloudBadges.forEach(badge => {
+                badge.addEventListener('mouseenter', () => {
+                    badge.style.transform = 'scale(1.05)';
+                    badge.style.transition = 'transform 0.3s var(--ease-slow)';
+                });
+                
+                badge.addEventListener('mouseleave', () => {
+                    badge.style.transform = 'scale(1)';
+                });
+            });
+            
+            // Tech tags hover effect
+            const techTags = document.querySelectorAll('.tech-tag');
+            techTags.forEach(tag => {
+                tag.addEventListener('mouseenter', () => {
+                    tag.style.transform = 'translateY(-2px)';
+                    tag.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+                });
+                
+                tag.addEventListener('mouseleave', () => {
+                    tag.style.transform = 'translateY(0)';
+                    tag.style.boxShadow = 'none';
+                });
+            });
+
+            // Project tags hover effect
+            const projectTags = document.querySelectorAll('.project-tag');
+            projectTags.forEach(tag => {
+                tag.addEventListener('mouseenter', () => {
+                    tag.style.transform = 'translateY(-2px)';
+                    tag.style.boxShadow = '0 4px 12px rgba(124, 255, 178, 0.1)';
+                });
+                
+                tag.addEventListener('mouseleave', () => {
+                    tag.style.transform = 'translateY(0)';
+                    tag.style.boxShadow = 'none';
+                });
+            });
+            
+            // Platform item hover effects
+            platformItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    const icon = item.querySelector('.platform-icon');
+                    const name = item.querySelector('.platform-name');
+                    
+                    if (icon) {
+                        icon.style.transform = 'scale(1.1)';
+                        icon.style.transition = 'all 0.3s var(--ease-slow)';
+                    }
+                    
+                    if (name) {
+                        name.style.color = 'var(--accent-energy)';
+                        name.style.transition = 'color 0.3s var(--ease-slow)';
+                    }
+                });
+                
+                item.addEventListener('mouseleave', () => {
+                    const icon = item.querySelector('.platform-icon');
+                    const name = item.querySelector('.platform-name');
+                    
+                    if (icon) {
+                        icon.style.transform = 'scale(1)';
+                    }
+                    
+                    if (name) {
+                        name.style.color = '';
+                    }
+                });
+            });
+
+            // Terminal cursor animation
+            const terminalCursor = document.querySelector('.terminal-cursor');
+            if (terminalCursor) {
+                let isCursorVisible = true;
+                setInterval(() => {
+                    isCursorVisible = !isCursorVisible;
+                    terminalCursor.style.opacity = isCursorVisible ? '1' : '0';
+                }, 500);
+            }
+
+            // Terminal line animation on scroll
+            if (terminalWindow) {
+                const terminalObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const lines = entry.target.querySelectorAll('.terminal-line');
+                            lines.forEach((line, index) => {
+                                setTimeout(() => {
+                                    line.style.animationPlayState = 'running';
+                                }, index * 300);
+                            });
+                            
+                            // Start cursor blinking after all lines appear
+                            setTimeout(() => {
+                                if (terminalCursor) {
+                                    terminalCursor.style.animation = 'blink 1s infinite';
+                                }
+                            }, lines.length * 300);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                terminalObserver.observe(terminalWindow);
+            }
+
+            // Terminal control dots hover effect
+            const terminalDots = document.querySelectorAll('.terminal-dot');
+            terminalDots.forEach(dot => {
+                dot.addEventListener('mouseenter', () => {
+                    dot.style.transform = 'scale(1.2)';
+                });
+                
+                dot.addEventListener('mouseleave', () => {
+                    dot.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+
+</body></html>

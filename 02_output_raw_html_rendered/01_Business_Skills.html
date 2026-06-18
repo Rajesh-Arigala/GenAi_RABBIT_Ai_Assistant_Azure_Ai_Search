@@ -1,0 +1,549 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Leadership — Rajesh Arigala</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&amp;family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&amp;family=DM+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+
+:root{
+  --bg:    #08090c;--bg1:#0c0e14;--bg2:#12151e;--bg3:#181c28;--bg4:#1e2332;
+  --g:     #c9a84c;--g2:#e2c278;--g3:#f0d99a;--gdim:rgba(201,168,76,0.1);
+  --bord:  rgba(255,255,255,0.06);--bord2:rgba(201,168,76,0.18);--bord3:rgba(201,168,76,0.38);
+  --text:  #dde4ee;--t2:#7485a0;--t3:#3a4a62;--white:#f8f6f2;
+  --fh:'Syne',sans-serif;--fb:'DM Sans',sans-serif;--fm:'DM Mono',monospace;
+}
+
+body{background:var(--bg);color:var(--text);font-family:var(--fb);font-weight:300;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--g);border-radius:2px}
+
+/* CURSOR */
+.cglow{pointer-events:none;position:fixed;top:0;left:0;width:650px;height:650px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,0.05) 0%,transparent 68%);transform:translate(-50%,-50%);z-index:0;transition:transform 0.06s linear}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:1.1rem 3rem;display:flex;align-items:center;justify-content:space-between;transition:all 0.4s}
+nav.scrolled{background:rgba(8,9,12,0.94);backdrop-filter:blur(24px);border-bottom:1px solid var(--bord)}
+.nav-logo{font-family:var(--fh);font-size:0.9rem;font-weight:700;letter-spacing:0.04em;color:var(--white);display:flex;align-items:center;gap:0.6rem}
+.nav-logo-dot{width:6px;height:6px;border-radius:50%;background:var(--g2);box-shadow:0 0 8px var(--g)}
+.nav-links{display:flex;gap:0.2rem;list-style:none}
+.nav-links a{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--t2);padding:0.35rem 0.75rem;border-radius:100px;transition:all 0.2s}
+.nav-links a:hover{color:var(--g2);background:var(--gdim)}
+.nav-cta{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.38rem 1rem;border:1px solid var(--bord2);border-radius:100px;color:var(--g2);transition:all 0.3s}
+.nav-cta:hover{background:var(--gdim)}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding:0 3rem}
+.hero-bg{position:absolute;inset:0;
+  background:radial-gradient(ellipse 90% 70% at 65% 35%,rgba(201,168,76,0.07) 0%,transparent 55%),
+  radial-gradient(ellipse 55% 50% at 5% 65%,rgba(30,55,110,0.12) 0%,transparent 55%),
+  radial-gradient(ellipse 45% 45% at 95% 80%,rgba(80,30,100,0.08) 0%,transparent 55%),
+  linear-gradient(180deg,var(--bg) 0%,var(--bg1) 100%)}
+.hero-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(201,168,76,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.025) 1px,transparent 1px);
+  background-size:75px 75px;mask-image:radial-gradient(ellipse 100% 100% at 50% 40%,black 10%,transparent 100%)}
+.hero-noise{position:absolute;inset:0;opacity:0.02;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.orb{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none}
+.orb1{width:550px;height:550px;background:rgba(201,168,76,0.06);top:-120px;right:-60px;animation:orbFloat 20s ease-in-out infinite}
+.orb2{width:400px;height:400px;background:rgba(30,50,150,0.07);bottom:-100px;left:-80px;animation:orbFloat 25s ease-in-out infinite reverse 2s}
+.orb3{width:280px;height:280px;background:rgba(100,30,130,0.05);top:30%;left:40%;animation:orbFloat 17s ease-in-out 5s infinite}
+
+.hero-content{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;max-width:1280px;margin:0 auto;width:100%;padding-top:5rem}
+
+.hero-eyebrow{display:inline-flex;align-items:center;gap:0.8rem;margin-bottom:2rem;opacity:0;animation:fadeUp 0.8s ease 0.15s forwards}
+.eline{width:28px;height:1px;background:var(--g)}
+.etext{font-family:var(--fm);font-size:0.62rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--g)}
+
+.hero-title{font-family:var(--fh);font-size:clamp(3rem,5.5vw,6rem);font-weight:800;line-height:0.92;letter-spacing:-0.02em;opacity:0;animation:fadeUp 0.9s ease 0.3s forwards}
+.hero-title em{font-style:normal;color:var(--g2)}
+.hero-title .dim{color:transparent;-webkit-text-stroke:1.5px rgba(201,168,76,0.3)}
+
+.hero-sub{font-size:1.05rem;color:var(--t2);line-height:1.8;max-width:480px;margin-top:1.8rem;font-weight:300;opacity:0;animation:fadeUp 0.9s ease 0.45s forwards}
+
+.hero-btns{display:flex;gap:1rem;margin-top:2.5rem;flex-wrap:wrap;opacity:0;animation:fadeUp 0.9s ease 0.6s forwards}
+.btn-p{font-family:var(--fm);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.85rem 2rem;border-radius:100px;background:linear-gradient(135deg,rgba(201,168,76,0.25),rgba(201,168,76,0.08));border:1px solid var(--bord3);color:var(--g2);cursor:pointer;transition:all 0.3s}
+.btn-p:hover{background:linear-gradient(135deg,rgba(201,168,76,0.38),rgba(201,168,76,0.15));transform:translateY(-2px);box-shadow:0 8px 28px rgba(201,168,76,0.15)}
+.btn-s{font-family:var(--fm);font-size:0.68rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.85rem 2rem;border-radius:100px;border:1px solid var(--bord);color:var(--t2);cursor:pointer;transition:all 0.3s}
+.btn-s:hover{border-color:var(--bord2);color:#000;transform:translateY(-2px)}
+
+/* HERO RIGHT — pipeline card */
+.hero-right{opacity:0;animation:fadeLeft 1s ease 0.55s forwards}
+.hero-visual{display:flex;align-items:center;justify-content:center}
+.hero-visual img{width:100%;height:auto;display:block;object-fit:contain;animation:heroBreath 8s ease-in-out infinite;filter:drop-shadow(0 26px 70px rgba(0,0,0,0.28))}
+.pipe-card{background:var(--bg2);border:1px solid var(--bord);border-radius:1.3rem;overflow:hidden}
+.pipe-head{background:var(--bg3);padding:0.8rem 1.2rem;display:flex;align-items:center;gap:0.45rem;border-bottom:1px solid var(--bord)}
+.pd{width:8px;height:8px;border-radius:50%}
+.pipe-body{padding:1.4rem}
+.pipe-row{display:flex;align-items:center;gap:0.8rem;padding:0.65rem;border-radius:0.6rem;background:var(--bg3);margin-bottom:0.45rem;border:1px solid var(--bord);transition:border-color 0.3s}
+.pipe-row:hover{border-color:var(--bord2)}
+.pipe-row.hi{border-color:var(--bord2);background:rgba(201,168,76,0.05)}
+.pipe-row.hi .pipe-lbl{color:var(--g2)}
+.pipe-icon,.insight-icon,.pcard-ico{display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--g2)}
+.pipe-icon{width:30px;height:30px;border-radius:8px;background:var(--gdim);border:1px solid var(--bord2)}
+.pipe-lbl{font-family:var(--fm);font-size:0.62rem;letter-spacing:0.05em;color:var(--text)}
+.pipe-sub{font-family:var(--fm);font-size:0.52rem;color:var(--t3)}
+.pipe-arr{padding:0.05rem 0.75rem;color:var(--g);font-size:0.75rem;opacity:0.4}
+.pipe-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0.45rem;margin-top:0.8rem}
+.ps{background:var(--bg4);border:1px solid var(--bord);border-radius:0.5rem;padding:0.6rem;text-align:center}
+.ps-v{font-family:var(--fh);font-size:0.95rem;font-weight:700;color:var(--g2)}
+.ps-l{font-family:var(--fm);font-size:0.48rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--t3);margin-top:0.1rem}
+
+/* UTILS */
+.wrap{max-width:1280px;margin:0 auto;padding:0 3rem}
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--bord2) 30%,var(--bord2) 70%,transparent)}
+.slabel{font-family:var(--fm);font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--g);display:flex;align-items:center;gap:0.7rem;margin-bottom:0.9rem}
+.slabel::before{content:'';display:block;width:20px;height:1px;background:var(--g)}
+.shead{font-family:var(--fh);font-size:clamp(1.9rem,3.5vw,3rem);font-weight:700;line-height:1.1;letter-spacing:-0.02em}
+.shead em{font-style:normal;color:var(--g2)}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.75s ease,transform 0.75s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* WHAT SECTION */
+.what{padding:8rem 0;background:var(--bg1)}
+.what-grid{display:grid;grid-template-columns:1fr 1fr;gap:5.5rem;align-items:start}
+.what-body{font-size:1rem;color:var(--t2);line-height:1.85;font-weight:300}
+.what-body p+p{margin-top:1.1rem}
+.what-body strong{color:var(--text);font-weight:500}
+.what-quote{margin-top:2rem;padding:1.6rem 1.8rem 1.6rem 1.8rem;border-left:2px solid var(--g);background:var(--gdim);border-radius:0 0.9rem 0.9rem 0}
+.what-quote p{font-family:var(--fh);font-size:1rem;font-weight:700;line-height:1.55;color:var(--white)}
+
+.insight-list{display:flex;flex-direction:column;gap:0.8rem;margin-top:0.5rem}
+.insight{background:var(--bg2);border:1px solid var(--bord);border-radius:1rem;padding:1.2rem 1.5rem;display:flex;align-items:flex-start;gap:1rem;transition:border-color 0.3s,transform 0.25s}
+.insight:hover{border-color:var(--bord2);transform:translateX(4px)}
+.insight-icon{width:36px;height:36px;border-radius:10px;background:var(--gdim);border:1px solid var(--bord2);margin-top:0.1rem}
+.insight-title{font-family:var(--fh);font-size:0.92rem;font-weight:700;color:var(--white);margin-bottom:0.3rem}
+.insight-desc{font-size:0.8rem;color:var(--t2);line-height:1.55;font-weight:300}
+
+/* CARDS SECTION */
+.cards-section{padding:8rem 0}
+.cards-header{margin-bottom:4rem}
+.cards-header p{font-size:0.98rem;color:var(--t2);line-height:1.8;margin-top:0.8rem;max-width:580px;font-weight:300}
+
+.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+
+.pcard{background:var(--bg2);border:1px solid var(--bord);border-radius:1.4rem;overflow:hidden;display:flex;flex-direction:column;transition:border-color 0.35s,transform 0.4s,box-shadow 0.4s;position:relative;cursor:pointer}
+.pcard::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--g),transparent);opacity:0;transition:opacity 0.3s;z-index:1}
+.pcard:hover{border-color:var(--bord3);transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,0.5)}
+.pcard:hover::before{opacity:1}
+
+.pcard-vis{height:180px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.pcard-vis svg{width:100%;height:100%;position:absolute;inset:0}
+.pcard-vis img{width:100%;height:100%;object-fit:cover;display:block}
+.pcard-num{position:absolute;top:1rem;right:1.2rem;font-family:var(--fh);font-size:3.2rem;font-weight:800;color:transparent;-webkit-text-stroke:1px rgba(201,168,76,0.1);line-height:1;user-select:none}
+.pcard-tag{position:absolute;top:1rem;left:1.2rem;font-family:var(--fm);font-size:0.53rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.2rem 0.65rem;border-radius:100px;background:rgba(8,9,12,0.75);border:1px solid var(--bord2);color:var(--g);backdrop-filter:blur(8px)}
+
+.pcard-body{padding:1.8rem;flex:1;display:flex;flex-direction:column}
+.pcard-title{font-family:var(--fh);font-size:1.1rem;font-weight:700;color:var(--white);margin-bottom:0.55rem;line-height:1.25}
+.pcard-desc{font-size:0.82rem;color:var(--t2);line-height:1.65;flex:1;font-weight:300;margin-bottom:1.2rem}
+.pcard-metrics{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.pcard-m{font-family:var(--fm);font-size:0.56rem;letter-spacing:0.06em;padding:0.2rem 0.58rem;border-radius:100px;background:var(--gdim);border:1px solid var(--bord2);color:var(--g2)}
+
+.pcard-foot{display:flex;align-items:center;justify-content:space-between;padding-top:1.1rem;border-top:1px solid var(--bord)}
+.pcard-link{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--bg);display:inline-flex;align-items:center;gap:0.55rem;padding:0.52rem 0.9rem;border-radius:999px;background:linear-gradient(135deg,var(--g3),var(--g));border:1px solid rgba(240,217,154,0.45);box-shadow:0 10px 24px rgba(201,168,76,0.16);transition:transform 0.25s,box-shadow 0.25s,filter 0.25s}
+.pcard-link:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(201,168,76,0.24);filter:saturate(1.05)}
+.pcard-link::after{content:'->';font-size:0.72rem}
+.pcard-ico{width:30px;height:30px;border-radius:8px;background:var(--gdim);border:1px solid var(--bord2)}
+.pipe-icon svg,.insight-icon svg,.pcard-ico svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.insight-icon svg{width:18px;height:18px}
+
+/* CLOSING */
+.closing{padding:8rem 0;background:var(--bg1)}
+.close-inner{background:var(--bg2);border:1px solid var(--bord);border-radius:2rem;padding:5rem;position:relative;overflow:hidden;text-align:center}
+.close-inner::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 50% 0%,rgba(201,168,76,0.07) 0%,transparent 60%);pointer-events:none}
+.close-inner::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 45% 45% at 100% 100%,rgba(40,60,160,0.06) 0%,transparent 55%);pointer-events:none}
+.close-tag{font-family:var(--fm);font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--g);display:inline-flex;align-items:center;gap:0.65rem;margin-bottom:1.5rem}
+.close-tag::before,.close-tag::after{content:'';display:block;width:16px;height:1px;background:var(--g)}
+.close-title{font-family:var(--fh);font-size:clamp(2rem,4.5vw,3.8rem);font-weight:700;line-height:1.05;margin-bottom:1.3rem;letter-spacing:-0.02em}
+.close-title em{font-style:normal;color:var(--g2)}
+.close-body{font-size:1rem;color:var(--t2);line-height:1.85;max-width:600px;margin:0 auto 3rem;font-weight:300}
+.close-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.close-stats{display:flex;justify-content:center;gap:4rem;margin-top:4rem;padding-top:3rem;border-top:1px solid var(--bord);flex-wrap:wrap}
+.cs-v{font-family:var(--fh);font-size:2.2rem;font-weight:700;color:var(--white);display:block;letter-spacing:-0.02em}
+.cs-l{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--t3);margin-top:0.3rem}
+
+/* FOOTER */
+footer{border-top:1px solid var(--bord);background:var(--bg)}
+.fi{max-width:1280px;margin:0 auto;padding:4rem 3rem 2.5rem;display:grid;grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:3.5rem}
+.fl-logo{font-family:var(--fh);font-size:1rem;font-weight:700;color:var(--text);margin-bottom:0.7rem}
+.fl-logo em{font-style:normal;color:var(--g2)}
+.fl-desc{font-size:0.82rem;color:var(--t2);line-height:1.75;font-weight:300;margin-bottom:1.3rem}
+.fl-email{font-family:var(--fm);font-size:0.62rem;letter-spacing:0.08em;color:var(--g);border:1px solid var(--bord2);padding:0.4rem 0.95rem;border-radius:100px;display:inline-block;transition:all 0.25s}
+.fl-email:hover{background:var(--gdim)}
+.fl-col-t{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--t3);margin-bottom:1.1rem}
+.fl-list{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+.fl-list a{font-size:0.8rem;color:var(--t2);transition:color 0.2s;font-weight:300}
+.fl-list a:hover{color:var(--g2)}
+.fl-list span{font-size:0.8rem;color:var(--t2);font-weight:300;font-family:var(--fb);line-height:1.6}
+.fl-cta-box{background:var(--bg3);border:1px solid var(--bord);border-radius:1rem;padding:1.4rem}
+.fl-cta-t{font-family:var(--fh);font-size:0.9rem;font-weight:700;color:var(--white);margin-bottom:0.4rem}
+.fl-cta-s{font-size:0.76rem;color:var(--t2);margin-bottom:1.1rem;line-height:1.5;font-weight:300}
+.fl-btns{display:flex;flex-direction:column;gap:0.5rem}
+.fl-btn{font-family:var(--fm);font-size:0.6rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.52rem 1rem;border-radius:100px;text-align:center;cursor:pointer;transition:all 0.3s;display:block}
+.fl-btn.p{background:linear-gradient(135deg,rgba(201,168,76,0.22),rgba(201,168,76,0.08));border:1px solid var(--bord3);color:var(--g2)}
+.fl-btn.p:hover{background:linear-gradient(135deg,rgba(201,168,76,0.35),rgba(201,168,76,0.15))}
+.fl-btn.s{border:1px solid var(--bord);color:var(--t2)}
+.fl-btn.s:hover{border-color:var(--bord2);color:var(--text)}
+.fb{max-width:1280px;margin:0 auto;padding:1.4rem 3rem;border-top:1px solid var(--bord);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.fb-copy{font-family:var(--fm);font-size:0.58rem;letter-spacing:0.06em;color:var(--t3)}
+.fb-badges{display:flex;gap:0.5rem}
+.fb-badge{font-family:var(--fm);font-size:0.54rem;letter-spacing:0.06em;padding:0.22rem 0.6rem;border:1px solid var(--bord);border-radius:100px;color:var(--t3)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeLeft{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes orbFloat{0%,100%{transform:translate(0,0)}33%{transform:translate(28px,-22px)}66%{transform:translate(-18px,18px)}}
+@keyframes heroBreath{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+
+@media(max-width:1100px){
+  .hero-content{grid-template-columns:1fr}.hero-right{display:none}
+  .what-grid{grid-template-columns:1fr;gap:3rem}
+  .projects-grid{grid-template-columns:1fr 1fr}
+  .fi{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  nav{padding:1rem 1.5rem}.nav-links{display:none}
+  .hero{padding:0 1.5rem;padding-top:5.5rem;padding-bottom:4rem;min-height:auto}
+  .wrap{padding:0 1.5rem}
+  .projects-grid{grid-template-columns:1fr}
+  .close-inner{padding:2.8rem 1.5rem}.close-stats{gap:2rem}
+  .fi{grid-template-columns:1fr;gap:2rem;padding:2.5rem 1.5rem}
+  .fb{padding:1.5rem}
+}
+</style>
+</head>
+<body>
+<div class="cglow" id="cglow"></div>
+
+<!-- NAV -->
+<nav id="nav" class="">
+  <div class="nav-logo"><span class="nav-logo-dot"></span>Business Leadership</div>
+  <ul class="nav-links">
+    <li><a href="#about" class="">About</a></li>
+    <li><a href="#engagements" class="">Engagements</a></li>
+    <li><a href="#closing" class="">Contact</a></li>
+  </ul>
+  <a href="/index#contact" class="nav-cta">Get in Touch</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div><div class="hero-grid"></div><div class="hero-noise"></div>
+  <div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
+  <div class="hero-content">
+    <div>
+      <div class="hero-eyebrow"><div class="eline"></div><span class="etext">Real-World Business Leadership</span></div>
+      <h1 class="hero-title">Business<br><em>Leadership</em><br><span class="dim">&amp; Execution</span></h1>
+      <p class="hero-sub">Six engagements across healthcare, industrial, infrastructure, legal, craft, and hospitality domains — each one a case study in what real business leadership looks like when you own the outcome, not just the title.</p>
+      <div class="hero-btns">
+        <button class="btn-p" onclick="document.getElementById('engagements').scrollIntoView({behavior:'smooth'})">View All Engagements</button>
+        <button class="btn-s" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">About This Section</button>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-visual">
+        <img src="img/bl-hero.webp" alt="Business leadership portfolio preview">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHAT THIS SECTION IS -->
+<section class="what" id="about">
+  <div class="wrap">
+    <div class="what-grid">
+      <div class="reveal visible">
+        <div class="slabel">What This Section Is</div>
+        <h2 class="shead">Not job titles.<br><em>Owned outcomes.</em></h2>
+        <div class="what-body" style="margin-top:1.4rem">
+          <p>This section documents six distinct business leadership engagements — each spanning a different domain, a different operating context, and a different set of constraints. The common thread is not the industry. It is the operating standard: <strong>full accountability for outcomes, not partial ownership of tasks.</strong></p>
+          <p>Whether it was owning a ₹4.73Cr healthcare territory P&amp;L, leading a ₹625Cr refinery turnaround, designing a distributed water infrastructure platform that was later offered as a COO role, filing constitutional PILs at the Supreme Court, building a craft innovation flywheel from zero, or constructing a 10,000 sq. ft. café on barren land — every engagement was executed with the same discipline.</p>
+          <p>These are not case studies of what <em>could</em> have been done. <strong>These are records of what was built and is still operating.</strong></p>
+        </div>
+        <div class="what-quote">
+          <p>"The measure of leadership is not the title held, but the system left behind."</p>
+        </div>
+      </div>
+      <div class="reveal visible" style="transition-delay:0.12s">
+        <div class="slabel" style="margin-bottom:1.4rem">Leadership Principles Across All Six</div>
+        <div class="insight-list">
+          <div class="insight">
+            <div class="insight-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.5A3.5 3.5 0 1 0 12 15.5A3.5 3.5 0 1 0 12 8.5Z"></path><path d="M19.4 15a1 1 0 0 0 .2 1.1l.1.1a1 1 0 0 1 0 1.4l-1 1a1 1 0 0 1-1.4 0l-.1-.1a1 1 0 0 0-1.1-.2 1 1 0 0 0-.6.9V20a1 1 0 0 1-1 1h-1.4a1 1 0 0 1-1-1v-.2a1 1 0 0 0-.6-.9 1 1 0 0 0-1.1.2l-.1.1a1 1 0 0 1-1.4 0l-1-1a1 1 0 0 1 0-1.4l.1-.1a1 1 0 0 0 .2-1.1 1 1 0 0 0-.9-.6H4a1 1 0 0 1-1-1v-1.4a1 1 0 0 1 1-1h.2a1 1 0 0 0 .9-.6 1 1 0 0 0-.2-1.1l-.1-.1a1 1 0 0 1 0-1.4l1-1a1 1 0 0 1 1.4 0l.1.1a1 1 0 0 0 1.1.2 1 1 0 0 0 .6-.9V4a1 1 0 0 1 1-1h1.4a1 1 0 0 1 1 1v.2a1 1 0 0 0 .6.9 1 1 0 0 0 1.1-.2l.1-.1a1 1 0 0 1 1.4 0l1 1a1 1 0 0 1 0 1.4l-.1.1a1 1 0 0 0-.2 1.1 1 1 0 0 0 .9.6h.2a1 1 0 0 1 1 1v1.4a1 1 0 0 1-1 1h-.2a1 1 0 0 0-.9.6Z"></path></svg></div>
+            <div>
+              <div class="insight-title">Systems Architecture First</div>
+              <div class="insight-desc">Every engagement was approached as a platform engineering problem — designing operating systems, not executing task lists. The territory, the refinery, the water network, and the café were all treated as systems to be designed and stabilized.</div>
+            </div>
+          </div>
+          <div class="insight">
+            <div class="insight-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16"></path><path d="M7 16v-5"></path><path d="M12 16V8"></path><path d="M17 16v-9"></path></svg></div>
+            <div>
+              <div class="insight-title">P&amp;L and Outcome Ownership</div>
+              <div class="insight-desc">Full financial accountability across multiple engagements: ₹4.73Cr territory P&amp;L at Medtronic, ₹625Cr turnaround scope at BPCL, and the full capital, operational, and commercial responsibility of R-Cafe as a zero-to-live build.</div>
+            </div>
+          </div>
+          <div class="insight">
+            <div class="insight-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 13a5 5 0 0 1 0-7l1.5-1.5a5 5 0 0 1 7 7L17 13"></path><path d="M14 11a5 5 0 0 1 0 7L12.5 19.5a5 5 0 0 1-7-7L7 11"></path></svg></div>
+            <div>
+              <div class="insight-title">Cross-Domain Execution Credibility</div>
+              <div class="insight-desc">Six domains. Healthcare, industrial, infrastructure, law, craft, and hospitality. The same operating model applied in each: diagnose the structural problem, design the solution at scale, execute with full ownership, leave behind a system that runs.</div>
+            </div>
+          </div>
+          <div class="insight">
+            <div class="insight-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c2.5-1 4.5-3 5.5-5.5"></path><path d="M14 10 9 15"></path><path d="M12 4c3.5 0 6 1.5 8 4-1 4-3.5 6.5-7.5 7.5-2.5-2-4-4.5-4-8 1-2 3.5-3.5 7.5-3.5Z"></path><path d="M15.5 8.5h.01"></path></svg></div>
+            <div>
+              <div class="insight-title">From Physical Systems to AI Platforms</div>
+              <div class="insight-desc">Every domain in this section — from refinery asset management to distributed water networks to constitutional governance — directly informs how production AI platforms and MLOps systems are now designed. The operating logic is identical.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 6 ENGAGEMENT CARDS -->
+<section class="cards-section" id="engagements">
+  <div class="wrap">
+    <div class="cards-header reveal visible">
+      <div class="slabel">Six Business Engagements</div>
+      <h2 class="shead">Select an engagement<br>to <em>explore in depth</em></h2>
+      <p>Each card links to a full, detailed case study. Every engagement includes business context, operating architecture, execution detail, hard metrics, and the professional journey framing that ties it to current work.</p>
+    </div>
+
+    <div class="projects-grid">
+
+      <!-- 01 MEDTRONIC -->
+      <div class="pcard reveal visible" style="transition-delay:0.04s" onclick="window.location.href='medtronic'">
+        <div class="pcard-vis">
+          <img src="img/medi2.webp" alt="Medtronic territory business leadership">
+          <div class="pcard-tag">Healthcare</div>
+          <div class="pcard-num">01</div>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-title">Medtronic India — Territory Business Leadership</div>
+          <div class="pcard-desc">Full P&amp;L ownership across Karnataka &amp; Goa — managing 100+ hospital accounts, 15 KOLs, therapy adoption programs, blanket pricing architecture, and Salesforce CRM rollout as a commercial operating system.</div>
+          <div class="pcard-metrics">
+            <span class="pcard-m">₹4.73Cr P&amp;L</span><span class="pcard-m">+12% Therapy</span><span class="pcard-m">100+ Hospitals</span>
+          </div>
+          <div class="pcard-foot">
+            <a class="pcard-link" href="medtronic">View More</a>
+            <div class="pcard-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v11"></path><path d="M9 5v13"></path><path d="M15 5v13"></path><path d="M4 18h16"></path><path d="M12 9v5"></path><path d="M9.5 11.5h5"></path></svg></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 02 BPCL -->
+      <div class="pcard reveal visible" style="transition-delay:0.08s" onclick="window.location.href='bpcl-premium'">
+        <div class="pcard-vis">
+          <img src="img/bpcl1.webp" alt="BPCL refinery operations">
+          <div class="pcard-tag">Industrial</div>
+          <div class="pcard-num">02</div>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-title">BPCL — Mission-Critical Refinery Operations</div>
+          <div class="pcard-desc">Embedded in a live 24×7 refinery — owning asset lifecycle management, major turnaround orchestration across CDU/VDU and Hydrocracker, SAP PM/MM/PS execution, and capital cost governance.</div>
+          <div class="pcard-metrics">
+            <span class="pcard-m">₹625Cr Turnaround</span><span class="pcard-m">₹250Mn/day Saved</span><span class="pcard-m">+26% Efficiency</span>
+          </div>
+          <div class="pcard-foot">
+            <a class="pcard-link" href="/buiss skills/bpcl">View More</a>
+            <div class="pcard-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20h18"></path><path d="M5 20V9l5-3v14"></path><path d="M10 20v-6h4v6"></path><path d="M14 20V5l5 3v12"></path><path d="M7 11h1"></path><path d="M7 14h1"></path><path d="M16 10h1"></path><path d="M16 13h1"></path></svg></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 03 SMAAT -->
+      <div class="pcard reveal visible" style="transition-delay:0.12s" onclick="window.location.href='smaat'">
+        <div class="pcard-vis">
+          <img src="img/smaat5.webp" alt="SMAAT distributed water infrastructure">
+          <div class="pcard-tag">Infrastructure</div>
+          <div class="pcard-num">03</div>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-title">SMAAT India — Distributed Water Infrastructure</div>
+          <div class="pcard-desc">Independent consultant → COO-track offer. Designed and scaled a production platform across 835+ live Community Water Centres in 3 states, integrating Vodafone + M-Pesa payments, ETM, and field operations.</div>
+          <div class="pcard-metrics">
+            <span class="pcard-m">835+ CWCs</span><span class="pcard-m">+24% Sales</span><span class="pcard-m">COO Offer</span>
+          </div>
+          <div class="pcard-foot">
+            <a class="pcard-link" href="smaat">View More</a>
+            <div class="pcard-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3c3 4 6 7.5 6 11a6 6 0 1 1-12 0c0-3.5 3-7 6-11Z"></path><path d="M9.5 15.5c.4 1.1 1.3 1.9 2.5 2.2"></path></svg></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 04 LAW -->
+      <div class="pcard reveal visible" style="transition-delay:0.04s" onclick="window.location.href='law'">
+        <div class="pcard-vis">
+          <img src="img/law2.webp" alt="Supreme Court constitutional governance">
+          <div class="pcard-tag">Constitutional Law</div>
+          <div class="pcard-num">04</div>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-title">Supreme Court — Constitutional Governance &amp; AI</div>
+          <div class="pcard-desc">Seven PILs filed and heard before India's apex court as petitioner-in-person (2013–2016). Not institution-backed, not proxy filings. Each matter cleared registry scrutiny and was heard by the Bench. A governance-first foundation.</div>
+          <div class="pcard-metrics">
+            <span class="pcard-m">7 PILs Filed</span><span class="pcard-m">Article 32</span><span class="pcard-m">Petitioner-in-Person</span>
+          </div>
+          <div class="pcard-foot">
+            <a class="pcard-link" href="law">View More</a>
+            <div class="pcard-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15"></path><path d="M7 7h10"></path><path d="M5 20h14"></path><path d="m7 7-3 5h6l-3-5Z"></path><path d="m17 7-3 5h6l-3-5Z"></path></svg></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 05 REDRYBBONS -->
+      <div class="pcard reveal visible" style="transition-delay:0.08s" onclick="window.location.href='redrybons'">
+        <div class="pcard-vis">
+          <img src="img/rr-last.webp" alt="RedRybbons craft innovation platform">
+          <div class="pcard-tag">Craft Innovation</div>
+          <div class="pcard-num">05</div>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-title">RedRybbons — Craft Innovation Platform</div>
+          <div class="pcard-desc">A founder-led platform converting traditional Indian crafts into engineered, manufactured, and commercially viable products. Craft R&amp;D → designer-artisan collaboration → controlled manufacturing → experiential retail in Koramangala, Bengaluru.</div>
+          <div class="pcard-metrics">
+            <span class="pcard-m">Craft → Product</span><span class="pcard-m">Controlled Mfg</span><span class="pcard-m">Koramangala BLR</span>
+          </div>
+          <div class="pcard-foot">
+            <a class="pcard-link" href="/buiss skills/redrybbons">View More</a>
+            <div class="pcard-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h16"></path><path d="M7 20V9l5-4 5 4v11"></path><path d="M10 20v-4h4v4"></path><path d="M9 12h.01"></path><path d="M15 12h.01"></path></svg></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 06 R-CAFE -->
+      <div class="pcard reveal visible" style="transition-delay:0.12s" onclick="window.location.href='rcafe'">
+        <div class="pcard-vis">
+          <img src="img/rcafe5.webp" alt="R-Cafe hospitality build from zero">
+          <div class="pcard-tag">Hospitality</div>
+          <div class="pcard-num">06</div>
+        </div>
+        <div class="pcard-body">
+          <div class="pcard-title">R-Cafe by Red Rybbons — Built from Zero</div>
+          <div class="pcard-desc">A live café–restro on 10,000 sq. ft. of barren land — built entirely end-to-end through vendor collapse and COVID disruption. No franchise, no external help. Inaugurated by former Karnataka CM H. D. Kumaraswamy. Operating since January 2023.</div>
+          <div class="pcard-metrics">
+            <span class="pcard-m">10,000 sq. ft.</span><span class="pcard-m">Live Jan 2023</span><span class="pcard-m">Zero to Operating</span>
+          </div>
+          <div class="pcard-foot">
+            <a class="pcard-link" href="/buiss skills/r-cafe">View More</a>
+            <div class="pcard-ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9h10v4a4 4 0 0 1-4 4H9a4 4 0 0 1-4-4V9Z"></path><path d="M15 10h2a2 2 0 1 1 0 4h-2"></path><path d="M7 20h8"></path><path d="M8 4c0 1 .7 1.5.7 2.5S8 8 8 9"></path><path d="M11 4c0 1 .7 1.5.7 2.5S11 8 11 9"></path></svg></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CLOSING -->
+<section class="closing" id="closing">
+  <div class="wrap">
+    <div class="close-inner reveal visible">
+      <div class="close-tag">Business Leadership</div>
+      <h2 class="close-title">Six domains.<br><em>One standard.</em></h2>
+      <p class="close-body">These six engagements are not a collection of jobs. They are a body of evidence — that the operating discipline of real business leadership translates across any domain, any constraint, and any scale. The system built, the outcome owned, the result real.</p>
+      <div class="close-btns">
+        <button class="btn-p" onclick="document.getElementById('engagements').scrollIntoView({behavior:'smooth'})">Explore Engagements</button>
+        <button class="btn-s" onclick="window.location.href='/index#contact'">Get in Touch</button>
+      </div>
+      <div class="close-stats">
+        <div><span class="cs-v">6</span><div class="cs-l">Domains</div></div>
+        <div><span class="cs-v">₹625Cr</span><div class="cs-l">Turnaround Led</div></div>
+        <div><span class="cs-v">835+</span><div class="cs-l">CWCs Deployed</div></div>
+        <div><span class="cs-v">7</span><div class="cs-l">PILs at Apex Court</div></div>
+        <div><span class="cs-v">10K</span><div class="cs-l">sq. ft. Built</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fi">
+    <div>
+      <div class="fl-logo">Business <em>Leadership</em></div>
+      <p class="fl-desc">Six real-world business leadership engagements — healthcare, industrial, infrastructure, law, craft, and hospitality. Full case studies with context, architecture, execution detail, and hard metrics.</p>
+
+    </div>
+    <div>
+      <div class="fl-col-t">Engagements</div>
+      <ul class="fl-list">
+        <li><a href="medtronic">Medtronic India</a></li>
+        <li><a href="bpcl">BPCL Refinery</a></li>
+        <li><a href="smaat">SMAAT India</a></li>
+        <li><a href="law">Supreme Court</a></li>
+        <li><a href="redrybbons">RedRybbons</a></li>
+        <li><a href="r-cafe">R-Cafe</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="fl-col-t">By Domain</div>
+      <ul class="fl-list">
+        <li><a href="medtronic">Healthcare · CRDM</a></li>
+        <li><a href="bpcl">Industrial · Refinery</a></li>
+        <li><a href="smaat">Infrastructure · Water</a></li>
+        <li><a href="law">Constitutional Law</a></li>
+        <li><a href="redrybbons">Craft Innovation</a></li>
+        <li><a href="r-cafe">Hospitality · F&amp;B</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="fl-cta-box">
+        <div class="fl-cta-t">Explore further</div>
+        <div class="fl-cta-s">Detailed case studies, metrics, and architecture documentation available for each engagement.</div>
+        <div class="fl-btns">
+          <a href="/index" class="fl-btn p">Back to Home</a>
+          <a href="/index#contact" class="fl-btn s">Contact</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="fb">
+    <span class="fb-copy">Business Leadership</span>
+    <div class="fb-badges">
+      <span class="fb-badge">IIM Calcutta</span>
+      <span class="fb-badge">IISc Analytics</span>
+      <span class="fb-badge">NIT Surathkal</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const cg=document.getElementById('cglow');
+document.addEventListener('mousemove',e=>{cg.style.transform=`translate(${e.clientX-325}px,${e.clientY-325}px)`});
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>70));
+document.querySelectorAll('.reveal').forEach(el=>{
+  new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')})},{threshold:0.08,rootMargin:'0px 0px -35px 0px'}).observe(el)
+});
+document.querySelectorAll('.pcard,.insight,.pipe-row').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=(e.clientX-r.left-r.width/2)/(r.width/2);
+    const y=(e.clientY-r.top-r.height/2)/(r.height/2);
+    card.style.transform=`translateY(-6px) rotateX(${-y*2.5}deg) rotateY(${x*2.5}deg)`;
+    card.style.transition='transform 0.08s';
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.transform='';
+    card.style.transition='transform 0.55s cubic-bezier(0.22,0.61,0.36,1)';
+  });
+});
+const secs=document.querySelectorAll('section[id]');
+const links=document.querySelectorAll('.nav-links a');
+secs.forEach(s=>{
+  new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+s.id))})},{threshold:0.45}).observe(s)
+});
+</script>
+
+
+</body></html>

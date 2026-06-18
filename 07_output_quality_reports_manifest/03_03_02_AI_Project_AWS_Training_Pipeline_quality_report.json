@@ -1,0 +1,33 @@
+{
+  "version": "v4_site_crawler",
+  "page_id": "03_03_02_AI_Project_AWS_Training_Pipeline",
+  "url": "https://rajesharigala.com/mlops/ai6/ai6.2",
+  "depth": 1,
+  "parent_url": "https://rajesharigala.com/mlops/mlops,sys",
+  "parent_page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+  "logical_parent_page_id": "03_AI_Projects",
+  "title": "AWS SageMaker MLOps · Pipeline 2 (Train/Evaluate/Register)",
+  "characters_content": 6246,
+  "words_content": 838,
+  "characters_rag_text": 8642,
+  "words_rag_text": 1170,
+  "headings_count": 28,
+  "paragraphs_count": 20,
+  "links_count": 5,
+  "bad_character_counts": {
+    "Â": 0,
+    "â": 0,
+    "ð": 0,
+    "Ã": 0,
+    "�": 0
+  },
+  "suspicious_values": [],
+  "saved_files": {
+    "raw_html": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/03_03_02_AI_Project_AWS_Training_Pipeline.html",
+    "structured_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/03_output_structured_json/03_03_02_AI_Project_AWS_Training_Pipeline_structured.json",
+    "clean_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/04_output_clean_json/03_03_02_AI_Project_AWS_Training_Pipeline_clean.json",
+    "clean_text": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/05_output_clean_text/03_03_02_AI_Project_AWS_Training_Pipeline_clean.txt",
+    "rag_document": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/03_03_02_AI_Project_AWS_Training_Pipeline_rag.txt",
+    "report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/03_03_02_AI_Project_AWS_Training_Pipeline_quality_report.json"
+  }
+}

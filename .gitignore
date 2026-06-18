@@ -1,0 +1,10 @@
+.env
+.DS_Store
+__pycache__/
+*.py[cod]
+*.log
+18_flask_chat_ui/.venv/
+18_flask_chat_ui/logs/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/

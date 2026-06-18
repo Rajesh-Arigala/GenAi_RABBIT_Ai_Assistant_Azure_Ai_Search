@@ -1,0 +1,178 @@
+{
+  "id": "02_Tech_02_MLOps_01_CICD_AWS_CDK_IaC_Platform",
+  "source_type": "website_rendered_v4_site_crawl",
+  "domain": "rajesharigala.com",
+  "url": "https://rajesharigala.com/mlops/CI-CD/cicd-project5",
+  "depth": 0,
+  "parent_url": null,
+  "parent_page_id": "ROOT",
+  "logical_parent_page_id": "02_Technical_Skills",
+  "title": "AWS CDK - Infrastructure as Code CI/CD Platform",
+  "meta_description": "",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "AWS CDK - Infrastructure as Code"
+    },
+    {
+      "level": "h2",
+      "text": "Project Summary"
+    },
+    {
+      "level": "h2",
+      "text": "Key Technologies & Concepts"
+    },
+    {
+      "level": "h2",
+      "text": "Problem & Objective"
+    },
+    {
+      "level": "h2",
+      "text": "Solution & Architecture"
+    },
+    {
+      "level": "h2",
+      "text": "Skills & Technologies Used"
+    },
+    {
+      "level": "h2",
+      "text": "Pipeline Implementation & Challenges"
+    },
+    {
+      "level": "h2",
+      "text": "AWS DevOps CI/CD - Architecture & YAML Mapping"
+    },
+    {
+      "level": "h2",
+      "text": "Pipeline Execution Evidence"
+    },
+    {
+      "level": "h2",
+      "text": "Assets & References"
+    },
+    {
+      "level": "h3",
+      "text": "Project Category"
+    },
+    {
+      "level": "h3",
+      "text": "Industry/Domain"
+    },
+    {
+      "level": "h3",
+      "text": "DevOps Focus"
+    },
+    {
+      "level": "h3",
+      "text": "AWS CI/CD Keywords"
+    },
+    {
+      "level": "h3",
+      "text": "Problems Solved"
+    },
+    {
+      "level": "h3",
+      "text": "Primary Objectives"
+    },
+    {
+      "level": "h3",
+      "text": "Solution Overview"
+    },
+    {
+      "level": "h3",
+      "text": "Key Components"
+    },
+    {
+      "level": "h3",
+      "text": "Primary Skills"
+    },
+    {
+      "level": "h3",
+      "text": "Secondary Tools / Frameworks"
+    },
+    {
+      "level": "h3",
+      "text": "Programming Languages"
+    },
+    {
+      "level": "h3",
+      "text": "AWS Cloud & DevOps Tools"
+    },
+    {
+      "level": "h3",
+      "text": "Pipeline Flow"
+    },
+    {
+      "level": "h3",
+      "text": "Key Technical Challenges"
+    },
+    {
+      "level": "h3",
+      "text": "How They Were Resolved"
+    },
+    {
+      "level": "h3",
+      "text": "Git Integration Evidence"
+    },
+    {
+      "level": "h3",
+      "text": "GitHub Repositories"
+    },
+    {
+      "level": "h3",
+      "text": "Study Material Resources"
+    },
+    {
+      "level": "h3",
+      "text": "Study Material - AWS CDK IaC CI/CD"
+    }
+  ],
+  "paragraphs": [
+    "Production-Style CI/CD Platform Engineering using AWS CDK (Python)",
+    "Provisioned a production-style CI/CD platform on AWS using CDK (Python), integrating GitHub source, CodePipeline, CodeBuild, and S3 via Infrastructure as Code. The project eliminated manual, console-based CI/CD setup by making the entire AWS CI/CD pipeline reproducible, version-controlled, and deployable via IaC Pipeline.",
+    "Comprehensive Project Overview",
+    "DevOps / Platform Engineering (CI/CD Infrastructure)",
+    "Cloud Infrastructure / DevOps Platforms",
+    "CI/CD Platform Engineering (Infrastructure as Code)",
+    "Core AWS Services Used",
+    "What problem did this project solve?",
+    "Architectural Overview",
+    "Designed and deployed a CI/CD platform on AWS using AWS CDK (Python) to provision CodePipeline (orchestration), CodeBuild (build automation), IAM roles, Secrets Manager (GitHub token), and S3 (artifacts), enabling reproducible, version-controlled pipeline infrastructure sourced from GitHub.",
+    "Environment separation is implemented logically via pipeline stages and deployment targets (S3 stage/prod paths), mirroring environment constructs used in Azure and GCP.",
+    "The solution uses managed AWS CI/CD services (CodePipeline and CodeBuild) providing built-in availability and fault tolerance, with stateless builds improving reliability and reducing drift.",
+    "Technical Proficiency Demonstrated",
+    "Technical implementation details and problem-solving",
+    "Architecture to AWS construct mapping",
+    "Proof of successful implementation",
+    "GitHub repository showing code changes and commit history triggering the CI/CD pipeline.",
+    "Pipeline execution (visual): View CodePipeline Execution (HelloWorldPipeline)",
+    "Code, diagrams, study material",
+    "Source code repositories containing AWS CDK Python implementations and examples used in this project.",
+    "Click the button below to open the study materials"
+  ],
+  "links": [
+    {
+      "text": "AWS CDK IaC CI/CD",
+      "href": "https://rajesharigala.com/mlops/CI-CD/cicd-project5"
+    },
+    {
+      "text": "View CodePipeline Execution",
+      "href": "https://us-east-1.console.aws.amazon.com/codesuite/codepipeline/pipelines/HelloWorldPipeline/view?region=us-east-1&stage=Build&tab=visualization"
+    },
+    {
+      "text": "aws-cdk-mycreation",
+      "href": "https://github.com/Rajesh-Arigala/aws-cdk-mycreation"
+    },
+    {
+      "text": "aws-cdk-gettingstarted",
+      "href": "https://github.com/Rajesh-Arigala/aws-cdk-gettingstarted"
+    },
+    {
+      "text": "Request Study Material",
+      "href": "https://rajesharigala.com/"
+    }
+  ],
+  "content": "AWS CDK - Infrastructure as Code Production-Style CI/CD Platform Engineering using AWS CDK (Python) Provisioned a production-style CI/CD platform on AWS using CDK (Python), integrating GitHub source, CodePipeline, CodeBuild, and S3 via Infrastructure as Code. The project eliminated manual, console-based CI/CD setup by making the entire AWS CI/CD pipeline reproducible, version-controlled, and deployable via IaC Pipeline. View CodePipeline Execution aws-cdk-mycreation aws-cdk-gettingstarted Project Summary Comprehensive Project Overview Project Category DevOps / Platform Engineering (CI/CD Infrastructure) Industry/Domain Cloud Infrastructure / DevOps Platforms DevOps Focus CI/CD Platform Engineering (Infrastructure as Code) Key Technologies & Concepts Core AWS Services Used AWS CI/CD Keywords AWS CDK (Infrastructure as Code, Python) AWS CodePipeline (CI/CD Orchestration) AWS CodeBuild (Build Automation) GitHub (Source Repository) AWS Secrets Manager (GitHub Token Management) Amazon S3 (Build Artifact Storage) CloudFormation (IaC Backend via CDK Synth) Multi-stage Pipeline (Source, Build) Pipeline as Code (CDK-defined) IAM Roles & Policies (CI/CD Security) Linux Build Environments (CodeBuild) Buildspec.yaml (Build Instructions) CDK Bootstrap / Synth / Deploy (Infra Lifecycle) Pipeline Monitoring (CodePipeline / CodeBuild Logs) Problem & Objective What problem did this project solve? Problems Solved Eliminated manual, console-based CI/CD setup by making the entire AWS CI/CD pipeline reproducible, version-controlled, and deployable via Infrastructure as Code Reduced setup errors and made the CI/CD platform easy to recreate or modify consistently Overcame challenges with secure GitHub integration, IAM permissions, CDK lifecycle management, and pipeline debugging Primary Objectives Provision a reusable CI/CD platform on AWS using Infrastructure as Code (AWS CDK in Python) Automatically integrate GitHub source with CodePipeline and CodeBuild for consistent, repeatable build automation Implement environment separation logically via pipeline stages and deployment targets (S3 stage/prod paths) Solution & Architecture Architectural Overview Solution Overview Designed and deployed a CI/CD platform on AWS using AWS CDK (Python) to provision CodePipeline (orchestration), CodeBuild (build automation), IAM roles, Secrets Manager (GitHub token), and S3 (artifacts), enabling reproducible, version-controlled pipeline infrastructure sourced from GitHub. Environment separation is implemented logically via pipeline stages and deployment targets (S3 stage/prod paths), mirroring environment constructs used in Azure and GCP. The solution uses managed AWS CI/CD services (CodePipeline and CodeBuild) providing built-in availability and fault tolerance, with stateless builds improving reliability and reducing drift. 1 GitHub Source 2 AWS CodePipeline 3 AWS CodeBuild 4 Amazon S3 5 Deployment Key Components AWS CDK (Python) - Infrastructure as Code framework AWS CloudFormation - IaC backend (via CDK synth) AWS CodePipeline - CI/CD orchestration service AWS CodeBuild - Build automation service GitHub - Source repository AWS Secrets Manager - GitHub token management Amazon S3 - Build artifact storage IAM Roles & Policies - Pipeline security Buildspec.yaml - Build instructions (written directly in the IaC) Skills & Technologies Used Technical Proficiency Demonstrated Primary Skills AWS CDK (Python) CI/CD Platform Engineering AWS CodePipeline AWS CodeBuild Infrastructure as Code (IaC) AWS IAM (Roles & Policies) Secondary Tools / Frameworks AWS CloudFormation (via CDK synth) AWS Secrets Manager Amazon S3 GitHub Buildspec.yaml AWS CLI Programming Languages Python - Primary language for AWS CDK IaC development YAML - For CloudFormation templates and build specifications JSON - Configuration and output formats AWS Cloud & DevOps Tools AWS CDK AWS CloudFormation AWS CodePipeline AWS CodeBuild AWS IAM AWS Secrets Manager Amazon S3 AWS CLI Pipeline Implementation & Challenges Technical implementation details and problem-solving Pipeline Flow CDK (Cloud Deployment Kit) transforms Python script into CloudFormation template via cdk synth Two-stage CI/CD Pipeline: Source (GitHub) → Build (CodeBuild) Source code fetched from GitHub using OAuth token stored in AWS Secrets Manager Build executed in Linux environment (Ubuntu) using buildspec.yaml instructions Artifacts stored in Amazon S3 bucket for deployment Key Technical Challenges Configuring secure GitHub integration using OAuth tokens stored in AWS Secrets Manager Setting up correct IAM roles and permissions for CodePipeline and CodeBuild to access S3, Secrets Manager, and source actions Understanding and managing the CDK lifecycle (bootstrap, synth, deploy) and CloudFormation stack dependencies Debugging pipeline execution failures using CodeBuild logs and CodePipeline stage outputs How They Were Resolved GitHub integration: Generated a GitHub token and securely stored it in AWS Secrets Manager, then referenced it in the CDK stack IAM permissions: Defined and adjusted IAM roles/policies for CodePipeline and CodeBuild to grant least-privilege access to required services CDK lifecycle issues: Used cdk bootstrap → cdk synth → cdk deploy to correctly provision prerequisites Pipeline failures: Inspected CodeBuild logs and CodePipeline stage outputs to identify misconfigurations and iteratively fixed them AWS DevOps CI/CD - Architecture & YAML Mapping Architecture to AWS construct mapping Architecture Block AWS CI/CD Construct CodeCommit / GitHub Source action (CodePipeline) / GitHub webhook AWS CodePipeline Pipeline root, Stages Linux Runner CodeBuild environment (environment: type: LINUX_CONTAINER) Build Stage CodeBuild project (buildspec.yml → phases) Artifact Storage Amazon S3 / Amazon ECR Deployment Target AWS CodeDeploy / ECS / EC2 / S3 Security & Auth IAM roles & policies Logs & Monitoring CloudWatch Logs Pipeline Execution Evidence Proof of successful implementation Git Integration Evidence GitHub repository showing code changes and commit history triggering the CI/CD pipeline. Pipeline execution (visual): View CodePipeline Execution (HelloWorldPipeline) Assets & References Code, diagrams, study material GitHub Repositories Source code repositories containing AWS CDK Python implementations and examples used in this project. aws-cdk-mycreation aws-cdk-gettingstarted Study Material Resources Click the button below to open the study materials Request Study Material",
+  "crawl_timestamp": "2026-06-17T06:28:13.518044+00:00",
+  "raw_html_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/02_Tech_02_MLOps_01_CICD_AWS_CDK_IaC_Platform.html"
+}

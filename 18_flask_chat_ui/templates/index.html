@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ product_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=10">
+  </head>
+  <body>
+    <main class="app-shell">
+      <aside class="control-panel" aria-label="Assistant controls">
+        <section class="identity-block">
+          <div class="brand-row"><div class="rabbit-mark" aria-hidden="true">R</div><p class="eyebrow">{{ assistant_name }}</p></div>
+          <h1>{{ product_name }}</h1>
+          <p class="profile-name">{{ profile_name }}</p>
+        </section>
+
+        <section class="mode-block">
+          <div class="section-head"><h2>Mode</h2></div>
+          <div class="mode-grid" id="mode-grid">
+            <button class="segment active" data-mode="user">User</button>
+            <button class="segment" data-mode="debug">Debug</button>
+            <button class="segment" data-mode="observability">Observability</button>
+            <button class="segment" data-mode="tech">Tech</button>
+          </div>
+          <label class="field-label debug-password is-hidden" id="debug-password-wrap">Owner/demo password
+            <input id="debug-password" type="password" autocomplete="current-password" placeholder="Required outside User Mode">
+          </label>
+        </section>
+
+        <section class="side-section">
+          <div class="section-head"><h2>Sample Questions</h2></div>
+          <div class="sample-list" id="sample-list"></div>
+        </section>
+
+        <section class="side-section keyword-section" id="keyword-section">
+          <div class="section-head"><h2>Keywords</h2></div>
+          <div class="keyword-list" id="keyword-list"></div>
+        </section>
+
+        <section class="session-section">
+          <div class="section-head"><h2>Session</h2></div>
+          <div class="session-id" id="session-id">-</div>
+          <button class="secondary-button" id="clear-history" type="button">Clear</button>
+        </section>
+      </aside>
+
+      <section class="chat-panel">
+        <header class="chat-header">
+          <div>
+            <p class="eyebrow">Business-Tech RAG</p>
+            <h2>Ask RABBIT</h2>
+            <p>Business, AI, analytics, MLOps, GenAI, projects, and role-fit answers grounded in Azure AI Search.</p>
+            <p class="tech-credit">Exclusively developed by Rajesh Arigala using Flask, Azure AI Search, Azure OpenAI, text embeddings, hybrid retrieval, and a custom RAG pipeline.</p>
+          </div>
+          <div class="status-pill" id="connection-status">Ready</div>
+        </header>
+        <section class="chat-history" id="chat-history" aria-live="polite"></section>
+        <form class="composer" id="chat-form">
+          <label class="sr-only" for="question-input">Ask a question</label>
+          <textarea id="question-input" rows="2" maxlength="1400" placeholder="Ask about Rajesh's business-tech fit, BPCL, MLOps, Kubernetes, AI transition..."></textarea>
+          <button class="send-button" id="send-button" type="submit">Send</button>
+        </form>
+      </section>
+
+      <aside class="inspector-panel" id="inspector-panel">
+        <header class="inspector-header">
+          <div>
+            <p class="eyebrow" id="inspector-eyebrow">Debug</p>
+            <h2 id="inspector-title">Mode Panel</h2>
+          </div>
+          <button class="secondary-button" id="copy-payload" type="button">Copy</button>
+        </header>
+        <section class="inspector-content" id="inspector-content">
+          <p class="muted">Ask a question to populate this mode.</p>
+        </section>
+      </aside>
+    </main>
+    <script>
+      window.APP_CONFIG = {
+        productName: {{ product_name|tojson }},
+        assistantName: {{ assistant_name|tojson }},
+        profileName: {{ profile_name|tojson }}
+      };
+    </script>
+    <script src="{{ url_for('static', filename='app.js') }}?v=10"></script>
+  </body>
+</html>

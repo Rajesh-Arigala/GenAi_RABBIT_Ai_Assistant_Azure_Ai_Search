@@ -1,0 +1,1896 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medtronic India — Territory Business Leadership</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&amp;family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&amp;family=DM+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+/* ─── RESET ──────────────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+/* ─── TOKENS ─────────────────────────────────────────────── */
+:root {
+  --bg:       #080c10;
+  --bg1:      #0d1318;
+  --bg2:      #111820;
+  --bg3:      #162028;
+  --border:   rgba(255,255,255,0.07);
+  --border2:  rgba(52,190,160,0.18);
+  --teal:     #34bea0;
+  --teal2:    #1fe8c4;
+  --teal-dim: rgba(52,190,160,0.12);
+  --text:     #e8f0f7;
+  --text2:    #7a9ab5;
+  --text3:    #4d6f8a;
+  --white:    #ffffff;
+  --ff-head:  'Syne', sans-serif;
+  --ff-body:  'DM Sans', sans-serif;
+  --ff-mono:  'DM Mono', monospace;
+}
+
+/* ─── BASE ───────────────────────────────────────────────── */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--ff-body);
+  font-weight: 300;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+/* ─── SCROLLBAR ──────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 2px; }
+
+/* ─── CURSOR GLOW ────────────────────────────────────────── */
+.cursor-glow {
+  pointer-events: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(52,190,160,0.06) 0%, transparent 70%);
+  transform: translate(-50%,-50%);
+  z-index: 0;
+  transition: transform 0.1s linear;
+}
+
+/* ─── NAV ────────────────────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.4rem 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid transparent;
+  transition: all 0.4s ease;
+}
+nav.scrolled {
+  background: rgba(8,12,16,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom-color: var(--border);
+}
+.nav-logo {
+  font-family: var(--ff-head);
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.nav-logo-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 10px var(--teal);
+}
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--ff-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text2);
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--teal2); }
+.nav-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.7rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid rgba(31,232,196,0.34);
+  background: linear-gradient(135deg, rgba(31,232,196,0.22), rgba(52,190,160,0.08));
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.03) inset, 0 10px 28px rgba(31,232,196,0.16);
+  font-family: var(--ff-mono);
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--white);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+.nav-cta:hover {
+  transform: translateY(-2px);
+  border-color: rgba(31,232,196,0.52);
+  background: linear-gradient(135deg, rgba(31,232,196,0.3), rgba(52,190,160,0.12));
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.06) inset, 0 14px 34px rgba(31,232,196,0.22);
+}
+
+/* ─── HERO ───────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 3rem 5rem;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 30%, rgba(52,190,160,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(20,100,160,0.1) 0%, transparent 55%),
+    linear-gradient(180deg, #080c10 0%, #0d1820 100%);
+}
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(52,190,160,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(52,190,160,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+}
+.hero-noise {
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.hero-eyebrow {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.2s forwards;
+}
+.hero-eyebrow-line {
+  width: 40px; height: 1px;
+  background: var(--teal);
+}
+.hero-eyebrow-text {
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--teal);
+}
+
+.hero-title {
+  position: relative;
+  z-index: 2;
+  font-family: var(--ff-head);
+  font-size: clamp(3.2rem, 7vw, 7rem);
+  font-weight: 800;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  max-width: 900px;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.35s forwards;
+}
+.hero-title em {
+  font-style: normal;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(52,190,160,0.5);
+}
+.hero-title .accent { color: var(--teal2); }
+
+.hero-sub {
+  position: relative;
+  z-index: 2;
+  font-size: 1.1rem;
+  font-weight: 300;
+  color: var(--text2);
+  max-width: 560px;
+  margin-top: 2rem;
+  line-height: 1.75;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.5s forwards;
+}
+
+.hero-kpis {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 3.5rem;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.65s forwards;
+}
+.kpi-pill {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: rgba(13,19,24,0.8);
+  border: 1px solid var(--border2);
+  border-radius: 100px;
+  min-height: 88px;
+  padding: 1.1rem 1.8rem 1.1rem 1.2rem;
+  backdrop-filter: blur(12px);
+  transition: border-color 0.3s, transform 0.3s;
+}
+.kpi-pill:hover {
+  border-color: rgba(52,190,160,0.4);
+  transform: translateY(-2px);
+}
+.kpi-pill-num {
+  font-family: var(--ff-head);
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.kpi-pill-label {
+  font-family: var(--ff-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text2);
+  line-height: 1.45;
+  margin-top: 0.5rem;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  right: 3rem;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  opacity: 0;
+  animation: fadeIn 1s ease 1.2s forwards;
+}
+.hero-scroll-text {
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text3);
+  writing-mode: vertical-rl;
+}
+.hero-scroll-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(var(--teal), transparent);
+  animation: scrollLine 2s ease-in-out infinite;
+}
+
+.hero-img-float {
+  position: absolute;
+  right: 3rem;
+  top: 20%;
+  transform: translateY(-50%);
+  z-index: 1;
+  width: 420px;
+  height: 520px;
+  opacity: 0;
+  animation: fadeLeft 1s ease 0.6s forwards, heroFloat 10s ease-in-out 1.2s infinite;
+}
+.hero-img-float-inner {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+.hero-img-float-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+@keyframes heroFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+/* ─── SECTION BASE ───────────────────────────────────────── */
+section { position: relative; }
+.wrap {
+  max-width: 1260px;
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+
+.section-label {
+  font-family: var(--ff-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--teal);
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+}
+.section-label::before {
+  content: '';
+  display: block;
+  width: 28px; height: 1px;
+  background: var(--teal);
+}
+
+.section-head {
+  font-family: var(--ff-head);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.2rem;
+}
+
+/* ─── REVEAL ANIMATION ───────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── DIVIDER ────────────────────────────────────────────── */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border2) 30%, var(--border2) 70%, transparent);
+  margin: 0;
+}
+
+/* ─── CONTEXT SECTION ────────────────────────────────────── */
+.context-section {
+  padding: 8rem 0 7rem;
+}
+.context-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6rem;
+  align-items: start;
+}
+.context-body {
+  font-size: 1.05rem;
+  color: var(--text2);
+  line-height: 1.8;
+}
+.context-body p + p { margin-top: 1.2rem; }
+.context-body strong { color: var(--text); font-weight: 500; }
+
+.context-quote {
+  margin-top: 2.5rem;
+  padding: 2rem 2rem 2rem 2.5rem;
+  border-left: 2px solid var(--teal);
+  background: var(--teal-dim);
+  border-radius: 0 1rem 1rem 0;
+}
+.context-quote p {
+  font-family: var(--ff-head);
+  font-size: 1.1rem;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--text);
+  font-style: italic;
+}
+
+.scope-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.scope-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 1.2rem;
+  padding: 1.8rem;
+  transition: border-color 0.3s, background 0.3s;
+}
+.scope-card:hover {
+  border-color: var(--border2);
+  background: var(--bg3);
+}
+.scope-card-value {
+  font-family: var(--ff-head);
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+.scope-card-label {
+  font-family: var(--ff-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text2);
+}
+.scope-card.wide { grid-column: 1 / -1; }
+.scope-card-wide-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* ─── ENVIRONMENT IMAGE ──────────────────────────────────── */
+.env-img-block {
+  position: relative;
+  height: clamp(620px, 72vw, 860px);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  margin-top: 2rem;
+  border: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 0.9rem;
+  padding: 0.9rem;
+  background: rgba(13,19,24,0.72);
+}
+.env-img-panel {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.1rem;
+  min-height: 0;
+}
+.env-img-block-inner {
+  width: 100%;
+  height: 100%;
+  background: #0d1820;
+  border-radius: inherit;
+  overflow: hidden;
+}
+.env-img-stack {
+  display: grid;
+  grid-template-rows: repeat(4, minmax(180px, 1fr));
+  gap: 0.9rem;
+  min-height: 0;
+}
+.env-img-block-inner img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(1.02) contrast(1.04);
+}
+.env-img-caption {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1.1rem 1.35rem;
+  background: linear-gradient(transparent, rgba(8,12,16,0.95));
+  font-family: var(--ff-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+
+/* ─── CHALLENGES ─────────────────────────────────────────── */
+.challenges-section {
+  padding: 0 0 7rem;
+}
+.challenges-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  overflow: hidden;
+}
+.challenge-item {
+  background: var(--bg1);
+  padding: 2.5rem;
+  transition: background 0.3s;
+}
+.challenge-item:hover { background: var(--bg3); }
+.challenge-num {
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  color: var(--teal);
+  letter-spacing: 0.1em;
+  margin-bottom: 1.2rem;
+  opacity: 0.7;
+}
+.challenge-title {
+  font-family: var(--ff-head);
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.7rem;
+  color: var(--text);
+}
+.challenge-desc {
+  font-size: 0.88rem;
+  color: var(--text2);
+  line-height: 1.65;
+}
+
+/* ─── ARCHITECTURE SECTION ───────────────────────────────── */
+.arch-section {
+  padding: 7rem 0;
+  background: var(--bg1);
+}
+.arch-header {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 5rem;
+  align-items: end;
+  margin-bottom: 4rem;
+}
+.arch-head-desc {
+  font-size: 1.05rem;
+  color: var(--text2);
+  line-height: 1.8;
+}
+
+.arch-pillars {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+.arch-pillar {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 1.2rem;
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  transition: border-color 0.3s, transform 0.4s;
+  cursor: default;
+}
+.arch-pillar:hover {
+  border-color: var(--border2);
+  transform: translateY(-6px);
+}
+.arch-pillar-num {
+  font-family: var(--ff-mono);
+  font-size: 0.62rem;
+  color: var(--teal);
+  letter-spacing: 0.1em;
+  opacity: 0.7;
+}
+.arch-pillar-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  background: var(--teal-dim);
+  border: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+.arch-pillar-title {
+  font-family: var(--ff-head);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--text);
+}
+.arch-pillar-items {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.arch-pillar-items li {
+  font-size: 0.78rem;
+  color: var(--text2);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  line-height: 1.4;
+}
+.arch-pillar-items li::before {
+  content: '→';
+  color: var(--teal);
+  font-size: 0.7rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+/* ─── EXECUTION SECTION ──────────────────────────────────── */
+.exec-section {
+  padding: 7rem 0;
+}
+.exec-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+.exec-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+.exec-timeline::before {
+  content: '';
+  position: absolute;
+  left: 12px;
+  top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(var(--teal), transparent);
+}
+.exec-item {
+  display: flex;
+  gap: 1.8rem;
+  padding-bottom: 2.2rem;
+  position: relative;
+}
+.exec-dot {
+  width: 25px; height: 25px;
+  border-radius: 50%;
+  border: 1px solid var(--border2);
+  background: var(--bg2);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  margin-top: 0.1rem;
+  transition: background 0.3s, border-color 0.3s;
+}
+.exec-dot::after {
+  content: '';
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--teal);
+  transition: transform 0.3s;
+}
+.exec-item:hover .exec-dot {
+  background: var(--teal-dim);
+  border-color: var(--teal);
+}
+.exec-item:hover .exec-dot::after {
+  transform: scale(1.4);
+}
+.exec-content {}
+.exec-title {
+  font-family: var(--ff-head);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+.exec-desc {
+  font-size: 0.85rem;
+  color: var(--text2);
+  line-height: 1.65;
+}
+
+/* Right panel: image placeholder */
+.exec-visual {
+  position: sticky;
+  top: 7rem;
+}
+.exec-img-stack {
+  display: grid;
+  gap: 1rem;
+}
+.exec-img {
+  height: 280px;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--border);
+}
+.exec-img-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.exec-img-inner img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: saturate(0.98) contrast(1.03) brightness(0.82);
+  transform: scale(1.08);
+}
+.exec-img-pattern {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(8,12,16,0.04) 0%, rgba(8,12,16,0.12) 55%, rgba(8,12,16,0.38) 100%),
+    radial-gradient(circle, rgba(52,190,160,0.05) 1px, transparent 1px);
+  background-size: auto, 24px 24px;
+  mask-image: radial-gradient(ellipse 78% 78% at 50% 50%, black, transparent);
+}
+.exec-img-center {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+.exec-img-center-num {
+  font-family: var(--ff-head);
+  font-size: 5rem;
+  font-weight: 800;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(52,190,160,0.3);
+  line-height: 1;
+}
+.exec-img-center-label {
+  font-family: var(--ff-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-top: 0.5rem;
+}
+.exec-img-badges {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+.exec-img-badge {
+  background: rgba(8,12,16,0.85);
+  border: 1px solid var(--border2);
+  border-radius: 100px;
+  padding: 0.4rem 0.9rem;
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  color: var(--teal);
+  backdrop-filter: blur(12px);
+}
+.exec-img-caption {
+  position: absolute;
+  top: 1.35rem;
+  left: 1.35rem;
+  right: 1.35rem;
+  z-index: 1;
+}
+.exec-img-caption-title {
+  font-family: var(--ff-head);
+  font-size: 2.4rem;
+  font-weight: 800;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(52,190,160,0.36);
+}
+.exec-img-caption-copy {
+  margin-top: 0.45rem;
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+
+/* ─── IMPACT SECTION ─────────────────────────────────────── */
+.impact-section {
+  padding: 7rem 0;
+  background: var(--bg1);
+  overflow: hidden;
+}
+.impact-bg-num {
+  position: absolute;
+  top: -2rem;
+  right: 3rem;
+  font-family: var(--ff-head);
+  font-size: 20rem;
+  font-weight: 800;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(52,190,160,0.04);
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+.impact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 4rem;
+}
+.impact-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  transition: border-color 0.3s, transform 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+.impact-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--teal), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.impact-card:hover {
+  border-color: var(--border2);
+  transform: translateY(-4px);
+}
+.impact-card:hover::before { opacity: 1; }
+
+.impact-card-cat {
+  font-family: var(--ff-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 1.5rem;
+}
+.impact-stat {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+.impact-num {
+  font-family: var(--ff-head);
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: var(--white);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.impact-unit {
+  font-family: var(--ff-head);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--teal);
+}
+.impact-desc {
+  font-size: 0.85rem;
+  color: var(--text2);
+  line-height: 1.65;
+  margin-top: 0.8rem;
+}
+.impact-card.large {
+  grid-column: span 2;
+}
+.impact-card.large .impact-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+/* ─── CAPABILITIES ───────────────────────────────────────── */
+.cap-section {
+  padding: 7rem 0;
+}
+.cap-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 3rem;
+}
+.cap-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 1.5rem;
+  align-items: start;
+  transition: border-color 0.3s, background 0.3s;
+}
+.cap-card:hover {
+  border-color: var(--border2);
+  background: var(--bg3);
+}
+.cap-icon-wrap {
+  width: 48px; height: 48px;
+  border-radius: 14px;
+  background: var(--teal-dim);
+  border: 1px solid var(--border2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+.cap-title {
+  font-family: var(--ff-head);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  color: var(--text);
+}
+.cap-desc {
+  font-size: 0.85rem;
+  color: var(--text2);
+  line-height: 1.7;
+}
+
+/* ─── TIMELINE SECTION ───────────────────────────────────── */
+.timeline-section {
+  padding: 7rem 0;
+  background: var(--bg1);
+}
+.timeline-strip {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  margin-top: 3rem;
+}
+.timeline-item {
+  background: var(--bg1);
+  padding: 2.5rem 2rem;
+  transition: background 0.3s;
+  position: relative;
+}
+.timeline-item:hover { background: var(--bg3); }
+.timeline-year {
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--teal);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.timeline-year::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 8px var(--teal);
+}
+.timeline-event {
+  font-size: 0.82rem;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+/* ─── FRAMING SECTION ────────────────────────────────────── */
+.framing-section {
+  padding: 7rem 0 8rem;
+}
+.framing-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+.framing-visual {
+  height: 420px;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--border);
+}
+.framing-visual-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.framing-visual-inner img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  filter: none;
+}
+.framing-rings {
+  display: none;
+}
+.framing-ring-center {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  z-index: 2;
+  text-align: center;
+}
+.framing-ring-center span {
+  font-family: var(--ff-head);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--teal2);
+}
+
+.framing-content {}
+.framing-principle {
+  font-family: var(--ff-head);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--white);
+  margin: 2rem 0 1.5rem;
+}
+.framing-principle em {
+  font-style: normal;
+  color: var(--teal2);
+}
+.framing-body {
+  font-size: 1rem;
+  color: var(--text2);
+  line-height: 1.8;
+}
+.framing-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 2rem;
+}
+.framing-tag {
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  padding: 0.4rem 0.9rem;
+  border: 1px solid var(--border2);
+  border-radius: 100px;
+  color: var(--teal);
+  background: var(--teal-dim);
+}
+
+/* ─── FOOTER ─────────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+.footer-left {
+  font-family: var(--ff-head);
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text2);
+  text-align: center;
+}
+.footer-center {
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+}
+.footer-right {
+  font-family: var(--ff-mono);
+  font-size: 0.68rem;
+  color: var(--text3);
+}
+
+/* ─── KEYFRAMES ──────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes fadeLeft {
+  from { opacity: 0; transform: translate(24px, -50%); }
+  to   { opacity: 1; transform: translate(0, -50%); }
+}
+@keyframes scrollLine {
+  0%,100% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+  50%     { opacity: 0.3; transform: scaleY(0.5); transform-origin: top; }
+}
+@keyframes spin {
+  to { transform: translate(-50%,-50%) rotate(360deg); }
+}
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 1100px) {
+  .arch-pillars { grid-template-columns: repeat(3, 1fr); }
+  .hero-img-float { display: none; }
+  .hero-title { font-size: clamp(2.8rem, 8vw, 5rem); }
+  .framing-inner { grid-template-columns: 1fr; }
+  .framing-visual { height: 280px; }
+  .exec-grid { grid-template-columns: 1fr; }
+  .exec-visual { position: static; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 1.2rem 1.5rem; }
+  .nav-links { display: none; }
+  .nav-cta {
+    min-height: 40px;
+    padding: 0.65rem 1rem;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+  }
+  .hero { padding: 0 1.5rem 4rem; }
+  .wrap { padding: 0 1.5rem; }
+  .context-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .challenges-list { grid-template-columns: 1fr; }
+  .arch-pillars { grid-template-columns: repeat(2, 1fr); }
+  .arch-header { grid-template-columns: 1fr; gap: 2rem; }
+  .impact-grid { grid-template-columns: 1fr; }
+  .impact-card.large { grid-column: span 1; }
+  .impact-card.large .impact-inner { grid-template-columns: 1fr; }
+  .cap-grid { grid-template-columns: 1fr; }
+  .timeline-strip { grid-template-columns: 1fr; }
+  .scope-cards { grid-template-columns: 1fr; }
+  .scope-card.wide { grid-column: span 1; }
+  .env-img-block { grid-template-columns: 1fr; height: auto; }
+  .env-img-panel { min-height: 220px; }
+  .env-img-stack { grid-template-rows: repeat(4, 220px); }
+  footer { flex-direction: column; align-items: center; justify-content: center; padding: 2rem 1.5rem; }
+  .hero-scroll { display: none; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Cursor glow -->
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<!-- NAV -->
+<nav id="mainNav" class="scrolled">
+  <div class="nav-logo">
+    <span class="nav-logo-dot"></span>
+    Medtronic India
+  </div>
+  <ul class="nav-links">
+    <li><a href="#context" style="color: var(--teal2);">Context</a></li>
+    <li><a href="#architecture" style="">Architecture</a></li>
+    <li><a href="#execution" style="">Execution</a></li>
+    <li><a href="#impact" style="">Impact</a></li>
+    <li><a href="#journey" style="">Journey</a></li>
+  </ul>
+  <a class="nav-cta" href="/index#contact">Contact</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-noise"></div>
+
+  <div class="hero-img-float">
+    <div class="hero-img-float-inner">
+      <img src="img/medi1.webp" alt="Medtronic territory business leadership visual">
+    </div>
+  </div>
+
+  <div class="hero-eyebrow">
+    <div class="hero-eyebrow-line"></div>
+    <span class="hero-eyebrow-text">Medtronic India . Bradycardia - CRDM Divison . Karnataka &amp; Goa
+
+</span>
+  </div>
+
+  <h1 class="hero-title">
+    Territory<br>
+    Business<br>
+    <span class="accent">Leadership</span>
+  </h1>
+
+  <p class="hero-sub">
+    Driving P&amp;L ownership, market expansion &amp; therapy adoption in a regulated healthcare market — Karnataka &amp; Goa.
+  </p>
+
+  <div class="hero-kpis">
+    <div class="kpi-pill">
+      <div>
+        <div class="kpi-pill-num">₹4.73Cr</div>
+        <div class="kpi-pill-label">P&amp;L Owned</div>
+      </div>
+    </div>
+    <div class="kpi-pill">
+      <div>
+        <div class="kpi-pill-num">+12%</div>
+        <div class="kpi-pill-label">Therapy Growth</div>
+      </div>
+    </div>
+    <div class="kpi-pill">
+      <div>
+        <div class="kpi-pill-num">₹0.3Cr</div>
+        <div class="kpi-pill-label">Incremental Revenue</div>
+      </div>
+    </div>
+    <div class="kpi-pill">
+      <div>
+        <div class="kpi-pill-num">+7%</div>
+        <div class="kpi-pill-label">Sales Lift</div>
+      </div>
+    </div>
+    <div class="kpi-pill">
+      <div>
+        <div class="kpi-pill-num">100+</div>
+        <div class="kpi-pill-label">Hospital Accounts</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span class="hero-scroll-text">Scroll</span>
+    <div class="hero-scroll-line"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTEXT SECTION -->
+<section class="context-section" id="context">
+  <div class="wrap">
+    <div class="context-grid">
+      <!-- Left -->
+      <div class="reveal visible">
+        <div class="section-label">The Environment</div>
+        <h2 class="section-head">A regulated, relationship-driven ecosystem</h2>
+        <div class="context-body">
+          <p>Medtronic operates in a complex, high-stakes healthcare market where adoption depends on <strong>physician trust, patient affordability, and hospital economics</strong>. Sales cycles are long and highly relationship-driven.</p>
+          <p>Compliance, pricing, and therapy delivery must align with clinical outcomes. Market growth is driven by education, awareness, and <strong>ecosystem enablement</strong> — not product push.</p>
+          <p>This was not a pure sales role. It was <strong>territory-level business ownership</strong> with end-to-end accountability — treating a geography as a regulated commercial operating system.</p>
+        </div>
+        <div class="context-quote">
+          <p>"Operating at the intersection of healthcare delivery, physician economics, and commercial strategy — with full accountability for outcomes."</p>
+        </div>
+      </div>
+
+      <!-- Right: scope cards -->
+      <div class="reveal visible" style="transition-delay:0.15s">
+        <div class="section-label">Territory Scope</div>
+        <div class="scope-cards">
+          <div class="scope-card">
+            <div class="scope-card-value">₹4.73Cr</div>
+            <div class="scope-card-label">P&amp;L across Karnataka &amp; Goa</div>
+          </div>
+          <div class="scope-card">
+            <div class="scope-card-value">100+</div>
+            <div class="scope-card-label">Hospital Accounts</div>
+          </div>
+          <div class="scope-card">
+            <div class="scope-card-value">15</div>
+            <div class="scope-card-label">Key Opinion Leaders</div>
+          </div>
+          <div class="scope-card">
+            <div class="scope-card-value">6</div>
+            <div class="scope-card-label">Field Team Members</div>
+          </div>
+          <div class="scope-card wide">
+            <div class="scope-card-wide-inner">
+              <div>
+                <div class="scope-card-value">2 States</div>
+                <div class="scope-card-label">Geographic Coverage</div>
+              </div>
+              <div>
+                <div class="scope-card-value">13</div>
+                <div class="scope-card-label">Channel Partner Team</div>
+              </div>
+              <div>
+                <div class="scope-card-value">CRDM</div>
+                <div class="scope-card-label">Cardiac Rhythm Disease Mgmt</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Image collage -->
+    <div class="env-img-block reveal visible" style="transition-delay:0.2s">
+      <div class="env-img-panel">
+        <div class="env-img-block-inner">
+          <img src="img/medi2.webp" alt="Cardiology ecosystem overview across Karnataka and Goa">
+        </div>
+        <div class="env-img-caption"></div>
+      </div>
+      <div class="env-img-stack">
+        <div class="env-img-panel">
+          <div class="env-img-block-inner">
+            <img src="img/medi3.webp" alt="Market coverage and territory leadership visual">
+          </div>
+          <div class="env-img-caption"></div>
+        </div>
+        <div class="env-img-panel">
+          <div class="env-img-block-inner">
+            <img src="img/medi4.webp" alt="Field execution across hospitals and sales channels">
+          </div>
+         <div class="env-img-caption"></div>
+        </div>
+        <div class="env-img-panel">
+          <div class="env-img-block-inner">
+            <img src="img/medi5.webp" alt="System design and commercial planning visual">
+          </div>
+          <div class="env-img-caption"></div>
+        </div>
+        <div class="env-img-panel">
+          <div class="env-img-block-inner">
+            <img src="img/medi6.webp" alt="Regional performance and market growth visual">
+          </div>
+          <div class="env-img-caption"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- STRUCTURAL CHALLENGES -->
+<section class="challenges-section">
+  <div class="wrap">
+    <div class="reveal visible" style="margin-bottom:3rem">
+      <div class="section-label">The Problem</div>
+      <h2 class="section-head">Structural constraints in the territory</h2>
+    </div>
+    <div class="challenges-list reveal visible" style="transition-delay:0.1s">
+      <div class="challenge-item">
+        <div class="challenge-num">01</div>
+        <div class="challenge-title">Fragmented Engagement</div>
+        <div class="challenge-desc">Long therapy adoption cycles and fragmented hospital engagement patterns slowed conversion and limited new physician onboarding.</div>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-num">02</div>
+        <div class="challenge-title">Physician Training Gap</div>
+        <div class="challenge-desc">Limited physician training on advanced pacing therapies meant demand creation required structured education programs at scale.</div>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-num">03</div>
+        <div class="challenge-title">Pricing Inefficiencies</div>
+        <div class="challenge-desc">Credit note inefficiencies at the implant level were impacting margins. No standardized pricing model existed across the territory.</div>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-num">04</div>
+        <div class="challenge-title">Single Channel Risk</div>
+        <div class="challenge-desc">Dependence on a single channel partner (Encarta Pharma) created business concentration risk with no contingency operating model.</div>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-num">05</div>
+        <div class="challenge-title">Delivery Lead Times</div>
+        <div class="challenge-desc">Slow therapy delivery timelines were directly affecting conversion rates and reducing the territory's ability to capture committed demand.</div>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-num">06</div>
+        <div class="challenge-title">Low Non-Metro Awareness</div>
+        <div class="challenge-desc">Therapy awareness was concentrated in metro clusters; non-metro and Tier-2 hospital segments remained largely untapped.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ARCHITECTURE SECTION -->
+<section class="arch-section" id="architecture">
+  <div class="wrap">
+    <div class="arch-header reveal visible">
+      <div>
+        <div class="section-label">Business Architecture</div>
+        <h2 class="section-head">Territory as a commercial operating system</h2>
+      </div>
+      <div class="arch-head-desc reveal visible" style="transition-delay:0.15s">
+        The territory was not managed as a sales region. It was engineered as a <strong>regulated commercial operating system</strong> — where clinical outcomes, physician economics, patient affordability, logistics, pricing discipline, and channel risk were designed into one coherent model.
+      </div>
+    </div>
+
+    <div class="arch-pillars reveal visible" style="transition-delay:0.1s">
+      <div class="arch-pillar">
+        <div class="arch-pillar-num">01 —</div>
+        <div class="arch-pillar-icon">📈</div>
+        <div class="arch-pillar-title">Territory P&amp;L Operating Model</div>
+        <ul class="arch-pillar-items">
+          <li>Full ₹4.73 Cr P&amp;L ownership</li>
+          <li>Account-wise revenue planning</li>
+          <li>Model-mix optimization</li>
+          <li>3-year AOP forecasting</li>
+        </ul>
+      </div>
+      <div class="arch-pillar">
+        <div class="arch-pillar-num">02 —</div>
+        <div class="arch-pillar-icon">💊</div>
+        <div class="arch-pillar-title">Therapy Adoption Engine</div>
+        <ul class="arch-pillar-items">
+          <li>Physician-facing revenue models</li>
+          <li>25 doctors trained on pacing economics</li>
+          <li>25 medical events + 2 TV programs</li>
+          <li>PGDCC therapy pipeline creation</li>
+        </ul>
+      </div>
+      <div class="arch-pillar">
+        <div class="arch-pillar-num">03 —</div>
+        <div class="arch-pillar-icon">🗺️</div>
+        <div class="arch-pillar-title">Market Activation Framework</div>
+        <ul class="arch-pillar-items">
+          <li>Diagnostic tools for lead time reduction</li>
+          <li>Territory-wide call planning system</li>
+          <li>Financial schemes for affordability</li>
+          <li>Featured in HBR initiative (HHFA)</li>
+        </ul>
+      </div>
+      <div class="arch-pillar">
+        <div class="arch-pillar-num">04 —</div>
+        <div class="arch-pillar-icon">🔗</div>
+        <div class="arch-pillar-title">Channel &amp; Risk Diversification</div>
+        <ul class="arch-pillar-items">
+          <li>2nd channel partner strategy</li>
+          <li>Reduced single-partner dependency</li>
+          <li>Contingency operating model</li>
+          <li>4-director coordination (Encarta Pharma)</li>
+        </ul>
+      </div>
+      <div class="arch-pillar">
+        <div class="arch-pillar-num">05 —</div>
+        <div class="arch-pillar-icon">⚙️</div>
+        <div class="arch-pillar-title">CRM &amp; Process Enablement -&gt; Salesforce.com</div>
+        <ul class="arch-pillar-items">
+          <li>Salesforce rollout — South India core member</li>
+          <li>12-member team technical training</li>
+          <li>Territory-wide process standardization</li>
+          <li>Digital CRM adoption &amp; field workflows</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXECUTION SECTION -->
+<section class="exec-section" id="execution">
+  <div class="wrap">
+    <div class="exec-grid">
+      <div>
+        <div class="reveal visible">
+          <div class="section-label">Ground Execution</div>
+          <h2 class="section-head">What was built on the ground</h2>
+          <p style="color:var(--text2);font-size:0.95rem;line-height:1.8;margin-bottom:3rem;">Across 2011–2013, every initiative was hands-on, end-to-end, and outcome-accountable. Here is how the territory operating system was activated in practice.</p>
+        </div>
+        <div class="exec-timeline">
+          <div class="exec-item reveal visible" style="transition-delay:0.05s">
+            <div class="exec-dot"></div>
+            <div class="exec-content">
+              <div class="exec-title">P&amp;L Ownership &amp; Account Planning</div>
+              <div class="exec-desc">Owned the full ₹4.73 Cr territory P&amp;L. Built and managed 100+ hospital accounts with account-wise revenue planning and model-mix discipline aligned to AOP targets.</div>
+            </div>
+          </div>
+          <div class="exec-item reveal visible" style="transition-delay:0.1s">
+            <div class="exec-dot"></div>
+            <div class="exec-content">
+              <div class="exec-title">KOL Relationship Development</div>
+              <div class="exec-desc">Developed 15 KOL relationships across Karnataka and Goa. Identified, nominated, and developed implanting skills of 5 new cardiologists in the territory.</div>
+            </div>
+          </div>
+          <div class="exec-item reveal visible" style="transition-delay:0.15s">
+            <div class="exec-dot"></div>
+            <div class="exec-content">
+              <div class="exec-title">Therapy Expansion Programs</div>
+              <div class="exec-desc">Led cardiology cluster therapy expansion. Organized 25 marketing events and 2 TV programs through KOLs. Trained 25 physicians across Mysore on TPI (new device). Discovered the PGDCC doctor group for incremental business.</div>
+            </div>
+          </div>
+          <div class="exec-item reveal visible" style="transition-delay:0.2s">
+            <div class="exec-dot"></div>
+            <div class="exec-content">
+              <div class="exec-title">Pricing Model Redesign</div>
+              <div class="exec-desc">Designed new blanket pricing strategy for FY13. Critically analyzed operating costs per implant across all hospitals. Set the format as division standard to eliminate credit-note inefficiencies.</div>
+            </div>
+          </div>
+          <div class="exec-item reveal visible" style="transition-delay:0.25s">
+            <div class="exec-dot"></div>
+            <div class="exec-content">
+              <div class="exec-title">Demand Unlocking via Financial Schemes</div>
+              <div class="exec-desc">Deployed financial schemes to unlock patient affordability demand. Led the HHFA initiative, which was featured in Harvard Business Review as an exemplary healthcare access model.</div>
+            </div>
+          </div>
+          <div class="exec-item reveal visible" style="transition-delay:0.3s">
+            <div class="exec-dot"></div>
+            <div class="exec-content">
+              <div class="exec-title">CRM Rollout &amp; Digital Enablement</div>
+              <div class="exec-desc">Core member of Salesforce.com rollout across South India (CRDM division). Trained a team of 12 on software and provided first-level technical support. Standardized field workflows and CRM adoption territory-wide.</div>
+            </div>
+          </div>
+          <div class="exec-item reveal visible" style="transition-delay:0.35s">
+            <div class="exec-dot"></div>
+            <div class="exec-content">
+              <div class="exec-title">Channel Partner Management</div>
+              <div class="exec-desc">Managed a total field team of 13 across 2 states. Nominated 2 technicians and mentored 3 distributor employees on skill and technical development. Coordinated with 4 directors of Encarta Pharma for smooth operations.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sticky visual -->
+      <div class="exec-visual reveal visible" style="transition-delay:0.1s">
+        <div class="exec-img-stack">
+          <div class="exec-img">
+            <div class="exec-img-inner">
+              <img src="img/medi_img3.1.webp" alt="15 KOLs managed - Cardiologists and Electrophysiologists">
+              <div class="exec-img-pattern"></div>
+              <div class="exec-img-caption">
+              </div>
+            </div>
+          </div>
+          <div class="exec-img">
+            <div class="exec-img-inner">
+              <img src="img/medi_img3.2.webp" alt="13 field team managed across Karnataka and Goa">
+              <div class="exec-img-pattern"></div>
+              <div class="exec-img-caption">
+              </div>
+            </div>
+            <div class="exec-img-badges">
+              <span class="exec-img-badge">Karnataka</span>
+              <span class="exec-img-badge">Goa</span>
+              <span class="exec-img-badge">CRDM</span>
+              <span class="exec-img-badge">Salesforce</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- IMPACT SECTION -->
+<section class="impact-section" id="impact">
+  <div class="wrap" style="position:relative">
+    <div class="impact-bg-num">12%</div>
+    <div class="reveal visible">
+      <div class="section-label">Hard Business Impact</div>
+      <h2 class="section-head">Outcomes that moved the numbers</h2>
+    </div>
+
+    <div class="impact-grid">
+      <div class="impact-card large reveal visible" style="transition-delay:0.05s">
+        <div class="impact-card-cat">Revenue &amp; Growth</div>
+        <div class="impact-inner">
+          <div>
+            <div class="impact-stat">
+              <div class="impact-num">₹4.73</div>
+              <div class="impact-unit">Cr</div>
+            </div>
+            <div class="impact-desc">P&amp;L achieved on FY13 targets. Full territory ownership across Karnataka &amp; Goa — account-wise planning, model-mix optimization, and AOP delivered.</div>
+          </div>
+          <div>
+            <div class="impact-stat">
+              <div class="impact-num">+12</div>
+              <div class="impact-unit">%</div>
+            </div>
+            <div class="impact-desc">Incremental business via PGDCC therapy programs. Reduced therapy risk and improved pricing discipline contributed directly to incremental growth.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="impact-card reveal visible" style="transition-delay:0.1s">
+        <div class="impact-card-cat">Incremental Revenue</div>
+        <div class="impact-stat">
+          <div class="impact-num">₹0.3</div>
+          <div class="impact-unit">Cr</div>
+        </div>
+        <div class="impact-desc">Generated via physician revenue model enablement. The TPI model for doctors and 25-physician training program created a new revenue pipeline.</div>
+      </div>
+
+      <div class="impact-card reveal visible" style="transition-delay:0.1s">
+        <div class="impact-card-cat">Sales Lift</div>
+        <div class="impact-stat">
+          <div class="impact-num">+7</div>
+          <div class="impact-unit">%</div>
+        </div>
+        <div class="impact-desc">Sales improvement driven by reduced therapy delivery lead times. ELR diagnostic tool introduction in Karnataka generated direct sales lift.</div>
+      </div>
+
+      <div class="impact-card reveal visible" style="transition-delay:0.15s">
+        <div class="impact-card-cat">Operational Efficiency</div>
+        <div class="impact-stat">
+          <div class="impact-num">0</div>
+          <div class="impact-unit">↗</div>
+        </div>
+        <div class="impact-desc">Credit-note process eliminated via blanket pricing strategy — reducing billing friction, improving account-wise planning and model-mix discipline across the territory.</div>
+      </div>
+
+      <div class="impact-card reveal visible" style="transition-delay:0.2s">
+        <div class="impact-card-cat">Risk Reduction</div>
+        <div class="impact-stat">
+          <div class="impact-num">2nd</div>
+        </div>
+        <div class="impact-desc">Channel partner strategy developed and validated to reduce single-partner concentration risk. Built a contingency operating model for territory continuity.</div>
+      </div>
+
+      <div class="impact-card reveal visible" style="transition-delay:0.2s">
+        <div class="impact-card-cat">Capability Building</div>
+        <div class="impact-stat">
+          <div class="impact-num">37</div>
+          <div class="impact-unit">+</div>
+        </div>
+        <div class="impact-desc">People enabled: 25 physicians on therapy economics, 12-member team on CRM and digital workflows, 5 new cardiologists on implanting skills.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CAPABILITIES SECTION -->
+<section class="cap-section">
+  <div class="wrap">
+    <div class="reveal visible">
+      <div class="section-label">Strategic Capabilities</div>
+      <h2 class="section-head">Built through this engagement</h2>
+    </div>
+    <div class="cap-grid">
+      <div class="cap-card reveal visible" style="transition-delay:0.05s">
+        <div class="cap-icon-wrap">🏗️</div>
+        <div>
+          <div class="cap-title">Regulated Market Operating Model Design</div>
+          <div class="cap-desc">Designed a territory-level operating system balancing compliance, physician trust, patient economics, and commercial outcomes — in a high-stakes, multi-stakeholder regulated environment.</div>
+        </div>
+      </div>
+      <div class="cap-card reveal visible" style="transition-delay:0.1s">
+        <div class="cap-icon-wrap">🕸️</div>
+        <div>
+          <div class="cap-title">Ecosystem Architecture</div>
+          <div class="cap-desc">Structured hospital engagement models, KOL relationships, and channel strategies as a coordinated ecosystem — rather than isolated accounts and transactions.</div>
+        </div>
+      </div>
+      <div class="cap-card reveal visible" style="transition-delay:0.15s">
+        <div class="cap-icon-wrap">💰</div>
+        <div>
+          <div class="cap-title">Monetization &amp; Pricing Systems</div>
+          <div class="cap-desc">Built pricing frameworks and therapy revenue models. Removed friction points — credit notes, delivery delays — that blocked conversion. Set blanket pricing as division standard.</div>
+        </div>
+      </div>
+      <div class="cap-card reveal visible" style="transition-delay:0.2s">
+        <div class="cap-icon-wrap">⚡</div>
+        <div>
+          <div class="cap-title">Field Execution Systems</div>
+          <div class="cap-desc">Implemented call planning, CRM (Salesforce) workflows, and digital operating rhythms to standardize execution across geographies and a distributed team of 13.</div>
+        </div>
+      </div>
+      <div class="cap-card reveal visible" style="transition-delay:0.25s">
+        <div class="cap-icon-wrap">📣</div>
+        <div>
+          <div class="cap-title">Demand Creation in Complex Markets</div>
+          <div class="cap-desc">Built therapy adoption engines through medical education (25+ events), physician training, TV programs, and market activation — without product-push mechanics.</div>
+        </div>
+      </div>
+      <div class="cap-card reveal visible" style="transition-delay:0.3s">
+        <div class="cap-icon-wrap">🧮</div>
+        <div>
+          <div class="cap-title">Sales Data &amp; Forecasting</div>
+          <div class="cap-desc">Managed bradycardia sales data for 7 distributors across 5 South India states. Analyzed 3 years of historical data to forecast AOP for FY12 and FY13 with model-mix ratios.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TIMELINE SECTION -->
+<section class="timeline-section" id="journey">
+  <div class="wrap">
+    <div class="reveal visible">
+      <div class="section-label">Timeline</div>
+      <h2 class="section-head">How the territory was built</h2>
+    </div>
+    <div class="timeline-strip reveal visible" style="transition-delay:0.1s">
+      <div class="timeline-item">
+        <div class="timeline-year">2011</div>
+        <div class="timeline-event">Territory onboarding &amp; market diagnosis — Karnataka &amp; Goa. Initial hospital mapping and KOL identification across 2 states.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2011–12</div>
+        <div class="timeline-event">Ecosystem mapping — 100+ hospital accounts, 15 KOLs, channel partner coordination with Encarta Pharma.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2012</div>
+        <div class="timeline-event">Therapy adoption programs &amp; medical education rollout — 25 events, 2 TV programs, TPI &amp; ELR introduction, PGDCC pipeline creation.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2012–13</div>
+        <div class="timeline-event">Pricing redesign, delivery optimization, Salesforce CRM rollout across South India. Blanket pricing set as division standard.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2013</div>
+        <div class="timeline-event">Channel risk diversification &amp; P&amp;L stabilization at ₹4.73 Cr. +12% therapy growth and +7% sales lift delivered.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FRAMING / PROFESSIONAL JOURNEY -->
+<section class="framing-section">
+  <div class="wrap">
+    <div class="framing-inner">
+      <!-- Visual -->
+      <div class="framing-visual reveal visible">
+        <div class="framing-visual-inner">
+          <img src="img/medi_img4.webp" alt="System Design">
+          <div class="framing-rings">
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="reveal visible" style="transition-delay:0.15s">
+        <div class="section-label">Professional Journey</div>
+        <h2 class="section-head">From healthcare systems to platform thinking</h2>
+        <div class="framing-principle">
+          In regulated, high-stakes systems, growth is a function of <em>system design</em> — not effort alone.
+        </div>
+        <div class="framing-body">
+          <p>Medtronic shaped a core operating principle. The territory demanded multi-stakeholder coordination across doctors, hospitals, distributors, and internal teams — alongside trust-building, compliance-aware operations, pricing discipline, and a digital backbone for field execution.</p>
+          <p style="margin-top:1rem">This experience directly informs how complex platforms and operating models are now architected. Whether the system is a healthcare commercialization engine or an enterprise AI platform, the operating logic remains consistent: <strong>design the system, align incentives, reduce friction, and drive the platform into stable production.</strong></p>
+        </div>
+        <div class="framing-tags">
+          <span class="framing-tag">P&amp;L Ownership</span>
+          <span class="framing-tag">Ecosystem Design</span>
+          <span class="framing-tag">Systems Thinking</span>
+          <span class="framing-tag">Regulated Markets</span>
+          <span class="framing-tag">Channel Strategy</span>
+          <span class="framing-tag">CRM &amp; Digital Ops</span>
+          <span class="framing-tag">Demand Creation</span>
+          <span class="framing-tag">Pricing Architecture</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="footer-left">Medtronic India · Territory Business Leadership</div>
+</footer>
+
+<script>
+// ── Cursor glow ───────────────────────────────────────────
+const glow = document.getElementById('cursorGlow');
+document.addEventListener('mousemove', e => {
+  glow.style.transform = `translate(${e.clientX - 250}px, ${e.clientY - 250}px)`;
+});
+
+// ── Nav scroll ───────────────────────────────────────────
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ── Intersection Observer for reveals ────────────────────
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+revealEls.forEach(el => observer.observe(el));
+
+// ── KPI pill tilt on hover ────────────────────────────────
+document.querySelectorAll('.kpi-pill').forEach(pill => {
+  pill.addEventListener('mousemove', e => {
+    const r = pill.getBoundingClientRect();
+    const x = (e.clientX - r.left - r.width / 2) / (r.width / 2);
+    const y = (e.clientY - r.top - r.height / 2) / (r.height / 2);
+    pill.style.transform = `translateY(-4px) rotateX(${-y * 5}deg) rotateY(${x * 5}deg)`;
+  });
+  pill.addEventListener('mouseleave', () => {
+    pill.style.transform = '';
+  });
+});
+
+// ── Counter animation for impact numbers ─────────────────
+function animateCount(el) {
+  const text = el.textContent.trim();
+  const hasPrefix = text.startsWith('₹');
+  const hasPlus = text.startsWith('+');
+  const raw = text.replace(/[^0-9.]/g, '');
+  if (!raw || isNaN(parseFloat(raw))) return;
+
+  const target = parseFloat(raw);
+  const isDecimal = raw.includes('.');
+  const duration = 1200;
+  const start = performance.now();
+
+  function step(now) {
+    const progress = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const val = target * eased;
+    const formatted = isDecimal ? val.toFixed(2) : Math.floor(val).toString();
+    el.textContent = (hasPrefix ? '₹' : '') + (hasPlus ? '+' : '') + formatted;
+    if (progress < 1) requestAnimationFrame(step);
+    else el.textContent = text; // restore original
+  }
+  requestAnimationFrame(step);
+}
+
+const impactNums = document.querySelectorAll('.impact-num');
+const numObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCount(entry.target);
+      numObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+impactNums.forEach(n => numObserver.observe(n));
+
+// ── Smooth active nav link ────────────────────────────────
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => {
+        link.style.color = link.getAttribute('href') === '#' + entry.target.id
+          ? 'var(--teal2)' : '';
+      });
+    }
+  });
+}, { threshold: 0.4 });
+sections.forEach(s => sectionObserver.observe(s));
+</script>
+
+
+</body></html>

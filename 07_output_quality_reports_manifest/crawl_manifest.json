@@ -1,0 +1,482 @@
+{
+  "version": "v4_site_crawler",
+  "run_started_at": "2026-06-17T07:09:55.002101+00:00",
+  "run_finished_at": "2026-06-17T07:10:48.265599+00:00",
+  "config": {
+    "seed_url": "https://rajesharigala.com/tech skills/skill",
+    "seed_urls": [
+      "https://rajesharigala.com/tech skills/skill",
+      "https://rajesharigala.com/tech skills/github",
+      "https://rajesharigala.com/tech skills/aws",
+      "https://rajesharigala.com/tech skills/azure",
+      "https://rajesharigala.com/tech skills/gcd",
+      "https://rajesharigala.com/tech skills/docker",
+      "https://rajesharigala.com/tech skills/kubernetes",
+      "https://rajesharigala.com/tech skills/mlflow"
+    ],
+    "seed_domain": "rajesharigala.com",
+    "max_pages": 8,
+    "max_depth": 0,
+    "delay_seconds": 0.5,
+    "timeout_ms": 60000,
+    "same_domain_only": true
+  },
+  "counts": {
+    "pages_crawled": 8,
+    "pages_failed": 0,
+    "urls_skipped": 17,
+    "internal_links_discovered": 12,
+    "urls_remaining_in_queue": 0
+  },
+  "hierarchy_table": [
+    {
+      "depth": 0,
+      "discovered_parent_page_id": "ROOT",
+      "logical_parent_page_id": "02_Technical_Skills",
+      "page_id": "02_Tech_01_Technical_Skills",
+      "title": "Technical Excellence | Rajesh Arigala",
+      "url": "https://rajesharigala.com/tech skills/skill"
+    },
+    {
+      "depth": 0,
+      "discovered_parent_page_id": "ROOT",
+      "logical_parent_page_id": "02_Technical_Skills",
+      "page_id": "02_Tech_01_Technical_Skills_01_GitHub",
+      "title": "GitHub & GitHub Actions | Rajesh Arigala",
+      "url": "https://rajesharigala.com/tech skills/github"
+    },
+    {
+      "depth": 0,
+      "discovered_parent_page_id": "ROOT",
+      "logical_parent_page_id": "02_Technical_Skills",
+      "page_id": "02_Tech_01_Technical_Skills_02_AWS",
+      "title": "AWS DevOps & Cloud | Rajesh Arigala",
+      "url": "https://rajesharigala.com/tech skills/aws"
+    },
+    {
+      "depth": 0,
+      "discovered_parent_page_id": "ROOT",
+      "logical_parent_page_id": "02_Technical_Skills",
+      "page_id": "02_Tech_01_Technical_Skills_03_Azure",
+      "title": "Azure DevOps & Cloud | Rajesh Arigala",
+      "url": "https://rajesharigala.com/tech skills/azure"
+    },
+    {
+      "depth": 0,
+      "discovered_parent_page_id": "ROOT",
+      "logical_parent_page_id": "02_Technical_Skills",
+      "page_id": "02_Tech_01_Technical_Skills_04_GCP",
+      "title": "Google Cloud DevOps | Rajesh Arigala",
+      "url": "https://rajesharigala.com/tech skills/gcd"
+    },
+    {
+      "depth": 0,
+      "discovered_parent_page_id": "ROOT",
+      "logical_parent_page_id": "02_Technical_Skills",
+      "page_id": "02_Tech_01_Technical_Skills_05_Docker",
+      "title": "Docker & Containerization | Rajesh Arigala",
+      "url": "https://rajesharigala.com/tech skills/docker"
+    },
+    {
+      "depth": 0,
+      "discovered_parent_page_id": "ROOT",
+      "logical_parent_page_id": "02_Technical_Skills",
+      "page_id": "02_Tech_01_Technical_Skills_06_Kubernetes",
+      "title": "Kubernetes Container Orchestration | Rajesh Arigala",
+      "url": "https://rajesharigala.com/tech skills/kubernetes"
+    },
+    {
+      "depth": 0,
+      "discovered_parent_page_id": "ROOT",
+      "logical_parent_page_id": "02_Technical_Skills",
+      "page_id": "02_Tech_01_Technical_Skills_07_MLflow",
+      "title": "MLFlow ML Lifecycle Management | Rajesh Arigala",
+      "url": "https://rajesharigala.com/tech skills/mlflow"
+    }
+  ],
+  "crawled_pages": [
+    {
+      "version": "v4_site_crawler",
+      "page_id": "02_Tech_01_Technical_Skills",
+      "url": "https://rajesharigala.com/tech skills/skill",
+      "depth": 0,
+      "parent_url": null,
+      "parent_page_id": "ROOT",
+      "logical_parent_page_id": "02_Technical_Skills",
+      "title": "Technical Excellence | Rajesh Arigala",
+      "characters_content": 4711,
+      "words_content": 618,
+      "characters_rag_text": 8516,
+      "words_rag_text": 1085,
+      "headings_count": 9,
+      "paragraphs_count": 37,
+      "links_count": 11,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/02_Tech_01_Technical_Skills.html",
+        "structured_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/03_output_structured_json/02_Tech_01_Technical_Skills_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/04_output_clean_json/02_Tech_01_Technical_Skills_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/05_output_clean_text/02_Tech_01_Technical_Skills_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_01_Technical_Skills_rag.txt",
+        "report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_01_Technical_Skills_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "02_Tech_01_Technical_Skills_01_GitHub",
+      "url": "https://rajesharigala.com/tech skills/github",
+      "depth": 0,
+      "parent_url": null,
+      "parent_page_id": "ROOT",
+      "logical_parent_page_id": "02_Technical_Skills",
+      "title": "GitHub & GitHub Actions | Rajesh Arigala",
+      "characters_content": 1447,
+      "words_content": 177,
+      "characters_rag_text": 2818,
+      "words_rag_text": 344,
+      "headings_count": 5,
+      "paragraphs_count": 6,
+      "links_count": 6,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/02_Tech_01_Technical_Skills_01_GitHub.html",
+        "structured_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/03_output_structured_json/02_Tech_01_Technical_Skills_01_GitHub_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/04_output_clean_json/02_Tech_01_Technical_Skills_01_GitHub_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/05_output_clean_text/02_Tech_01_Technical_Skills_01_GitHub_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_01_Technical_Skills_01_GitHub_rag.txt",
+        "report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_01_Technical_Skills_01_GitHub_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "02_Tech_01_Technical_Skills_02_AWS",
+      "url": "https://rajesharigala.com/tech skills/aws",
+      "depth": 0,
+      "parent_url": null,
+      "parent_page_id": "ROOT",
+      "logical_parent_page_id": "02_Technical_Skills",
+      "title": "AWS DevOps & Cloud | Rajesh Arigala",
+      "characters_content": 3338,
+      "words_content": 425,
+      "characters_rag_text": 4931,
+      "words_rag_text": 622,
+      "headings_count": 8,
+      "paragraphs_count": 9,
+      "links_count": 9,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/02_Tech_01_Technical_Skills_02_AWS.html",
+        "structured_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/03_output_structured_json/02_Tech_01_Technical_Skills_02_AWS_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/04_output_clean_json/02_Tech_01_Technical_Skills_02_AWS_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/05_output_clean_text/02_Tech_01_Technical_Skills_02_AWS_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_01_Technical_Skills_02_AWS_rag.txt",
+        "report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_01_Technical_Skills_02_AWS_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "02_Tech_01_Technical_Skills_03_Azure",
+      "url": "https://rajesharigala.com/tech skills/azure",
+      "depth": 0,
+      "parent_url": null,
+      "parent_page_id": "ROOT",
+      "logical_parent_page_id": "02_Technical_Skills",
+      "title": "Azure DevOps & Cloud | Rajesh Arigala",
+      "characters_content": 2338,
+      "words_content": 293,
+      "characters_rag_text": 3617,
+      "words_rag_text": 453,
+      "headings_count": 6,
+      "paragraphs_count": 7,
+      "links_count": 5,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/02_Tech_01_Technical_Skills_03_Azure.html",
+        "structured_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/03_output_structured_json/02_Tech_01_Technical_Skills_03_Azure_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/04_output_clean_json/02_Tech_01_Technical_Skills_03_Azure_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/05_output_clean_text/02_Tech_01_Technical_Skills_03_Azure_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_01_Technical_Skills_03_Azure_rag.txt",
+        "report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_01_Technical_Skills_03_Azure_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "02_Tech_01_Technical_Skills_04_GCP",
+      "url": "https://rajesharigala.com/tech skills/gcd",
+      "depth": 0,
+      "parent_url": null,
+      "parent_page_id": "ROOT",
+      "logical_parent_page_id": "02_Technical_Skills",
+      "title": "Google Cloud DevOps | Rajesh Arigala",
+      "characters_content": 1156,
+      "words_content": 152,
+      "characters_rag_text": 2308,
+      "words_rag_text": 301,
+      "headings_count": 5,
+      "paragraphs_count": 6,
+      "links_count": 5,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/02_Tech_01_Technical_Skills_04_GCP.html",
+        "structured_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/03_output_structured_json/02_Tech_01_Technical_Skills_04_GCP_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/04_output_clean_json/02_Tech_01_Technical_Skills_04_GCP_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/05_output_clean_text/02_Tech_01_Technical_Skills_04_GCP_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_01_Technical_Skills_04_GCP_rag.txt",
+        "report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_01_Technical_Skills_04_GCP_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "02_Tech_01_Technical_Skills_05_Docker",
+      "url": "https://rajesharigala.com/tech skills/docker",
+      "depth": 0,
+      "parent_url": null,
+      "parent_page_id": "ROOT",
+      "logical_parent_page_id": "02_Technical_Skills",
+      "title": "Docker & Containerization | Rajesh Arigala",
+      "characters_content": 2677,
+      "words_content": 325,
+      "characters_rag_text": 4067,
+      "words_rag_text": 486,
+      "headings_count": 6,
+      "paragraphs_count": 7,
+      "links_count": 7,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/02_Tech_01_Technical_Skills_05_Docker.html",
+        "structured_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/03_output_structured_json/02_Tech_01_Technical_Skills_05_Docker_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/04_output_clean_json/02_Tech_01_Technical_Skills_05_Docker_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/05_output_clean_text/02_Tech_01_Technical_Skills_05_Docker_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_01_Technical_Skills_05_Docker_rag.txt",
+        "report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_01_Technical_Skills_05_Docker_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "02_Tech_01_Technical_Skills_06_Kubernetes",
+      "url": "https://rajesharigala.com/tech skills/kubernetes",
+      "depth": 0,
+      "parent_url": null,
+      "parent_page_id": "ROOT",
+      "logical_parent_page_id": "02_Technical_Skills",
+      "title": "Kubernetes Container Orchestration | Rajesh Arigala",
+      "characters_content": 2503,
+      "words_content": 305,
+      "characters_rag_text": 3742,
+      "words_rag_text": 442,
+      "headings_count": 6,
+      "paragraphs_count": 7,
+      "links_count": 6,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/02_Tech_01_Technical_Skills_06_Kubernetes.html",
+        "structured_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/03_output_structured_json/02_Tech_01_Technical_Skills_06_Kubernetes_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/04_output_clean_json/02_Tech_01_Technical_Skills_06_Kubernetes_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/05_output_clean_text/02_Tech_01_Technical_Skills_06_Kubernetes_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_01_Technical_Skills_06_Kubernetes_rag.txt",
+        "report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_01_Technical_Skills_06_Kubernetes_quality_report.json"
+      }
+    },
+    {
+      "version": "v4_site_crawler",
+      "page_id": "02_Tech_01_Technical_Skills_07_MLflow",
+      "url": "https://rajesharigala.com/tech skills/mlflow",
+      "depth": 0,
+      "parent_url": null,
+      "parent_page_id": "ROOT",
+      "logical_parent_page_id": "02_Technical_Skills",
+      "title": "MLFlow ML Lifecycle Management | Rajesh Arigala",
+      "characters_content": 3777,
+      "words_content": 489,
+      "characters_rag_text": 5193,
+      "words_rag_text": 663,
+      "headings_count": 6,
+      "paragraphs_count": 7,
+      "links_count": 8,
+      "bad_character_counts": {
+        "Â": 0,
+        "â": 0,
+        "ð": 0,
+        "Ã": 0,
+        "�": 0
+      },
+      "suspicious_values": [],
+      "saved_files": {
+        "raw_html": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/02_Tech_01_Technical_Skills_07_MLflow.html",
+        "structured_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/03_output_structured_json/02_Tech_01_Technical_Skills_07_MLflow_structured.json",
+        "clean_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/04_output_clean_json/02_Tech_01_Technical_Skills_07_MLflow_clean.json",
+        "clean_text": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/05_output_clean_text/02_Tech_01_Technical_Skills_07_MLflow_clean.txt",
+        "rag_document": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_01_Technical_Skills_07_MLflow_rag.txt",
+        "report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_01_Technical_Skills_07_MLflow_quality_report.json"
+      }
+    }
+  ],
+  "failed_pages": [],
+  "skipped_urls": [
+    {
+      "url": "https://github.com/Rajesh-Arigala",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://rajesharigala.com/tech skills/github"
+    },
+    {
+      "url": "https://github.com/Rajesh-Arigala/github-actions-nodejs-cicd",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://rajesharigala.com/tech skills/github"
+    },
+    {
+      "url": "https://github.com/Rajesh-Arigala/aws-devops",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://rajesharigala.com/tech skills/aws"
+    },
+    {
+      "url": "https://github.com/Rajesh-Arigala/AWS-EKS",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://rajesharigala.com/tech skills/aws"
+    },
+    {
+      "url": "https://github.com/Rajesh-Arigala/aws-cdk-mycreation",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://rajesharigala.com/tech skills/aws"
+    },
+    {
+      "url": "https://github.com/Rajesh-Arigala/MlFlow_aws_sagemaker_fargate",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://rajesharigala.com/tech skills/aws"
+    },
+    {
+      "url": "https://github.com/Rajesh-Arigala/MLFlow-Labs",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://rajesharigala.com/tech skills/aws"
+    },
+    {
+      "url": "https://github.com/Rajesh-Arigala/Azure-CI-CD-static-app",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://rajesharigala.com/tech skills/azure"
+    },
+    {
+      "url": "https://github.com/Rajesh-Arigala/gcp-cicd-ml",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://rajesharigala.com/tech skills/gcd"
+    },
+    {
+      "url": "https://github.com/Rajesh-Arigala/docker-node-app",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://rajesharigala.com/tech skills/docker"
+    },
+    {
+      "url": "https://github.com/Rajesh-Arigala/docker-doc-ml",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://rajesharigala.com/tech skills/docker"
+    },
+    {
+      "url": "https://github.com/Rajesh-Arigala/docker-compose",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://rajesharigala.com/tech skills/docker"
+    },
+    {
+      "url": "https://github.com/Rajesh-Arigala/AWS-EKS",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://rajesharigala.com/tech skills/kubernetes"
+    },
+    {
+      "url": "https://github.com/Rajesh-Arigala/kube-config-minikube-local",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://rajesharigala.com/tech skills/kubernetes"
+    },
+    {
+      "url": "https://github.com/Rajesh-Arigala/MlFlow_aws_sagemaker_fargate",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://rajesharigala.com/tech skills/mlflow"
+    },
+    {
+      "url": "https://github.com/Rajesh-Arigala/MLFlow-Labs",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://rajesharigala.com/tech skills/mlflow"
+    },
+    {
+      "url": "https://github.com/Rajesh-Arigala?tab=repositories",
+      "reason": "skipped_external_domain",
+      "depth": 1,
+      "parent_url": "https://rajesharigala.com/tech skills/mlflow"
+    }
+  ],
+  "discovered_internal_links": [
+    "https://rajesharigala.com/",
+    "https://rajesharigala.com/buiss skills/buiss",
+    "https://rajesharigala.com/tech skills/aws",
+    "https://rajesharigala.com/tech skills/azure",
+    "https://rajesharigala.com/tech skills/docker",
+    "https://rajesharigala.com/tech skills/gcd",
+    "https://rajesharigala.com/tech skills/github",
+    "https://rajesharigala.com/tech skills/index",
+    "https://rajesharigala.com/tech skills/kubernetes",
+    "https://rajesharigala.com/tech skills/mlflow",
+    "https://rajesharigala.com/tech skills/projects",
+    "https://rajesharigala.com/tech skills/skill"
+  ]
+}

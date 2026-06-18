@@ -1,0 +1,33 @@
+{
+  "version": "v4_site_crawler",
+  "page_id": "01_05_Business_Skill_RedRybbons",
+  "url": "https://rajesharigala.com/buiss skills/redrybbons",
+  "depth": 2,
+  "parent_url": "https://rajesharigala.com/",
+  "parent_page_id": "00_Homepage",
+  "logical_parent_page_id": "01_Business_Skills",
+  "title": "RedRybbons — Craft Innovation Platform",
+  "characters_content": 7661,
+  "words_content": 1090,
+  "characters_rag_text": 10346,
+  "words_rag_text": 1453,
+  "headings_count": 7,
+  "paragraphs_count": 12,
+  "links_count": 1,
+  "bad_character_counts": {
+    "Â": 0,
+    "â": 0,
+    "ð": 0,
+    "Ã": 0,
+    "�": 0
+  },
+  "suspicious_values": [],
+  "saved_files": {
+    "raw_html": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/01_05_Business_Skill_RedRybbons.html",
+    "structured_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/03_output_structured_json/01_05_Business_Skill_RedRybbons_structured.json",
+    "clean_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/04_output_clean_json/01_05_Business_Skill_RedRybbons_clean.json",
+    "clean_text": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/05_output_clean_text/01_05_Business_Skill_RedRybbons_clean.txt",
+    "rag_document": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/01_05_Business_Skill_RedRybbons_rag.txt",
+    "report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/01_05_Business_Skill_RedRybbons_quality_report.json"
+  }
+}

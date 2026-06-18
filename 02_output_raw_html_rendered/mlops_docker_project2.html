@@ -1,0 +1,1731 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dockerized ML Inference Service - Project Case Study</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-main: #0C1117;
+            --bg-surface: #121923;
+            --bg-elevated: #161F2B;
+            --card-bg: #161F2B;
+
+            --accent-primary: #B8B2A7;
+            --accent-energy: #7CFFB2;
+            --accent-depth: #3A1F2D;
+            --accent-docker: #2496ED;
+
+            --text-primary: #E6E9EF;
+            --text-secondary: #A1A8B3;
+            --text-muted: #6F7682;
+
+            --line-subtle: #1E2633;
+            --glass-border: rgba(184, 178, 167, 0.15);
+
+            --ease-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --accent-gradient: linear-gradient(90deg, var(--accent-primary), var(--accent-docker));
+
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* ==================== HEADER & NAVIGATION ==================== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(12, 17, 23, 0.9);
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.4s var(--ease-slow);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-docker);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-docker);
+            transition: width 0.4s var(--ease-slow);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--accent-docker);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+            background: var(--accent-docker);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ==================== MAIN CONTENT ==================== */
+        main {
+            padding-top: 100px;
+            padding-bottom: 4rem;
+        }
+
+        /* ==================== SECTION STYLES ==================== */
+        .section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        .section-header {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-docker);
+            border-radius: 2px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.4s var(--ease-slow);
+        }
+
+        .card:hover {
+            border-color: var(--accent-docker);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .card-title i {
+            color: var(--accent-docker);
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-item {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .list-item::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent-docker);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .highlight-box {
+            background: rgba(36, 150, 237, 0.05);
+            border-left: 4px solid var(--accent-docker);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-text {
+            color: var(--accent-docker);
+            font-weight: 500;
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero-section {
+            text-align: center;
+            padding-top: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-docker), transparent);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 1rem;
+            letter-spacing: -0.02em;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .hero-summary {
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* ==================== ARCHITECTURE VISUAL ==================== */
+        .architecture-visual {
+            background: var(--bg-elevated);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--line-subtle);
+            margin: 2rem 0;
+        }
+
+        .architecture-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* This fills the container, may crop edges */
+            display: block;
+        }
+
+        .architecture-label {
+            position: relative;
+            z-index: 2;
+            background: rgba(12, 17, 23, 0.7);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .flow-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .flow-step {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: var(--accent-docker);
+            color: var(--bg-main);
+            border-radius: 50%;
+            line-height: 30px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* ==================== TECHNOLOGY STACK ==================== */
+        .tech-category {
+            margin-bottom: 2rem;
+        }
+
+        .tech-category-title {
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tech-tag {
+            background: rgba(184, 178, 167, 0.1);
+            color: var(--accent-primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(184, 178, 167, 0.2);
+        }
+
+        .tech-tag.docker {
+            background: rgba(36, 150, 237, 0.1);
+            color: var(--accent-docker);
+            border-color: rgba(36, 150, 237, 0.2);
+        }
+
+        /* ==================== ASSETS SECTION ==================== */
+        .assets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .asset-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--line-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .asset-card:hover {
+            border-color: var(--accent-docker);
+            transform: translateY(-4px);
+        }
+
+        .asset-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(36, 150, 237, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--accent-docker);
+            font-size: 1.5rem;
+        }
+
+        .asset-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .asset-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .asset-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-docker);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .asset-link:hover {
+            text-decoration: underline;
+        }
+
+        .disclaimer {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: rgba(184, 178, 167, 0.05);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid var(--line-subtle);
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ==================== YAML/DOCKER TABLE STYLES ==================== */
+        .docker-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .docker-table th {
+            background: rgba(36, 150, 237, 0.1);
+            color: var(--accent-docker);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--line-subtle);
+        }
+
+        .docker-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--line-subtle);
+            color: var(--text-secondary);
+        }
+
+        .docker-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .docker-table tr:hover {
+            background: rgba(184, 178, 167, 0.05);
+        }
+
+        /* ==================== CODE BLOCK STYLES ==================== */
+        .code-block {
+            background: rgba(12, 17, 23, 0.8);
+            border: 1px solid var(--line-subtle);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+            overflow-x: auto;
+        }
+
+        .code-key {
+            color: var(--accent-docker);
+        }
+
+        .code-value {
+            color: #6C9BCF;
+        }
+
+        .code-comment {
+            color: #6F7682;
+        }
+
+        /* ==================== DEMO SECTION ==================== */
+        .demo-section {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .demo-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-docker);
+        }
+
+        .demo-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .trigger-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--accent-docker);
+            color: var(--bg-main);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-slow);
+         text-decoration: none; }
+
+        .trigger-btn:hover {
+            background: transparent;
+            color: var(--accent-docker);
+            border: 2px solid var(--accent-docker);
+            transform: translateY(-2px);
+        }
+
+        /* ==================== STUDY MATERIAL MODAL ==================== */
+        .study-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(12, 17, 23, 0.95);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .study-modal.active {
+            display: flex;
+        }
+
+        .study-modal-content {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid var(--line-subtle);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .study-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .study-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .study-modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .study-modal-close:hover {
+            color: var(--accent-docker);
+            background: rgba(36, 150, 237, 0.1);
+        }
+
+        .study-material-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .study-material-item {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            gap: 1.2rem;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .study-material-item:hover {
+            background: rgba(184, 178, 167, 0.05);
+            transform: translateX(5px);
+        }
+
+        .study-material-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(108, 155, 207, 0.1);
+            color: #6C9BCF;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        .study-material-info {
+            flex: 1;
+        }
+
+        .study-material-name {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .study-material-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            background: transparent;
+            border: 2px solid var(--accent-docker);
+            color: var(--accent-docker);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .download-btn:hover {
+            background: rgba(36, 150, 237, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(36, 150, 237, 0.2);
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeInUp 0.6s var(--ease-slow) forwards;
+            opacity: 0;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+
+        /* Animation for modal */
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .study-modal-content {
+            animation: modalFadeIn 0.3s var(--ease-slow);
+        }
+
+        /* ==================== DOCKER COMMANDS SECTION ==================== */
+        .docker-commands {
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .command-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.2rem;
+            border-radius: 8px;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .command {
+            font-family: 'Courier New', monospace;
+            color: var(--accent-docker);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .command-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 768px) {
+            .nav-list {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background: var(--bg-surface);
+                padding: 2rem;
+                border-bottom: 1px solid var(--line-subtle);
+                gap: 1.5rem;
+            }
+
+            .nav-list.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .flow-steps {
+                flex-direction: column;
+            }
+
+            .flow-step {
+                min-width: 100%;
+            }
+
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .docker-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .study-modal-content {
+                padding: 1.5rem;
+            }
+
+            .study-material-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .study-material-info {
+                text-align: center;
+            }
+
+            .commands-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .demo-title {
+                font-size: 2rem;
+            }
+
+            .study-modal-content {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="nav-logo">Docker ML Inference</a>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#overview" class="nav-link active">Overview</a></li>
+                <li class="nav-item"><a href="#problem" class="nav-link">Problem</a></li>
+                <li class="nav-item"><a href="#architecture" class="nav-link">Architecture</a></li>
+                <li class="nav-item"><a href="#skills" class="nav-link">Skills</a></li>
+                <li class="nav-item"><a href="#details" class="nav-link">AI/DevOps</a></li>
+                <li class="nav-item"><a href="#assets" class="nav-link">Assets</a></li>
+            </ul>
+            <button class="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section id="overview" class="section hero-section" style="opacity: 1; transform: translateY(0px);">
+            <h1 class="hero-title">Dockerized ML Inference Service</h1>
+            <p class="hero-subtitle">Containerized Machine Learning Model Serving</p>
+            <div class="hero-summary">
+                <p>Built and containerized a backend machine learning inference service using Flask and Gunicorn, with model invocation validated via terminal and Postman. This project demonstrates production-ready ML model serving through Docker containerization.</p>
+            </div>
+        </section>
+
+        <!-- Project Summary -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Project Summary</h2>
+                <p class="section-subtitle">Comprehensive Project Overview</p>
+            </div>
+            
+            <div class="grid-3">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-tag"></i>Project Category</h3>
+                    <div class="card-content">
+                        <p>Model Serving &amp; Inference (Containerized Execution Layer)</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-industry"></i>Industry/Domain</h3>
+                    <div class="card-content">
+                        <p>Platform Engineering / MLOps Infrastructure</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-robot"></i>MLOps Focus</h3>
+                    <div class="card-content">
+                        <p>MLOps - Model Serving &amp; Inference Systems</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Keywords -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Key Technologies &amp; Concepts</h2>
+                <p class="section-subtitle">Core Technologies Used</p>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-key"></i>Docker ML Inference Keywords</h3>
+                <div class="card-content">
+                    <div class="tech-tags">
+                        <span class="tech-tag docker">Docker Engine / Docker Desktop</span>
+                        <span class="tech-tag docker">Dockerfile (Image Blueprint)</span>
+                        <span class="tech-tag">Python Slim Base Image</span>
+                        <span class="tech-tag docker">Image Build (docker build)</span>
+                        <span class="tech-tag">Image Tagging &amp; Versioning (v1)</span>
+                        <span class="tech-tag docker">Docker Images &amp; Layers</span>
+                        <span class="tech-tag">Container Runtime (docker run)</span>
+                        <span class="tech-tag docker">Port Mapping &amp; Networking</span>
+                        <span class="tech-tag">Environment Variables (ENV)</span>
+                        <span class="tech-tag docker">ENTRYPOINT vs CMD</span>
+                        <span class="tech-tag">Gunicorn (Production WSGI Server)</span>
+                        <span class="tech-tag docker">Flask API (Model Inference Endpoint)</span>
+                        <span class="tech-tag">Pickle Model Serialization</span>
+                        <span class="tech-tag docker">DictVectorizer (Feature Transformation)</span>
+                        <span class="tech-tag">Stateless Model Serving</span>
+                        <span class="tech-tag docker">REST API Invocation</span>
+                        <span class="tech-tag">Terminal-based Invocation</span>
+                        <span class="tech-tag docker">Postman API Testing</span>
+                        <span class="tech-tag">Docker Registry (Docker Hub)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem & Objective -->
+        <section id="problem" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Problem &amp; Objective</h2>
+                <p class="section-subtitle">What problem did this project solve?</p>
+            </div>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Problems Solved</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Machine learning model inference was not production-ready due to dependency coupling</li>
+                            <li class="list-item">Inconsistent runtime environments across development and deployment</li>
+                            <li class="list-item">Lack of standardized API for invoking predictions</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-bullseye"></i>Primary Objectives</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Package a trained machine learning model and its inference logic into a reproducible Docker container</li>
+                            <li class="list-item">Expose a stable API for consistent prediction serving across environments</li>
+                            <li class="list-item">Enable model invocation through multiple methods (terminal scripts, Postman)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution & Architecture -->
+        <section id="architecture" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Solution &amp; Architecture</h2>
+                <p class="section-subtitle">Architectural Overview</p>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-sitemap"></i>Solution Overview</h3>
+                <div class="card-content">
+                    <p>The solution involves packaging a pre-trained ML model with a Flask-based REST API inside a Docker container. This creates a portable, consistent inference service that can be deployed anywhere Docker runs.</p>
+                    
+                    <div class="highlight-box">
+                        <p class="highlight-text">Docker containerization ensures reproducibility and eliminates "works on my machine" issues by encapsulating all dependencies, runtime, and the model itself in a single deployable unit.</p>
+                    </div>
+                    
+                    <p>The container exposes a REST API endpoint for prediction requests and can be invoked via multiple methods including terminal scripts and Postman. The image is stored in Docker Hub for distribution.</p>
+                </div>
+            </div>
+            
+            <div class="architecture-visual">
+                <div class="architecture-placeholder">
+                    <img src="../img/docker/project2.webp" alt="Dockerized ML Inference Architecture Diagram">
+                </div>
+                
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Source Code + Model</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Dockerfile</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Docker Image</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Container Runtime</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">5</div>
+                        <div class="step-label">Inference API</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-cogs"></i>Key Components</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item">Python-based Machine Learning Model (pre-trained classification model)</li>
+                        <li class="list-item">Flask API with inference endpoint (/predict)</li>
+                        <li class="list-item">Gunicorn as production WSGI server</li>
+                        <li class="list-item">Dockerfile for image building</li>
+                        <li class="list-item">Docker Image &amp; Container for execution</li>
+                        <li class="list-item">Docker Engine / Docker Desktop for container runtime</li>
+                        <li class="list-item">Docker Hub for container registry and distribution</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <p class="highlight-text">Scalability &amp; Reliability: Stateless model-serving container enables horizontal scaling when deployed under an orchestrator. Gunicorn provides reliable, multi-worker request handling for concurrent inference requests.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills & Technologies Used -->
+        <section id="skills" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Skills &amp; Technologies Used</h2>
+                <p class="section-subtitle">Technical Proficiency Demonstrated</p>
+            </div>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-star"></i>Primary Skills</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Docker &amp; Containerization - Intermediate</li>
+                            <li class="list-item">Machine Learning Model Serving - Intermediate</li>
+                            <li class="list-item">Flask-based REST API Development - Intermediate</li>
+                            <li class="list-item">Python Runtime &amp; Dependency Management - Intermediate</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-tools"></i>Secondary Tools / Frameworks</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Gunicorn (Production WSGI Server)</li>
+                            <li class="list-item">Postman (API Testing &amp; Validation)</li>
+                            <li class="list-item">Pickle (Model Serialization)</li>
+                            <li class="list-item">DictVectorizer (Feature Encoding)</li>
+                            <li class="list-item">Linux Command Line</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-code"></i>Programming Languages</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item">Python (Flask API, model inference logic)</li>
+                        <li class="list-item">Dockerfile configuration syntax</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fab fa-docker"></i>Docker &amp; DevOps Tools</h3>
+                <div class="card-content">
+                    <div class="tech-tags">
+                        <span class="tech-tag docker">Docker Engine</span>
+                        <span class="tech-tag docker">Docker CLI</span>
+                        <span class="tech-tag docker">Docker Hub (Container Registry)</span>
+                        <span class="tech-tag docker">Containerized Execution</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI/DevOps Details -->
+        <section id="details" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">AI/DevOps Details</h2>
+                <p class="section-subtitle">MLOps Implementation &amp; Automation</p>
+            </div>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-robot"></i>AI/ML Focus</h3>
+                    <div class="card-content">
+                        <p>AI/ML-focused project - containerized machine learning model inference service, emphasizing production-style model serving rather than model training.</p>
+                        <ul class="list">
+                            <li class="list-item">Deployed a pre-trained machine learning classification model serialized using Pickle</li>
+                            <li class="list-item">Implemented automated inference workflow via Flask-based REST API</li>
+                            <li class="list-item">Focus on on-demand prediction requests and model serving</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-cogs"></i>CI/CD &amp; Containerization</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Docker Engine / Docker Desktop for container runtime</li>
+                            <li class="list-item">Docker CLI for image building and container management</li>
+                            <li class="list-item">Docker Hub as container registry for distribution</li>
+                            <li class="list-item">Containerized execution ready for CI/CD integration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-chart-line"></i>Monitoring &amp; Optimization</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item">Application and inference logs accessed via Docker container logs for runtime visibility</li>
+                        <li class="list-item">Optimized container size and startup time using Python slim base image</li>
+                        <li class="list-item">Stateless architecture for potential horizontal scaling</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dockerfile Execution Steps -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Dockerfile Execution Steps</h2>
+                <p class="section-subtitle">Detailed containerization process</p>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-file-code"></i>Dockerfile Implementation</h3>
+                <div class="card-content">
+                    <div class="highlight-box">
+                        <p class="highlight-text">Production-Grade Implementation: The Dockerfile follows best practices for ML model serving including minimal base image, explicit dependency management, and production-ready server configuration.</p>
+                    </div>
+                    
+                    <table class="docker-table">
+                        <thead>
+                            <tr>
+                                <th>Step</th>
+                                <th>Dockerfile Instruction</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1. Base Image</td>
+                                <td>FROM python:3.8.12-slim</td>
+                                <td>Python slim base image for minimal container size</td>
+                            </tr>
+                            <tr>
+                                <td>2. Working Directory</td>
+                                <td>WORKDIR /app</td>
+                                <td>Set working directory inside container</td>
+                            </tr>
+                            <tr>
+                                <td>3. Copy Dependencies</td>
+                                <td>COPY ["Pipfile", "Pipfile.lock", "."]</td>
+                                <td>Copy dependency management files</td>
+                            </tr>
+                            <tr>
+                                <td>4. Install Dependencies</td>
+                                <td>RUN pipenv install --deploy --system</td>
+                                <td>Install Python dependencies</td>
+                            </tr>
+                            <tr>
+                                <td>5. Copy Code + Model</td>
+                                <td>COPY ["*.py", "project_one_model.pkl", "./"]</td>
+                                <td>Copy source code and serialized ML model</td>
+                            </tr>
+                            <tr>
+                                <td>6. Expose Port</td>
+                                <td>EXPOSE 9696</td>
+                                <td>Expose API port for external access</td>
+                            </tr>
+                            <tr>
+                                <td>7. Entrypoint Command</td>
+                                <td>ENTRYPOINT ["gunicorn", "--bind=0.0.0.0:9696", "predict:app"]</td>
+                                <td>Production server command (not overridable)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="code-block">
+                        <span class="code-key">FROM</span> python:3.8.12-slim<br>
+                        <span class="code-key">WORKDIR</span> /app<br>
+                        <span class="code-key">COPY</span> ["Pipfile", "Pipfile.lock", "."]<br>
+                        <span class="code-key">RUN</span> pipenv install --deploy --system<br>
+                        <span class="code-key">COPY</span> ["*.py", "project_one_model.pkl", "./"]<br>
+                        <span class="code-key">EXPOSE</span> 9696<br>
+                        <span class="code-key">ENTRYPOINT</span> ["gunicorn", "--bind=0.0.0.0:9696", "predict:app"]
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Challenges & Outcomes -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Challenges &amp; Outcomes</h2>
+                <p class="section-subtitle">Technical challenges and resolutions</p>
+            </div>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Technical Challenges</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Packaging a machine learning model and its dependencies into a lightweight, production-ready Docker image</li>
+                            <li class="list-item">Ensuring the inference service was accessible from outside the container via correct network binding and port configuration</li>
+                            <li class="list-item">Managing model serialization and feature transformation consistency</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-check-circle"></i>Resolutions &amp; Outcomes</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Used Python slim base image with explicit dependency installation for lightweight container</li>
+                            <li class="list-item">Configured application to bind to 0.0.0.0 and exposed correct port in both application and Dockerfile</li>
+                            <li class="list-item">Successfully created reproducible, portable ML inference service</li>
+                            <li class="list-item">Achieved consistent model invocation across different environments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Docker Commands Reference -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Docker Commands Reference</h2>
+                <p class="section-subtitle">Essential Docker CLI commands used in the project</p>
+            </div>
+            
+            <div class="docker-commands">
+                <div class="commands-grid">
+                    <div class="command-item">
+                        <div class="command">docker version</div>
+                        <div class="command-desc">Displays Docker client, server, and engine version details</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">docker images</div>
+                        <div class="command-desc">Lists all Docker images available locally</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">docker build -t &lt;image:tag&gt;</div>
+                        <div class="command-desc">Builds a Docker image from Dockerfile in current directory</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">docker pull &lt;image:tag&gt;</div>
+                        <div class="command-desc">Pulls an image from a container registry</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">docker run -it -p 9696:9696 &lt;image&gt;</div>
+                        <div class="command-desc">Creates and runs a container interactively with port mapping</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">docker run -d -p 9696:9696 &lt;image&gt;</div>
+                        <div class="command-desc">Runs a container in detached mode (background)</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">docker run -d --name ml-app -p 9696:9696 &lt;image&gt;</div>
+                        <div class="command-desc">Runs container with custom name and port mapping</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">docker ps</div>
+                        <div class="command-desc">Lists currently running containers</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">docker ps -a</div>
+                        <div class="command-desc">Lists all containers (running and stopped)</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">docker stop &lt;container-id&gt;</div>
+                        <div class="command-desc">Stops a running container</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">docker logs &lt;container-id&gt;</div>
+                        <div class="command-desc">Fetches logs from a container</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">docker exec -it &lt;container-id&gt; /bin/bash</div>
+                        <div class="command-desc">Opens interactive shell inside running container</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">docker login</div>
+                        <div class="command-desc">Authenticates with Docker Hub or registry</div>
+                    </div>
+                    <div class="command-item">
+                        <div class="command">docker push &lt;repo/image:tag&gt;</div>
+                        <div class="command-desc">Pushes Docker image to container registry</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Model Invocation Examples -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Model Invocation Examples</h2>
+                <p class="section-subtitle">How to access and use the inference service</p>
+            </div>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-terminal"></i>Terminal Invocation</h3>
+                    <div class="card-content">
+                        <p>Python script to invoke the model via REST API:</p>
+                        <div class="code-block">
+                            <span class="code-key">import</span> requests<br><br>
+                            candidate = [{<br>
+                            &nbsp;&nbsp;<span class="code-key">"gender"</span>: <span class="code-value">"M"</span>,<br>
+                            &nbsp;&nbsp;<span class="code-key">"ssc_p"</span>: <span class="code-value">41.0</span>,<br>
+                            &nbsp;&nbsp;<span class="code-key">"ssc_b"</span>: <span class="code-value">"Central"</span>,<br>
+                            <span class="code-comment">&nbsp;&nbsp;... (other features)</span><br>
+                            }]<br><br>
+                            url = <span class="code-value">"http://localhost:9696/predict"</span><br>
+                            response = requests.post(url=url, json=candidate)<br><br>
+                            <span class="code-key">if</span> response.status_code == <span class="code-value">200</span>:<br>
+                            &nbsp;&nbsp;output = response.json()<br>
+                            &nbsp;&nbsp;<span class="code-key">print</span>(f<span class="code-value">"Candidate evaluation output: {output}"</span>)
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-code"></i>Flask API Endpoint</h3>
+                    <div class="card-content">
+                        <p>Key Flask application code for the inference endpoint:</p>
+                        <div class="code-block">
+                            <span class="code-comment"># Load the serialized model</span><br>
+                            <span class="code-key">with</span> open(<span class="code-value">"project_one_model.pkl"</span>, <span class="code-value">"rb"</span>) <span class="code-key">as</span> f_in:<br>
+                            &nbsp;&nbsp;dv, model = pickle.load(f_in)<br><br>
+                            <span class="code-comment"># Create Flask app</span><br>
+                            app = Flask(<span class="code-value">'Predict'</span>)<br><br>
+                            <span class="code-comment"># Define prediction endpoint</span><br>
+                            @app.route(<span class="code-value">'/predict'</span>, methods=[<span class="code-value">'POST'</span>])<br>
+                            <span class="code-key">def</span> predict():<br>
+                            &nbsp;&nbsp;candidate = request.get_json()<br>
+                            &nbsp;&nbsp;X = dv.transform(candidate)<br>
+                            &nbsp;&nbsp;y_pred = model.predict_proba(X)[<span class="code-value">0</span>, <span class="code-value">1</span>]<br>
+                            &nbsp;&nbsp;placement = y_pred &gt; <span class="code-value">0.5</span><br>
+                            &nbsp;&nbsp;<span class="code-key">return</span> jsonify({<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">'placement'</span>: <span class="code-key">bool</span>(placement),<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-key">'placement_probability'</span>: <span class="code-key">float</span>(y_pred)<br>
+                            &nbsp;&nbsp;})
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assets & References -->
+        <section id="assets" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Assets &amp; References</h2>
+                <p class="section-subtitle">Code, diagrams, study material</p>
+            </div>
+            
+                        
+            <div class="assets-grid">
+<div class="asset-card">
+                    <div class="asset-icon">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <h3 class="asset-title">GitHub Repository</h3>
+                    <p class="asset-description">Source code repository containing the Dockerfile, Flask API, and ML model for the inference service.</p>
+                    <a href="https://github.com/Rajesh-Arigala/docker-ml-app" target="_blank" class="asset-link">
+                        <span>Access Repository</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            
+            </div>
+            
+            <div class="card">
+                <div class="demo-section">
+                    <h3 class="demo-title">Study Material Resources</h3>
+                    <p class="demo-subtitle">Click the button below to open the study materials</p>
+                    <a href="/index#contact" class="trigger-btn">
+                        <i class="fas fa-book"></i>
+                        <span>Request Study Material</span>
+                    </a>
+                </div>
+            </div>
+            
+            
+        </section>
+    </main>
+
+    <!-- STUDY MODAL -->
+    <div class="study-modal" id="studyModal">
+        <div class="study-modal-content">
+            <div class="study-modal-header">
+                <h3 class="study-modal-title">Study Material - Docker ML Inference</h3>
+                <button class="study-modal-close" id="closeModalBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="study-material-list">
+                <!-- Docker Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Dockerized ML Inference Architecture</div>
+                        <div class="study-material-desc">Complete architecture diagram and setup guide for containerized ML model serving</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Dockerfile Best Practices Guide</div>
+                        <div class="study-material-desc">Official documentation and best practices for Dockerfile configuration</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <!-- ML Model Serving Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">ML Model Serving with Flask &amp; Gunicorn</div>
+                        <div class="study-material-desc">Detailed guide to implementing production ML inference APIs</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Advanced Docker Configurations</div>
+                        <div class="study-material-desc">Premium materials for multi-stage builds, security hardening, and optimization</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <!-- MLOps Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">MLOps Model Deployment Guide</div>
+                        <div class="study-material-desc">Complete guide to deploying ML models in production using containers</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Docker Security &amp; Best Practices</div>
+                        <div class="study-material-desc">Security guidelines and best practices for containerized applications</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <!-- Additional Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Production ML Inference Patterns</div>
+                        <div class="study-material-desc">Enterprise architecture patterns for scalable ML model serving</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Docker CLI Reference Guide</div>
+                        <div class="study-material-desc">Complete reference for Docker commands and their usage</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const navToggle = document.querySelector('.nav-toggle');
+            const navList = document.querySelector('.nav-list');
+            
+            if (navToggle && navList) {
+                navToggle.addEventListener('click', function() {
+                    navList.classList.toggle('active');
+                });
+            }
+            
+            // Close menu when clicking outside on mobile
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768 && navList && navList.classList.contains('active') && 
+                    !e.target.closest('.nav') && !e.target.closest('.nav-toggle')) {
+                    navList.classList.remove('active');
+                }
+            });
+            
+            // Update active nav link on scroll
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            function updateActiveNavLink() {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 150;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', updateActiveNavLink);
+            
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    
+                    if (href.startsWith('#') && href !== '#') {
+                        e.preventDefault();
+                        
+                        const targetElement = document.querySelector(href);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+                            
+                            // Close mobile menu if open
+                            if (navList.classList.contains('active')) {
+                                navList.classList.remove('active');
+                            }
+                        }
+                    }
+                });
+            });
+            
+            // Handle window resize for mobile menu
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768 && navList) {
+                    navList.classList.remove('active');
+                }
+            });
+            
+            // Add animation on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all sections for animation
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Initialize all sections as visible on load
+            setTimeout(() => {
+                sections.forEach(section => {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                });
+            }, 500);
+
+            // Modal functionality
+            const studyModal = document.getElementById('studyModal');
+            const openModalBtn = document.getElementById('openModalBtn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            
+            // Open modal when button is clicked
+            if (openModalBtn) {
+                openModalBtn.addEventListener('click', function() {
+                    studyModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            }
+            
+            // Close modal when close button is clicked
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', function() {
+                    studyModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                });
+            }
+            
+            // Close modal when clicking outside the modal content
+            if (studyModal) {
+                studyModal.addEventListener('click', function(e) {
+                    if (e.target === studyModal) {
+                        studyModal.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && studyModal.classList.contains('active')) {
+                    studyModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+    </script>
+
+</body></html>

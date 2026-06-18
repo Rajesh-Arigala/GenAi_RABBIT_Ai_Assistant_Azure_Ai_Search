@@ -1,0 +1,1564 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Docker Fundamentals &amp; Projects Portfolio</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=IBM+Plex+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet">
+    <style>
+        /* ==================== RESET AND BASE STYLES ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Core Surfaces - Docker Theme */
+            --bg-main: #0C1117;
+            --bg-surface: #121923;
+            --bg-elevated: #161F2B;
+            --card-bg: #161F2B;
+
+            /* Docker Accents (Blue Theme) */
+            --accent-primary: #2496ED;
+            /* Docker Blue */
+            --accent-energy: #1BCBF2;
+            /* Light Blue */
+            --accent-depth: #0D8BDB;
+            /* Deep Docker Blue */
+
+            /* Text */
+            --text-primary: #E6E9EF;
+            --text-secondary: #A1A8B3;
+            --text-muted: #6F7682;
+
+            /* Lines & Dividers */
+            --line-subtle: #1E2633;
+            --glass-border: rgba(36, 150, 237, 0.15);
+
+            /* Motion */
+            --ease-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+            /* Gradients */
+            --accent-gradient: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+
+            /* Fonts */
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes containerFlow {
+            0% {
+                background-position: 0% 0%;
+            }
+
+            100% {
+                background-position: 100px 100px;
+            }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* ==================== BACKGROUND PATTERNS ==================== */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                linear-gradient(135deg, var(--bg-main) 0%, var(--bg-surface) 50%, var(--bg-main) 100%),
+                repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(36, 150, 237, 0.02) 39px, rgba(36, 150, 237, 0.02) 40px),
+                repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(27, 203, 242, 0.02) 39px, rgba(27, 203, 242, 0.02) 40px);
+            background-size: 400% 400%, 80px 80px, 80px 80px;
+            animation: containerFlow 30s linear infinite;
+            pointer-events: none;
+            z-index: -2;
+            opacity: 0.6;
+        }
+
+        /* ==================== CONTAINER ==================== */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ==================== PAGE HEADER ==================== */
+        .page-header {
+            padding: 4rem 0 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+            opacity: 0.7;
+        }
+
+        .page-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-energy) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+            font-weight: 400;
+        }
+
+        .page-intro {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+
+        /* ==================== FUNDAMENTALS SECTION ==================== */
+        .fundamentals-section {
+            margin: 4rem 0;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+            border-radius: 2px;
+        }
+
+        /* Concepts Grid */
+        .concepts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .concept-card {
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.4s var(--ease-slow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .concept-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--accent-primary), var(--accent-energy));
+            opacity: 0;
+            transition: opacity 0.4s var(--ease-slow);
+        }
+
+        .concept-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .concept-card:hover::before {
+            opacity: 1;
+        }
+
+        .concept-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            background: linear-gradient(135deg,
+                    rgba(36, 150, 237, 0.1) 0%,
+                    rgba(27, 203, 242, 0.1) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: var(--accent-primary);
+            font-size: 1.5rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .concept-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-family: var(--font-mono);
+        }
+
+        .concept-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .concept-list li {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            padding-left: 1.2rem;
+            position: relative;
+        }
+
+        .concept-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent-energy);
+        }
+
+        /* Architecture Diagram */
+        .architecture-section {
+            margin: 4rem 0;
+            padding: 3rem;
+            background: linear-gradient(135deg,
+                    rgba(22, 31, 43, 0.8) 0%,
+                    rgba(12, 17, 23, 0.8) 100%);
+            border-radius: 20px;
+            border: 1px solid var(--line-subtle);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .architecture-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                    transparent,
+                    var(--accent-primary),
+                    var(--accent-energy),
+                    transparent);
+            opacity: 0.5;
+        }
+
+        .architecture-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 2.5rem;
+            color: var(--text-primary);
+            text-align: center;
+            position: relative;
+        }
+
+        .architecture-title::after {
+            content: '';
+            position: absolute;
+            bottom: -0.75rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: var(--accent-primary);
+            opacity: 0.7;
+        }
+
+        .architecture-diagram {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem;
+            background: rgba(12, 17, 23, 0.5);
+            border-radius: 12px;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .architecture-layer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .architecture-component {
+            background: rgba(36, 150, 237, 0.1);
+            border: 1px solid var(--accent-primary);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
+            min-width: 180px;
+            text-align: center;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .architecture-component:hover {
+            background: rgba(36, 150, 237, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(36, 150, 237, 0.2);
+        }
+
+        .component-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+            font-family: var(--font-mono);
+        }
+
+        .component-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .architecture-arrow {
+            color: var(--accent-energy);
+            font-size: 1.5rem;
+        }
+
+        /* CLI Reference */
+        .cli-section {
+            margin-top: 4rem;
+        }
+
+        .cli-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 2.5rem;
+            color: var(--text-primary);
+            text-align: center;
+            position: relative;
+        }
+
+        .cli-title::after {
+            content: '';
+            position: absolute;
+            bottom: -0.75rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: var(--accent-primary);
+            opacity: 0.7;
+        }
+
+        .cli-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+            font-family: var(--font-mono);
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .cli-table th {
+            background: rgba(36, 150, 237, 0.1);
+            color: var(--accent-primary);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--accent-primary);
+        }
+
+        .cli-table td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid var(--line-subtle);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .cli-table tr:hover {
+            background: rgba(36, 150, 237, 0.05);
+        }
+
+        .cli-command {
+            color: var(--accent-energy);
+            font-weight: 500;
+        }
+
+        /* ==================== PROJECTS SECTION ==================== */
+        .projects-section {
+            margin: 5rem 0;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        /* Project Card */
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-slow);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s var(--ease-slow) forwards;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .project-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .project-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+            opacity: 0;
+            transition: opacity 0.4s var(--ease-slow);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Project Image */
+        .project-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--ease-slow);
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+        }
+
+        .project-image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(12, 17, 23, 0.9) 100%);
+            display: flex;
+            align-items: flex-end;
+            padding: 1rem;
+        }
+
+        .project-badge {
+            padding: 0.4rem 0.8rem;
+            background: rgba(36, 150, 237, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(36, 150, 237, 0.3);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--accent-energy);
+            font-weight: 500;
+            font-family: var(--font-mono);
+        }
+
+        /* Project Content */
+        .project-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.3;
+            flex: 1;
+        }
+
+        .project-difficulty {
+            padding: 0.3rem 0.8rem;
+            background: rgba(36, 150, 237, 0.1);
+            border: 1px solid rgba(36, 150, 237, 0.2);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            font-weight: 500;
+            font-family: var(--font-mono);
+            margin-left: 1rem;
+            flex-shrink: 0;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .tech-tag {
+            padding: 0.3rem 0.7rem;
+            background: rgba(36, 150, 237, 0.08);
+            border: 1px solid rgba(36, 150, 237, 0.15);
+            border-radius: 15px;
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            font-weight: 500;
+            font-family: var(--font-mono);
+            transition: all 0.3s ease;
+        }
+
+        .tech-tag:hover {
+            background: rgba(27, 203, 242, 0.15);
+            color: var(--accent-energy);
+            transform: translateY(-2px);
+        }
+
+        /* Key Features */
+        .features {
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .feature-item i {
+            color: var(--accent-energy);
+            font-size: 0.8rem;
+            width: 16px;
+        }
+
+        /* Project Actions - Single Button */
+        .project-actions {
+            display: flex;
+            margin-top: auto;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.4s var(--ease-slow);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9rem;
+            width: 100%;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-primary {
+            background: rgba(36, 150, 237, 0.1);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .btn-primary:hover {
+            background: rgba(36, 150, 237, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(36, 150, 237, 0.2);
+        }
+
+        /* ==================== WORKFLOW SECTION ==================== */
+        .workflow-section {
+            margin: 5rem 0;
+            text-align: center;
+        }
+
+        .terminal-window {
+            width: 100%;
+            max-width: 800px;
+            height: 320px;
+            margin: 0 auto;
+            background: rgba(12, 17, 23, 0.95);
+            border: 1px solid var(--line-subtle);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            font-family: var(--font-mono);
+        }
+
+        .terminal-header {
+            background: rgba(22, 31, 43, 0.95);
+            padding: 0.8rem 1.2rem;
+            border-bottom: 1px solid var(--line-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .terminal-window-title {
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .terminal-content {
+            padding: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            text-align: left;
+            height: calc(100% - 54px);
+            background: rgba(36, 150, 237, 0.02);
+        }
+
+        .terminal-line {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+        }
+
+        .terminal-prompt {
+            color: var(--accent-energy);
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .terminal-command {
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+
+        .terminal-output {
+            color: var(--text-secondary);
+        }
+
+        .terminal-success {
+            color: var(--accent-energy);
+            font-weight: 600;
+        }
+
+        .terminal-icon {
+            color: var(--accent-energy);
+            margin-right: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-main) 100%);
+            padding: 4rem 0;
+            margin-top: 5rem;
+            border-top: 1px solid var(--line-subtle);
+            position: relative;
+            text-align: center;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-primary), transparent);
+        }
+
+        .footer-message {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+        }
+
+        .footer-btn {
+            background: linear-gradient(135deg,
+                    rgba(36, 150, 237, 0.1) 0%,
+                    rgba(27, 203, 242, 0.1) 100%);
+            border: 1px solid var(--glass-border);
+            color: var(--accent-primary);
+            padding: 1.2rem 3rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.4s var(--ease-slow);
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(27, 203, 242, 0.1),
+                    transparent);
+            transition: left 0.6s var(--ease-slow);
+        }
+
+        .footer-btn:hover {
+            background: linear-gradient(135deg,
+                    rgba(36, 150, 237, 0.2) 0%,
+                    rgba(27, 203, 242, 0.2) 100%);
+            transform: translateY(-3px);
+            border-color: var(--accent-energy);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .footer-btn:hover::before {
+            left: 100%;
+        }
+
+        .footer-btn i {
+            transition: transform 0.4s var(--ease-slow);
+        }
+
+        .footer-btn:hover i {
+            transform: translateX(5px) translateY(-2px);
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .page-title {
+                font-size: 2.2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1.1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .concepts-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .architecture-layer {
+                flex-direction: column;
+            }
+
+            .architecture-arrow {
+                transform: rotate(90deg);
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                max-width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .project-image {
+                height: 180px;
+            }
+
+            .project-content {
+                padding: 1.2rem;
+            }
+
+            .cli-table {
+                font-size: 0.8rem;
+            }
+
+            .cli-table th,
+            .cli-table td {
+                padding: 0.6rem 0.8rem;
+            }
+
+            .terminal-window {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .architecture-component {
+                min-width: 140px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Main Content -->
+    <main>
+        <!-- Page Header -->
+        <header class="page-header">
+            <div class="container">
+                <h1 class="page-title">DOCKER FUNDAMENTALS &amp; INFRASTRUCTURE</h1>
+                <h3 class="page-subtitle">Containerization, Orchestration &amp; Production Deployment Patterns</h3>
+
+                <p class="page-intro">
+                    Mastering Docker from conceptual foundations to production-grade multi-container orchestration. This
+                    portfolio demonstrates Docker's role in modern CI/CD pipelines, MLOps workflows, and scalable
+                    infrastructure design across single-container applications to complex microservices architectures.
+                </p>
+            </div>
+        </header>
+
+        <!-- Docker Fundamentals Section -->
+        <section class="fundamentals-section">
+            <div class="container">
+                <h2 class="section-title">Docker Conceptual Foundations</h2>
+                <p style="text-align: center; color: var(--text-secondary); max-width: 800px; margin: 0 auto 3rem;">
+                    Understanding Docker architecture, components, and how it fits into modern development workflows,
+                    CI/CD pipelines, and MLOps ecosystems.
+                </p>
+
+                <!-- Concepts Grid -->
+                <div class="concepts-grid">
+                    <!-- Docker Architecture -->
+                    <div class="concept-card">
+                        <div class="concept-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3 class="concept-title">Docker Architecture</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                            Docker follows a client-server architecture with key components that work together to build,
+                            ship, and run containers.
+                        </p>
+                        <ul class="concept-list">
+                            <li><strong>Docker Client:</strong> CLI interface for users</li>
+                            <li><strong>Docker Daemon:</strong> Background service managing containers</li>
+                            <li><strong>Docker Host:</strong> Physical/virtual machine running containers</li>
+                            <li><strong>Docker Registry:</strong> Repository for Docker images</li>
+                        </ul>
+                    </div>
+
+                    <!-- Images vs Containers -->
+                    <div class="concept-card">
+                        <div class="concept-icon">
+                            <i class="fas fa-cube"></i>
+                        </div>
+                        <h3 class="concept-title">Images vs Containers</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                            Understanding the fundamental building blocks of Docker: immutable images and running
+                            containers.
+                        </p>
+                        <ul class="concept-list">
+                            <li><strong>Dockerfile:</strong> Blueprint for building images</li>
+                            <li><strong>Image:</strong> Immutable template with application code</li>
+                            <li><strong>Container:</strong> Running instance of an image</li>
+                            <li><strong>Layers:</strong> Efficient storage through layer caching</li>
+                        </ul>
+                    </div>
+
+                    <!-- Networks & Volumes -->
+                    <div class="concept-card">
+                        <div class="concept-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h3 class="concept-title">Networks &amp; Volumes</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                            Isolation and persistence mechanisms that enable container communication and data
+                            management.
+                        </p>
+                        <ul class="concept-list">
+                            <li><strong>Bridge Network:</strong> Default network for container communication</li>
+                            <li><strong>Host Network:</strong> Container shares host's network namespace</li>
+                            <li><strong>Volumes:</strong> Persistent data storage outside containers</li>
+                            <li><strong>Bind Mounts:</strong> Direct host filesystem access</li>
+                        </ul>
+                    </div>
+
+                    <!-- Registries & Distribution -->
+                    <div class="concept-card">
+                        <div class="concept-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <h3 class="concept-title">Registries &amp; Distribution</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                            Image storage, distribution, and management across development, testing, and production
+                            environments.
+                        </p>
+                        <ul class="concept-list">
+                            <li><strong>Docker Hub:</strong> Public registry for Docker images</li>
+                            <li><strong>Private Registries:</strong> AWS ECR, Azure Container Registry</li>
+                            <li><strong>Image Tagging:</strong> Versioning and environment tagging</li>
+                            <li><strong>Image Security:</strong> Scanning and vulnerability management</li>
+                        </ul>
+                    </div>
+
+                    <!-- Docker in CI/CD -->
+                    <div class="concept-card">
+                        <div class="concept-icon">
+                            <i class="fas fa-code-branch"></i>
+                        </div>
+                        <h3 class="concept-title">Docker in CI/CD</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                            How Docker integrates with modern CI/CD pipelines for consistent build, test, and deployment
+                            environments.
+                        </p>
+                        <ul class="concept-list">
+                            <li><strong>Build Automation:</strong> Consistent build environments</li>
+                            <li><strong>Testing Isolation:</strong> Isolated test environments</li>
+                            <li><strong>Artifact Management:</strong> Docker images as deployment artifacts</li>
+                            <li><strong>Environment Parity:</strong> Dev/Test/Prod consistency</li>
+                        </ul>
+                    </div>
+
+                    <!-- Docker in MLOps -->
+                    <div class="concept-card">
+                        <div class="concept-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="concept-title">Docker in MLOps</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                            Containerization of ML models, dependencies, and inference services for reproducible machine
+                            learning workflows.
+                        </p>
+                        <ul class="concept-list">
+                            <li><strong>Model Packaging:</strong> Containerized ML models</li>
+                            <li><strong>Dependency Management:</strong> Reproducible environments</li>
+                            <li><strong>Scalable Inference:</strong> Containerized inference services</li>
+                            <li><strong>Experiment Tracking:</strong> Versioned model containers</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Architecture Diagram -->
+                <div class="architecture-section">
+                    <h3 class="architecture-title">Docker Architecture &amp; Workflow</h3>
+
+                    <div class="architecture-diagram">
+                        <div class="architecture-layer">
+                            <div class="architecture-component">
+                                <div class="component-title">Docker Client</div>
+                                <div class="component-desc">CLI, Docker Desktop, API</div>
+                            </div>
+                            <div class="architecture-arrow">→</div>
+                            <div class="architecture-component">
+                                <div class="component-title">Docker Daemon</div>
+                                <div class="component-desc">Manages containers, images, networks</div>
+                            </div>
+                        </div>
+
+                        <div class="architecture-layer">
+                            <div class="architecture-component">
+                                <div class="component-title">Dockerfile</div>
+                                <div class="component-desc">Build instructions</div>
+                            </div>
+                            <div class="architecture-arrow">→</div>
+                            <div class="architecture-component">
+                                <div class="component-title">Docker Image</div>
+                                <div class="component-desc">Immutable template</div>
+                            </div>
+                            <div class="architecture-arrow">→</div>
+                            <div class="architecture-component">
+                                <div class="component-title">Docker Container</div>
+                                <div class="component-desc">Running instance</div>
+                            </div>
+                        </div>
+
+                        <div class="architecture-layer">
+                            <div class="architecture-component">
+                                <div class="component-title">Docker Registry</div>
+                                <div class="component-desc">Docker Hub, ECR, ACR</div>
+                            </div>
+                            <div class="architecture-arrow">↔</div>
+                            <div class="architecture-component">
+                                <div class="component-title">Docker Host</div>
+                                <div class="component-desc">Server/VM running containers</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CLI Reference -->
+                <div class="cli-section">
+                    <h3 class="cli-title">Docker CLI Fundamentals</h3>
+
+                    <table class="cli-table">
+                        <thead>
+                            <tr>
+                                <th>Command</th>
+                                <th>Description</th>
+                                <th>Example</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="cli-command">docker version</span></td>
+                                <td>Display Docker version information</td>
+                                <td><code>docker version</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="cli-command">docker images</span></td>
+                                <td>List locally available images</td>
+                                <td><code>docker images</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="cli-command">docker build</span></td>
+                                <td>Build an image from a Dockerfile</td>
+                                <td><code>docker build -t myapp:v1 .</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="cli-command">docker run</span></td>
+                                <td>Create and start a container</td>
+                                <td><code>docker run -p 8080:80 myapp:v1</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="cli-command">docker ps</span></td>
+                                <td>List running containers</td>
+                                <td><code>docker ps -a</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="cli-command">docker stop/start</span></td>
+                                <td>Stop or start a container</td>
+                                <td><code>docker stop container_id</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="cli-command">docker logs</span></td>
+                                <td>Fetch container logs</td>
+                                <td><code>docker logs container_id</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="cli-command">docker exec</span></td>
+                                <td>Execute command in running container</td>
+                                <td><code>docker exec -it container_id bash</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="cli-command">docker push/pull</span></td>
+                                <td>Push/pull images to/from registry</td>
+                                <td><code>docker push myrepo/myapp:v1</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="cli-command">docker network</span></td>
+                                <td>Manage Docker networks</td>
+                                <td><code>docker network create mynet</code></td>
+                            </tr>
+                            <tr>
+                                <td><span class="cli-command">docker compose</span></td>
+                                <td>Multi-container orchestration</td>
+                                <td><code>docker compose up -d</code></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="projects-section">
+            <div class="container">
+                <h2 class="section-title">Docker Projects</h2>
+                <p style="text-align: center; color: var(--text-secondary); max-width: 800px; margin: 0 auto 3rem;">
+                    Three practical Docker implementations demonstrating containerization from basic applications to
+                    production-ready systems.
+                </p>
+
+                <div class="projects-grid">
+                    <!-- Project 1: Single-Container Node.js App -->
+                    <div class="project-card" style="opacity: 1; transform: translateY(0px);">
+                        <div class="project-image">
+                            <img src="/img/CONTAINERS &amp; ORCHESTRATION/1.webp" alt="Node.js Docker Application">
+                            <div class="project-image-overlay">
+                                <span class="project-badge">Basic</span>
+                            </div>
+                        </div>
+
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">Single-Container Node.js App</h3>
+                                <div class="project-difficulty">Beginner</div>
+                            </div>
+
+                            <p class="project-description">
+                                Dockerizing a Node.js web application with proper Dockerfile practices, port mapping,
+                                and Docker Hub deployment.
+                            </p>
+
+                            <div class="tech-stack">
+                                <span class="tech-tag">Node.js</span>
+                                <span class="tech-tag">Express</span>
+                                <span class="tech-tag">Dockerfile</span>
+                                <span class="tech-tag">Docker Hub</span>
+                                <span class="tech-tag">Port Mapping</span>
+                            </div>
+
+                            <div class="features">
+                                <div class="feature-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>Dockerfile with multi-stage builds</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>Port mapping and network configuration</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>Docker Hub image push and versioning</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>CLI execution with logs and monitoring</span>
+                                </div>
+                            </div>
+
+                            <div class="project-actions">
+                                <a href="Dockerized-Node.js-App" class="btn btn-primary">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>View More</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2: ML Inference Service -->
+                    <div class="project-card" style="opacity: 1; transform: translateY(0px);">
+                        <div class="project-image">
+                            <img src="/img/CONTAINERS &amp; ORCHESTRATION/2.webp" alt="ML Inference Service">
+                            <div class="project-image-overlay">
+                                <span class="project-badge">MLOps</span>
+                            </div>
+                        </div>
+
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">ML Inference Service</h3>
+                                <div class="project-difficulty">Intermediate</div>
+                            </div>
+
+                            <p class="project-description">
+                                Containerized machine learning model serving with REST API, Flask backend, and
+                                production-ready inference pipeline.
+                            </p>
+
+                            <div class="tech-stack">
+                                <span class="tech-tag">Flask</span>
+                                <span class="tech-tag">ML Model</span>
+                                <span class="tech-tag">REST API</span>
+                                <span class="tech-tag">Gunicorn</span>
+                                <span class="tech-tag">Scikit-learn</span>
+                            </div>
+
+                            <div class="features">
+                                <div class="feature-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>ML model packaging and dependencies</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>REST API for model predictions</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>High-performance inference with Gunicorn</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>Terminal &amp; Postman testing</span>
+                                </div>
+                            </div>
+
+                            <div class="project-actions">
+                                <a href="docker-project2" class="btn btn-primary">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>View More</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 3: Multi-Container Orchestration -->
+                    <div class="project-card" style="opacity: 1; transform: translateY(0px);">
+                        <div class="project-image">
+                            <img src="/img/CONTAINERS &amp; ORCHESTRATION/3.webp" alt="Docker Compose Orchestration">
+                            <div class="project-image-overlay">
+                                <span class="project-badge">Advanced</span>
+                            </div>
+                        </div>
+
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">Multi-Container Orchestration</h3>
+                                <div class="project-difficulty">Advanced</div>
+                            </div>
+
+                            <p class="project-description">
+                                Production-grade multi-service application with Docker Compose, service discovery, and
+                                inter-container communication.
+                            </p>
+
+                            <div class="tech-stack">
+                                <span class="tech-tag">Docker Compose</span>
+                                <span class="tech-tag">Microservices</span>
+                                <span class="tech-tag">Networking</span>
+                                <span class="tech-tag">Service Discovery</span>
+                                <span class="tech-tag">Volumes</span>
+                            </div>
+
+                            <div class="features">
+                                <div class="feature-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>Multi-service architecture with Docker Compose</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>Service networking and discovery</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>Environment-based configuration</span>
+                                </div>
+                                <div class="feature-item">
+                                    <i class="fas fa-check"></i>
+                                    <span>End-to-end invocation and testing</span>
+                                </div>
+                            </div>
+
+                            <div class="project-actions">
+                                <a href="docker-project3" class="btn btn-primary">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>View More</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Docker Workflow Section -->
+        <section class="workflow-section">
+            <div class="container">
+                <h2 class="section-title">Docker Workflow Automation</h2>
+
+                <div class="terminal-window">
+                    <div class="terminal-header">
+                        <span class="terminal-window-title">docker-workflow.sh</span>
+                    </div>
+
+                    <div class="terminal-content">
+                        <div class="terminal-line" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s, transform 0.5s;">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">docker build -t myapp:v1 .</span>
+                        </div>
+                        <div class="terminal-line" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s, transform 0.5s;">
+                            <span class="terminal-output">Building Docker image...</span>
+                        </div>
+                        <div class="terminal-line" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s, transform 0.5s;">
+                            <span class="terminal-icon">✓</span>
+                            <span class="terminal-output">Image built successfully: myapp:v1</span>
+                        </div>
+
+                        <div class="terminal-line" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s, transform 0.5s;">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">docker run -d -p 8080:80 --name webapp myapp:v1</span>
+                        </div>
+                        <div class="terminal-line" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s, transform 0.5s;">
+                            <span class="terminal-icon">✓</span>
+                            <span class="terminal-output">Container started: webapp (id: a1b2c3d4)</span>
+                        </div>
+
+                        <div class="terminal-line" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s, transform 0.5s;">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">docker ps</span>
+                        </div>
+                        <div class="terminal-line" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s, transform 0.5s;">
+                            <span class="terminal-output">CONTAINER ID IMAGE STATUS PORTS NAMES</span>
+                        </div>
+                        <div class="terminal-line" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s, transform 0.5s;">
+                            <span class="terminal-output">a1b2c3d4 myapp:v1 Up 2s 0.0.0.0:8080-&gt;80/tcp webapp</span>
+                        </div>
+
+                        <div class="terminal-line" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s, transform 0.5s;">
+                            <span class="terminal-icon">✓</span>
+                            <span class="terminal-success">Application running at http://localhost:8080</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-message">
+                Ready to containerize your applications and implement production-grade Docker workflows? Let's architect
+                scalable, reproducible containerization strategies for your development and deployment pipelines.
+            </p>
+            <a href="/index#contact" class="footer-btn">
+                <span>Discuss Containerization Strategy</span>
+                <i class="fas fa-paper-plane"></i>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate project cards on scroll
+            const projectCards = document.querySelectorAll('.project-card');
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            projectCards.forEach(card => {
+                observer.observe(card);
+            });
+
+            // Concept card hover effects
+            const conceptCards = document.querySelectorAll('.concept-card');
+            conceptCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    const icon = card.querySelector('.concept-icon');
+                    const title = card.querySelector('.concept-title');
+
+                    if (icon) {
+                        icon.style.transform = 'scale(1.1)';
+                        icon.style.transition = 'all 0.3s var(--ease-slow)';
+                    }
+
+                    if (title) {
+                        title.style.color = 'var(--accent-energy)';
+                        title.style.transition = 'color 0.3s var(--ease-slow)';
+                    }
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    const icon = card.querySelector('.concept-icon');
+                    const title = card.querySelector('.concept-title');
+
+                    if (icon) {
+                        icon.style.transform = 'scale(1)';
+                    }
+
+                    if (title) {
+                        title.style.color = '';
+                    }
+                });
+            });
+
+            // Architecture component hover effects
+            const archComponents = document.querySelectorAll('.architecture-component');
+            archComponents.forEach(component => {
+                component.addEventListener('mouseenter', () => {
+                    component.style.transform = 'translateY(-3px)';
+                    component.style.boxShadow = '0 5px 15px rgba(36, 150, 237, 0.2)';
+                });
+
+                component.addEventListener('mouseleave', () => {
+                    component.style.transform = 'translateY(0)';
+                    component.style.boxShadow = 'none';
+                });
+            });
+
+            // Tech tag hover effects
+            const techTags = document.querySelectorAll('.tech-tag');
+            techTags.forEach(tag => {
+                tag.addEventListener('mouseenter', () => {
+                    tag.style.transform = 'translateY(-2px)';
+                    tag.style.boxShadow = '0 4px 12px rgba(36, 150, 237, 0.2)';
+                });
+
+                tag.addEventListener('mouseleave', () => {
+                    tag.style.transform = 'translateY(0)';
+                    tag.style.boxShadow = 'none';
+                });
+            });
+
+            // CLI table row hover effects
+            const tableRows = document.querySelectorAll('.cli-table tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', () => {
+                    row.style.backgroundColor = 'rgba(36, 150, 237, 0.08)';
+                });
+
+                row.addEventListener('mouseleave', () => {
+                    row.style.backgroundColor = '';
+                });
+            });
+
+            // Button hover effects
+            const buttons = document.querySelectorAll('.btn, .footer-btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('mouseenter', () => {
+                    const icon = btn.querySelector('i');
+                    if (icon) {
+                        icon.style.transform = 'translateX(3px)';
+                        icon.style.transition = 'transform 0.3s ease';
+                    }
+                });
+
+                btn.addEventListener('mouseleave', () => {
+                    const icon = btn.querySelector('i');
+                    if (icon) {
+                        icon.style.transform = 'translateX(0)';
+                    }
+                });
+            });
+
+            // Terminal animation
+            const terminalLines = document.querySelectorAll('.terminal-line');
+            terminalLines.forEach((line, index) => {
+                line.style.opacity = '0';
+                line.style.transform = 'translateX(-10px)';
+
+                setTimeout(() => {
+                    line.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    line.style.opacity = '1';
+                    line.style.transform = 'translateX(0)';
+                }, index * 300);
+            });
+        });
+    </script>
+
+
+</body></html>

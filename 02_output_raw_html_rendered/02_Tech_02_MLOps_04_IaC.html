@@ -1,0 +1,2182 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infrastructure as Code Portfolio | AWS CDK &amp; Terraform</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=IBM+Plex+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet">
+    <style>
+        /* ==================== RESET AND BASE STYLES ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Core Surfaces - Updated Theme */
+            --bg-main: #0C1117;
+            --bg-surface: #121923;
+            --bg-elevated: #161F2B;
+            --card-bg: #161F2B;
+
+            /* Updated Accents - Infrastructure Focus */
+            --accent-primary: #B8B2A7;
+            --accent-energy: #7CFFB2;
+            --accent-depth: #3A1F2D;
+            --accent-secondary: #6C9BCF;
+            --accent-tertiary: #8A7CC5;
+            --accent-iac: #FF9900; /* AWS Orange for IaC focus */
+
+            /* Text */
+            --text-primary: #E6E9EF;
+            --text-secondary: #A1A8B3;
+            --text-muted: #6F7682;
+
+            /* Lines & Dividers */
+            --line-subtle: #1E2633;
+            --glass-border: rgba(184, 178, 167, 0.15);
+
+            /* Motion */
+            --ease-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+            /* Gradients */
+            --accent-gradient: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+            --iac-gradient: linear-gradient(90deg, var(--accent-iac), var(--accent-energy));
+            --depth-gradient: linear-gradient(135deg, var(--accent-depth), transparent 70%);
+            
+            /* Fonts */
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes infrastructureFlow {
+            0% {
+                background-position: 0% 0%;
+            }
+            100% {
+                background-position: 100px 100px;
+            }
+        }
+
+        @keyframes cloudFormation {
+            0%, 100% {
+                opacity: 0.03;
+            }
+            50% {
+                opacity: 0.08;
+            }
+        }
+
+        @keyframes resourceNode {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.1;
+            }
+            50% {
+                transform: translate(3px, -3px) scale(1.03);
+                opacity: 0.2;
+            }
+            100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.1;
+            }
+        }
+
+        @keyframes codeBlink {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes badgePulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(255, 153, 0, 0.3);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(255, 153, 0, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(255, 153, 0, 0);
+            }
+        }
+
+        @keyframes terminalTyping {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes terraformSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* ==================== BACKGROUND PATTERNS ==================== */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: 
+                /* Main gradient */
+                linear-gradient(
+                    135deg,
+                    var(--bg-main) 0%,
+                    var(--bg-surface) 50%,
+                    var(--bg-main) 100%
+                ),
+                /* Infrastructure grid */
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 39px,
+                    rgba(184, 178, 167, 0.02) 39px,
+                    rgba(184, 178, 167, 0.02) 40px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 39px,
+                    rgba(255, 153, 0, 0.02) 39px,
+                    rgba(255, 153, 0, 0.02) 40px
+                ),
+                /* Terraform patterns */
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(92, 107, 192, 0.03) 10px,
+                    rgba(92, 107, 192, 0.03) 20px
+                ),
+                /* Cloud formation patterns */
+                repeating-linear-gradient(
+                    -45deg,
+                    transparent,
+                    transparent 15px,
+                    rgba(124, 255, 178, 0.02) 15px,
+                    rgba(124, 255, 178, 0.02) 30px
+                ),
+                /* Depth accents */
+                radial-gradient(
+                    circle at 20% 30%,
+                    rgba(184, 178, 167, 0.04) 0%,
+                    transparent 40%
+                );
+            
+            background-size: 
+                400% 400%,
+                80px 80px,
+                80px 80px,
+                40px 40px,
+                60px 60px,
+                300px 300px;
+            
+            animation: 
+                infrastructureFlow 40s linear infinite,
+                cloudFormation 25s ease-in-out infinite;
+            
+            pointer-events: none;
+            z-index: -2;
+            opacity: 0.6;
+        }
+
+        /* Animated infrastructure nodes */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: 
+                /* Cloud resource nodes */
+                radial-gradient(
+                    6px circle at 10% 20%,
+                    var(--accent-iac) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    5px circle at 25% 45%,
+                    var(--accent-energy) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    5px circle at 40% 75%,
+                    var(--accent-iac) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    6px circle at 60% 25%,
+                    var(--accent-energy) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    5px circle at 75% 60%,
+                    var(--accent-iac) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    5px circle at 90% 35%,
+                    var(--accent-energy) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    6px circle at 15% 85%,
+                    var(--accent-iac) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    5px circle at 85% 85%,
+                    var(--accent-energy) 50%,
+                    transparent 100%
+                );
+            
+            background-repeat: no-repeat;
+            background-size: 
+                100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
+                100% 100%, 100% 100%, 100% 100%;
+            
+            animation: 
+                resourceNode 20s ease-in-out infinite,
+                codeBlink 5s ease-in-out infinite;
+            
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.25;
+            mix-blend-mode: screen;
+        }
+
+        /* ==================== CONTAINER ==================== */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ==================== PAGE HEADER ==================== */
+        .page-header {
+            padding: 5rem 0 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                var(--accent-iac), 
+                var(--accent-energy), 
+                transparent
+            );
+            opacity: 0.5;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-iac), var(--accent-energy));
+            opacity: 0.7;
+        }
+
+        .page-title {
+            font-size: 3.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-iac) 0%, var(--accent-energy) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        .page-intro {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 900px;
+            margin: 2rem auto 1.5rem;
+            line-height: 1.7;
+        }
+
+        .infra-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, 
+                rgba(255, 153, 0, 0.1) 0%, 
+                rgba(124, 255, 178, 0.1) 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-energy);
+            backdrop-filter: blur(10px);
+            animation: badgePulse 3s ease-in-out infinite;
+        }
+
+        /* ==================== MAIN CONTENT SECTION ==================== */
+        .main-section {
+            position: relative;
+            padding: 4rem 0;
+            background: rgba(12, 17, 23, 0.8);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-iac), var(--accent-energy));
+            border-radius: 2px;
+        }
+
+        .section-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 4rem;
+            text-align: center;
+            line-height: 1.7;
+        }
+
+        /* ==================== PROJECTS GRID ==================== */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        @media (max-width: 1100px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* ==================== PROJECT CARD ==================== */
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-slow);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s var(--ease-slow) forwards;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-iac), var(--accent-energy));
+            opacity: 0;
+            transition: opacity 0.4s var(--ease-slow);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-iac);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Project Image */
+        .project-image {
+            height: 380px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, 
+                rgba(255, 153, 0, 0.1), 
+                rgba(124, 255, 178, 0.1));
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--ease-slow);
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+        }
+
+        .project-image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(12, 17, 23, 0.9) 100%
+            );
+            display: flex;
+            align-items: flex-end;
+            padding: 1.2rem;
+        }
+
+        .project-type {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 153, 0, 0.15);
+            color: var(--accent-iac);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Project Content */
+        .project-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.3;
+            flex: 1;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            font-size: 0.9rem;
+            flex-grow: 1;
+        }
+
+        /* Cloud Provider Badges */
+        .cloud-provider {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.9rem;
+            background: rgba(184, 178, 167, 0.1);
+            border: 1px solid rgba(184, 178, 167, 0.2);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            font-family: var(--font-mono);
+            margin-left: 1rem;
+            flex-shrink: 0;
+        }
+
+        .cloud-provider.aws { 
+            background: rgba(255, 153, 0, 0.15); 
+            border-color: rgba(255, 153, 0, 0.3);
+            color: var(--accent-iac);
+        }
+
+        .cloud-provider.cdk { 
+            background: rgba(92, 107, 192, 0.15); 
+            border-color: rgba(92, 107, 192, 0.3);
+            color: #5C6BC0;
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .tech-tag {
+            padding: 0.3rem 0.7rem;
+            background: rgba(184, 178, 167, 0.08);
+            border: 1px solid rgba(184, 178, 167, 0.15);
+            border-radius: 15px;
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            font-weight: 500;
+            font-family: var(--font-mono);
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .tech-tag.iac {
+            background: rgba(255, 153, 0, 0.1);
+            border-color: rgba(255, 153, 0, 0.2);
+            color: var(--accent-iac);
+        }
+
+        .tech-tag:hover {
+            background: rgba(124, 255, 178, 0.15);
+            color: var(--accent-energy);
+            transform: translateY(-1px);
+        }
+
+        /* Key Capabilities */
+        .capabilities {
+            margin-bottom: 1.2rem;
+        }
+
+        .capability-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .capability-item i {
+            color: var(--accent-energy);
+            font-size: 0.8rem;
+            width: 16px;
+        }
+
+        /* Project Tags Section */
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(184, 178, 167, 0.1);
+        }
+
+        .project-tag {
+            padding: 0.25rem 0.6rem;
+            background: rgba(124, 255, 178, 0.1);
+            border: 1px solid rgba(124, 255, 178, 0.2);
+            border-radius: 12px;
+            font-size: 0.7rem;
+            color: var(--accent-energy);
+            font-weight: 500;
+            font-family: var(--font-mono);
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .project-tag:hover {
+            background: rgba(124, 255, 178, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* Project Actions */
+        .project-actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: auto;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.4s var(--ease-slow);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            position: relative;
+            overflow: hidden;
+            flex: 1;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-github {
+            background: rgba(255, 153, 0, 0.05);
+            border-color: var(--accent-iac);
+            color: var(--accent-iac);
+        }
+
+        .btn-github:hover {
+            background: rgba(255, 153, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn-icon {
+            transition: transform 0.4s var(--ease-slow);
+        }
+
+        .btn:hover .btn-icon {
+            transform: translateX(3px);
+        }
+
+        /* ==================== INFRASTRUCTURE PRINCIPLES SECTION ==================== */
+        .infrastructure-principles {
+            margin-top: 4rem;
+            padding: 3rem;
+            background: linear-gradient(
+                135deg,
+                rgba(22, 31, 43, 0.8) 0%,
+                rgba(12, 17, 23, 0.8) 100%
+            );
+            border-radius: 20px;
+            border: 1px solid var(--line-subtle);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .infrastructure-principles::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                var(--accent-iac), 
+                var(--accent-energy), 
+                transparent
+            );
+            opacity: 0.5;
+        }
+
+        .principles-title {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 2.5rem;
+            color: var(--text-primary);
+            text-align: center;
+            position: relative;
+        }
+
+        .principles-title::after {
+            content: '';
+            position: absolute;
+            bottom: -0.75rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: var(--accent-iac);
+            opacity: 0.7;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 992px) {
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .tool-item {
+            background: rgba(12, 17, 23, 0.6);
+            border: 1px solid var(--line-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.4s var(--ease-slow);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .tool-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                var(--accent-iac),
+                var(--accent-energy)
+            );
+            opacity: 0;
+            transition: opacity 0.4s var(--ease-slow);
+        }
+
+        .tool-item:hover {
+            border-color: var(--accent-iac);
+            transform: translateY(-3px);
+        }
+
+        .tool-item:hover::before {
+            opacity: 1;
+        }
+
+        .tool-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, 
+                rgba(255, 153, 0, 0.1) 0%,
+                rgba(124, 255, 178, 0.1) 100%);
+            color: var(--accent-iac);
+            border: 2px solid var(--glass-border);
+            transition: all 0.4s var(--ease-slow);
+        }
+
+        .tool-item:hover .tool-icon {
+            background: var(--accent-iac);
+            color: var(--bg-main);
+            transform: scale(1.1);
+            border-color: var(--accent-iac);
+            box-shadow: 0 0 20px rgba(255, 153, 0, 0.3);
+        }
+
+        .tool-icon.terraform {
+            animation: terraformSpin 20s linear infinite;
+        }
+
+        .tool-name {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-family: var(--font-mono);
+        }
+
+        .tool-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* IaC Principles */
+        .principles-grid {
+            margin-top: 3rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .principles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .principle {
+            background: rgba(12, 17, 23, 0.6);
+            border: 1px solid var(--line-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.4s var(--ease-slow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .principle::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                var(--accent-iac),
+                var(--accent-energy)
+            );
+            opacity: 0;
+            transition: opacity 0.4s var(--ease-slow);
+        }
+
+        .principle:hover {
+            border-color: var(--accent-iac);
+            transform: translateY(-3px);
+        }
+
+        .principle:hover::before {
+            opacity: 1;
+        }
+
+        .principle-title {
+            font-size: 1rem;
+            color: var(--accent-iac);
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-family: var(--font-mono);
+        }
+
+        .principle-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ==================== TERMINAL VISUALIZATION ==================== */
+        .terminal-section {
+            margin-top: 5rem;
+            text-align: center;
+        }
+
+        .terminal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 2.5rem;
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .terminal-title::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-iac), var(--accent-energy));
+        }
+
+        .terminal-window {
+            width: 100%;
+            max-width: 800px;
+            height: 320px;
+            margin: 0 auto;
+            background: rgba(12, 17, 23, 0.95);
+            border: 1px solid var(--line-subtle);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            font-family: var(--font-mono);
+        }
+
+        .terminal-header {
+            background: rgba(22, 31, 43, 0.95);
+            padding: 0.8rem 1.2rem;
+            border-bottom: 1px solid var(--line-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .terminal-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .terminal-dot.red { 
+            background: #FF5F56;
+            border: 1px solid rgba(255, 95, 86, 0.3);
+        }
+        .terminal-dot.red:hover { 
+            background: #ff3d32;
+            box-shadow: 0 0 8px rgba(255, 95, 86, 0.3);
+        }
+
+        .terminal-dot.yellow { 
+            background: #FFBD2E;
+            border: 1px solid rgba(255, 189, 46, 0.3);
+        }
+        .terminal-dot.yellow:hover { 
+            background: #ffab00;
+            box-shadow: 0 0 8px rgba(255, 189, 46, 0.3);
+        }
+
+        .terminal-dot.green { 
+            background: #27CA40;
+            border: 1px solid rgba(39, 202, 64, 0.3);
+        }
+        .terminal-dot.green:hover { 
+            background: #1db336;
+            box-shadow: 0 0 8px rgba(39, 202, 64, 0.3);
+        }
+
+        .terminal-window-title {
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .terminal-content {
+            padding: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            text-align: left;
+            overflow: hidden;
+            height: calc(100% - 54px);
+            background: 
+                repeating-linear-gradient(
+                    transparent,
+                    transparent 23px,
+                    rgba(255, 153, 0, 0.03) 23px,
+                    rgba(255, 153, 0, 0.03) 24px
+                );
+        }
+
+        .terminal-line {
+            margin-bottom: 0.4rem;
+            opacity: 0;
+            animation: terminalTyping 0.5s forwards;
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            min-height: 20px;
+        }
+
+        .terminal-line:nth-child(1) { animation-delay: 0.2s; }
+        .terminal-line:nth-child(2) { animation-delay: 0.4s; }
+        .terminal-line:nth-child(3) { animation-delay: 0.8s; }
+        .terminal-line:nth-child(4) { animation-delay: 1.2s; }
+        .terminal-line:nth-child(5) { animation-delay: 1.6s; }
+        .terminal-line:nth-child(6) { animation-delay: 2.0s; }
+        .terminal-line:nth-child(7) { animation-delay: 2.4s; }
+        .terminal-line:nth-child(8) { animation-delay: 2.8s; }
+
+        .terminal-prompt {
+            color: var(--accent-energy);
+            font-weight: 600;
+            flex-shrink: 0;
+            min-width: 15px;
+        }
+
+        .terminal-command {
+            color: var(--accent-iac);
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .terminal-output {
+            color: var(--text-secondary);
+            flex: 1;
+        }
+
+        .terminal-success {
+            color: var(--accent-energy);
+            font-weight: 600;
+        }
+
+        .terminal-warning {
+            color: #FFBD2E;
+            font-weight: 500;
+        }
+
+        .terminal-icon {
+            color: var(--accent-energy);
+            margin-right: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .terminal-line.success .terminal-icon {
+            color: var(--accent-energy);
+            animation: pulse 2s infinite;
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background-color: var(--accent-energy);
+            margin-left: 2px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        /* ==================== FLOATING ELEMENTS ==================== */
+        .floating-element {
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.08;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, var(--accent-iac), transparent);
+            animation: resourceNode 25s infinite ease-in-out;
+        }
+
+        .floating-element:nth-child(2) {
+            top: 60%;
+            right: 10%;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, transparent, var(--accent-energy));
+            animation: resourceNode 30s infinite ease-in-out reverse;
+            animation-delay: 5s;
+        }
+
+        .floating-element:nth-child(3) {
+            bottom: 20%;
+            left: 15%;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--accent-iac), var(--accent-energy));
+            animation: resourceNode 20s infinite ease-in-out;
+            animation-delay: 10s;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            text-align: center;
+            padding: 5rem 0 6rem;
+            position: relative;
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                rgba(12, 17, 23, 0.3) 20%,
+                rgba(12, 17, 23, 0.6) 100%
+            );
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 600px;
+            height: 1px;
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                var(--accent-iac), 
+                var(--accent-energy), 
+                transparent
+            );
+            opacity: 0.3;
+        }
+
+        .footer-message {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .contact-btn {
+            background: linear-gradient(
+                135deg,
+                rgba(255, 153, 0, 0.1) 0%,
+                rgba(124, 255, 178, 0.1) 100%
+            );
+            border: 1px solid var(--glass-border);
+            color: var(--accent-iac);
+            padding: 1.2rem 3rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.4s var(--ease-slow);
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(124, 255, 178, 0.1),
+                transparent
+            );
+            transition: left 0.6s var(--ease-slow);
+        }
+
+        .contact-btn:hover {
+            background: linear-gradient(
+                135deg,
+                rgba(255, 153, 0, 0.2) 0%,
+                rgba(124, 255, 178, 0.2) 100%
+            );
+            transform: translateY(-3px);
+            border-color: var(--accent-energy);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-btn:hover::before {
+            left: 100%;
+        }
+
+        .contact-btn i {
+            transition: transform 0.4s var(--ease-slow);
+        }
+
+        .contact-btn:hover i {
+            transform: translateX(5px) translateY(-2px);
+        }
+
+        .contact-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 992px) {
+            .tools-grid {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 2rem;
+            }
+            
+            .tool-item {
+                flex: 0 0 calc(50% - 1rem);
+            }
+            
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+            
+            .page-header {
+                padding: 3rem 0 2rem;
+            }
+            
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .page-subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                max-width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .project-content {
+                padding: 1.2rem;
+            }
+            
+            .project-title {
+                font-size: 1.2rem;
+            }
+            
+            .project-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .infrastructure-principles {
+                padding: 2rem;
+            }
+            
+            .tool-item {
+                flex: 0 0 100%;
+                margin-bottom: 1.5rem;
+            }
+            
+            .terminal-window {
+                height: 320px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .project-title {
+                font-size: 1.1rem;
+            }
+            
+            .project-image {
+                height: 240px;
+            }
+            
+            .tech-stack {
+                gap: 0.4rem;
+            }
+            
+            .tech-tag {
+                padding: 0.25rem 0.6rem;
+                font-size: 0.7rem;
+            }
+            
+            .project-actions {
+                gap: 0.6rem;
+            }
+            
+            .tool-item {
+                flex: 0 0 100%;
+            }
+            
+            .tool-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            
+            .tool-name {
+                font-size: 1rem;
+            }
+            
+            .terminal-window {
+                height: 360px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Elements -->
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Page Header -->
+        <header class="page-header">
+            <div class="container">
+                <h1 class="page-title">INFRASTRUCTURE AS CODE PORTFOLIO</h1>
+                <h3 class="page-subtitle">Programmatic management of cloud infrastructure using AWS CDK, Terraform, and CloudFormation</h3>
+                
+                <p class="page-intro">
+                    Designing and implementing reproducible, version-controlled cloud infrastructure across multiple platforms with security, cost optimization, and compliance automation. These projects demonstrate Infrastructure as Code capabilities for multi-environment deployments, automated governance, and production-ready infrastructure patterns.
+                </p>
+                
+                <div class="infra-badge">
+                    <i class="fas fa-server"></i>
+                    <span>Infrastructure as Code · Multi-Environment · Cost Optimization · Security Automation</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Section -->
+        <section class="main-section">
+            <div class="container">
+                <h2 class="section-title">Infrastructure as Code Projects</h2>
+                <p class="section-description">
+                    Production-grade Infrastructure as Code implementations using AWS CDK and comprehensive IaC frameworks for reproducible, version-controlled environments.
+                </p>
+                
+                <div class="projects-grid">
+                    <!-- Project 1: MLflow Platform on AWS ECS Fargate -->
+                    <article class="project-card" onclick="window.location.href='MLFlow-AWS-ECS-Fargate-CDK-Iac'" style="opacity: 1; transform: translateY(0px);">
+                        <div class="project-image">
+                            <div class="project-image-overlay">
+                                <span class="project-type">MLOps Platform</span>
+                            </div>
+                            <img src="/img/iac/banner1.webp" alt="MLflow on AWS ECS Fargate">
+                        </div>
+                        
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">MLflow Platform on AWS ECS Fargate</h3>
+                                <div class="cloud-provider aws">AWS CDK</div>
+                            </div>
+                            
+                            <p class="project-description">
+                                Production-grade MLflow tracking platform deployed on AWS ECS Fargate using AWS CDK (Python) with RDS MySQL, S3 artifact storage, VPC networking, and auto-scaling.
+                            </p>
+                            
+                            <div class="tech-stack">
+                                <span class="tech-tag iac">AWS CDK (Python)</span>
+                                <span class="tech-tag">Amazon ECS Fargate</span>
+                                <span class="tech-tag">Amazon RDS (MySQL)</span>
+                                <span class="tech-tag">Amazon S3</span>
+                                <span class="tech-tag">AWS Secrets Manager</span>
+                                <span class="tech-tag">Application Load Balancer</span>
+                            </div>
+
+                            <div class="project-tags">
+                                <span class="project-tag">Infrastructure as Code</span>
+                                <span class="project-tag">MLOps Platform</span>
+                                <span class="project-tag">Production Deployment</span>
+                                <span class="project-tag">Auto-Scaling</span>
+                            </div>
+                            
+                            <div class="capabilities">
+                                <div class="capability-item">
+                                    <i class="fas fa-sitemap"></i>
+                                    <span>Complete VPC networking with public/private subnets</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-database"></i>
+                                    <span>RDS MySQL backend store with Secrets Manager</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-box"></i>
+                                    <span>S3 artifact storage with IAM permissions</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-expand-arrows-alt"></i>
+                                    <span>ECS Fargate with CPU-based auto-scaling</span>
+                                </div>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <a href="infra project1" class="btn btn-github">
+                                    <i class="fas fa-external-link-alt btn-icon"></i>
+                                    <span>View Project</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 2: AWS CDK Infrastructure Patterns -->
+                    <article class="project-card" onclick="window.location.href='AWS-CDK-Infrastructure'" style="opacity: 1; transform: translateY(0px);">
+                        <div class="project-image">
+                            <div class="project-image-overlay">
+                                <span class="project-type">Infrastructure Patterns</span>
+                            </div>
+                            <img src="/img/iac/banner2.webp" alt="AWS CDK Infrastructure Patterns">
+                        </div>
+                        
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">AWS CDK Infrastructure Patterns</h3>
+                                <div class="cloud-provider cdk">CDK Patterns</div>
+                            </div>
+                            
+                            <p class="project-description">
+                                Comprehensive AWS CDK patterns library featuring VPC designs, CI/CD platforms, container orchestration, serverless architectures, and security-first infrastructure patterns.
+                            </p>
+                            
+                            <div class="tech-stack">
+                                <span class="tech-tag iac">AWS CDK (Python/TypeScript)</span>
+                                <span class="tech-tag">CloudFormation</span>
+                                <span class="tech-tag">Terraform Integration</span>
+                                <span class="tech-tag">Multi-Environment</span>
+                                <span class="tech-tag">Security Automation</span>
+                                <span class="tech-tag">Cost Optimization</span>
+                            </div>
+
+                            <div class="project-tags">
+                                <span class="project-tag">Infrastructure Patterns</span>
+                                <span class="project-tag">Multi-Environment</span>
+                                <span class="project-tag">Security Automation</span>
+                                <span class="project-tag">Cost Optimization</span>
+                            </div>
+                            
+                            <div class="capabilities">
+                                <div class="capability-item">
+                                    <i class="fas fa-layer-group"></i>
+                                    <span>Multi-environment deployments (dev/staging/prod)</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>Security and compliance automation</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Cost optimization strategies and monitoring</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-code-branch"></i>
+                                    <span>Terraform and CloudFormation integration</span>
+                                </div>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <a href="infra project2" class="btn btn-github">
+                                    <i class="fas fa-external-link-alt btn-icon"></i>
+                                    <span>View Patterns</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project: Azure ML Platform Infrastructure as Code -->
+                <article class="project-card" onclick="window.location.href='Azure-ML-IaC'" style="opacity: 1; transform: translateY(0px);">
+                    <div class="project-image">
+                        <div class="project-image-overlay">
+                            <span class="project-type">MLOps Platform</span>
+                        </div>
+                        <img src="/img/iac/banner3.webp" alt="Azure ML IaC Platform">
+                    </div>
+                    
+                    <div class="project-content">
+                        <div class="project-header">
+                            <h3 class="project-title">Azure ML Platform Infrastructure as Code</h3>
+                            <div class="cloud-provider azure">Azure DevOps</div>
+                        </div>
+                        
+                        <p class="project-description">
+                            Automated end-to-end Azure ML platform provisioning using Infrastructure as Code with secure RBAC, autoscaling compute, and CI/CD pipelines.
+                        </p>
+                        
+                        <div class="tech-stack">
+                            <span class="tech-tag iac">Azure DevOps YAML</span>
+                            <span class="tech-tag">Azure Machine Learning</span>
+                            <span class="tech-tag">Azure CLI v2</span>
+                            <span class="tech-tag">RBAC &amp; Service Principals</span>
+                            <span class="tech-tag">Autoscaling Compute</span>
+                        </div>
+
+                        <div class="project-tags">
+                            <span class="project-tag">Infrastructure as Code</span>
+                            <span class="project-tag">Cloud MLOps</span>
+                            <span class="project-tag">CI/CD Automation</span>
+                        </div>
+                        
+                        <div class="capabilities">
+                            <div class="capability-item">
+                                <i class="fas fa-cloud"></i>
+                                <span>Automated Azure ML workspace provisioning</span>
+                            </div>
+                            <div class="capability-item">
+                                <i class="fas fa-user-shield"></i>
+                                <span>Secure RBAC with Service Principals</span>
+                            </div>
+                            <div class="capability-item">
+                                <i class="fas fa-expand-arrows-alt"></i>
+                                <span>Autoscaling compute clusters (scale-to-zero)</span>
+                            </div>
+                            <div class="capability-item">
+                                <i class="fas fa-code-branch"></i>
+                                <span>CI/CD pipeline-driven infrastructure deployment</span>
+                            </div>
+                        </div>
+                        
+                        <div class="project-actions">
+                            <a href="ai2/ai2.1" class="btn btn-github">
+                                <i class="fas fa-external-link-alt btn-icon"></i>
+                                <span>View Project</span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project-card" onclick="window.location.href='ai4.1'" style="opacity: 1; transform: translateY(0px);">
+    <div class="project-image">
+        <div class="project-image-overlay">
+            <span class="project-type">MLOps Platform</span>
+        </div>
+        <!-- using a generic placeholder; you can replace with actual image if available -->
+        <img src="/img/iac/banner4.webp" alt="GCP Vertex AI Platform Foundation">
+    </div>
+    
+    <div class="project-content">
+        <div class="project-header">
+            <h3 class="project-title">GCP Vertex AI Platform Foundation (Pipeline-1)</h3>
+            <div class="cloud-provider azure" style="background:#4285F4; color:white;">GCP</div>
+        </div>
+        
+        <p class="project-description">
+            Programmatic MLOps infrastructure on Google Cloud – bootstraps Vertex AI Pipelines runtime, 
+            IAM least‑privilege service accounts, GCS artifact root, and Workload Identity Federation for secure, 
+            reproducible AI platform provisioning.
+        </p>
+        
+        <div class="tech-stack">
+            <span class="tech-tag iac">Vertex AI</span>
+            <span class="tech-tag">Kubeflow Pipelines v2</span>
+            <span class="tech-tag">GCP IAM</span>
+            <span class="tech-tag">Workload Identity Federation</span>
+            <span class="tech-tag">Cloud Storage</span>
+            <span class="tech-tag">Vertex SDK</span>
+        </div>
+
+        <div class="project-tags">
+            <span class="project-tag">MLOps Platform</span>
+            <span class="project-tag">Infrastructure as Code</span>
+            <span class="project-tag">CI/CD Bootstrap</span>
+        </div>
+        
+        <div class="capabilities">
+            <div class="capability-item">
+                <i class="fas fa-cloud"></i>
+                <span>Vertex AI Pipelines runtime &amp; artifact root</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-user-shield"></i>
+                <span>IAM least‑privilege + service account impersonation</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-expand-arrows-alt"></i>
+                <span>GCS pipeline root (versioned, encrypted)</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-code-branch"></i>
+                <span>GitHub Actions + Workload Identity Federation</span>
+            </div>
+        </div>
+        
+        <div class="project-actions">
+            <a href="/mlops/ai4/ai4.1" class="btn btn-github">
+                <i class="fas fa-external-link-alt btn-icon"></i>
+                <span>View Project</span>
+            </a>
+        </div>
+    </div>
+</article>
+<article class="project-card" onclick="window.location.href='ai5.1'" style="opacity: 1; transform: translateY(0px);">
+    <div class="project-image">
+        <div class="project-image-overlay">
+            <span class="project-type">MLOps Platform</span>
+        </div>
+        <!-- replace with actual image if available -->
+        <img src="/img/iac/banner5.webp" alt="Kubeflow MLOps Foundation">
+    </div>
+    
+    <div class="project-content">
+        <div class="project-header">
+            <h3 class="project-title">Kubeflow AI Platform Foundation (Pipeline‑1)</h3>
+            <div class="cloud-provider azure" style="background:#326CE5; color:white;">Kubernetes</div>
+        </div>
+        
+        <p class="project-description">
+            Kubernetes‑native MLOps platform bootstrap – provisions Kubeflow Pipelines v2, Argo Workflows, MinIO artifact store, ML Metadata (MLMD) and RBAC. Creates a standardized, governed foundation for training and deployment pipelines.
+        </p>
+        
+        <div class="tech-stack">
+            <span class="tech-tag iac">Kubeflow Pipelines</span>
+            <span class="tech-tag">Argo Workflows</span>
+            <span class="tech-tag">MinIO</span>
+            <span class="tech-tag">ML Metadata</span>
+            <span class="tech-tag">Kubernetes RBAC</span>
+            <span class="tech-tag">Kustomize</span>
+        </div>
+
+        <div class="project-tags">
+            <span class="project-tag">Platform Engineering</span>
+            <span class="project-tag">Infrastructure as Code</span>
+            <span class="project-tag">Multi‑env</span>
+        </div>
+        
+        <div class="capabilities">
+            <div class="capability-item">
+                <i class="fas fa-cubes"></i>
+                <span>Kubeflow Pipelines control plane install</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-database"></i>
+                <span>MinIO artifact store + ML Metadata</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-user-lock"></i>
+                <span>RBAC &amp; namespace isolation</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-repeat"></i>
+                <span>Reproducible platform bootstrap (IaC)</span>
+            </div>
+        </div>
+        
+        <div class="project-actions">
+            <a href="/mlops/ai5/ai5.1" class="btn btn-github">
+                <i class="fas fa-external-link-alt btn-icon"></i>
+                <span>View Project</span>
+            </a>
+        </div>
+    </div>
+</article>
+<article class="project-card" onclick="window.location.href='ai6.1'" style="opacity: 1; transform: translateY(0px);">
+    <div class="project-image">
+        <div class="project-image-overlay">
+            <span class="project-type">MLOps Platform</span>
+        </div>
+        <!-- replace with actual image if available -->
+        <img src="/img/iac/banner6.webp" alt="AWS AI Platform IaC">
+    </div>
+    
+    <div class="project-content">
+        <div class="project-header">
+            <h3 class="project-title">AWS SageMaker AI Platform (Pipeline‑1)</h3>
+            <div class="cloud-provider azure" style="background:#FF9900; color:black;">AWS</div>
+        </div>
+        
+        <p class="project-description">
+            Enterprise‑ready AWS AI platform foundation – provisions SageMaker Domain, Organization Templates (Service Catalog), IAM/KMS, S3, and environment stacks via AWS CDK. Secure CI/CD with GitHub Actions + OIDC, enabling governed, repeatable ML workspace setup across Dev/Pre‑Prod/Prod.
+        </p>
+        
+        <div class="tech-stack">
+            <span class="tech-tag iac">AWS CDK (Python)</span>
+            <span class="tech-tag">SageMaker Domain</span>
+            <span class="tech-tag">Service Catalog</span>
+            <span class="tech-tag">OIDC (GitHub→AWS)</span>
+            <span class="tech-tag">IAM least‑privilege</span>
+            <span class="tech-tag">KMS encryption</span>
+            <span class="tech-tag">SSM Parameter Store</span>
+        </div>
+
+        <div class="project-tags">
+            <span class="project-tag">Infrastructure as Code</span>
+            <span class="project-tag">MLOps Platform</span>
+            <span class="project-tag">Multi‑env</span>
+        </div>
+        
+        <div class="capabilities">
+            <div class="capability-item">
+                <i class="fas fa-cloud"></i>
+                <span>SageMaker Domain + Organization Templates</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-user-shield"></i>
+                <span>IAM least‑privilege + KMS encryption</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-code-branch"></i>
+                <span>GitHub Actions + OIDC (no static keys)</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-layer-group"></i>
+                <span>Multi‑environment CDK stacks (Dev/Pre‑Prod/Prod)</span>
+            </div>
+        </div>
+        
+        <div class="project-actions">
+            <a href="/mlops/ai6/ai6.1" class="btn btn-github">
+                <i class="fas fa-external-link-alt btn-icon"></i>
+                <span>View Project</span>
+            </a>
+        </div>
+    </div>
+</article>
+
+                </div>
+
+                <!-- Infrastructure Tools & Principles -->
+                <div class="infrastructure-principles">
+                    <h3 class="principles-title">Infrastructure as Code Tools &amp; Principles</h3>
+                    
+                    <div class="tools-grid" style="opacity: 1; transform: translateY(0px);">
+                        <div class="tool-item" style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow);">
+                            <div class="tool-icon">
+                                <i class="fab fa-aws"></i>
+                            </div>
+                            <h4 class="tool-name">AWS CDK</h4>
+                            <p class="tool-desc">
+                                Infrastructure as Code with familiar programming languages (Python, TypeScript, Java, C#)
+                            </p>
+                        </div>
+                        
+                        <div class="tool-item" style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow);">
+                            <div class="tool-icon terraform" style="animation-play-state: running;">
+                                <i class="fas fa-mountain"></i>
+                            </div>
+                            <h4 class="tool-name">Terraform</h4>
+                            <p class="tool-desc">
+                                Cloud-agnostic Infrastructure as Code with declarative configuration language
+                            </p>
+                        </div>
+                        
+                        <div class="tool-item" style="opacity: 1; transform: translateY(0px); transition: opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow);">
+                            <div class="tool-icon">
+                                <i class="fas fa-cloud"></i>
+                            </div>
+                            <h4 class="tool-name">CloudFormation</h4>
+                            <p class="tool-desc">
+                                AWS-native Infrastructure as Code with JSON/YAML templates and drift detection
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="principles-grid">
+                        <div class="principle">
+                            <h4 class="principle-title">VERSION-CONTROLLED INFRASTRUCTURE</h4>
+                            <p class="principle-desc">All infrastructure definitions stored in Git with full change history, peer reviews, and automated testing.</p>
+                        </div>
+                        
+                        <div class="principle">
+                            <h4 class="principle-title">MULTI-ENVIRONMENT DEPLOYMENTS</h4>
+                            <p class="principle-desc">Consistent infrastructure across development, staging, and production environments with environment-specific configurations.</p>
+                        </div>
+                        
+                        <div class="principle">
+                            <h4 class="principle-title">COST OPTIMIZATION STRATEGIES</h4>
+                            <p class="principle-desc">Right-sizing, auto-scaling, spot instances, and budget alerts integrated into infrastructure design.</p>
+                        </div>
+                        
+                        <div class="principle">
+                            <h4 class="principle-title">SECURITY &amp; COMPLIANCE AUTOMATION</h4>
+                            <p class="principle-desc">Security groups, IAM policies, encryption, and compliance controls automated through code.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terminal Visualization -->
+                <div class="terminal-section">
+                    <h3 class="terminal-title">Infrastructure as Code Pipeline</h3>
+                    
+                    <div class="terminal-window" style="opacity: 1; transform: translateY(0px);">
+                        <div class="terminal-header">
+                            <div class="terminal-controls">
+                                <div class="terminal-dot red"></div>
+                                <div class="terminal-dot yellow"></div>
+                                <div class="terminal-dot green"></div>
+                            </div>
+                            <span class="terminal-window-title">aws-cdk-deploy.sh</span>
+                            <div style="width: 80px;"></div> <!-- Spacer for balance -->
+                        </div>
+                        
+                        <div class="terminal-content">
+                            <div class="terminal-line" style="animation-play-state: running;">
+                                <span class="terminal-prompt">$</span>
+                                <span class="terminal-command">cdk synth</span>
+                                <span class="terminal-cursor" style="opacity: 0;"></span>
+                            </div>
+                            <div class="terminal-line" style="animation-play-state: running;">
+                                <span class="terminal-output">Generating CloudFormation template from CDK code...</span>
+                            </div>
+                            <div class="terminal-line success" style="animation-play-state: running;">
+                                <span class="terminal-icon">✓</span>
+                                <span class="terminal-output">CloudFormation template generated successfully</span>
+                            </div>
+                            <div class="terminal-line" style="animation-play-state: running;">
+                                <span class="terminal-prompt">$</span>
+                                <span class="terminal-command">cdk deploy --require-approval never</span>
+                            </div>
+                            <div class="terminal-line success" style="animation-play-state: running;">
+                                <span class="terminal-icon">✓</span>
+                                <span class="terminal-output">VPC with public/private subnets created</span>
+                            </div>
+                            <div class="terminal-line success" style="animation-play-state: running;">
+                                <span class="terminal-icon">✓</span>
+                                <span class="terminal-output">RDS MySQL instance provisioned</span>
+                            </div>
+                            <div class="terminal-line success" style="animation-play-state: running;">
+                                <span class="terminal-icon">✓</span>
+                                <span class="terminal-output">S3 bucket with encryption enabled</span>
+                            </div>
+                            <div class="terminal-line success" style="animation-play-state: running;">
+                                <span class="terminal-icon">✓</span>
+                                <span class="terminal-output">ECS Fargate service with auto-scaling configured</span>
+                            </div>
+                            <div class="terminal-line" style="animation-play-state: running;">
+                                <span class="terminal-success">🚀 Infrastructure deployed successfully!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-message">
+                Ready to implement Infrastructure as Code for reproducible, version-controlled cloud environments? Let's architect production-ready infrastructure with security, cost optimization, and compliance automation.
+            </p>
+            <a href="/index#contact" class="contact-btn">
+                <span>Discuss Infrastructure as Code</span>
+                <i class="fas fa-paper-plane"></i>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Project card interactions
+            const projectCards = document.querySelectorAll('.project-card');
+            
+            projectCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    const icon = card.querySelector('.btn-icon');
+                    if (icon) {
+                        icon.style.transform = 'translateX(3px)';
+                    }
+                    
+                    // Animate tags
+                    const tags = card.querySelectorAll('.project-tag');
+                    tags.forEach((tag, index) => {
+                        setTimeout(() => {
+                            tag.style.transform = 'translateY(-2px)';
+                        }, index * 50);
+                    });
+                    
+                    // Animate tech tags
+                    const techTags = card.querySelectorAll('.tech-tag');
+                    techTags.forEach((tag, index) => {
+                        setTimeout(() => {
+                            tag.style.transform = 'translateY(-1px)';
+                        }, index * 30);
+                    });
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    const icon = card.querySelector('.btn-icon');
+                    if (icon) {
+                        icon.style.transform = 'translateX(0)';
+                    }
+                    
+                    // Reset tags
+                    const tags = card.querySelectorAll('.project-tag');
+                    tags.forEach(tag => {
+                        tag.style.transform = 'translateY(0)';
+                    });
+                    
+                    // Reset tech tags
+                    const techTags = card.querySelectorAll('.tech-tag');
+                    techTags.forEach(tag => {
+                        tag.style.transform = 'translateY(0)';
+                    });
+                });
+
+                // Click navigation
+                card.addEventListener('click', (e) => {
+                    // Only navigate if not clicking on a link inside
+                    if (!e.target.closest('a')) {
+                        const projectLink = card.querySelector('a.btn-github');
+                        if (projectLink && projectLink.href) {
+                            window.location.href = projectLink.href;
+                        }
+                    }
+                });
+            });
+            
+            // Animate elements on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        
+                        // Animate terminal lines
+                        if (entry.target.classList.contains('terminal-window')) {
+                            const lines = entry.target.querySelectorAll('.terminal-line');
+                            lines.forEach((line, index) => {
+                                setTimeout(() => {
+                                    line.style.animationPlayState = 'running';
+                                }, index * 300);
+                            });
+                        }
+
+                        // Animate tool items
+                        if (entry.target.classList.contains('tools-grid')) {
+                            const items = entry.target.querySelectorAll('.tool-item');
+                            items.forEach((item, index) => {
+                                setTimeout(() => {
+                                    item.style.opacity = '1';
+                                    item.style.transform = 'translateY(0)';
+                                }, index * 200);
+                            });
+                        }
+                    }
+                });
+            }, observerOptions);
+            
+            projectCards.forEach(card => {
+                observer.observe(card);
+            });
+            
+            // Animate tool items
+            const toolItems = document.querySelectorAll('.tool-item');
+            toolItems.forEach((item, index) => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    item.style.transition = 'opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow)';
+                }, index * 200);
+            });
+
+            // Observe tools grid
+            const toolsGrid = document.querySelector('.tools-grid');
+            if (toolsGrid) {
+                observer.observe(toolsGrid);
+            }
+            
+            // Terminal animation
+            const terminalWindow = document.querySelector('.terminal-window');
+            if (terminalWindow) {
+                observer.observe(terminalWindow);
+            }
+            
+            // Cloud provider badges hover effect
+            const cloudBadges = document.querySelectorAll('.cloud-provider');
+            cloudBadges.forEach(badge => {
+                badge.addEventListener('mouseenter', () => {
+                    badge.style.transform = 'scale(1.05)';
+                    badge.style.transition = 'transform 0.3s var(--ease-slow)';
+                });
+                
+                badge.addEventListener('mouseleave', () => {
+                    badge.style.transform = 'scale(1)';
+                });
+            });
+            
+            // Tech tags hover effect
+            const techTags = document.querySelectorAll('.tech-tag');
+            techTags.forEach(tag => {
+                tag.addEventListener('mouseenter', () => {
+                    tag.style.transform = 'translateY(-2px)';
+                    tag.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+                });
+                
+                tag.addEventListener('mouseleave', () => {
+                    tag.style.transform = 'translateY(0)';
+                    tag.style.boxShadow = 'none';
+                });
+            });
+
+            // Project tags hover effect
+            const projectTags = document.querySelectorAll('.project-tag');
+            projectTags.forEach(tag => {
+                tag.addEventListener('mouseenter', () => {
+                    tag.style.transform = 'translateY(-2px)';
+                    tag.style.boxShadow = '0 4px 12px rgba(124, 255, 178, 0.1)';
+                });
+                
+                tag.addEventListener('mouseleave', () => {
+                    tag.style.transform = 'translateY(0)';
+                    tag.style.boxShadow = 'none';
+                });
+            });
+            
+            // Tool item hover effects
+            toolItems.forEach(item => {
+                item.addEventListener('mouseenter', () => {
+                    const icon = item.querySelector('.tool-icon');
+                    const name = item.querySelector('.tool-name');
+                    
+                    if (icon) {
+                        icon.style.transform = 'scale(1.1)';
+                        icon.style.transition = 'all 0.3s var(--ease-slow)';
+                    }
+                    
+                    if (name) {
+                        name.style.color = 'var(--accent-energy)';
+                        name.style.transition = 'color 0.3s var(--ease-slow)';
+                    }
+                });
+                
+                item.addEventListener('mouseleave', () => {
+                    const icon = item.querySelector('.tool-icon');
+                    const name = item.querySelector('.tool-name');
+                    
+                    if (icon) {
+                        icon.style.transform = 'scale(1)';
+                    }
+                    
+                    if (name) {
+                        name.style.color = '';
+                    }
+                });
+            });
+
+            // Terminal cursor animation
+            const terminalCursor = document.querySelector('.terminal-cursor');
+            if (terminalCursor) {
+                let isCursorVisible = true;
+                setInterval(() => {
+                    isCursorVisible = !isCursorVisible;
+                    terminalCursor.style.opacity = isCursorVisible ? '1' : '0';
+                }, 500);
+            }
+
+            // Terminal line animation on scroll
+            if (terminalWindow) {
+                const terminalObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const lines = entry.target.querySelectorAll('.terminal-line');
+                            lines.forEach((line, index) => {
+                                setTimeout(() => {
+                                    line.style.animationPlayState = 'running';
+                                }, index * 300);
+                            });
+                            
+                            // Start cursor blinking after all lines appear
+                            setTimeout(() => {
+                                if (terminalCursor) {
+                                    terminalCursor.style.animation = 'blink 1s infinite';
+                                }
+                            }, lines.length * 300);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                terminalObserver.observe(terminalWindow);
+            }
+
+            // Terminal control dots hover effect
+            const terminalDots = document.querySelectorAll('.terminal-dot');
+            terminalDots.forEach(dot => {
+                dot.addEventListener('mouseenter', () => {
+                    dot.style.transform = 'scale(1.2)';
+                });
+                
+                dot.addEventListener('mouseleave', () => {
+                    dot.style.transform = 'scale(1)';
+                });
+            });
+
+            // Terraform icon animation
+            const terraformIcon = document.querySelector('.tool-icon.terraform');
+            if (terraformIcon) {
+                // Pause animation initially
+                terraformIcon.style.animationPlayState = 'paused';
+                
+                // Start animation when visible
+                const terraformObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            terraformIcon.style.animationPlayState = 'running';
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                terraformObserver.observe(terraformIcon);
+            }
+        });
+    </script>
+
+</body></html>

@@ -1,0 +1,1770 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLflow on AWS - CDK IaC + SageMaker Project Case Study</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-main: #0C1117;
+            --bg-surface: #121923;
+            --bg-elevated: #161F2B;
+            --card-bg: #161F2B;
+
+            --accent-primary: #B8B2A7;
+            --accent-energy: #7CFFB2;
+            --accent-depth: #3A1F2D;
+
+            --text-primary: #E6E9EF;
+            --text-secondary: #A1A8B3;
+            --text-muted: #6F7682;
+
+            --line-subtle: #1E2633;
+            --glass-border: rgba(184, 178, 167, 0.15);
+
+            --ease-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --accent-gradient: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* ==================== HEADER & NAVIGATION ==================== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(12, 17, 23, 0.9);
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.4s var(--ease-slow);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-primary);
+            transition: width 0.4s var(--ease-slow);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--accent-energy);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+            background: var(--accent-energy);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ==================== MAIN CONTENT ==================== */
+        main {
+            padding-top: 100px;
+            padding-bottom: 4rem;
+        }
+
+        /* ==================== SECTION STYLES ==================== */
+        .section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        .section-header {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-energy);
+            border-radius: 2px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.4s var(--ease-slow);
+        }
+
+        .card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .card-title i {
+            color: var(--accent-energy);
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-item {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .list-item::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent-energy);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .highlight-box {
+            background: rgba(124, 255, 178, 0.05);
+            border-left: 4px solid var(--accent-energy);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-text {
+            color: var(--accent-energy);
+            font-weight: 500;
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero-section {
+            text-align: center;
+            padding-top: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-energy), transparent);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 1rem;
+            letter-spacing: -0.02em;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .hero-summary {
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* ==================== ARCHITECTURE VISUAL ==================== */
+        .architecture-visual {
+            background: var(--bg-elevated);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--line-subtle);
+            margin: 2rem 0;
+        }
+
+        .architecture-placeholder {
+            height: 400px;
+            background: linear-gradient(135deg, rgba(184, 178, 167, 0.1), rgba(124, 255, 178, 0.05));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .architecture-placeholder::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(var(--line-subtle) 1px, transparent 1px),
+                linear-gradient(90deg, var(--line-subtle) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.3;
+        }
+
+        .architecture-label {
+            position: relative;
+            z-index: 2;
+            background: rgba(12, 17, 23, 0.7);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .flow-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .flow-step {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: var(--accent-energy);
+            color: var(--bg-main);
+            border-radius: 50%;
+            line-height: 30px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* ==================== PIPELINE STAGES ==================== */
+        .pipeline-stage {
+            margin-bottom: 2.5rem;
+        }
+
+        .stage-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .stage-number {
+            background: var(--accent-energy);
+            color: var(--bg-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .stage-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* ==================== TECHNOLOGY STACK ==================== */
+        .tech-category {
+            margin-bottom: 2rem;
+        }
+
+        .tech-category-title {
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tech-tag {
+            background: rgba(184, 178, 167, 0.1);
+            color: var(--accent-primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(184, 178, 167, 0.2);
+        }
+
+        .tech-tag.energy {
+            background: rgba(124, 255, 178, 0.1);
+            color: var(--accent-energy);
+            border-color: rgba(124, 255, 178, 0.2);
+        }
+
+        /* ==================== ASSETS SECTION ==================== */
+        .assets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .asset-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--line-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .asset-card:hover {
+            border-color: var(--accent-energy);
+            transform: translateY(-4px);
+        }
+
+        .asset-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(124, 255, 178, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--accent-energy);
+            font-size: 1.5rem;
+        }
+
+        .asset-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .asset-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .asset-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-energy);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .asset-link:hover {
+            text-decoration: underline;
+        }
+
+        .disclaimer {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: rgba(184, 178, 167, 0.05);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid var(--line-subtle);
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ==================== YAML TABLE STYLES ==================== */
+        .yaml-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .yaml-table th {
+            background: rgba(124, 255, 178, 0.1);
+            color: var(--accent-energy);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--line-subtle);
+        }
+
+        .yaml-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--line-subtle);
+            color: var(--text-secondary);
+        }
+
+        .yaml-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .yaml-table tr:hover {
+            background: rgba(184, 178, 167, 0.05);
+        }
+
+        /* ==================== CODE BLOCK STYLES ==================== */
+        .code-block {
+            background: rgba(12, 17, 23, 0.8);
+            border: 1px solid var(--line-subtle);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+            overflow-x: auto;
+        }
+
+        .code-key {
+            color: #7CFFB2;
+        }
+
+        .code-value {
+            color: #6C9BCF;
+        }
+
+        .code-comment {
+            color: #6F7682;
+        }
+
+        /* ==================== DEMO SECTION ==================== */
+        .demo-section {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .demo-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-energy);
+        }
+
+        .demo-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .trigger-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--accent-energy);
+            color: var(--bg-main);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-slow);
+         text-decoration: none; }
+
+        .trigger-btn:hover {
+            background: transparent;
+            color: var(--accent-energy);
+            border: 2px solid var(--accent-energy);
+            transform: translateY(-2px);
+        }
+
+        /* ==================== STUDY MATERIAL MODAL ==================== */
+        .study-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(12, 17, 23, 0.95);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .study-modal.active {
+            display: flex;
+        }
+
+        .study-modal-content {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid var(--line-subtle);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .study-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .study-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .study-modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .study-modal-close:hover {
+            color: var(--accent-energy);
+            background: rgba(124, 255, 178, 0.1);
+        }
+
+        .study-material-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .study-material-item {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            gap: 1.2rem;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .study-material-item:hover {
+            background: rgba(184, 178, 167, 0.05);
+            transform: translateX(5px);
+        }
+
+        .study-material-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(108, 155, 207, 0.1);
+            color: #6C9BCF;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        .study-material-info {
+            flex: 1;
+        }
+
+        .study-material-name {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .study-material-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            background: transparent;
+            border: 2px solid var(--accent-energy);
+            color: var(--accent-energy);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .download-btn:hover {
+            background: rgba(124, 255, 178, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(124, 255, 178, 0.2);
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeInUp 0.6s var(--ease-slow) forwards;
+            opacity: 0;
+        }
+
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+
+        /* Animation for modal */
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .study-modal-content {
+            animation: modalFadeIn 0.3s var(--ease-slow);
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 768px) {
+            .nav-list {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background: var(--bg-surface);
+                padding: 2rem;
+                border-bottom: 1px solid var(--line-subtle);
+                gap: 1.5rem;
+            }
+
+            .nav-list.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .flow-steps {
+                flex-direction: column;
+            }
+
+            .flow-step {
+                min-width: 100%;
+            }
+
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .yaml-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .study-modal-content {
+                padding: 1.5rem;
+            }
+
+            .study-material-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .study-material-info {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .demo-title {
+                font-size: 2rem;
+            }
+
+            .study-modal-content {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="nav-logo">MLflow on AWS</a>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#overview" class="nav-link active">Overview</a></li>
+                <li class="nav-item"><a href="#problem" class="nav-link">Problem</a></li>
+                <li class="nav-item"><a href="#architecture" class="nav-link">Architecture</a></li>
+                <li class="nav-item"><a href="#skills" class="nav-link">Skills</a></li>
+                <li class="nav-item"><a href="#implementation" class="nav-link">Implementation</a></li>
+                <li class="nav-item"><a href="#assets" class="nav-link">Assets</a></li>
+            </ul>
+            <button class="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section id="overview" class="section hero-section" style="opacity: 1; transform: translateY(0px);">
+            <h1 class="hero-title">MLflow on AWS</h1>
+            <p class="hero-subtitle">CDK IaC + SageMaker Training &amp; Deployment | MLOps Platform</p>
+            <div class="hero-summary">
+                <p>Production-grade ML platform using AWS CDK to provision MLflow (ECS Fargate) and SageMaker for train → register → deploy lifecycle. Building end-to-end MLOps infrastructure with Infrastructure as Code approach.</p>
+            </div>
+        </section>
+
+        <!-- Project Summary -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Project Summary</h2>
+                <p class="section-subtitle">Comprehensive MLOps Platform Overview</p>
+            </div>
+            
+            <div class="grid-3">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-tag"></i>Project Category</h3>
+                    <div class="card-content">
+                        <p>MLOps / Cloud / DevOps</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-industry"></i>Industry/Domain</h3>
+                    <div class="card-content">
+                        <p>Cross-industry (Enterprise AI Platform / SaaS / Consulting-ready)</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-code"></i>MLOps Focus</h3>
+                    <div class="card-content">
+                        <p>Machine Learning Platform Engineering / MLOps Infrastructure</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Keywords -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Key Technologies &amp; Concepts</h2>
+                <p class="section-subtitle">Core MLOps Technologies Used</p>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-key"></i>MLOps Platform Keywords</h3>
+                <div class="card-content">
+                    <div class="tech-tags">
+                        <span class="tech-tag energy">AWS CDK (Python IaC)</span>
+                        <span class="tech-tag energy">ECS Fargate (MLflow Tracking Server)</span>
+                        <span class="tech-tag">MLflow Tracking &amp; Model Registry</span>
+                        <span class="tech-tag energy">SageMaker Training Jobs</span>
+                        <span class="tech-tag">SageMaker Real-time Endpoints</span>
+                        <span class="tech-tag">Amazon ECR (MLflow Inference Container)</span>
+                        <span class="tech-tag energy">S3 (Artifact Store)</span>
+                        <span class="tech-tag">RDS MySQL (MLflow Backend Store)</span>
+                        <span class="tech-tag energy">Model Lifecycle Management</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem & Objective -->
+        <section id="problem" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Problem &amp; Objective</h2>
+                <p class="section-subtitle">What problem did this project solve?</p>
+            </div>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Problems Solved</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">No unified, production-grade platform to manage ML experiments, models, and deployments across cloud infrastructure</li>
+                            <li class="list-item">Lack of centralized experiment tracking and model versioning</li>
+                            <li class="list-item">Manual and error-prone ML workflow management</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-bullseye"></i>Primary Objectives</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Create a production-grade ML platform using AWS CDK (Infrastructure as Code)</li>
+                            <li class="list-item">Provision MLflow on ECS Fargate for experiment tracking and model registry</li>
+                            <li class="list-item">Integrate SageMaker for training and real-time deployment</li>
+                            <li class="list-item">Establish full ML lifecycle: Train → Track → Register → Deploy</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution & Architecture -->
+        <section id="architecture" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Solution &amp; Architecture</h2>
+                <p class="section-subtitle">Architectural Overview</p>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-sitemap"></i>Solution Overview</h3>
+                <div class="card-content">
+                    <p>Provisioned MLflow on ECS Fargate using AWS CDK, integrated SageMaker for training and real-time deployment, with S3 for artifacts and RDS for metadata — forming a full ML lifecycle platform.</p>
+                    
+                    <div class="highlight-box">
+                        <p class="highlight-text">MLflow provides centralized experiment tracking and model registry while SageMaker offers managed training and inference, creating a comprehensive MLOps platform on AWS.</p>
+                    </div>
+                    
+                    <p>This solution enables reproducible ML experiments, versioned model management, and automated deployment workflows with full lineage tracking and governance.</p>
+                </div>
+            </div>
+            
+            <div class="architecture-visual">
+
+                <div style="text-align: center; width: 100%;">
+        <img src="/img/ml-systems/project in 2.2.webp" alt="MLflow on AWS Architecture Diagram" style="max-width: 100%; height: auto; display: inline-block; margin: 0 auto;">
+    </div>
+                
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-label">AWS CDK IaC</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-label">MLflow on ECS Fargate</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-label">SageMaker Training</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Model Registry</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">5</div>
+                        <div class="step-label">SageMaker Endpoints</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-cogs"></i>Key Components</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item"><strong>AWS CDK (IaC):</strong> Infrastructure as Code deployment</li>
+                        <li class="list-item"><strong>ECS Fargate:</strong> MLflow Tracking Server hosting</li>
+                        <li class="list-item"><strong>Application Load Balancer:</strong> MLflow UI access</li>
+                        <li class="list-item"><strong>Amazon RDS (MySQL):</strong> MLflow backend store</li>
+                        <li class="list-item"><strong>Amazon S3:</strong> Artifact storage for models and experiments</li>
+                        <li class="list-item"><strong>Amazon ECR:</strong> MLflow inference container registry</li>
+                        <li class="list-item"><strong>Amazon SageMaker:</strong> Training jobs + real-time endpoints</li>
+                        <li class="list-item"><strong>IAM Roles &amp; Secrets Manager:</strong> Secure access management</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-expand-arrows-alt"></i>Scalability &amp; Reliability Considerations</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item">Stateless MLflow server on Fargate for horizontal scalability</li>
+                        <li class="list-item">Externalized state management (S3 + RDS)</li>
+                        <li class="list-item">Managed training &amp; inference via SageMaker</li>
+                        <li class="list-item">Load-balanced MLflow UI for high availability</li>
+                        <li class="list-item">Infrastructure reproducible via CDK for disaster recovery</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI / DevOps Details -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">AI / DevOps Details</h2>
+                <p class="section-subtitle">MLOps Platform Engineering Implementation</p>
+            </div>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-robot"></i>AI/ML Type &amp; DevOps Focus</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item"><strong>AI/ML Type:</strong> MLOps Platform Engineering</li>
+                            <li class="list-item"><strong>DevOps Focus:</strong> Infrastructure as Code, CI/CD for ML</li>
+                            <li class="list-item"><strong>Models/Pipelines:</strong> ML pipelines using Pipeline as Code</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-cogs"></i>Models, Pipeline &amp; Automation</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">MLflow-based experiment tracking</li>
+                            <li class="list-item">SageMaker training pipelines</li>
+                            <li class="list-item">Model registry → deployment automation</li>
+                            <li class="list-item">Infrastructure as Code for ML platform</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-tools"></i>CI/CD, Containerization &amp; Orchestration</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item"><strong>Docker:</strong> MLflow inference container</li>
+                        <li class="list-item"><strong>Amazon ECR:</strong> Container registry</li>
+                        <li class="list-item"><strong>ECS Fargate:</strong> Container orchestration</li>
+                        <li class="list-item"><strong>AWS CDK:</strong> Infrastructure deployment</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-chart-line"></i>Monitoring, Logging &amp; Optimization</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item">MLflow experiment metrics tracking</li>
+                        <li class="list-item">SageMaker endpoint monitoring</li>
+                        <li class="list-item">Cost-aware endpoint deletion</li>
+                        <li class="list-item">Centralized model lineage</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills & Technologies Used -->
+        <section id="skills" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Skills &amp; Technologies Used</h2>
+                <p class="section-subtitle">Technical Proficiency Demonstrated</p>
+            </div>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-star"></i>Primary Skills</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">MLOps Platform Engineering (Advanced)</li>
+                            <li class="list-item">AWS Cloud Architecture (Advanced)</li>
+                            <li class="list-item">Infrastructure as Code - CDK (Advanced)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-tools"></i>Secondary Tools / Frameworks</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">MLflow (Experiment tracking &amp; model registry)</li>
+                            <li class="list-item">SageMaker SDK</li>
+                            <li class="list-item">Boto3 (AWS Python SDK)</li>
+                            <li class="list-item">Docker (Containerization)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-code"></i>Programming Languages</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item"><strong>Python:</strong> Primary language for CDK, training scripts, and automation</li>
+                        <li class="list-item"><strong>YAML/JSON:</strong> Configuration files and CloudFormation templates</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fab fa-aws"></i>AWS Cloud &amp; DevOps Tools</h3>
+                <div class="card-content">
+                    <div class="tech-tags">
+                        <span class="tech-tag energy">AWS CDK</span>
+                        <span class="tech-tag energy">ECS Fargate</span>
+                        <span class="tech-tag">SageMaker</span>
+                        <span class="tech-tag">ECR</span>
+                        <span class="tech-tag energy">S3</span>
+                        <span class="tech-tag">RDS</span>
+                        <span class="tech-tag energy">IAM</span>
+                        <span class="tech-tag">Secrets Manager</span>
+                        <span class="tech-tag">CloudFormation</span>
+                        <span class="tech-tag energy">VPC</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Implementation Details -->
+        <section id="implementation" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Implementation Details</h2>
+                <p class="section-subtitle">Step-by-Step Implementation Process</p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-terminal"></i>Stage 1: CDK Toolkit Deployment</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item"><strong>Step 1:</strong> Activate Python virtual environment</li>
+                        <li class="list-item"><strong>Step 2:</strong> Install required libraries: <code>pip install -r requirements.txt</code></li>
+                        <li class="list-item"><strong>Step 3:</strong> Bootstrap CDK: <code>cdk bootstrap</code> (creates CDK toolkit on CloudFormation)</li>
+                        <li class="list-item"><strong>Step 4:</strong> Synthesize CloudFormation template: <code>cdk synth</code></li>
+                        <li class="list-item"><strong>Step 5:</strong> Deploy stack: <code>cdk deploy --parameters ProjectName=mflow1 --require-approval never</code></li>
+                    </ul>
+                    
+                    <div class="code-block">
+                        <span class="code-key"># Activate virtual environment</span><br>
+                        source .venv/bin/activate<br><br>
+                        
+                        <span class="code-key"># Install dependencies</span><br>
+                        pip install -r requirements.txt<br><br>
+                        
+                        <span class="code-key"># Bootstrap CDK</span><br>
+                        cdk bootstrap<br><br>
+                        
+                        <span class="code-key"># Deploy MLflow stack</span><br>
+                        cdk deploy --parameters ProjectName=mflow1 --require-approval never
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-server"></i>Stage 2: MLflow Components Setup</h3>
+                <div class="card-content">
+                    <h4 class="tech-category-title">Four Components of MLflow:</h4>
+                    <ul class="list">
+                        <li class="list-item"><strong>Tracking:</strong> API and UI for logging model information (parameters, code versions, metrics)</li>
+                        <li class="list-item"><strong>Projects:</strong> Tool for organizing and managing ML projects (reusable and reproducible)</li>
+                        <li class="list-item"><strong>Models:</strong> Tool for packaging and deploying machine learning models</li>
+                        <li class="list-item"><strong>Model Registry:</strong> Tool for managing the lifecycle of MLflow models (versioning, storage, lineage)</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <p class="highlight-text">MLflow deployed on AWS Fargate (serverless container hosting) with externalized state management using S3 for artifacts and RDS MySQL for metadata storage.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-brain"></i>Stage 3: SageMaker Training &amp; Deployment</h3>
+                <div class="card-content">
+                    <h4 class="tech-category-title">Amazon SageMaker Components:</h4>
+                    <ul class="list">
+                        <li class="list-item"><strong>Notebook Instances:</strong> Jupyter notebooks for exploration and analysis</li>
+                        <li class="list-item"><strong>Algorithms:</strong> Built-in algorithms (XGBoost, Linear Learner, KNN, etc.)</li>
+                        <li class="list-item"><strong>ML Training Service:</strong> Managed training and hyperparameter tuning</li>
+                        <li class="list-item"><strong>ML Hosting Services:</strong> Real-time inference endpoints</li>
+                    </ul>
+                    
+                    <h4 class="tech-category-title" style="margin-top: 1.5rem;">Training Pipeline:</h4>
+                    <ol style="color: var(--text-secondary); margin-left: 1.5rem; line-height: 1.8;">
+                        <li>Prepare training data and upload to S3</li>
+                        <li>Configure SageMaker SKLearn estimator with hyperparameters</li>
+                        <li>Set MLflow tracking URI to remote ECS-hosted MLflow server</li>
+                        <li>Launch training job with S3 data paths</li>
+                        <li>Log parameters, metrics, and model artifacts to MLflow</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-cube"></i>Stage 4: MLflow Inference Container &amp; Deployment</h3>
+                <div class="card-content">
+                    <h4 class="tech-category-title">Docker Image for Inference:</h4>
+                    <div class="code-block">
+                        <span class="code-comment"># Dockerfile for MLflow inference container</span><br>
+                        <span class="code-key">FROM</span> <span class="code-value">python:3.10.12</span><br>
+                        <br>
+                        <span class="code-key">RUN</span> pip install \<br>
+                        &nbsp;&nbsp;mlflow==2.15.1 \<br>
+                        &nbsp;&nbsp;pymysql==1.0.2 \<br>
+                        &nbsp;&nbsp;boto3 &amp;&amp; \<br>
+                        &nbsp;&nbsp;mkdir /mlflow/<br>
+                        <br>
+                        <span class="code-key">EXPOSE</span> <span class="code-value">5000</span><br>
+                        <br>
+                        <span class="code-key">CMD</span> mlflow server \<br>
+                        &nbsp;&nbsp;--host 0.0.0.0 \<br>
+                        &nbsp;&nbsp;--port 5000 \<br>
+                        &nbsp;&nbsp;--default-artifact-root $(BUCKET) \<br>
+                        &nbsp;&nbsp;--backend-store-uri mysql+pymysql://$(USERNAME):$(PASSWORD)@$(HOST):$(PORT)/$(DATABASE)
+                    </div>
+                    
+                    <h4 class="tech-category-title" style="margin-top: 1.5rem;">Deployment Steps:</h4>
+                    <ul class="list">
+                        <li class="list-item">Build and push MLflow Docker image to ECR</li>
+                        <li class="list-item">Configure SageMaker endpoint with MLflow model URI</li>
+                        <li class="list-item">Deploy model to SageMaker real-time endpoint</li>
+                        <li class="list-item">Test inference with sample payload</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Challenges & Outcomes -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Challenges &amp; Outcomes</h2>
+                <p class="section-subtitle">Technical Challenges and Resolutions</p>
+            </div>
+            
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Key Technical Challenges</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Wiring SageMaker training jobs to remote MLflow server</li>
+                            <li class="list-item">Building custom MLflow inference containers</li>
+                            <li class="list-item">Designing stateful ML platform on stateless compute (Fargate)</li>
+                            <li class="list-item">Managing secure credentials (DB + S3 + ECS roles)</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-check-circle"></i>How They Were Resolved</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item"><strong>SageMaker to MLflow:</strong> Configured MLFLOW_TRACKING_URI in training scripts to point to ECS-hosted MLflow ALB endpoint</li>
+                            <li class="list-item"><strong>Custom containers:</strong> Built and versioned MLflow-serving Docker images, pushed to ECR</li>
+                            <li class="list-item"><strong>State management:</strong> Externalized state using RDS for backend store and S3 for artifacts</li>
+                            <li class="list-item"><strong>Credentials:</strong> Stored secrets in AWS Secrets Manager, injected via IAM roles</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-chart-bar"></i>Monitoring &amp; Cost Management</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item">MLflow experiment metrics for performance tracking</li>
+                        <li class="list-item">SageMaker endpoint monitoring for latency and errors</li>
+                        <li class="list-item">Cost-aware endpoint deletion to avoid unnecessary charges</li>
+                        <li class="list-item">Centralized model lineage for audit and compliance</li>
+                    </ul>
+                    
+                    <div class="highlight-box">
+                        <p class="highlight-text">Monitoring in MLOps involves observing model performance, health, behavior, and infrastructure to ensure models perform as expected and identify issues early.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AWS CDK Commands Reference -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">AWS CDK Commands Reference</h2>
+                <p class="section-subtitle">Essential CDK Commands for ML Platform Deployment</p>
+            </div>
+            
+            <div class="card">
+                <div class="card-content">
+                    <table class="yaml-table">
+                        <thead>
+                            <tr>
+                                <th>Command</th>
+                                <th>Description</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>npm install -g aws-cdk</code></td>
+                                <td>Install AWS CDK CLI globally</td>
+                                <td>Tool installation</td>
+                            </tr>
+                            <tr>
+                                <td><code>cdk --version</code></td>
+                                <td>Verify CDK installation</td>
+                                <td>Version check</td>
+                            </tr>
+                            <tr>
+                                <td><code>cdk init app --language python</code></td>
+                                <td>Create CDK app with Python</td>
+                                <td>Project initialization</td>
+                            </tr>
+                            <tr>
+                                <td><code>aws configure</code></td>
+                                <td>Configure AWS credentials</td>
+                                <td>AWS authentication</td>
+                            </tr>
+                            <tr>
+                                <td><code>pip install -r requirements.txt</code></td>
+                                <td>Install Python dependencies</td>
+                                <td>Dependency management</td>
+                            </tr>
+                            <tr>
+                                <td><code>source .venv/bin/activate</code></td>
+                                <td>Activate Python virtual environment</td>
+                                <td>Environment setup</td>
+                            </tr>
+                            <tr>
+                                <td><code>cdk bootstrap</code></td>
+                                <td>Bootstrap CDK toolkit</td>
+                                <td>One-time setup</td>
+                            </tr>
+                            <tr>
+                                <td><code>cdk synth</code></td>
+                                <td>Synthesize CloudFormation template</td>
+                                <td>Template generation</td>
+                            </tr>
+                            <tr>
+                                <td><code>cdk diff</code></td>
+                                <td>Compare deployed stack with current state</td>
+                                <td>Change detection</td>
+                            </tr>
+                            <tr>
+                                <td><code>cdk deploy</code></td>
+                                <td>Deploy stack to AWS</td>
+                                <td>Infrastructure deployment</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="highlight-box" style="margin-top: 1.5rem;">
+                        <p class="highlight-text">Why npm (Node.js) for Python CDK? AWS CDK is built on Node.js runtime, while Python is used for writing infrastructure code. Node.js + npm installs the CDK CLI tool.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assets & References -->
+        <section id="assets" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Assets &amp; References</h2>
+                <p class="section-subtitle">Code, diagrams, study material</p>
+            </div>
+            
+            
+            
+                        
+            
+            <div class="assets-grid">
+<div class="asset-card">
+                    <div class="asset-icon">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <h3 class="asset-title">GitHub Repository</h3>
+                    <p class="asset-description">Complete source code repository containing AWS CDK IaC, MLflow configuration, and SageMaker integration.</p>
+                    <a href="https://github.com/Rajesh-Arigala/amazon-sagemaker-mlflow-fargate" target="_blank" class="asset-link">
+                        <span>Access Repository</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            
+            
+            </div>
+            
+            <div class="card">
+                <div class="demo-section">
+                    <h3 class="demo-title">Study Material Resources</h3>
+                    <p class="demo-subtitle">Click the button below to open the study materials</p>
+                    <a href="/index#contact" class="trigger-btn">
+                        <i class="fas fa-book"></i>
+                        <span>Request Study Material</span>
+                    </a>
+                </div>
+            </div>
+            
+            
+        </section>
+    </main>
+
+    <!-- STUDY MODAL -->
+    <div class="study-modal" id="studyModal">
+        <div class="study-modal-content">
+            <div class="study-modal-header">
+                <h3 class="study-modal-title">Study Material - MLflow on AWS MLOps Platform</h3>
+                <button class="study-modal-close" id="closeModalBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="study-material-list">
+                <!-- AWS CDK Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">AWS CDK for MLOps Infrastructure</div>
+                        <div class="study-material-desc">Complete guide to Infrastructure as Code for ML platforms using AWS CDK with Python</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">MLflow on ECS Fargate Deployment Guide</div>
+                        <div class="study-material-desc">Step-by-step deployment guide for MLflow tracking server on AWS ECS Fargate</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <!-- SageMaker Integration Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">SageMaker MLflow Integration</div>
+                        <div class="study-material-desc">Detailed guide to integrating SageMaker training jobs with remote MLflow tracking</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">MLflow Inference Containers for SageMaker</div>
+                        <div class="study-material-desc">Building, tagging, and deploying MLflow Docker containers for SageMaker endpoints</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <!-- Monitoring & Governance Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">MLOps Monitoring &amp; Governance</div>
+                        <div class="study-material-desc">Comprehensive monitoring strategy for ML models, infrastructure, and cost management</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Security Best Practices for MLOps</div>
+                        <div class="study-material-desc">IAM roles, Secrets Manager, VPC configurations, and secure credential management</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <!-- Additional Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Production MLOps Architecture Patterns</div>
+                        <div class="study-material-desc">Enterprise architecture patterns for scalable ML platform deployments</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+                
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Cost Optimization for ML Platforms</div>
+                        <div class="study-material-desc">Strategies for managing and optimizing costs in production ML environments</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const navToggle = document.querySelector('.nav-toggle');
+            const navList = document.querySelector('.nav-list');
+            
+            if (navToggle && navList) {
+                navToggle.addEventListener('click', function() {
+                    navList.classList.toggle('active');
+                });
+            }
+            
+            // Close menu when clicking outside on mobile
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768 && navList && navList.classList.contains('active') && 
+                    !e.target.closest('.nav') && !e.target.closest('.nav-toggle')) {
+                    navList.classList.remove('active');
+                }
+            });
+            
+            // Update active nav link on scroll
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            function updateActiveNavLink() {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 150;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', updateActiveNavLink);
+            
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    
+                    if (href.startsWith('#') && href !== '#') {
+                        e.preventDefault();
+                        
+                        const targetElement = document.querySelector(href);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+                            
+                            // Close mobile menu if open
+                            if (navList.classList.contains('active')) {
+                                navList.classList.remove('active');
+                            }
+                        }
+                    }
+                });
+            });
+            
+            // Handle window resize for mobile menu
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 768 && navList) {
+                    navList.classList.remove('active');
+                }
+            });
+            
+            // Add animation on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all sections for animation
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Initialize all sections as visible on load
+            setTimeout(() => {
+                sections.forEach(section => {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                });
+            }, 500);
+
+            // Modal functionality
+            const studyModal = document.getElementById('studyModal');
+            const openModalBtn = document.getElementById('openModalBtn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+            
+            // Open modal when button is clicked
+            if (openModalBtn) {
+                openModalBtn.addEventListener('click', function() {
+                    studyModal.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
+                });
+            }
+            
+            // Close modal when close button is clicked
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', function() {
+                    studyModal.classList.remove('active');
+                    document.body.style.overflow = ''; // Restore scrolling
+                });
+            }
+            
+            // Close modal when clicking outside the modal content
+            if (studyModal) {
+                studyModal.addEventListener('click', function(e) {
+                    if (e.target === studyModal) {
+                        studyModal.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+            
+            // Close modal with Escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && studyModal.classList.contains('active')) {
+                    studyModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+    </script>
+
+</body></html>

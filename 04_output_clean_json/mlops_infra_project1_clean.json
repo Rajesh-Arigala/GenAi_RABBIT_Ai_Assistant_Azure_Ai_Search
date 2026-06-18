@@ -1,0 +1,186 @@
+{
+  "id": "mlops_infra_project1",
+  "source_type": "website_rendered_v4_site_crawl",
+  "domain": "rajesharigala.com",
+  "url": "https://rajesharigala.com/mlops/infra project1",
+  "depth": 1,
+  "parent_url": "https://rajesharigala.com/mlops/infra-code",
+  "parent_page_id": "02_Tech_02_MLOps_04_IaC",
+  "logical_parent_page_id": "02_Tech_02_MLOps_04_IaC",
+  "title": "MLflow Platform Deployment on AWS ECS Fargate - Project Case Study",
+  "meta_description": "",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "MLflow Platform Deployment on AWS ECS Fargate"
+    },
+    {
+      "level": "h2",
+      "text": "Project Summary"
+    },
+    {
+      "level": "h2",
+      "text": "Key Technologies & Concepts"
+    },
+    {
+      "level": "h2",
+      "text": "Problem & Objective"
+    },
+    {
+      "level": "h2",
+      "text": "Solution & Architecture"
+    },
+    {
+      "level": "h2",
+      "text": "Skills & Technologies Used"
+    },
+    {
+      "level": "h2",
+      "text": "Deployment Process & Configuration"
+    },
+    {
+      "level": "h2",
+      "text": "AWS CDK Commands & Setup Process"
+    },
+    {
+      "level": "h2",
+      "text": "MLflow Components & Architecture"
+    },
+    {
+      "level": "h2",
+      "text": "Assets & References"
+    },
+    {
+      "level": "h3",
+      "text": "Project Category"
+    },
+    {
+      "level": "h3",
+      "text": "Industry/Domain"
+    },
+    {
+      "level": "h3",
+      "text": "MLOps Focus"
+    },
+    {
+      "level": "h3",
+      "text": "MLOps Platform Keywords"
+    },
+    {
+      "level": "h3",
+      "text": "Problems Solved"
+    },
+    {
+      "level": "h3",
+      "text": "Primary Objectives"
+    },
+    {
+      "level": "h3",
+      "text": "Solution Overview"
+    },
+    {
+      "level": "h3",
+      "text": "Key Components"
+    },
+    {
+      "level": "h3",
+      "text": "Primary Skills"
+    },
+    {
+      "level": "h3",
+      "text": "Secondary Tools / Frameworks"
+    },
+    {
+      "level": "h3",
+      "text": "Programming Languages"
+    },
+    {
+      "level": "h3",
+      "text": "AWS DevOps Tools"
+    },
+    {
+      "level": "h3",
+      "text": "Deployment Execution"
+    },
+    {
+      "level": "h3",
+      "text": "Security & Networking"
+    },
+    {
+      "level": "h3",
+      "text": "Technical Challenges & Resolutions"
+    },
+    {
+      "level": "h3",
+      "text": "Tracking"
+    },
+    {
+      "level": "h3",
+      "text": "Projects"
+    },
+    {
+      "level": "h3",
+      "text": "Models"
+    },
+    {
+      "level": "h3",
+      "text": "Model Registry"
+    },
+    {
+      "level": "h3",
+      "text": "GitHub Repository"
+    },
+    {
+      "level": "h3",
+      "text": "Study Material Resources"
+    },
+    {
+      "level": "h3",
+      "text": "Study Material - MLflow on AWS ECS Fargate"
+    }
+  ],
+  "paragraphs": [
+    "Infrastructure as Code (CDK) | MLOps Platform Engineering",
+    "Deploying a production-grade MLflow tracking platform on AWS ECS Fargate using AWS CDK (Infrastructure as Code) for centralized experiment management. Complete infrastructure automation with RDS MySQL backend, S3 artifact storage, secure networking, and auto-scaling capabilities.",
+    "Comprehensive Project Overview",
+    "MLOps / Cloud / DevOps (ML Platform Engineering)",
+    "Technology / Cloud Platforms / AI Infrastructure",
+    "ML Platform Engineering & Infrastructure Automation",
+    "Core Technologies Used",
+    "What problem did this project solve?",
+    "Architectural Overview",
+    "Deployed a production-grade MLflow tracking server on AWS ECS Fargate using AWS CDK, with RDS (MySQL) as the backend store, S3 as the artifact store, secure networking via VPC, and load-balanced access, enabling SageMaker training jobs to log experiments to a centralized ML platform.",
+    "AWS CDK (Python) provides Infrastructure as Code capabilities, enabling reproducible, version-controlled infrastructure deployment with comprehensive AWS service integrations.",
+    "The solution implements secure multi-tier architecture with public, private, and isolated subnets, NAT gateway for outbound access, and proper security group configurations to ensure production-grade security posture.",
+    "Technical Proficiency Demonstrated",
+    "How the infrastructure is provisioned and managed",
+    "Security implementations in the MLflow platform:",
+    "Step-by-step deployment instructions",
+    "Why npm (Node.js) with Python? AWS CDK is implemented on top of a Node.js runtime, even when you write stacks in Python. Node.js + npm installs the CDK CLI, while Python is used to write your infrastructure code.",
+    "Four components of MLflow platform",
+    "The MLflow Tracking component is an API and UI for logging information about your models. It allows logging of parameters, code versions, metrics, and output files from running the code, providing visualization for results.",
+    "MLflow Project helps ML teams organize and manage their projects. It allows for reusable and reproducible projects with API and command-line tools that can run on any platform.",
+    "MLflow Model helps package and deploy machine learning models. It supports different tools like Apache Spark and facilitates usage of models in diverse serving environments.",
+    "MLflow Model Registry helps teams manage the lifecycle of an MLflow model. It allows for versioning and storage of models, providing tracking of model lineage and transitioning between stages.",
+    "Code, diagrams, study material",
+    "Complete AWS CDK implementation for MLflow on ECS Fargate with all infrastructure code and configurations.",
+    "Click the button below to open the study materials"
+  ],
+  "links": [
+    {
+      "text": "MLflow on AWS ECS Fargate",
+      "href": "https://rajesharigala.com/mlops/infra project1"
+    },
+    {
+      "text": "Access Repository",
+      "href": "https://github.com/Rajesh-Arigala/amazon-sagemaker-mlflow-fargate"
+    },
+    {
+      "text": "Request Study Material",
+      "href": "https://rajesharigala.com/"
+    }
+  ],
+  "content": "MLflow Platform Deployment on AWS ECS Fargate Infrastructure as Code (CDK) | MLOps Platform Engineering Deploying a production-grade MLflow tracking platform on AWS ECS Fargate using AWS CDK (Infrastructure as Code) for centralized experiment management. Complete infrastructure automation with RDS MySQL backend, S3 artifact storage, secure networking, and auto-scaling capabilities. Project Summary Comprehensive Project Overview Project Category MLOps / Cloud / DevOps (ML Platform Engineering) Industry/Domain Technology / Cloud Platforms / AI Infrastructure MLOps Focus ML Platform Engineering & Infrastructure Automation Key Technologies & Concepts Core Technologies Used MLOps Platform Keywords AWS CDK (Infrastructure as Code, Python) Amazon ECS Fargate (Serverless Container Orchestration) MLflow Tracking Server (Experiment Management) Application Load Balancer / Network Load Balancer Amazon RDS (MySQL Backend Store for MLflow) Amazon S3 (MLflow Artifact Store) AWS Secrets Manager (Database Credentials) IAM Roles & Policies (Service-to-Service Security) Problem & Objective What problem did this project solve? Problems Solved Lack of centralized, production-grade ML experiment tracking platform for cloud-based training jobs (SageMaker) Fragmented experiment logs causing poor reproducibility and no governed model lineage Manual infrastructure setup leading to inconsistencies and deployment delays Primary Objectives Build a centralized, scalable MLflow tracking platform on AWS Enable reproducible experiment tracking and model artifact management Integrate with cloud training pipelines (SageMaker) using Infrastructure as Code Implement secure networking and access controls for production readiness Solution & Architecture Architectural Overview Solution Overview Deployed a production-grade MLflow tracking server on AWS ECS Fargate using AWS CDK, with RDS (MySQL) as the backend store, S3 as the artifact store, secure networking via VPC, and load-balanced access, enabling SageMaker training jobs to log experiments to a centralized ML platform. AWS CDK (Python) provides Infrastructure as Code capabilities, enabling reproducible, version-controlled infrastructure deployment with comprehensive AWS service integrations. The solution implements secure multi-tier architecture with public, private, and isolated subnets, NAT gateway for outbound access, and proper security group configurations to ensure production-grade security posture. 1 AWS CDK Infrastructure 2 VPC Networking 3 RDS MySQL Database 4 ECS Fargate Service 5 Load Balancer Exposure Key Components AWS CDK (Python) : Infrastructure as Code framework for defining and provisioning cloud resources Amazon ECS Fargate : Serverless container orchestration for MLflow tracking server Amazon RDS (MySQL) : Managed relational database for MLflow backend store Amazon S3 : Object storage for MLflow artifacts and experiment outputs AWS Secrets Manager : Secure storage and rotation of database credentials Application Load Balancer : Public exposure and load distribution for MLflow UI/API Amazon VPC : Network isolation with public, private, and isolated subnets Skills & Technologies Used Technical Proficiency Demonstrated Primary Skills AWS CDK (Python) - Advanced : Infrastructure as Code development and deployment AWS ECS Fargate (Container Orchestration) - Advanced : Serverless container management and scaling MLOps / ML Platform Engineering - Advanced : Experiment tracking platform design and implementation AWS Networking (VPC, Subnets, Security Groups, ALB/NLB) - Advanced : Secure cloud network architecture Secondary Tools / Frameworks MLflow : Experiment tracking and model management platform Docker : Containerization of MLflow tracking server Amazon RDS (MySQL) : Managed database service for metadata storage Amazon S3 : Artifact storage for experiment outputs AWS Secrets Manager : Secure credential management Amazon CloudWatch : Logging and monitoring Programming Languages Python : AWS CDK IaC development and MLflow service configuration YAML/JSON : CloudFormation templates generated by CDK SQL : Database schema management for MLflow backend AWS DevOps Tools AWS CDK Amazon ECS Fargate Amazon RDS Amazon S3 AWS Secrets Manager Application Load Balancer AWS IAM Amazon CloudWatch Deployment Process & Configuration How the infrastructure is provisioned and managed Deployment Execution Infrastructure provisioning via AWS CDK CLI commands Automatic CloudFormation template generation from Python code Programmatic user setup with IAM permissions for CDK bootstrap Step-by-step deployment with rollback capabilities Security & Networking Security implementations in the MLflow platform: VPC with public, private, and isolated subnet configurations NAT Gateway for secure outbound internet access from private subnets Security Groups with least-privilege access rules IAM roles with granular permissions for ECS tasks Database credentials managed via AWS Secrets Manager RDS instance deployed in isolated subnet without public access Technical Challenges & Resolutions Challenge: IAM permission setup for CDK bootstrap and ECS task roles Resolution: Implemented granular IAM policies with principle of least privilege Challenge: VPC networking (private subnets, NAT, service connectivity to RDS/S3) Resolution: Designed multi-tier VPC architecture with proper routing tables Challenge: Secure secret management for database credentials Resolution: Integrated AWS Secrets Manager with automatic credential rotation Challenge: Correctly wiring MLflow backend store (RDS) and artifact store (S3) Resolution: Environment variable injection and IAM role permissions Challenge: Exposing MLflow securely via load balancer without public DB access Resolution: ALB in public subnet with target groups pointing to private ECS tasks AWS CDK Commands & Setup Process Step-by-step deployment instructions # Install AWS CDK CLI globally npm install -g aws-cdk # Verify CDK installation cdk --version # Initialize CDK project with Python cdk init app --language python # Configure AWS credentials aws configure # Install Python dependencies pip install -r requirements.txt # Activate Python virtual environment source .venv/bin/activate # Bootstrap CDK toolkit in AWS account cdk bootstrap # Synthesize CloudFormation template cdk synth # Deploy the stack with parameters cdk deploy --parameters ProjectName=mlflow1 --require-approval never Why npm (Node.js) with Python? AWS CDK is implemented on top of a Node.js runtime, even when you write stacks in Python. Node.js + npm installs the CDK CLI, while Python is used to write your infrastructure code. MLflow Components & Architecture Four components of MLflow platform Tracking The MLflow Tracking component is an API and UI for logging information about your models. It allows logging of parameters, code versions, metrics, and output files from running the code, providing visualization for results. Log and query experiments using Python, REST, R, and Java APIs Record and visualize experiment results Model registry for version management Projects MLflow Project helps ML teams organize and manage their projects. It allows for reusable and reproducible projects with API and command-line tools that can run on any platform. Package format for reproducible runs Dependency and environment management Cross-platform execution Models MLflow Model helps package and deploy machine learning models. It supports different tools like Apache Spark and facilitates usage of models in diverse serving environments. Standard format for packaging models Multiple flavors (Python, Sklearn, TensorFlow, etc.) Easy deployment to diverse environments Model Registry MLflow Model Registry helps teams manage the lifecycle of an MLflow model. It allows for versioning and storage of models, providing tracking of model lineage and transitioning between stages. Centralized model store Model versioning and stage transitions Collaboration features with UI and APIs Assets & References Code, diagrams, study material GitHub Repository Complete AWS CDK implementation for MLflow on ECS Fargate with all infrastructure code and configurations. Access Repository Study Material Resources Click the button below to open the study materials Request Study Material",
+  "crawl_timestamp": "2026-06-17T06:59:22.940339+00:00",
+  "raw_html_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/mlops_infra_project1.html"
+}

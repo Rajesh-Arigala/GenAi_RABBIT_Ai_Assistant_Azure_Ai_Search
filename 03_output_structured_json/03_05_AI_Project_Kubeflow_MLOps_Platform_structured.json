@@ -1,0 +1,127 @@
+{
+  "id": "03_05_AI_Project_Kubeflow_MLOps_Platform",
+  "source_type": "website_rendered_v4_site_crawl",
+  "domain": "rajesharigala.com",
+  "url": "https://rajesharigala.com/ai-work/ai-work5",
+  "depth": 0,
+  "parent_url": null,
+  "parent_page_id": "ROOT",
+  "logical_parent_page_id": "03_AI_Projects",
+  "title": "Enterprise Kubeflow MLOps Platform | Open‑Source Kubernetes AI",
+  "meta_description": "",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "Enterprise AI Platform on Kubernetes"
+    },
+    {
+      "level": "h2",
+      "text": "Three‑Phase Kubeflow MLOps"
+    },
+    {
+      "level": "h2",
+      "text": "Business Problem & Solution"
+    },
+    {
+      "level": "h2",
+      "text": "Business Architecture Story"
+    },
+    {
+      "level": "h2",
+      "text": "Cost‑Aware Architecture: Kubeflow vs Managed ML"
+    },
+    {
+      "level": "h2",
+      "text": "Resources & Technology Stack"
+    },
+    {
+      "level": "h2",
+      "text": "Business Use Cases"
+    },
+    {
+      "level": "h3",
+      "text": "Kubeflow Platform Foundation"
+    },
+    {
+      "level": "h3",
+      "text": "Kubeflow Pipelines Train·Eval·Select"
+    },
+    {
+      "level": "h3",
+      "text": "K8s Serving & Ops Serve·Monitor·Retrain*"
+    },
+    {
+      "level": "h3",
+      "text": "The Challenge"
+    },
+    {
+      "level": "h3",
+      "text": "The Kubeflow Solution"
+    },
+    {
+      "level": "h3",
+      "text": "Managed Platforms vs Self‑Hosted Kubeflow"
+    },
+    {
+      "level": "h3",
+      "text": "Estimated Monthly Cost (Self‑Hosted)"
+    },
+    {
+      "level": "h3",
+      "text": "Scenario Breakdown"
+    },
+    {
+      "level": "h3",
+      "text": "Storage & Metadata"
+    },
+    {
+      "level": "h3",
+      "text": "Portability"
+    }
+  ],
+  "paragraphs": [
+    "End-to-End Kubeflow MLOps Pipelines for Production ML Deployment",
+    "This project delivers a complete, enterprise-grade, Kubernetes-native MLOps platform using Kubeflow Pipelines (KFP v2). It automates the full machine learning lifecycle across three modular pipelines — from platform foundation to training, evaluation, model selection, and production serving — with strong emphasis on reproducibility, governance, and cost efficiency.",
+    "Using the Breast Cancer Wisconsin Diagnostic dataset (binary classification), the platform demonstrates how organizations can build a scalable, self-managed MLOps stack. The real value lies in the reusable foundation — adaptable for fraud detection, churn prediction, risk scoring, and predictive maintenance.",
+    "Modular pipelines for platform foundation, governed training, and production serving",
+    "Kubernetes bootstrap · Kubeflow Pipelines · MinIO · RBAC · MLMD",
+    "KFP v2 · containerized training · metrics · condition gate · MLMD",
+    "K8s Deployments · KServe · canary rollouts · lineage",
+    "Why enterprises need a repeatable, open‑source ML delivery platform",
+    "Many organizations build models in notebooks but cannot productionize them consistently. Manual processes lead to environment drift, poor traceability, configuration inconsistencies, and high operational overhead.",
+    "Without an MLOps platform, teams waste weeks on deployment and lack auditability for compliance.",
+    "A fully reproducible, Kubernetes-native MLOps platform where infrastructure, training, and deployment are defined as code and executed reliably across environments.",
+    "From business data to production predictions",
+    "FinOps built into open‑source MLOps",
+    "Open‑source tools powering the platform",
+    "Reusable MLOps architecture across industries",
+    "Real value is the reusable MLOps foundation: the same platform adapts to any prediction problem without changing infrastructure.",
+    "Enterprise Kubeflow MLOps Platform · Open source, portable, cost‑aware · Built for production",
+    "Complete end‑to‑end automation: infrastructure, training, evaluation, selection, and Kubernetes‑native serving"
+  ],
+  "links": [
+    {
+      "text": "Kubeflow MLOps Platform · Open Source Kubernetes AI",
+      "href": "https://rajesharigala.com/ai-work/ai-work5"
+    },
+    {
+      "text": "GitHub Repository",
+      "href": "https://github.com/"
+    },
+    {
+      "text": "View IaC details",
+      "href": "https://rajesharigala.com/mlops/ai5/ai5.1"
+    },
+    {
+      "text": "View training pipeline",
+      "href": "https://rajesharigala.com/mlops/ai5/ai5.2"
+    },
+    {
+      "text": "View deployment details",
+      "href": "https://rajesharigala.com/mlops/ai5/ai5.3"
+    }
+  ],
+  "content": "Enterprise AI Platform on Kubernetes End-to-End Kubeflow MLOps Pipelines for Production ML Deployment This project delivers a complete, enterprise-grade, Kubernetes-native MLOps platform using Kubeflow Pipelines (KFP v2). It automates the full machine learning lifecycle across three modular pipelines — from platform foundation to training, evaluation, model selection, and production serving — with strong emphasis on reproducibility, governance, and cost efficiency. Using the Breast Cancer Wisconsin Diagnostic dataset (binary classification), the platform demonstrates how organizations can build a scalable, self-managed MLOps stack. The real value lies in the reusable foundation — adaptable for fraud detection, churn prediction, risk scoring, and predictive maintenance. GitHub Repository Business Problem FinOps Analysis Three‑Phase Kubeflow MLOps Modular pipelines for platform foundation, governed training, and production serving Project-1 · Platform (IaC) Kubeflow Platform Foundation Kubernetes bootstrap · Kubeflow Pipelines · MinIO · RBAC · MLMD Cluster + Kubeflow control plane (KFP v2, Argo) MinIO artifact store, ML Metadata (MLMD) Namespace isolation, service accounts, RBAC Idempotent, repeatable platform bootstrap View IaC details Project-2 · Modelling Kubeflow Pipelines Train·Eval·Select KFP v2 · containerized training · metrics · condition gate · MLMD Data ingestion → training (LR/DT) → evaluation (accuracy) Metric‑based condition gate for model selection Artifact lineage (MLMD) + MinIO versioning Reproducible, pipeline‑as‑code View training pipeline Project-3 · Deployment K8s Serving & Ops Serve·Monitor·Retrain* K8s Deployments · KServe · canary rollouts · lineage Inference container from selected model Kubernetes Deployments + Services / KServe Versioned rollouts, canary traffic splits Closed‑loop monitoring → retrain trigger View deployment details Business Problem & Solution Why enterprises need a repeatable, open‑source ML delivery platform The Challenge Many organizations build models in notebooks but cannot productionize them consistently. Manual processes lead to environment drift, poor traceability, configuration inconsistencies, and high operational overhead. Without an MLOps platform, teams waste weeks on deployment and lack auditability for compliance. The Kubeflow Solution A fully reproducible, Kubernetes-native MLOps platform where infrastructure, training, and deployment are defined as code and executed reliably across environments. Complete traceability with MLMD Portable across Minikube, EKS, AKS, GKE Reduced vendor lock‑in and long‑term cost control Business Architecture Story From business data to production predictions 1 Business Data 2 GitHub Manifests 3 Platform IaC (Kubeflow) 4 Training Pipeline 5 Model Registry 6 KServe Deployment 7 Business App +-------------------+ +-----------------------+ +-----------------------+ | Business Data | ---> | GitHub (IaC + KFP) | ---> | Pipeline‑1: Platform | | (Breast Cancer) | | Manifests / Components | | Kubeflow + MinIO + RBAC| +-------------------+ +-----------------------+ +-----------------------+ | v +-------------------+ +-----------------------+ +-----------------------+ | Business Decisions| <--- | Business Applications | <--- | Pipeline‑3: Deployment| | Monitoring/Retrain| | Real‑time Predictions | | KServe / K8s Canary | +-------------------+ +-----------------------+ +-----------------------+ ^ | +-----------------------+ +-----------------------+ +-----------------------+ | Model Registry (MLMD) | <--- | Pipeline‑2: Training | | Artifact Store (MinIO)| | Version + Lineage | | LR + DT → Evaluation | | Metrics & Models | +-----------------------+ +-----------------------+ +-----------------------+ Cost‑Aware Architecture: Kubeflow vs Managed ML FinOps built into open‑source MLOps Managed Platforms vs Self‑Hosted Kubeflow Aspect Managed (Vertex AI / SageMaker) Self‑Hosted Kubeflow Upfront / Licensing Higher (platform fees + markup) Free (infrastructure only) Control Plane Cost Included in service fees $0 (AKS) – $73/mo (EKS/GKE) Inference (Always‑on) Expensive dedicated endpoint fees Much cheaper (KServe scale‑to‑zero) Small Scale / Portfolio $50 – $300+/month $0 – $10 (Minikube) Medium Production Higher due to platform fees 30‑60% lower at scale Best For Speed, governance, small teams Cost optimization, engineering control Estimated Monthly Cost (Self‑Hosted) Component Small Setup Est. K8s Control Plane $0 – $73 Worker Nodes (compute) $40 – $280 Persistent Storage $5 – $35 Object Storage (MinIO backend) $3 – $25 Networking & LB $5 – $30 Monitoring & Logging $8 – $35 Scenario Breakdown Local Development (Minikube): $0 – $10 Basic Dev Cluster (AKS + small nodes): $45 – $110 Active Development + inference endpoint: $90 – $220 Production Pilot with scheduled retraining: $180 – $380 Small Production (multi‑env): $320 – $680 FinOps best practices: use Minikube for demos, enable KServe scale‑to‑zero, leverage Spot instances for training, and tear down idle clusters via IaC. Resources & Technology Stack Open‑source tools powering the platform Kubernetes (Minikube/EKS/AKS/GKE) Kubeflow Pipelines v2.14.3 Argo Workflows MinIO ML Metadata Store KServe Docker Kustomize + YAML GitHub Storage & Metadata MinIO for model and artifact versioning MLMD for full lineage and experiment tracking Portability Run locally on Minikube → production on any managed K8s Consistent IaC across cloud providers Business Use Cases Reusable MLOps architecture across industries Healthcare: disease diagnosis, readmission risk Finance: fraud detection, credit scoring Manufacturing: defect detection, predictive maintenance Retail: churn prediction, demand forecasting Marketing: next‑best‑action, segmentation Real value is the reusable MLOps foundation: the same platform adapts to any prediction problem without changing infrastructure.",
+  "crawl_timestamp": "2026-06-17T06:15:00.711605+00:00",
+  "raw_html_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/03_05_AI_Project_Kubeflow_MLOps_Platform.html"
+}

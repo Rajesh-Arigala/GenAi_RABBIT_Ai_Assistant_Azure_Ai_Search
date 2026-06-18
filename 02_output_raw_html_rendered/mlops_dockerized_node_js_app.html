@@ -1,0 +1,1799 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dockerized Node.js Application - Container Execution Layer</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-main: #0C1117;
+            --bg-surface: #121923;
+            --bg-elevated: #161F2B;
+            --card-bg: #161F2B;
+
+            --accent-primary: #B8B2A7;
+            --accent-energy: #7CFFB2;
+            --accent-depth: #3A1F2D;
+
+            --text-primary: #E6E9EF;
+            --text-secondary: #A1A8B3;
+            --text-muted: #6F7682;
+
+            --line-subtle: #1E2633;
+            --glass-border: rgba(184, 178, 167, 0.15);
+
+            --ease-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --accent-gradient: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* ==================== HEADER & NAVIGATION ==================== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(12, 17, 23, 0.9);
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.4s var(--ease-slow);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-primary);
+            transition: width 0.4s var(--ease-slow);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--accent-energy);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+            background: var(--accent-energy);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* ==================== MAIN CONTENT ==================== */
+        main {
+            padding-top: 100px;
+            padding-bottom: 4rem;
+        }
+
+        /* ==================== SECTION STYLES ==================== */
+        .section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        .section-header {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-energy);
+            border-radius: 2px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.4s var(--ease-slow);
+        }
+
+        .card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .card-title i {
+            color: var(--accent-energy);
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-item {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .list-item::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent-energy);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .highlight-box {
+            background: rgba(124, 255, 178, 0.05);
+            border-left: 4px solid var(--accent-energy);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-text {
+            color: var(--accent-energy);
+            font-weight: 500;
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero-section {
+            text-align: center;
+            padding-top: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-energy), transparent);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 1rem;
+            letter-spacing: -0.02em;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .hero-summary {
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* ==================== ARCHITECTURE VISUAL ==================== */
+        .architecture-visual {
+            background: var(--bg-elevated);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--line-subtle);
+            margin: 2rem 0;
+        }
+
+        .architecture-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* This fills the container, may crop edges */
+            display: block;
+        }
+
+        .architecture-label {
+            position: relative;
+            z-index: 2;
+            background: rgba(12, 17, 23, 0.7);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .flow-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .flow-step {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: var(--accent-energy);
+            color: var(--bg-main);
+            border-radius: 50%;
+            line-height: 30px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* ==================== PIPELINE STAGES ==================== */
+        .pipeline-stage {
+            margin-bottom: 2.5rem;
+        }
+
+        .stage-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .stage-number {
+            background: var(--accent-energy);
+            color: var(--bg-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .stage-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        /* ==================== TECHNOLOGY STACK ==================== */
+        .tech-category {
+            margin-bottom: 2rem;
+        }
+
+        .tech-category-title {
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tech-tag {
+            background: rgba(184, 178, 167, 0.1);
+            color: var(--accent-primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(184, 178, 167, 0.2);
+        }
+
+        .tech-tag.energy {
+            background: rgba(124, 255, 178, 0.1);
+            color: var(--accent-energy);
+            border-color: rgba(124, 255, 178, 0.2);
+        }
+
+        /* ==================== ASSETS SECTION ==================== */
+        .assets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .asset-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--line-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .asset-card:hover {
+            border-color: var(--accent-energy);
+            transform: translateY(-4px);
+        }
+
+        .asset-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(124, 255, 178, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--accent-energy);
+            font-size: 1.5rem;
+        }
+
+        .asset-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .asset-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .asset-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-energy);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .asset-link:hover {
+            text-decoration: underline;
+        }
+
+        .disclaimer {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: rgba(184, 178, 167, 0.05);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid var(--line-subtle);
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ==================== DOCKER TABLE STYLES ==================== */
+        .docker-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .docker-table th {
+            background: rgba(124, 255, 178, 0.1);
+            color: var(--accent-energy);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--line-subtle);
+        }
+
+        .docker-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--line-subtle);
+            color: var(--text-secondary);
+        }
+
+        .docker-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .docker-table tr:hover {
+            background: rgba(184, 178, 167, 0.05);
+        }
+
+        /* ==================== DOCKERFILE CODE BLOCK STYLES ==================== */
+        .code-block {
+            background: rgba(12, 17, 23, 0.8);
+            border: 1px solid var(--line-subtle);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--accent-primary);
+            overflow-x: auto;
+        }
+
+        .code-comment {
+            color: #6F7682;
+        }
+
+        .code-keyword {
+            color: #7CFFB2;
+        }
+
+        .code-string {
+            color: #6C9BCF;
+        }
+
+        /* ==================== DEMO SECTION ==================== */
+        .demo-section {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .demo-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-energy);
+        }
+
+        .demo-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .trigger-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--accent-energy);
+            color: var(--bg-main);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-slow);
+            text-decoration: none;
+        }
+
+        .trigger-btn:hover {
+            background: transparent;
+            color: var(--accent-energy);
+            border: 2px solid var(--accent-energy);
+            transform: translateY(-2px);
+        }
+
+        /* ==================== STUDY MATERIAL MODAL ==================== */
+        .study-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(12, 17, 23, 0.95);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .study-modal.active {
+            display: flex;
+        }
+
+        .study-modal-content {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid var(--line-subtle);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .study-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .study-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .study-modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .study-modal-close:hover {
+            color: var(--accent-energy);
+            background: rgba(124, 255, 178, 0.1);
+        }
+
+        .study-material-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .study-material-item {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            gap: 1.2rem;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .study-material-item:hover {
+            background: rgba(184, 178, 167, 0.05);
+            transform: translateX(5px);
+        }
+
+        .study-material-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(108, 155, 207, 0.1);
+            color: #6C9BCF;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        .study-material-info {
+            flex: 1;
+        }
+
+        .study-material-name {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .study-material-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            background: transparent;
+            border: 2px solid var(--accent-energy);
+            color: var(--accent-energy);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .download-btn:hover {
+            background: rgba(124, 255, 178, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(124, 255, 178, 0.2);
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeInUp 0.6s var(--ease-slow) forwards;
+            opacity: 0;
+        }
+
+        .section:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .section:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .section:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .section:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .section:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        /* Animation for modal */
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .study-modal-content {
+            animation: modalFadeIn 0.3s var(--ease-slow);
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 768px) {
+            .nav-list {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background: var(--bg-surface);
+                padding: 2rem;
+                border-bottom: 1px solid var(--line-subtle);
+                gap: 1.5rem;
+            }
+
+            .nav-list.active {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .container {
+                padding: 0 1.5rem;
+            }
+
+            .flow-steps {
+                flex-direction: column;
+            }
+
+            .flow-step {
+                min-width: 100%;
+            }
+
+            .grid-2,
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .docker-table {
+                display: block;
+                overflow-x: auto;
+            }
+
+            .study-modal-content {
+                padding: 1.5rem;
+            }
+
+            .study-material-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .study-material-info {
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.6rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .demo-title {
+                font-size: 2rem;
+            }
+
+            .study-modal-content {
+                padding: 1.2rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="nav-logo">Docker Containerization</a>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#overview" class="nav-link active">Overview</a></li>
+                <li class="nav-item"><a href="#problem" class="nav-link">Problem</a></li>
+                <li class="nav-item"><a href="#solution" class="nav-link">Solution</a></li>
+                <li class="nav-item"><a href="#skills" class="nav-link">Skills</a></li>
+                <li class="nav-item"><a href="#dockerfile" class="nav-link">Dockerfile</a></li>
+                <li class="nav-item"><a href="#assets" class="nav-link">Assets</a></li>
+            </ul>
+            <button class="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Hero Section -->
+        <section id="overview" class="section hero-section" style="opacity: 1; transform: translateY(0px);">
+            <h1 class="hero-title">Dockerized Node.js Application</h1>
+            <p class="hero-subtitle">Container Execution Layer | Platform Engineering Project</p>
+            <div class="hero-summary">
+                <p>Built, containerized, and executed a Node.js application in a reproducible Docker environment,
+                    producing a CI/CD-ready container artifact. This project focuses on containerization as the
+                    execution foundation for cloud-native applications.</p>
+                <div style="display: flex; flex-direction: column; gap: 1rem; align-items: center; margin-top: 2rem; width: 100%;">
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: nowrap; width: 100%;">
+                        <a href="https://hub.docker.com/r/rajesharigala/node-web-app/tags" target="_blank" class="trigger-btn" style="background: var(--bg-elevated); border: 1px solid var(--line-subtle); color: var(--text-primary); flex: 1; max-width: fit-content; justify-content: center;">
+                            <i class="fab fa-docker" style="color: #2496ed;"></i>
+                            <span>Docker Image: rajesharigala/node-web-app:v1-arm64</span>
+                        </a>
+                        <a href="https://github.com/Rajesh-Arigala/docker-ml-app-no-ui" target="_blank" class="trigger-btn" style="background: var(--bg-elevated); border: 1px solid var(--line-subtle); color: var(--text-primary); flex: 1; max-width: fit-content; justify-content: center;">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub: docker-ml-app-no-ui</span>
+                        </a>
+                    </div>
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: nowrap; width: 100%;">
+                        <a href="https://hub.docker.com/r/rajesharigala/node-web-app/tags" target="_blank" class="trigger-btn" style="background: var(--bg-elevated); border: 1px solid var(--line-subtle); color: var(--text-primary); flex: 1; max-width: fit-content; justify-content: center;">
+                            <i class="fab fa-docker" style="color: #2496ed;"></i>
+                            <span>Docker Image: rajesharigala/node-web-app:v1-amd64</span>
+                        </a>
+                        <a href="https://github.com/Rajesh-Arigala/Docker-Compose-Breast-Cancer-Flask-UI" target="_blank" class="trigger-btn" style="background: var(--bg-elevated); border: 1px solid var(--line-subtle); color: var(--text-primary); flex: 1; max-width: fit-content; justify-content: center;">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub: Breast-Cancer-Flask-UI</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Project Summary -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Project Summary</h2>
+                <p class="section-subtitle">Comprehensive Project Overview</p>
+            </div>
+
+            <div class="grid-3">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-tag"></i>Project Category</h3>
+                    <div class="card-content">
+                        <p>Containerization &amp; Execution Foundation</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-industry"></i>Industry/Domain</h3>
+                    <div class="card-content">
+                        <p>Platform Engineering / Cloud Infrastructure</p>
+                        <p>Cloud-Native Application Containerization (Execution Layer)</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-code"></i>Project Focus</h3>
+                    <div class="card-content">
+                        <p>DevOps-focused containerization project</p>
+                        <p>Docker-based containerization as execution artifact for CI/CD pipelines</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Keywords -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Key Technologies &amp; Concepts</h2>
+                <p class="section-subtitle">Core Docker &amp; Containerization Technologies</p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-key"></i>Docker &amp; Containerization Keywords</h3>
+                <div class="card-content">
+                    <div class="tech-tags">
+                        <span class="tech-tag">Docker Engine / Docker Desktop</span>
+                        <span class="tech-tag">Dockerfile (Image Blueprint)</span>
+                        <span class="tech-tag energy">Base Images (Slim / Official Images)</span>
+                        <span class="tech-tag">Image Build (docker build)</span>
+                        <span class="tech-tag">Image Tagging &amp; Versioning</span>
+                        <span class="tech-tag energy">Docker Images &amp; Layers</span>
+                        <span class="tech-tag">Container Runtime (docker run)</span>
+                        <span class="tech-tag">Port Mapping &amp; Networking</span>
+                        <span class="tech-tag energy">Environment Variables (ENV)</span>
+                        <span class="tech-tag">CMD vs ENTRYPOINT</span>
+                        <span class="tech-tag">Detached &amp; Interactive Modes</span>
+                        <span class="tech-tag energy">Container Lifecycle Management</span>
+                        <span class="tech-tag">Docker Registry (Docker Hub / ECR)</span>
+                        <span class="tech-tag">Image Push &amp; Pull</span>
+                        <span class="tech-tag energy">Immutable Container Artifacts</span>
+                        <span class="tech-tag">Stateless Container Design</span>
+                        <span class="tech-tag">Docker Compose</span>
+                        <span class="tech-tag energy">Kubernetes (Container Orchestration)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem & Objective -->
+        <section id="problem" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Problem &amp; Objective</h2>
+                <p class="section-subtitle">What problem did this project solve?</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Problems Solved</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Eliminated environment and runtime dependency inconsistencies across
+                                development and deployment machines</li>
+                            <li class="list-item">Removed reliance on local Node.js installation by encapsulating the
+                                application within a Docker container</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-bullseye"></i>Primary Objectives</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Package the Node.js application and its runtime into a single,
+                                portable Docker image</li>
+                            <li class="list-item">Enable consistent execution of the application across local, CI/CD,
+                                and cloud environments</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Solution & Architecture -->
+        <section id="solution" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Solution &amp; Architecture</h2>
+                <p class="section-subtitle">Architectural Overview</p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-sitemap"></i>Solution Overview</h3>
+                <div class="card-content">
+                    <p>The solution involves creating a Docker container that packages the Node.js application, its
+                        runtime, and all dependencies into a single, portable unit that can run consistently across
+                        different environments.</p>
+
+                    <div class="highlight-box">
+                        <p class="highlight-text">Stateless container design enables horizontal scaling when deployed
+                            under an orchestrator (e.g., Kubernetes). Containerized runtime ensures consistent and
+                            reliable execution across environments.</p>
+                    </div>
+
+                    <p>The Docker image serves as an immutable artifact that can be versioned, stored in a registry, and
+                        deployed consistently across development, testing, and production environments.</p>
+                </div>
+            </div>
+
+            <div class="architecture-visual">
+                <div class="architecture-placeholder">
+                    <img src="/img/Docker/project1.webp" alt="Docker Containerization Architecture Diagram">
+                </div>
+
+                <div class="flow-steps">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Source Code</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Dockerfile</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Docker Image</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Container Runtime</div>
+                    </div>
+                    <div class="flow-step">
+                        <div class="step-number">5</div>
+                        <div class="step-label">Container Registry</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-cogs"></i>Key Components</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item">Docker Engine / Docker Desktop</li>
+                        <li class="list-item">Dockerfile (Image Blueprint)</li>
+                        <li class="list-item">Node.js Application Runtime</li>
+                        <li class="list-item">Docker Image &amp; Container</li>
+                        <li class="list-item">Container Registry (Docker Hub)</li>
+                        <li class="list-item">Cloud Platform: None (local Docker environment; cloud-ready via container
+                            registry)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI / DevOps Details -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">DevOps Details</h2>
+                <p class="section-subtitle">DevOps Implementation Focus</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-robot"></i>AI/ML Type or DevOps Focus</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">DevOps-focused project</li>
+                            <li class="list-item">Docker-based containerization used as the execution artifact for CI/CD
+                                pipelines</li>
+                            <li class="list-item">No AI/ML components involved</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-project-diagram"></i>Pipeline &amp; Automation</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">No AI/ML models involved</li>
+                            <li class="list-item">Implemented Docker-based build, run, tagging, and registry push
+                                workflow</li>
+                            <li class="list-item">Reusable execution artifact for CI/CD automation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-tools"></i>Tools &amp; Monitoring</h3>
+                <div class="card-content">
+                    <div class="grid-2">
+                        <div>
+                            <h4>CI/CD &amp; Containerization Tools:</h4>
+                            <ul class="list">
+                                <li class="list-item">Docker Engine / Docker Desktop</li>
+                                <li class="list-item">Docker CLI</li>
+                                <li class="list-item">Docker Hub (Container Registry)</li>
+                                <li class="list-item">Container-ready for CI/CD and orchestration integration</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>Monitoring &amp; Optimization:</h4>
+                            <ul class="list">
+                                <li class="list-item">Container runtime logs accessed via Docker logs and terminal
+                                    output</li>
+                                <li class="list-item">Image versioning and tagging used for traceability and controlled
+                                    releases</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills & Technologies Used -->
+        <section id="skills" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Skills &amp; Technologies Used</h2>
+                <p class="section-subtitle">Technical Proficiency Demonstrated</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-star"></i>Primary Skills</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Docker &amp; Containerization - Intermediate</li>
+                            <li class="list-item">Node.js Application Runtime - Intermediate</li>
+                            <li class="list-item">Linux Command Line - Intermediate</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-tools"></i>Secondary Tools / Frameworks</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Docker Desktop</li>
+                            <li class="list-item">Docker Hub</li>
+                            <li class="list-item">Git / GitHub</li>
+                            <li class="list-item">Linux-based OS (macOS / Ubuntu environment)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-code"></i>Programming Languages</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item">Configuring Dockerfile</li>
+                        <li class="list-item">Node.js web app (provided by developer)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-cloud"></i>Cloud &amp; DevOps Tools</h3>
+                <div class="card-content">
+                    <div class="tech-tags">
+                        <span class="tech-tag energy">Docker Engine</span>
+                        <span class="tech-tag energy">Docker CLI</span>
+                        <span class="tech-tag energy">Docker Hub (Container Registry)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dockerfile Details -->
+        <section id="dockerfile" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Dockerfile Implementation</h2>
+                <p class="section-subtitle">Step-by-Step Docker Configuration</p>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-file-code"></i>Dockerfile Code</h3>
+                <div class="card-content">
+                    <div class="code-block">
+                        <span class="code-comment"># Use the node:12 image as the base image</span><br>
+                        <span class="code-keyword">FROM</span> <span class="code-string">node:12</span><br><br>
+
+                        <span class="code-comment"># Set the working directory within the container to /app</span><br>
+                        <span class="code-keyword">WORKDIR</span> <span class="code-string">/app</span><br><br>
+
+                        <span class="code-comment"># Copy the package*.json files from the host file system to the
+                            container at the path /app</span><br>
+                        <span class="code-keyword">COPY</span> <span class="code-string">package*.json ./</span><br><br>
+
+                        <span class="code-comment"># Run the npm install command to install the required
+                            dependencies</span><br>
+                        <span class="code-keyword">RUN</span> <span class="code-string">npm install</span><br><br>
+
+                        <span class="code-comment"># Copy all files from the host file system to the container at the
+                            path /app</span><br>
+                        <span class="code-keyword">COPY</span> <span class="code-string">.</span> <span class="code-string">.</span><br><br>
+
+                        <span class="code-comment"># Set the environment variable PORT to 8080</span><br>
+                        <span class="code-keyword">ENV</span> <span class="code-string">PORT=8080</span><br><br>
+
+                        <span class="code-comment"># Expose port 8080 to allow incoming connections</span><br>
+                        <span class="code-keyword">EXPOSE</span> <span class="code-string">8080</span><br><br>
+
+                        <span class="code-comment"># Specify the command to run when the container starts up</span><br>
+                        <span class="code-keyword">CMD</span> <span class="code-string">["npm", "start"]</span>
+                    </div>
+
+                    <div class="highlight-box">
+                        <p class="highlight-text">Difference between CMD and ENTRYPOINT: At runtime, CMD can be
+                            overridden if necessary but not ENTRYPOINT. For this project, CMD is used to specify the
+                            default command to run the application.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-sitemap"></i>Architecture &amp; Dockerfile Mapping</h3>
+                <div class="card-content">
+                    <table class="docker-table">
+                        <thead>
+                            <tr>
+                                <th>Architecture Component</th>
+                                <th>Dockerfile Instruction</th>
+                                <th>Purpose</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Base Runtime Environment</td>
+                                <td>FROM node:12</td>
+                                <td>Defines Node.js runtime inside the container</td>
+                            </tr>
+                            <tr>
+                                <td>Application Workspace</td>
+                                <td>WORKDIR /app</td>
+                                <td>Sets isolated working directory for the app</td>
+                            </tr>
+                            <tr>
+                                <td>Dependency Definition</td>
+                                <td>COPY package*.json</td>
+                                <td>Copies dependency metadata into image</td>
+                            </tr>
+                            <tr>
+                                <td>Dependency Installation</td>
+                                <td>RUN npm install</td>
+                                <td>Installs Node.js dependencies inside container</td>
+                            </tr>
+                            <tr>
+                                <td>Source Code Packaging</td>
+                                <td>COPY . .</td>
+                                <td>Copies application code into the image</td>
+                            </tr>
+                            <tr>
+                                <td>Runtime Configuration</td>
+                                <td>ENV, EXPOSE</td>
+                                <td>Configures environment variables and network access</td>
+                            </tr>
+                            <tr>
+                                <td>Application Startup</td>
+                                <td>CMD ["npm", "start"]</td>
+                                <td>Starts the Node.js application at container runtime</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Docker Commands Reference -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Docker Commands Reference</h2>
+                <p class="section-subtitle">Essential Docker CLI Commands</p>
+            </div>
+
+            <div class="card">
+                <div class="card-content">
+                    <table class="docker-table">
+                        <thead>
+                            <tr>
+                                <th>Docker CLI Command</th>
+                                <th>Explanation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>docker version</td>
+                                <td>Displays Docker client, server, and engine version details</td>
+                            </tr>
+                            <tr>
+                                <td>docker images</td>
+                                <td>Lists all Docker images available locally</td>
+                            </tr>
+                            <tr>
+                                <td>docker build -t &lt;image-name&gt;:&lt;tag&gt;</td>
+                                <td>Builds a Docker image from the Dockerfile in the current directory</td>
+                            </tr>
+                            <tr>
+                                <td>docker pull &lt;image-name&gt;:&lt;tag&gt;</td>
+                                <td>Pulls an image from a container registry</td>
+                            </tr>
+                            <tr>
+                                <td>docker run -it -p &lt;host-port&gt;:&lt;container-port&gt; &lt;image&gt;:&lt;tag&gt;
+                                </td>
+                                <td>Creates and runs a container interactively with port mapping</td>
+                            </tr>
+                            <tr>
+                                <td>docker run -d -p &lt;host-port&gt;:&lt;container-port&gt; &lt;image&gt;:&lt;tag&gt;
+                                </td>
+                                <td>Runs a container in detached mode</td>
+                            </tr>
+                            <tr>
+                                <td>docker ps</td>
+                                <td>Lists currently running containers</td>
+                            </tr>
+                            <tr>
+                                <td>docker ps -a</td>
+                                <td>Lists all containers (running and stopped)</td>
+                            </tr>
+                            <tr>
+                                <td>docker stop &lt;container-id&gt;</td>
+                                <td>Stops a running container</td>
+                            </tr>
+                            <tr>
+                                <td>docker start &lt;container-id&gt;</td>
+                                <td>Starts a stopped container</td>
+                            </tr>
+                            <tr>
+                                <td>docker logs &lt;container-id&gt;</td>
+                                <td>Fetches logs from a container</td>
+                            </tr>
+                            <tr>
+                                <td>docker exec -it &lt;container-id&gt; /bin/bash</td>
+                                <td>Opens an interactive shell inside a running container</td>
+                            </tr>
+                            <tr>
+                                <td>docker tag &lt;source&gt;:&lt;tag&gt; &lt;repo&gt;/&lt;image&gt;:&lt;tag&gt;</td>
+                                <td>Retags an image for registry compatibility</td>
+                            </tr>
+                            <tr>
+                                <td>docker login</td>
+                                <td>Authenticates with Docker Hub or another registry</td>
+                            </tr>
+                            <tr>
+                                <td>docker push &lt;repo&gt;/&lt;image&gt;:&lt;tag&gt;</td>
+                                <td>Pushes a Docker image to a container registry</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Challenges & Outcomes -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Challenges &amp; Outcomes</h2>
+                <p class="section-subtitle">Technical Challenges and Solutions</p>
+            </div>
+
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Key Technical Challenges</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Resolving environment and runtime dependency issues between host
+                                system and container</li>
+                            <li class="list-item">Correctly configuring port mapping and container networking for
+                                external access</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-check-circle"></i>How They Were Resolved</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Encapsulated the complete Node.js runtime and dependencies within the
+                                Docker image using a well-defined Dockerfile</li>
+                            <li class="list-item">Validated port exposure and host-to-container port mapping through
+                                iterative container runs and testing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-tasks"></i>Production-Grade Implementation</h3>
+                <div class="card-content">
+                    <ul class="list">
+                        <li class="list-item"><strong>Docker File:</strong> Blueprint for building a docker images</li>
+                        <li class="list-item"><strong>Docker Image:</strong> Packed software; Template for running a
+                            docker containers</li>
+                        <li class="list-item"><strong>Container:</strong> Runtime environment where we run our
+                            applications</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assets & References -->
+        <section id="assets" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header">
+                <h2 class="section-title">Assets &amp; References</h2>
+                <p class="section-subtitle">Code, diagrams, study material</p>
+            </div>
+
+
+
+
+
+            <div class="assets-grid">
+                <div class="asset-card">
+                    <div class="asset-icon">
+                        <i class="fab fa-github"></i>
+                    </div>
+                    <h3 class="asset-title">GitHub Repository</h3>
+                    <p class="asset-description">Source code repository containing the Dockerized Node.js application
+                        and Docker configuration files.</p>
+                    <a href="https://github.com/Rajesh-Arigala/docker-node-app" target="_blank" class="asset-link">
+                        <span>Access Repository</span>
+                        <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+
+
+            </div>
+
+            <div class="card">
+                <div class="demo-section">
+                    <h3 class="demo-title">Study Material Resources</h3>
+                    <p class="demo-subtitle">Click the button below to open the study materials</p>
+                    <a href="/index#contact" class="trigger-btn">
+                        <i class="fas fa-book"></i>
+                        <span>Request Study Material</span>
+                    </a>
+                </div>
+            </div>
+
+
+        </section>
+    </main>
+
+    <!-- STUDY MODAL -->
+    <div class="study-modal" id="studyModal">
+        <div class="study-modal-content">
+            <div class="study-modal-header">
+                <h3 class="study-modal-title">Study Material - Docker Containerization</h3>
+                <button class="study-modal-close" id="closeModalBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="study-material-list">
+                <!-- Docker Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Docker Containerization Architecture</div>
+                        <div class="study-material-desc">Complete architecture diagram and setup guide for Docker
+                            containers and images</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Dockerfile Best Practices</div>
+                        <div class="study-material-desc">Official documentation and best practices for Dockerfile
+                            configuration and optimization</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <!-- Containerization Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Containerization Best Practices</div>
+                        <div class="study-material-desc">Detailed guide to implementing scalable containerization for
+                            cloud-native applications</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Advanced Docker Configurations</div>
+                        <div class="study-material-desc">Premium materials for multi-stage builds, security hardening,
+                            and production deployments</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <!-- Registry & Deployment Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Docker Registry Deployment Guide</div>
+                        <div class="study-material-desc">Complete guide to managing container registries and image
+                            deployment workflows</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Container Security Best Practices</div>
+                        <div class="study-material-desc">Security guidelines and best practices for secure container
+                            deployment and management</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <!-- Additional Materials -->
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">Production Docker Architecture</div>
+                        <div class="study-material-desc">Enterprise architecture patterns for scalable container
+                            deployments</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+
+                <div class="study-material-item">
+                    <div class="study-material-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="study-material-info">
+                        <div class="study-material-name">CI/CD with Docker Guide</div>
+                        <div class="study-material-desc">Complete framework for implementing CI/CD pipelines with Docker
+                            containers</div>
+                    </div>
+                    <a href="#" class="download-btn">
+                        <span>Download</span>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile menu toggle
+            const navToggle = document.querySelector('.nav-toggle');
+            const navList = document.querySelector('.nav-list');
+
+            if (navToggle && navList) {
+                navToggle.addEventListener('click', function () {
+                    navList.classList.toggle('active');
+                });
+            }
+
+            // Close menu when clicking outside on mobile
+            document.addEventListener('click', function (e) {
+                if (window.innerWidth <= 768 && navList && navList.classList.contains('active') &&
+                    !e.target.closest('.nav') && !e.target.closest('.nav-toggle')) {
+                    navList.classList.remove('active');
+                }
+            });
+
+            // Update active nav link on scroll
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            function updateActiveNavLink() {
+                let current = '';
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - 150;
+                    const sectionHeight = section.clientHeight;
+
+                    if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateActiveNavLink);
+
+            // Smooth scroll for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+
+                    if (href.startsWith('#') && href !== '#') {
+                        e.preventDefault();
+
+                        const targetElement = document.querySelector(href);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 100,
+                                behavior: 'smooth'
+                            });
+
+                            // Close mobile menu if open
+                            if (navList.classList.contains('active')) {
+                                navList.classList.remove('active');
+                            }
+                        }
+                    }
+                });
+            });
+
+            // Handle window resize for mobile menu
+            window.addEventListener('resize', function () {
+                if (window.innerWidth > 768 && navList) {
+                    navList.classList.remove('active');
+                }
+            });
+
+            // Add animation on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function (entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all sections for animation
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // Initialize all sections as visible on load
+            setTimeout(() => {
+                sections.forEach(section => {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                });
+            }, 500);
+
+            // Modal functionality
+            const studyModal = document.getElementById('studyModal');
+            const openModalBtn = document.getElementById('openModalBtn');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+
+            // Open modal when button is clicked
+            if (openModalBtn) {
+                openModalBtn.addEventListener('click', function () {
+                    studyModal.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Prevent scrolling
+                });
+            }
+
+            // Close modal when close button is clicked
+            if (closeModalBtn) {
+                closeModalBtn.addEventListener('click', function () {
+                    studyModal.classList.remove('active');
+                    document.body.style.overflow = ''; // Restore scrolling
+                });
+            }
+
+            // Close modal when clicking outside the modal content
+            if (studyModal) {
+                studyModal.addEventListener('click', function (e) {
+                    if (e.target === studyModal) {
+                        studyModal.classList.remove('active');
+                        document.body.style.overflow = '';
+                    }
+                });
+            }
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && studyModal.classList.contains('active')) {
+                    studyModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+    </script>
+
+
+</body></html>

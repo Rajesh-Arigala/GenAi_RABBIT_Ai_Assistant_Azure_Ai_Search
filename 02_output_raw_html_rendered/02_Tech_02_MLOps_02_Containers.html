@@ -1,0 +1,1529 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Containers &amp; Orchestration Portfolio | Docker &amp; Kubernetes</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=IBM+Plex+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet">
+    <style>
+        /* ==================== RESET AND BASE STYLES ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Core Surfaces - Container Theme */
+            --bg-main: #0C1117;
+            --bg-surface: #121923;
+            --bg-elevated: #161F2B;
+            --card-bg: #161F2B;
+
+            /* Container & Orchestration Accents */
+            --accent-primary: #B8B2A7;
+            --accent-energy: #7CFFB2;
+            --accent-depth: #3A1F2D;
+            --accent-container: #2496ED; /* Docker Blue */
+            --accent-orchestration: #326CE5; /* Kubernetes Blue */
+
+            /* Text */
+            --text-primary: #E6E9EF;
+            --text-secondary: #A1A8B3;
+            --text-muted: #6F7682;
+
+            /* Lines & Dividers */
+            --line-subtle: #1E2633;
+            --glass-border: rgba(184, 178, 167, 0.15);
+
+            /* Motion */
+            --ease-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+            /* Gradients */
+            --container-gradient: linear-gradient(90deg, var(--accent-container), var(--accent-energy));
+            --orchestration-gradient: linear-gradient(90deg, var(--accent-orchestration), var(--accent-energy));
+            --depth-gradient: linear-gradient(135deg, var(--accent-depth), transparent 70%);
+            
+            /* Fonts */
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes containerFlow {
+            0% {
+                background-position: 0% 0%;
+            }
+            100% {
+                background-position: 100px 100px;
+            }
+        }
+
+        @keyframes kubernetesSpin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes dockerWave {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @keyframes podPulse {
+            0%, 100% {
+                opacity: 0.1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.2;
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes terminalBlink {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes badgePulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(36, 150, 237, 0.3);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(36, 150, 237, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(36, 150, 237, 0);
+            }
+        }
+
+        @keyframes terminalTyping {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* ==================== BACKGROUND PATTERNS ==================== */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: 
+                /* Main gradient */
+                linear-gradient(
+                    135deg,
+                    var(--bg-main) 0%,
+                    var(--bg-surface) 50%,
+                    var(--bg-main) 100%
+                ),
+                /* Container grid */
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 39px,
+                    rgba(36, 150, 237, 0.02) 39px,
+                    rgba(36, 150, 237, 0.02) 40px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 39px,
+                    rgba(50, 108, 229, 0.02) 39px,
+                    rgba(50, 108, 229, 0.02) 40px
+                ),
+                /* Docker patterns */
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 15px,
+                    rgba(36, 150, 237, 0.03) 15px,
+                    rgba(36, 150, 237, 0.03) 30px
+                ),
+                /* Kubernetes patterns */
+                repeating-linear-gradient(
+                    -45deg,
+                    transparent,
+                    transparent 10px,
+                    rgba(50, 108, 229, 0.02) 10px,
+                    rgba(50, 108, 229, 0.02) 20px
+                ),
+                /* Depth accents */
+                radial-gradient(
+                    circle at 20% 30%,
+                    rgba(36, 150, 237, 0.04) 0%,
+                    transparent 40%
+                );
+            
+            background-size: 
+                400% 400%,
+                80px 80px,
+                80px 80px,
+                60px 60px,
+                40px 40px,
+                300px 300px;
+            
+            animation: 
+                containerFlow 35s linear infinite,
+                podPulse 15s ease-in-out infinite;
+            
+            pointer-events: none;
+            z-index: -2;
+            opacity: 0.6;
+        }
+
+        /* Animated container nodes */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: 
+                /* Docker whales */
+                radial-gradient(
+                    8px circle at 10% 20%,
+                    var(--accent-container) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    6px circle at 25% 45%,
+                    var(--accent-orchestration) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    8px circle at 40% 75%,
+                    var(--accent-container) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    6px circle at 60% 25%,
+                    var(--accent-orchestration) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    8px circle at 75% 60%,
+                    var(--accent-container) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    6px circle at 90% 35%,
+                    var(--accent-orchestration) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    8px circle at 15% 85%,
+                    var(--accent-container) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    6px circle at 85% 85%,
+                    var(--accent-orchestration) 50%,
+                    transparent 100%
+                );
+            
+            background-repeat: no-repeat;
+            background-size: 
+                100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
+                100% 100%, 100% 100%, 100% 100%;
+            
+            animation: 
+                dockerWave 20s ease-in-out infinite,
+                terminalBlink 6s ease-in-out infinite;
+            
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.2;
+            mix-blend-mode: screen;
+        }
+
+        /* ==================== CONTAINER ==================== */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ==================== PAGE HEADER ==================== */
+        .page-header {
+            padding: 5rem 0 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                var(--accent-container), 
+                var(--accent-orchestration), 
+                transparent
+            );
+            opacity: 0.5;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-container), var(--accent-orchestration));
+            opacity: 0.7;
+        }
+
+        .page-title {
+            font-size: 3.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-container) 0%, var(--accent-orchestration) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        .page-intro {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 900px;
+            margin: 2rem auto 1.5rem;
+            line-height: 1.7;
+        }
+
+        .container-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, 
+                rgba(36, 150, 237, 0.1) 0%, 
+                rgba(50, 108, 229, 0.1) 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-energy);
+            backdrop-filter: blur(10px);
+            animation: badgePulse 3s ease-in-out infinite;
+        }
+
+        /* ==================== MAIN CONTENT SECTION ==================== */
+        .main-section {
+            position: relative;
+            padding: 4rem 0;
+            background: rgba(12, 17, 23, 0.8);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-container), var(--accent-orchestration));
+            border-radius: 2px;
+        }
+
+        /* ==================== TECHNOLOGY SECTIONS ==================== */
+        .tech-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 3rem;
+            margin-bottom: 5rem;
+        }
+
+        @media (max-width: 768px) {
+            .tech-sections {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+        }
+
+        .tech-section {
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-slow);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s var(--ease-slow) forwards;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tech-section:nth-child(1) { animation-delay: 0.1s; }
+        .tech-section:nth-child(2) { animation-delay: 0.2s; }
+
+        .tech-section.docker-section {
+            border-top: 3px solid var(--accent-container);
+        }
+
+        .tech-section.kubernetes-section {
+            border-top: 3px solid var(--accent-orchestration);
+        }
+
+        .tech-section:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+        }
+
+        .tech-section.docker-section:hover {
+            border-color: var(--accent-container);
+        }
+
+        .tech-section.kubernetes-section:hover {
+            border-color: var(--accent-orchestration);
+        }
+
+        /* Section Header */
+        .tech-header {
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .tech-section.docker-section .tech-header {
+            background: linear-gradient(135deg, 
+                rgba(36, 150, 237, 0.1) 0%, 
+                rgba(36, 150, 237, 0.05) 100%);
+        }
+
+        .tech-section.kubernetes-section .tech-header {
+            background: linear-gradient(135deg, 
+                rgba(50, 108, 229, 0.1) 0%, 
+                rgba(50, 108, 229, 0.05) 100%);
+        }
+
+        .tech-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            flex-shrink: 0;
+        }
+
+        .tech-section.docker-section .tech-icon {
+            background: rgba(36, 150, 237, 0.15);
+            color: var(--accent-container);
+            border: 2px solid rgba(36, 150, 237, 0.3);
+        }
+
+        .tech-section.kubernetes-section .tech-icon {
+            background: rgba(50, 108, 229, 0.15);
+            color: var(--accent-orchestration);
+            border: 2px solid rgba(50, 108, 229, 0.3);
+        }
+
+        .tech-info {
+            flex: 1;
+        }
+
+        .tech-name {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .tech-section.docker-section .tech-name {
+            color: var(--accent-container);
+        }
+
+        .tech-section.kubernetes-section .tech-name {
+            color: var(--accent-orchestration);
+        }
+
+        .tech-tagline {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        /* Section Content */
+        .tech-content {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tech-description {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* Tech Features */
+        .tech-features {
+            margin-bottom: 2rem;
+        }
+
+        .tech-features-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .tech-features-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tech-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .tech-feature i {
+            color: var(--accent-energy);
+            font-size: 0.8rem;
+            margin-top: 0.2rem;
+            flex-shrink: 0;
+        }
+
+        /* Tech Stats */
+        .tech-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(12, 17, 23, 0.3);
+            border-radius: 12px;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .tech-stat {
+            text-align: center;
+        }
+
+        .tech-stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .tech-section.docker-section .tech-stat-value {
+            color: var(--accent-container);
+        }
+
+        .tech-section.kubernetes-section .tech-stat-value {
+            color: var(--accent-orchestration);
+        }
+
+        .tech-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+        }
+
+        /* Tech Actions */
+        .tech-actions {
+            margin-top: auto;
+            text-align: center;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.4s var(--ease-slow);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            border: 2px solid;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-docker {
+            background: rgba(36, 150, 237, 0.1);
+            border-color: var(--accent-container);
+            color: var(--accent-container);
+        }
+
+        .btn-docker:hover {
+            background: rgba(36, 150, 237, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(36, 150, 237, 0.2);
+        }
+
+        .btn-kubernetes {
+            background: rgba(50, 108, 229, 0.1);
+            border-color: var(--accent-orchestration);
+            color: var(--accent-orchestration);
+        }
+
+        .btn-kubernetes:hover {
+            background: rgba(50, 108, 229, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(50, 108, 229, 0.2);
+        }
+
+        .btn-icon {
+            transition: transform 0.4s var(--ease-slow);
+        }
+
+        .btn:hover .btn-icon {
+            transform: translateX(5px);
+        }
+
+        /* ==================== TERMINAL VISUALIZATION ==================== */
+        .terminal-section {
+            margin-top: 5rem;
+            text-align: center;
+        }
+
+        .terminal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 2.5rem;
+            color: var(--text-primary);
+            position: relative;
+            display: inline-block;
+        }
+
+        .terminal-title::after {
+            content: '';
+            position: absolute;
+            bottom: -0.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-container), var(--accent-orchestration));
+        }
+
+        .terminal-window {
+            width: 100%;
+            max-width: 800px;
+            height: 320px;
+            margin: 0 auto;
+            background: rgba(12, 17, 23, 0.95);
+            border: 1px solid var(--line-subtle);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            font-family: var(--font-mono);
+        }
+
+        .terminal-header {
+            background: rgba(22, 31, 43, 0.95);
+            padding: 0.8rem 1.2rem;
+            border-bottom: 1px solid var(--line-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .terminal-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .terminal-dot.red { 
+            background: #FF5F56;
+            border: 1px solid rgba(255, 95, 86, 0.3);
+        }
+        .terminal-dot.red:hover { 
+            background: #ff3d32;
+            box-shadow: 0 0 8px rgba(255, 95, 86, 0.3);
+        }
+
+        .terminal-dot.yellow { 
+            background: #FFBD2E;
+            border: 1px solid rgba(255, 189, 46, 0.3);
+        }
+        .terminal-dot.yellow:hover { 
+            background: #ffab00;
+            box-shadow: 0 0 8px rgba(255, 189, 46, 0.3);
+        }
+
+        .terminal-dot.green { 
+            background: #27CA40;
+            border: 1px solid rgba(39, 202, 64, 0.3);
+        }
+        .terminal-dot.green:hover { 
+            background: #1db336;
+            box-shadow: 0 0 8px rgba(39, 202, 64, 0.3);
+        }
+
+        .terminal-window-title {
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .terminal-content {
+            padding: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            text-align: left;
+            overflow: hidden;
+            height: calc(100% - 54px);
+            background: 
+                repeating-linear-gradient(
+                    transparent,
+                    transparent 23px,
+                    rgba(36, 150, 237, 0.03) 23px,
+                    rgba(36, 150, 237, 0.03) 24px
+                );
+        }
+
+        .terminal-line {
+            margin-bottom: 0.4rem;
+            opacity: 0;
+            animation: terminalTyping 0.5s forwards;
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            min-height: 20px;
+        }
+
+        .terminal-line:nth-child(1) { animation-delay: 0.2s; }
+        .terminal-line:nth-child(2) { animation-delay: 0.4s; }
+        .terminal-line:nth-child(3) { animation-delay: 0.8s; }
+        .terminal-line:nth-child(4) { animation-delay: 1.2s; }
+        .terminal-line:nth-child(5) { animation-delay: 1.6s; }
+        .terminal-line:nth-child(6) { animation-delay: 2.0s; }
+        .terminal-line:nth-child(7) { animation-delay: 2.4s; }
+        .terminal-line:nth-child(8) { animation-delay: 2.8s; }
+
+        .terminal-prompt {
+            color: var(--accent-energy);
+            font-weight: 600;
+            flex-shrink: 0;
+            min-width: 15px;
+        }
+
+        .terminal-command {
+            color: var(--accent-container);
+            font-weight: 500;
+            flex: 1;
+        }
+
+        .terminal-output {
+            color: var(--text-secondary);
+            flex: 1;
+        }
+
+        .terminal-success {
+            color: var(--accent-energy);
+            font-weight: 600;
+        }
+
+        .terminal-icon {
+            color: var(--accent-energy);
+            margin-right: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .terminal-line.success .terminal-icon {
+            color: var(--accent-energy);
+            animation: pulse 2s infinite;
+        }
+
+        .terminal-cursor {
+            display: inline-block;
+            width: 8px;
+            height: 16px;
+            background-color: var(--accent-energy);
+            margin-left: 2px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        /* ==================== FLOATING ELEMENTS ==================== */
+        .floating-element {
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.08;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, var(--accent-container), transparent);
+            animation: dockerWave 25s infinite ease-in-out;
+        }
+
+        .floating-element:nth-child(2) {
+            top: 60%;
+            right: 10%;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, transparent, var(--accent-orchestration));
+            animation: kubernetesSpin 40s infinite linear;
+            animation-delay: 5s;
+        }
+
+        .floating-element:nth-child(3) {
+            bottom: 20%;
+            left: 15%;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--accent-container), var(--accent-orchestration));
+            animation: dockerWave 20s infinite ease-in-out;
+            animation-delay: 10s;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            text-align: center;
+            padding: 5rem 0 6rem;
+            position: relative;
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                rgba(12, 17, 23, 0.3) 20%,
+                rgba(12, 17, 23, 0.6) 100%
+            );
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 600px;
+            height: 1px;
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                var(--accent-container), 
+                var(--accent-orchestration), 
+                transparent
+            );
+            opacity: 0.3;
+        }
+
+        .footer-message {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .contact-btn {
+            background: linear-gradient(
+                135deg,
+                rgba(36, 150, 237, 0.1) 0%,
+                rgba(50, 108, 229, 0.1) 100%
+            );
+            border: 1px solid var(--glass-border);
+            color: var(--accent-container);
+            padding: 1.2rem 3rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.4s var(--ease-slow);
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(50, 108, 229, 0.1),
+                transparent
+            );
+            transition: left 0.6s var(--ease-slow);
+        }
+
+        .contact-btn:hover {
+            background: linear-gradient(
+                135deg,
+                rgba(36, 150, 237, 0.2) 0%,
+                rgba(50, 108, 229, 0.2) 100%
+            );
+            transform: translateY(-3px);
+            border-color: var(--accent-orchestration);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-btn:hover::before {
+            left: 100%;
+        }
+
+        .contact-btn i {
+            transition: transform 0.4s var(--ease-slow);
+        }
+
+        .contact-btn:hover i {
+            transform: translateX(5px) translateY(-2px);
+        }
+
+        .contact-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 992px) {
+            .tech-sections {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 2rem;
+            }
+            
+            .tech-section {
+                flex: 0 0 calc(50% - 1rem);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+            
+            .page-header {
+                padding: 3rem 0 2rem;
+            }
+            
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .page-subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .tech-sections {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                max-width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .tech-content {
+                padding: 1.2rem;
+            }
+            
+            .tech-name {
+                font-size: 1.5rem;
+            }
+            
+            .tech-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 2rem;
+            }
+            
+            .terminal-window {
+                height: 320px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .tech-section {
+                flex: 0 0 100%;
+            }
+            
+            .tech-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            
+            .tech-name {
+                font-size: 1.3rem;
+            }
+            
+            .btn {
+                padding: 0.8rem 2rem;
+                font-size: 0.9rem;
+            }
+            
+            .terminal-window {
+                height: 360px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Elements -->
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Page Header -->
+        <header class="page-header">
+            <div class="container">
+                <h1 class="page-title">CONTAINERS &amp; ORCHESTRATION</h1>
+                <h3 class="page-subtitle">Docker containerization and Kubernetes orchestration for scalable, portable applications</h3>
+                
+                <p class="page-intro">
+                    Building and managing containerized applications using Docker, and orchestrating them at scale with Kubernetes. These projects demonstrate containerization patterns, microservices architecture, and production-grade Kubernetes deployments across cloud platforms.
+                </p>
+                
+                <div class="container-badge">
+                    <i class="fas fa-server"></i>
+                    <span>Docker Containerization · Kubernetes Orchestration · Microservices · Production Deployments</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Section -->
+        <section class="main-section">
+            <div class="container">
+                <h2 class="section-title">Containerization &amp; Orchestration Technologies</h2>
+                
+                <div class="tech-sections">
+                    <!-- Docker Section -->
+                    <div class="tech-section docker-section" style="opacity: 1; transform: translateY(0px);">
+                        <div class="tech-header">
+                            <div class="tech-icon" style="animation-play-state: running;">
+                                <i class="fab fa-docker"></i>
+                            </div>
+                            <div class="tech-info">
+                                <h3 class="tech-name">Docker Containerization</h3>
+                                <p class="tech-tagline">Container runtime for building, shipping, and running applications</p>
+                            </div>
+                        </div>
+                        
+                        <div class="tech-content">
+                            <p class="tech-description">
+                                Docker provides a platform for developing, shipping, and running applications in containers. 
+                                Containers package an application with all its dependencies, ensuring consistency across 
+                                different computing environments from development to production.
+                            </p>
+                            
+                            <div class="tech-features">
+                                <h4 class="tech-features-title">Key Capabilities</h4>
+                                <ul class="tech-features-list">
+                                    <li class="tech-feature" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow);">
+                                        <i class="fas fa-check"></i>
+                                        <span>Container runtime and image management</span>
+                                    </li>
+                                    <li class="tech-feature" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow);">
+                                        <i class="fas fa-check"></i>
+                                        <span>Docker Compose for multi-container applications</span>
+                                    </li>
+                                    <li class="tech-feature" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow);">
+                                        <i class="fas fa-check"></i>
+                                        <span>Image registry management (Docker Hub, private registries)</span>
+                                    </li>
+                                    <li class="tech-feature" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow);">
+                                        <i class="fas fa-check"></i>
+                                        <span>Volume management for persistent storage</span>
+                                    </li>
+                                    <li class="tech-feature" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow);">
+                                        <i class="fas fa-check"></i>
+                                        <span>Network management between containers</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="tech-stats">
+                                <div class="tech-stat">
+                                    <div class="tech-stat-value">3+</div>
+                                    <div class="tech-stat-label">Docker Projects</div>
+                                </div>
+                                <div class="tech-stat">
+                                    <div class="tech-stat-value">100%</div>
+                                    <div class="tech-stat-label">Containerized</div>
+                                </div>
+                            </div>
+                            
+                            <div class="tech-actions">
+                                <a href="docker" class="btn btn-docker">
+                                    <span>View Docker Projects</span>
+                                    <i class="fas fa-arrow-right btn-icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kubernetes Section -->
+                    <div class="tech-section kubernetes-section" style="opacity: 1; transform: translateY(0px);">
+                        <div class="tech-header">
+                            <div class="tech-icon" style="animation-play-state: running;">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/39/Kubernetes_logo_without_workmark.svg" alt="" height="60px">
+                            </div>
+                            <div class="tech-info">
+                                <h3 class="tech-name">Kubernetes Orchestration</h3>
+                                <p class="tech-tagline">Container orchestration for automating deployment, scaling, and management</p>
+                            </div>
+                        </div>
+                        
+                        <div class="tech-content">
+                            <p class="tech-description">
+                                Kubernetes is a production-grade container orchestration system that automates deployment, 
+                                scaling, and management of containerized applications. It provides service discovery, 
+                                load balancing, storage orchestration, and self-healing capabilities.
+                            </p>
+                            
+                            <div class="tech-features">
+                                <h4 class="tech-features-title">Key Capabilities</h4>
+                                <ul class="tech-features-list">
+                                    <li class="tech-feature" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow);">
+                                        <i class="fas fa-check"></i>
+                                        <span>Container orchestration at scale</span>
+                                    </li>
+                                    <li class="tech-feature" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow);">
+                                        <i class="fas fa-check"></i>
+                                        <span>Service discovery and load balancing</span>
+                                    </li>
+                                    <li class="tech-feature" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow);">
+                                        <i class="fas fa-check"></i>
+                                        <span>Automatic scaling and self-healing</span>
+                                    </li>
+                                    <li class="tech-feature" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow);">
+                                        <i class="fas fa-check"></i>
+                                        <span>Secret and configuration management</span>
+                                    </li>
+                                    <li class="tech-feature" style="opacity: 1; transform: translateX(0px); transition: opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow);">
+                                        <i class="fas fa-check"></i>
+                                        <span>Rolling updates and rollbacks</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="tech-stats">
+                                <div class="tech-stat">
+                                    <div class="tech-stat-value">3+</div>
+                                    <div class="tech-stat-label">K8s Projects</div>
+                                </div>
+                                <div class="tech-stat">
+                                    <div class="tech-stat-value">AWS EKS</div>
+                                    <div class="tech-stat-label">Production Ready</div>
+                                </div>
+                            </div>
+                            
+                            <div class="tech-actions">
+                                <a href="kubernetes" class="btn btn-kubernetes">
+                                    <span>View Kubernetes Projects</span>
+                                    <i class="fas fa-arrow-right btn-icon"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Terminal Visualization -->
+                <div class="terminal-section">
+                    <h3 class="terminal-title">Container Orchestration Pipeline</h3>
+                    
+                    <div class="terminal-window" style="opacity: 1; transform: translateY(0px);">
+                        <div class="terminal-header">
+                            <div class="terminal-controls">
+                                <div class="terminal-dot red"></div>
+                                <div class="terminal-dot yellow"></div>
+                                <div class="terminal-dot green"></div>
+                            </div>
+                            <span class="terminal-window-title">k8s-deployment.sh</span>
+                            <div style="width: 80px;"></div> <!-- Spacer for balance -->
+                        </div>
+                        
+                        <div class="terminal-content">
+                            <div class="terminal-line" style="animation-play-state: running;">
+                                <span class="terminal-prompt">$</span>
+                                <span class="terminal-command">docker build -t myapp:latest .</span>
+                                <span class="terminal-cursor" style="opacity: 0; animation: 1s ease 0s infinite normal none running blink;"></span>
+                            </div>
+                            <div class="terminal-line success" style="animation-play-state: running;">
+                                <span class="terminal-icon">✓</span>
+                                <span class="terminal-output">Docker image built successfully</span>
+                            </div>
+                            <div class="terminal-line" style="animation-play-state: running;">
+                                <span class="terminal-prompt">$</span>
+                                <span class="terminal-command">docker push myregistry/myapp:latest</span>
+                            </div>
+                            <div class="terminal-line success" style="animation-play-state: running;">
+                                <span class="terminal-icon">✓</span>
+                                <span class="terminal-output">Image pushed to container registry</span>
+                            </div>
+                            <div class="terminal-line" style="animation-play-state: running;">
+                                <span class="terminal-prompt">$</span>
+                                <span class="terminal-command">kubectl apply -f deployment.yaml</span>
+                            </div>
+                            <div class="terminal-line success" style="animation-play-state: running;">
+                                <span class="terminal-icon">✓</span>
+                                <span class="terminal-output">Deployment created in Kubernetes</span>
+                            </div>
+                            <div class="terminal-line success" style="animation-play-state: running;">
+                                <span class="terminal-icon">✓</span>
+                                <span class="terminal-output">Services and ingress configured</span>
+                            </div>
+                            <div class="terminal-line success" style="animation-play-state: running;">
+                                <span class="terminal-icon">✓</span>
+                                <span class="terminal-output">Horizontal Pod Autoscaler active</span>
+                            </div>
+                            <div class="terminal-line" style="animation-play-state: running;">
+                                <span class="terminal-success">🚀 Application deployed and scaled successfully!</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-message">
+                Ready to containerize and orchestrate your applications at scale? Let's design production-ready Docker and Kubernetes solutions with automation, monitoring, and security best practices.
+            </p>
+            <a href="/index#contact" class="contact-btn">
+                <span>Discuss Container Strategy</span>
+                <i class="fas fa-paper-plane"></i>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Technology section interactions
+            const techSections = document.querySelectorAll('.tech-section');
+            
+            techSections.forEach(section => {
+                section.addEventListener('mouseenter', () => {
+                    const icon = section.querySelector('.btn-icon');
+                    if (icon) {
+                        icon.style.transform = 'translateX(5px)';
+                    }
+                    
+                    // Animate stats
+                    const stats = section.querySelectorAll('.tech-stat-value');
+                    stats.forEach((stat, index) => {
+                        setTimeout(() => {
+                            stat.style.transform = 'scale(1.05)';
+                        }, index * 100);
+                    });
+                });
+                
+                section.addEventListener('mouseleave', () => {
+                    const icon = section.querySelector('.btn-icon');
+                    if (icon) {
+                        icon.style.transform = 'translateX(0)';
+                    }
+                    
+                    // Reset stats
+                    const stats = section.querySelectorAll('.tech-stat-value');
+                    stats.forEach(stat => {
+                        stat.style.transform = 'scale(1)';
+                    });
+                });
+            });
+            
+            // Animate elements on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        
+                        // Animate terminal lines
+                        if (entry.target.classList.contains('terminal-window')) {
+                            const lines = entry.target.querySelectorAll('.terminal-line');
+                            lines.forEach((line, index) => {
+                                setTimeout(() => {
+                                    line.style.animationPlayState = 'running';
+                                }, index * 300);
+                            });
+                        }
+
+                        // Animate tech sections
+                        if (entry.target.classList.contains('tech-section')) {
+                            const features = entry.target.querySelectorAll('.tech-feature');
+                            features.forEach((feature, index) => {
+                                setTimeout(() => {
+                                    feature.style.opacity = '1';
+                                    feature.style.transform = 'translateX(0)';
+                                }, index * 100);
+                            });
+                        }
+                    }
+                });
+            }, observerOptions);
+            
+            techSections.forEach(section => {
+                observer.observe(section);
+            });
+            
+            // Animate tech features
+            const techFeatures = document.querySelectorAll('.tech-feature');
+            techFeatures.forEach((feature, index) => {
+                feature.style.opacity = '0';
+                feature.style.transform = 'translateX(-10px)';
+                setTimeout(() => {
+                    feature.style.transition = 'opacity 0.5s var(--ease-slow), transform 0.5s var(--ease-slow)';
+                }, index * 100);
+            });
+
+            // Terminal animation
+            const terminalWindow = document.querySelector('.terminal-window');
+            if (terminalWindow) {
+                observer.observe(terminalWindow);
+            }
+            
+            // Button hover effects
+            const buttons = document.querySelectorAll('.btn');
+            buttons.forEach(button => {
+                button.addEventListener('mouseenter', () => {
+                    button.style.transform = 'translateY(-3px)';
+                    button.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.2)';
+                });
+                
+                button.addEventListener('mouseleave', () => {
+                    button.style.transform = 'translateY(0)';
+                    button.style.boxShadow = 'none';
+                });
+            });
+
+            // Terminal cursor animation
+            const terminalCursor = document.querySelector('.terminal-cursor');
+            if (terminalCursor) {
+                let isCursorVisible = true;
+                setInterval(() => {
+                    isCursorVisible = !isCursorVisible;
+                    terminalCursor.style.opacity = isCursorVisible ? '1' : '0';
+                }, 500);
+            }
+
+            // Terminal line animation on scroll
+            if (terminalWindow) {
+                const terminalObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            const lines = entry.target.querySelectorAll('.terminal-line');
+                            lines.forEach((line, index) => {
+                                setTimeout(() => {
+                                    line.style.animationPlayState = 'running';
+                                }, index * 300);
+                            });
+                            
+                            // Start cursor blinking after all lines appear
+                            setTimeout(() => {
+                                if (terminalCursor) {
+                                    terminalCursor.style.animation = 'blink 1s infinite';
+                                }
+                            }, lines.length * 300);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                terminalObserver.observe(terminalWindow);
+            }
+
+            // Terminal control dots hover effect
+            const terminalDots = document.querySelectorAll('.terminal-dot');
+            terminalDots.forEach(dot => {
+                dot.addEventListener('mouseenter', () => {
+                    dot.style.transform = 'scale(1.2)';
+                });
+                
+                dot.addEventListener('mouseleave', () => {
+                    dot.style.transform = 'scale(1)';
+                });
+            });
+
+            // Kubernetes icon animation
+            const kubernetesIcons = document.querySelectorAll('.tech-section.kubernetes-section .tech-icon');
+            kubernetesIcons.forEach(icon => {
+                // Pause animation initially
+                icon.style.animationPlayState = 'paused';
+                
+                // Start animation when visible
+                const k8sObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            icon.style.animationPlayState = 'running';
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                k8sObserver.observe(icon);
+            });
+
+            // Docker icon animation
+            const dockerIcons = document.querySelectorAll('.tech-section.docker-section .tech-icon');
+            dockerIcons.forEach(icon => {
+                // Pause animation initially
+                icon.style.animationPlayState = 'paused';
+                
+                // Start animation when visible
+                const dockerObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            icon.style.animationPlayState = 'running';
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                dockerObserver.observe(icon);
+            });
+
+            // Animate stat values
+            const statValues = document.querySelectorAll('.tech-stat-value');
+            statValues.forEach(stat => {
+                stat.addEventListener('mouseenter', () => {
+                    stat.style.transform = 'scale(1.1)';
+                    stat.style.transition = 'transform 0.3s var(--ease-slow)';
+                });
+                
+                stat.addEventListener('mouseleave', () => {
+                    stat.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+
+
+</body></html>

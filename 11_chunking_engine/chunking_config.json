@@ -1,0 +1,25 @@
+{
+  "chunking_version": "chunking_v1",
+  "input_document_registry": "../01_input_seed_and_config/document_registry.json",
+  "input_hierarchy_registry": "../01_input_seed_and_config/hierarchy_registry.json",
+  "input_cross_reference_report": "../07_output_quality_reports_manifest/V4_Cross_Reference_Report.json",
+  "output_dir": "../09_future_output_chunks",
+  "target_words": 650,
+  "max_words": 850,
+  "overlap_words": 90,
+  "min_tail_words": 160,
+  "token_estimate_divisor": 0.75,
+  "include_placeholder_slots": false,
+  "only_document_statuses": [
+    "uploaded_ready",
+    "chunked",
+    "ready_for_indexing",
+    "indexed"
+  ],
+  "outputs": {
+    "chunks_jsonl": "chunks_v1.jsonl",
+    "chunk_registry": "chunk_registry.json",
+    "chunk_manifest": "chunks_v1_manifest.json",
+    "quality_report_md": "chunk_quality_report.md"
+  }
+}

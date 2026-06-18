@@ -1,0 +1,244 @@
+{
+  "id": "03_04_03_AI_Project_GCP_Deployment_Details",
+  "source_type": "website_rendered_v4_site_crawl",
+  "domain": "rajesharigala.com",
+  "url": "https://rajesharigala.com/mlops/ai4/ai4.3",
+  "depth": 1,
+  "parent_url": "https://rajesharigala.com/mlops/mlops,sys",
+  "parent_page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+  "logical_parent_page_id": "03_AI_Projects",
+  "title": "AI‑GCP Pipeline‑3 : Agent Platform Deployment & Endpoints · Case Study",
+  "meta_description": "",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "Agent Platform Deployment, Endpoints & Scheduling"
+    },
+    {
+      "level": "h2",
+      "text": "Project Summary"
+    },
+    {
+      "level": "h2",
+      "text": "Key technologies & concepts"
+    },
+    {
+      "level": "h2",
+      "text": "Problem & Objective"
+    },
+    {
+      "level": "h2",
+      "text": "Solution & Architecture"
+    },
+    {
+      "level": "h2",
+      "text": "AI / DevOps Details"
+    },
+    {
+      "level": "h2",
+      "text": "Skills & Technologies"
+    },
+    {
+      "level": "h2",
+      "text": "GCP CI/CD · Architecture & YAML mapping"
+    },
+    {
+      "level": "h2",
+      "text": "Complete Project Details"
+    },
+    {
+      "level": "h2",
+      "text": "Challenges & Outcomes"
+    },
+    {
+      "level": "h2",
+      "text": "Assets & References"
+    },
+    {
+      "level": "h3",
+      "text": "Category"
+    },
+    {
+      "level": "h3",
+      "text": "Domain"
+    },
+    {
+      "level": "h3",
+      "text": "Focus"
+    },
+    {
+      "level": "h3",
+      "text": "Problems solved"
+    },
+    {
+      "level": "h3",
+      "text": "Primary objective"
+    },
+    {
+      "level": "h3",
+      "text": "Deployment pipeline design"
+    },
+    {
+      "level": "h3",
+      "text": "Key components (GCP)"
+    },
+    {
+      "level": "h3",
+      "text": "AI/ML focus"
+    },
+    {
+      "level": "h3",
+      "text": "Implemented automation"
+    },
+    {
+      "level": "h3",
+      "text": "Primary skills"
+    },
+    {
+      "level": "h3",
+      "text": "Secondary tools"
+    },
+    {
+      "level": "h3",
+      "text": "Project Summary"
+    },
+    {
+      "level": "h3",
+      "text": "Key Words"
+    },
+    {
+      "level": "h3",
+      "text": "Problem Solved"
+    },
+    {
+      "level": "h3",
+      "text": "Primary Objective"
+    },
+    {
+      "level": "h3",
+      "text": "Solution & Architecture"
+    },
+    {
+      "level": "h3",
+      "text": "AI / DevOps Details"
+    },
+    {
+      "level": "h3",
+      "text": "Monitoring, Logging & Optimization"
+    },
+    {
+      "level": "h3",
+      "text": "Skills & Technologies Used"
+    },
+    {
+      "level": "h3",
+      "text": "Challenges & Outcomes"
+    },
+    {
+      "level": "h3",
+      "text": "GCP Production‑Grade Implementation Details"
+    },
+    {
+      "level": "h3",
+      "text": "Assets & References"
+    },
+    {
+      "level": "h3",
+      "text": "Study Material"
+    },
+    {
+      "level": "h3",
+      "text": "Reference Architecture Mapping"
+    },
+    {
+      "level": "h3",
+      "text": "Pipeline‑3 Summary"
+    },
+    {
+      "level": "h3",
+      "text": "Key challenges"
+    },
+    {
+      "level": "h3",
+      "text": "Resolutions"
+    },
+    {
+      "level": "h3",
+      "text": "Repository"
+    },
+    {
+      "level": "h3",
+      "text": "Notebook"
+    },
+    {
+      "level": "h3",
+      "text": "Weblink"
+    },
+    {
+      "level": "h3",
+      "text": "Proof Link"
+    },
+    {
+      "level": "h3",
+      "text": "Study material resources"
+    },
+    {
+      "level": "h3",
+      "text": "Agent Platform deployment study material"
+    }
+  ],
+  "paragraphs": [
+    "Production‑grade model serving & continuous retraining on GCP",
+    "Project: AI‑GCP Pipeline‑3 · Endpoint lifecycle, traffic splitting, scheduled pipelines for model refresh. Online inference with managed Agent Platform Endpoints.",
+    "AI + MLOps Model Serving Blue/Green Deployment Agent Platform Scheduler",
+    "Model deployment & serving platform",
+    "AI + MLOps · Cloud Platform Engineering",
+    "Model Deployment Engineering / AI Serving Platforms",
+    "Production online inference, endpoint management, retraining loops",
+    "Agent Platform serving stack",
+    "Why this deployment pipeline?",
+    "Deployment + retraining loop",
+    "Programmatic model upload to Agent Platform Model Registry, endpoint creation/reuse, traffic‑split deployment for new versions, and scheduled pipeline runs for continuous retraining & redeployment. All managed via Agent Platform SDK + KFP.",
+    "Autoscaling endpoints, versioned rollbacks, canary deployments — fully managed on GCP.",
+    "Model serving automation",
+    "Model Serving + Deployment Automation (MLOps – Online Inference)",
+    "MLOps serving expertise",
+    "Pipeline‑3 (deployment) constructs",
+    "Enterprise‑scale model serving with traffic splitting, canary rollouts, and cron‑based retraining.",
+    "All content from the Pipeline‑3 PDF",
+    "Deploying ML models to production endpoints reliably on GCP requires handling model packaging, endpoint lifecycle, traffic management, and scheduled retraining. Manual deployment introduces risk, drift, and inconsistency.",
+    "Build a repeatable, production‑grade deployment and serving pipeline on Agent Platform with managed endpoints, versioned models, automated rollout, and scheduled pipeline execution for continuous model refresh.",
+    "Implemented an Agent Platform deployment pipeline that programmatically uploads trained models, provisions or reuses endpoints, deploys model versions with controlled traffic, and schedules periodic pipeline runs for continuous retraining and redeployment.",
+    "Architecture implemented on GCP: Trained models → Agent Platform Model Registry → Endpoint Deployment → Online Inference → Scheduled Pipeline Re‑runs.",
+    "The Pipeline‑3 architecture maps source repository, deployment trigger, orchestration, serving platform, online inference API, traffic management, artifact storage, model registry, approval gate, security/auth, secrets/config, monitoring/logs, model performance monitoring, scheduled retraining, closed‑loop feedback, and infrastructure backend to GCP CI/CD / MLOps constructs.",
+    "Enterprise‑scale model serving and lifecycle management on Google Cloud using Agent Platform Model Registry, Endpoints, and Pipeline Schedulers to operationalize approved models into secure, scalable online inference APIs. This layer establishes production deployment patterns, endpoint traffic management, continuous monitoring and logging via Cloud Logging/Metrics, and closed‑loop scheduled retraining pipelines, enabling continuous improvement, governed re‑deployments, and reliable real‑time ML services in production.",
+    "Technical resolutions",
+    "Code, diagrams, study material",
+    "Deployment pipelines, endpoint configs, and scheduling definitions.",
+    "KFP v2 notebook for Agent Platform pipeline implementation.",
+    "Published project page for Pipeline‑3.",
+    "Proof link placeholder from the project brief.",
+    "Agent Platform deployment & scheduling guides"
+  ],
+  "links": [
+    {
+      "text": "AI‑GCP Pipeline‑3 · Deployment & Endpoints",
+      "href": "https://rajesharigala.com/mlops/ai4/ai4.3"
+    },
+    {
+      "text": "https://github.com/Rajesh-Arigala/vertex-ai-mlops-kfp2",
+      "href": "https://github.com/Rajesh-Arigala/vertex-ai-mlops-kfp2"
+    },
+    {
+      "text": "Vertex_AI_kfp2_pipeline.ipynb",
+      "href": "https://github.com/Rajesh-Arigala/vertex-ai-mlops-kfp2/blob/main/Vertex_AI_kfp2_pipeline.ipynb"
+    },
+    {
+      "text": "Request Study Material",
+      "href": "https://rajesharigala.com/"
+    }
+  ],
+  "content": "Agent Platform Deployment, Endpoints & Scheduling Production‑grade model serving & continuous retraining on GCP Project: AI‑GCP Pipeline‑3 · Endpoint lifecycle, traffic splitting, scheduled pipelines for model refresh. Online inference with managed Agent Platform Endpoints. AI + MLOps Model Serving Blue/Green Deployment Agent Platform Scheduler Project Summary Model deployment & serving platform Category AI + MLOps · Cloud Platform Engineering Domain Model Deployment Engineering / AI Serving Platforms Focus Production online inference, endpoint management, retraining loops Key technologies & concepts Agent Platform serving stack Agent Platform Model Registry Agent Platform Endpoints Traffic splitting (blue/green, canary) Online Prediction APIs Pipeline scheduling (cron) Artifact Registry GCS model artifacts IAM service accounts Cloud Logging & Monitoring Endpoint lifecycle management Problem & Objective Why this deployment pipeline? Problems solved Manual endpoint deployment → risk, drift, inconsistency No automated rollout or traffic management for new model versions Scheduled retraining missing → model stagnation Primary objective Repeatable, production‑grade deployment pipeline with Agent Platform managed endpoints Versioned models, controlled traffic splits, scheduled retraining (continuous refresh) Solution & Architecture Deployment + retraining loop Deployment pipeline design Programmatic model upload to Agent Platform Model Registry, endpoint creation/reuse, traffic‑split deployment for new versions, and scheduled pipeline runs for continuous retraining & redeployment. All managed via Agent Platform SDK + KFP. Autoscaling endpoints, versioned rollbacks, canary deployments — fully managed on GCP. 1 Trained model (GCS) 2 Model Registry 3 Endpoint (create/reuse) 4 Traffic split 5 Online API Key components (GCP) Agent Platform Model Registry (versioned models) Agent Platform Endpoints (managed inference) Agent Platform Pipeline Scheduler (cron retraining) GCS + Artifact Registry (artefacts & containers) Cloud Logging & Monitoring (observability) IAM service accounts (secure serving identity) AI / DevOps Details Model serving automation AI/ML focus Model Serving + Deployment Automation (MLOps – Online Inference) Implemented automation Model upload to Agent Platform Registry Endpoint create/reuse logic Traffic‑split deployment (blue/green, canary) Scheduled pipeline runs for retraining Online prediction API invocation Skills & Technologies MLOps serving expertise Primary skills AI Deployment Architecture (advanced) Agent Platform Endpoint Engineering (advanced) MLOps Production Deployment (advanced) Cloud AI Platform Engineering Secondary tools Agent Platform SDK (Python) Kubeflow Pipelines v2 scikit‑learn (model framework) GCS / IAM / Artifact Registry GCP CI/CD · Architecture & YAML mapping Pipeline‑3 (deployment) constructs Architecture Block GCP CI/CD / MLOps Construct YAML / Config Mapping Source Repository GitHub (deployment / pipeline definitions) repository , workflow.checkout Deployment Trigger Agent Platform Pipeline output (approved model from Pipeline‑2) approved_model_uri , pipeline_output Deployment Orchestration Agent Platform Model Upload + Endpoint Deployment APIs components.upload-model , components.deploy-model Serving Platform Agent Platform Endpoints (managed online prediction) endpoint.display_name , machine_type , min_replica_count Online Inference API Agent Platform Prediction Service (HTTPS endpoint) predict.endpoint , instances , parameters Traffic Management Agent Platform Endpoint traffic split (blue/green / versioned deploy) traffic_split , deployed_model_id Artifact Storage Google Cloud Storage (model artifacts) artifact_uri: gs://... , model_dir Model Registry Agent Platform Model Registry (versioned models) model.display_name , version_aliases Approval Gate Metric‑based gate in Pipeline‑2 (deployment only if threshold passed) condition: metrics.accuracy >= threshold Security & Auth GCP IAM (Endpoint access control, Service Accounts) service_account , roles/aiplatform.user Secrets / Config IAM roles + environment configs (optionally Secret Manager) env , secretEnv , availableSecrets Monitoring & Logs Cloud Logging + Agent Platform Endpoint Metrics logging.enabled , metrics.latency , metrics.errors Model Performance Monitoring Endpoint metrics (latency, request volume, errors) monitoring_config , alert_policy Scheduled Retraining Agent Platform Pipeline Schedules (cron-based retraining jobs) schedule.cron , max_concurrent_run_count Closed‑Loop Feedback Endpoint metrics → retraining pipeline → model re‑upload feedback.metrics_uri , retraining_pipeline Infrastructure Backend Agent Platform Managed Endpoints (no Kubernetes / VM management) managed_endpoint: true , dedicated_resources Enterprise‑scale model serving with traffic splitting, canary rollouts, and cron‑based retraining. Complete Project Details All content from the Pipeline‑3 PDF Project Summary Project Name: AI‑GCP Pipeline‑3 – Agent Platform Deployment, Endpoints & Scheduling One‑Line Description: Production‑grade model deployment, endpoint management, online inference, and scheduled retraining on Google Agent Platform. Category: AI + MLOps + Cloud Platform Engineering Industry: Cross‑industry (Enterprise AI Platform / MLOps Infrastructure) Domain: Model Deployment Engineering / AI Serving Platforms Key Words Agent Platform Model Upload (Model Registry Equivalent) Agent Platform Endpoints (Managed Online Inference) Model Versioning & Traffic Splitting Online Prediction APIs Agent Platform Pipeline Scheduling Blue/Green or Canary Deployment (Traffic Split) Artifact Registry (Serving Containers) GCS Model Artifacts Service Accounts & IAM (Secure Serving Identity) Cloud Logging & Monitoring (Inference Logs) Endpoint Lifecycle Management Production AI Serving Architecture Problem Solved Deploying ML models to production endpoints reliably on GCP requires handling model packaging, endpoint lifecycle, traffic management, and scheduled retraining. Manual deployment introduces risk, drift, and inconsistency. Primary Objective Build a repeatable, production‑grade deployment and serving pipeline on Agent Platform with managed endpoints, versioned models, automated rollout, and scheduled pipeline execution for continuous model refresh. Solution & Architecture Implemented an Agent Platform deployment pipeline that programmatically uploads trained models, provisions or reuses endpoints, deploys model versions with controlled traffic, and schedules periodic pipeline runs for continuous retraining and redeployment. Cloud Platform: Google Cloud Platform (Agent Platform) Key components: Agent Platform Model Registry (Model upload), Agent Platform Endpoints (Online inference), Agent Platform Pipelines Scheduler (Recurrent jobs), GCS (Model artifact storage), Artifact Registry (Serving container images), IAM Service Accounts (Secure serving identity), Cloud Logging & Monitoring (Endpoint observability) Scalability / Reliability: Managed Agent Platform Endpoints with autoscaling; traffic splitting for safe rollouts (canary/blue‑green); versioned deployments with rollback capability; scheduled retraining pipelines to prevent model drift; stateless serving with durable artifact storage in GCS AI / DevOps Details AI/ML type or DevOps focus: Model Serving + Deployment Automation (MLOps – Online Inference) Models, pipeline, or automation: model upload automation to Agent Platform; endpoint creation & reuse logic; traffic‑split deployment for new versions; pipeline scheduling for continuous retraining; online prediction API invocation CI/CD, containerisation or orchestration tools: GitHub Actions (CI trigger), Agent Platform Pipelines (orchestration), Artifact Registry (serving containers), Agent Platform Endpoints (serving runtime) Monitoring, Logging & Optimization Cloud Logging for inference requests Agent Platform Endpoint metrics (latency, throughput) Traffic shifting for rollout safety Scheduled pipeline runs for drift mitigation Skills & Technologies Used Primary Skills: AI Deployment Architecture (Advanced), Agent Platform Endpoint Engineering (Advanced), MLOps Production Deployment (Advanced), Cloud AI Platform Engineering (Advanced) Secondary Tools / Frameworks: Agent Platform SDK (Python), Kubeflow Pipelines (KFP v2), scikit‑learn (model framework), Google Cloud Storage Programming Language: Python (primary), YAML (configuration / pipeline specs where applicable) Cloud & DevOps Tools: Google Agent Platform, Artifact Registry, GCS, IAM / Service Accounts, GitHub Actions, Agent Platform Pipeline Scheduler Challenges & Outcomes Packaging models to match Agent Platform serving container requirements: resolved with standardized model artifact layout for Agent Platform containers Managing endpoint lifecycle (create vs reuse): resolved with programmatic endpoint discovery & reuse Safe rollout of new model versions: resolved with traffic‑split based deployment strategy Operationalizing scheduled retraining on GCP: resolved with Agent Platform Pipeline scheduling with controlled concurrency GCP Production‑Grade Implementation Details Architecture implemented on GCP: Trained models → Agent Platform Model Registry → Endpoint Deployment → Online Inference → Scheduled Pipeline Re‑runs. Top lane — Online Serving Path: Trained Model (from Pipeline‑2) → Agent Platform Model Upload (Model Registry) → Agent Platform Endpoint (Create / Reuse) → Online Inference API (Real‑Time Predictions) Bottom lane — Monitoring & Retraining Loop: Online Inference API / Endpoint → Monitoring & Logs (Cloud Logging, Metrics) → Scheduled Retraining (Agent Platform Pipeline Scheduler) → Back to Model Upload (Model Registry) Process Flow: Model Artifact (GCS) → Agent Platform Model Upload → Endpoint Provisioning / Reuse → Traffic‑Split Deployment → Online Inference API → Monitoring & Logs → Scheduled Pipeline Triggers The main project document has detailed view. Assets & References GitHub / Repository Link: https://github.com/Rajesh-Arigala/vertex-ai-mlops-kfp2 Notebook: Vertex_AI_kfp2_pipeline.ipynb Weblink: https://rajesharigala.com/mlops/ai4/ai4.3 Proof Link: later Demo or Live Link: I will give the link later. Study Material Public Study Material: Official documentation of KFP, YAML file for GCP, Python SDK; downloadable PDF if available Restricted Study Material: KFP file specific, Colab Google specific; downloadable PDF with access limited to authorised users Reference Architecture Mapping The Pipeline‑3 architecture maps source repository, deployment trigger, orchestration, serving platform, online inference API, traffic management, artifact storage, model registry, approval gate, security/auth, secrets/config, monitoring/logs, model performance monitoring, scheduled retraining, closed‑loop feedback, and infrastructure backend to GCP CI/CD / MLOps constructs. Pipeline‑3 Summary Enterprise‑scale model serving and lifecycle management on Google Cloud using Agent Platform Model Registry, Endpoints, and Pipeline Schedulers to operationalize approved models into secure, scalable online inference APIs. This layer establishes production deployment patterns, endpoint traffic management, continuous monitoring and logging via Cloud Logging/Metrics, and closed‑loop scheduled retraining pipelines, enabling continuous improvement, governed re‑deployments, and reliable real‑time ML services in production. Challenges & Outcomes Technical resolutions Key challenges Packaging models for Agent Platform serving containers Endpoint lifecycle (create vs reuse) logic Safe rollout of new model versions Operationalizing scheduled retraining on GCP Resolutions Standardized model artifact layout Programmatic endpoint discovery & reuse Traffic‑split deployment (blue/green, canary) Agent Platform Pipeline scheduling with concurrency control Assets & References Code, diagrams, study material Repository Deployment pipelines, endpoint configs, and scheduling definitions. vertex-ai-mlops-kfp2 Notebook KFP v2 notebook for Agent Platform pipeline implementation. Vertex_AI_kfp2_pipeline.ipynb Weblink Published project page for Pipeline‑3. rajesharigala.com/mlops/ai4/ai4.3 Proof Link Proof link placeholder from the project brief. Proof link: later Study material resources Agent Platform deployment & scheduling guides Request Study Material",
+  "crawl_timestamp": "2026-06-17T06:48:01.072572+00:00",
+  "raw_html_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/03_04_03_AI_Project_GCP_Deployment_Details.html"
+}

@@ -1,0 +1,71 @@
+{
+  "id": "02_Tech_02_MLOps_02_Containers",
+  "source_type": "website_rendered_v4_site_crawl",
+  "domain": "rajesharigala.com",
+  "url": "https://rajesharigala.com/mlops/ContainersOrchestration",
+  "depth": 0,
+  "parent_url": null,
+  "parent_page_id": "ROOT",
+  "logical_parent_page_id": "02_Technical_Skills",
+  "title": "Containers & Orchestration Portfolio | Docker & Kubernetes",
+  "meta_description": "",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "CONTAINERS & ORCHESTRATION"
+    },
+    {
+      "level": "h2",
+      "text": "Containerization & Orchestration Technologies"
+    },
+    {
+      "level": "h3",
+      "text": "Docker containerization and Kubernetes orchestration for scalable, portable applications"
+    },
+    {
+      "level": "h3",
+      "text": "Docker Containerization"
+    },
+    {
+      "level": "h3",
+      "text": "Kubernetes Orchestration"
+    },
+    {
+      "level": "h3",
+      "text": "Container Orchestration Pipeline"
+    },
+    {
+      "level": "h4",
+      "text": "Key Capabilities"
+    },
+    {
+      "level": "h4",
+      "text": "Key Capabilities"
+    }
+  ],
+  "paragraphs": [
+    "Building and managing containerized applications using Docker, and orchestrating them at scale with Kubernetes. These projects demonstrate containerization patterns, microservices architecture, and production-grade Kubernetes deployments across cloud platforms.",
+    "Container runtime for building, shipping, and running applications",
+    "Docker provides a platform for developing, shipping, and running applications in containers. Containers package an application with all its dependencies, ensuring consistency across different computing environments from development to production.",
+    "Container orchestration for automating deployment, scaling, and management",
+    "Kubernetes is a production-grade container orchestration system that automates deployment, scaling, and management of containerized applications. It provides service discovery, load balancing, storage orchestration, and self-healing capabilities.",
+    "Ready to containerize and orchestrate your applications at scale? Let's design production-ready Docker and Kubernetes solutions with automation, monitoring, and security best practices."
+  ],
+  "links": [
+    {
+      "text": "View Docker Projects",
+      "href": "https://rajesharigala.com/mlops/docker"
+    },
+    {
+      "text": "View Kubernetes Projects",
+      "href": "https://rajesharigala.com/mlops/kubernetes"
+    },
+    {
+      "text": "Discuss Container Strategy",
+      "href": "https://rajesharigala.com/"
+    }
+  ],
+  "content": "CONTAINERS & ORCHESTRATION Docker containerization and Kubernetes orchestration for scalable, portable applications Building and managing containerized applications using Docker, and orchestrating them at scale with Kubernetes. These projects demonstrate containerization patterns, microservices architecture, and production-grade Kubernetes deployments across cloud platforms. Docker Containerization · Kubernetes Orchestration · Microservices · Production Deployments Containerization & Orchestration Technologies Docker Containerization Container runtime for building, shipping, and running applications Docker provides a platform for developing, shipping, and running applications in containers. Containers package an application with all its dependencies, ensuring consistency across different computing environments from development to production. Key Capabilities Container runtime and image management Docker Compose for multi-container applications Image registry management (Docker Hub, private registries) Volume management for persistent storage Network management between containers 3+ Docker Projects 100% Containerized View Docker Projects Kubernetes Orchestration Container orchestration for automating deployment, scaling, and management Kubernetes is a production-grade container orchestration system that automates deployment, scaling, and management of containerized applications. It provides service discovery, load balancing, storage orchestration, and self-healing capabilities. Key Capabilities Container orchestration at scale Service discovery and load balancing Automatic scaling and self-healing Secret and configuration management Rolling updates and rollbacks 3+ K8s Projects AWS EKS Production Ready View Kubernetes Projects Container Orchestration Pipeline k8s-deployment.sh $ docker build -t myapp:latest . ✓ Docker image built successfully $ docker push myregistry/myapp:latest ✓ Image pushed to container registry $ kubectl apply -f deployment.yaml ✓ Deployment created in Kubernetes ✓ Services and ingress configured ✓ Horizontal Pod Autoscaler active 🚀 Application deployed and scaled successfully!",
+  "crawl_timestamp": "2026-06-17T06:41:11.158019+00:00",
+  "raw_html_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/02_Tech_02_MLOps_02_Containers.html"
+}

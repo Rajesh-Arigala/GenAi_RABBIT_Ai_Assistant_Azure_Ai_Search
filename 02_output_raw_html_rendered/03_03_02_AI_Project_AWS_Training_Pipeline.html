@@ -1,0 +1,1028 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS SageMaker MLOps · Pipeline 2 (Train/Evaluate/Register)</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-main: #0C1117;
+            --bg-surface: #121923;
+            --bg-elevated: #161F2B;
+            --card-bg: #161F2B;
+
+            --accent-primary: #B8B2A7;
+            --accent-energy: #7CFFB2;      /* fresh green for AWS/ML */
+            --accent-depth: #3A1F2D;
+
+            --text-primary: #E6E9EF;
+            --text-secondary: #A1A8B3;
+            --text-muted: #6F7682;
+
+            --line-subtle: #1E2633;
+            --glass-border: rgba(184, 178, 167, 0.15);
+
+            --ease-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --accent-gradient: linear-gradient(90deg, #FF9900, #7CFFB2); /* AWS orange + energy */
+
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(12, 17, 23, 0.9);
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.4s var(--ease-slow);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-energy);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-energy);
+            transition: width 0.4s var(--ease-slow);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--accent-energy);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+            background: var(--accent-energy);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        main {
+            padding-top: 100px;
+            padding-bottom: 4rem;
+        }
+
+        .section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+            animation: fadeInUp 0.6s var(--ease-slow) forwards;
+            opacity: 0;
+        }
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+        .section:nth-child(6) { animation-delay: 0.6s; }
+
+        .section-header {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-energy);
+            border-radius: 2px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: #FF9900; /* AWS orange touch */
+            font-weight: 500;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.4s var(--ease-slow);
+        }
+
+        .card:hover {
+            border-color: #FF9900;
+            box-shadow: 0 10px 30px rgba(255, 153, 0, 0.1);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .card-title i {
+            color: #FF9900;
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-item {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .list-item::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent-energy);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .highlight-box {
+            background: rgba(124, 255, 178, 0.05);
+            border-left: 4px solid var(--accent-energy);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-text {
+            color: var(--accent-energy);
+            font-weight: 500;
+        }
+
+        /* hero */
+        .hero-section {
+            text-align: center;
+            padding-top: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #FF9900, transparent);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 1rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(90deg, #FF9900, #7CFFB2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: #FF9900;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .hero-summary {
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .hero-repo-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .hero-repo-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.55rem;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 153, 0, 0.35);
+            background: rgba(255, 153, 0, 0.08);
+            color: #FF9900;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .hero-repo-btn:hover {
+            border-color: #FF9900;
+            background: rgba(255, 153, 0, 0.14);
+            transform: translateY(-2px);
+        }
+
+        .reference-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 1.25rem;
+        }
+
+        .reference-grid .card {
+            margin-bottom: 0;
+        }
+
+        .reference-list {
+            margin-left: 1.2rem;
+            color: var(--text-secondary);
+        }
+
+        .reference-list li {
+            margin-bottom: 0.55rem;
+            padding-left: 0.35rem;
+            line-height: 1.45;
+        }
+
+        .dash-list {
+            list-style: none;
+            color: var(--text-secondary);
+        }
+
+        .dash-list li {
+            margin-bottom: 0.55rem;
+            line-height: 1.45;
+        }
+
+        .dash-list li::before {
+            content: "- ";
+            color: var(--accent-energy);
+        }
+
+        .reference-path {
+            grid-column: 1 / -1;
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            line-height: 1.7;
+        }
+
+        .architecture-visual {
+            background: var(--bg-elevated);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--line-subtle);
+            margin: 2rem 0;
+        }
+
+        .architecture-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This fills the container, may crop edges */
+    display: block;
+}
+
+        .architecture-label {
+            position: relative;
+            z-index: 2;
+            background: rgba(12, 17, 23, 0.7);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .flow-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .flow-step {
+            flex: 1;
+            min-width: 100px;
+            text-align: center;
+            padding: 0.8rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #FF9900;
+            color: var(--bg-main);
+            border-radius: 50%;
+            line-height: 30px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .yaml-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .yaml-table th {
+            background: rgba(255, 153, 0, 0.15);
+            color: #FF9900;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--line-subtle);
+        }
+
+        .yaml-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--line-subtle);
+            color: var(--text-secondary);
+        }
+
+        .yaml-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .tech-tag {
+            background: rgba(255, 153, 0, 0.1);
+            color: #FF9900;
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 153, 0, 0.2);
+            display: inline-block;
+            margin: 0.3rem;
+        }
+
+        .tech-tag.energy {
+            background: rgba(124, 255, 178, 0.1);
+            color: var(--accent-energy);
+            border-color: rgba(124, 255, 178, 0.2);
+        }
+
+        .assets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .asset-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--line-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s var(--ease-slow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 260px;
+        }
+
+        .asset-card:hover {
+            border-color: #FF9900;
+            transform: translateY(-4px);
+        }
+
+        .asset-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 153, 0, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: #FF9900;
+            font-size: 1.5rem;
+        }
+
+        .asset-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #FF9900;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .asset-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .asset-description {
+            max-width: 520px;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .study-cta-card {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .study-cta-title {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.15;
+            color: var(--accent-energy);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .study-cta-subtitle {
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            margin-bottom: 1.8rem;
+        }
+
+        .trigger-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.7rem;
+            background: #FF9900;
+            color: #0C1117;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s var(--ease-slow), box-shadow 0.3s var(--ease-slow);
+        }
+
+        .trigger-btn:hover,
+        .trigger-btn:focus,
+        .trigger-btn:active,
+        .trigger-btn:visited {
+            color: #0C1117;
+            text-decoration: none;
+        }
+
+        .trigger-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 24px rgba(255, 153, 0, 0.2);
+        }
+
+        .disclaimer {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: rgba(184, 178, 167, 0.05);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        /* study modal */
+        .study-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(12, 17, 23, 0.95);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .study-modal.active { display: flex; }
+        .study-modal-content {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid var(--line-subtle);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            animation: modalFadeIn 0.3s var(--ease-slow);
+        }
+        .study-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+        .study-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .study-modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .study-material-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .study-material-item {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            border-radius: 12px;
+            background: rgba(0,0,0,0.2);
+            gap: 1.2rem;
+        }
+        .study-material-icon {
+            width: 44px; height: 44px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(255,153,0,0.1); color: #FF9900;
+            flex-shrink: 0; font-size: 1.2rem;
+        }
+        .study-material-info { flex:1; }
+        .study-material-name { font-weight: 500; color: var(--text-primary); }
+        .study-material-desc { font-size: 0.9rem; color: var(--text-secondary); }
+        .download-btn {
+            display: flex; align-items: center; gap: 0.6rem;
+            padding: 0.7rem 1.2rem; border-radius: 8px;
+            background: transparent; border: 2px solid #FF9900; color: #FF9900;
+            font-size: 0.9rem; font-weight: 600; cursor: pointer;
+            transition: all 0.3s; text-decoration: none;
+        }
+        .download-btn:hover {
+            background: rgba(255,153,0,0.1); transform: translateY(-2px);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity:0; transform: translateY(30px); }
+            to { opacity:1; transform: translateY(0); }
+        }
+        @keyframes modalFadeIn {
+            from { opacity:0; transform: scale(0.95); }
+            to { opacity:1; transform: scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-list {
+                display: none; position: absolute; top:70px; left:0; width:100%;
+                flex-direction: column; background: var(--bg-surface); padding:2rem;
+                border-bottom:1px solid var(--line-subtle); gap:1.5rem;
+            }
+            .nav-list.active { display: flex; }
+            .nav-toggle { display: block; }
+            .hero-title { font-size: 2.5rem; }
+            .flow-steps { flex-direction: column; }
+            .reference-grid { grid-template-columns: 1fr; }
+            .yaml-table { display: block; overflow-x: auto; }
+            .study-cta-title { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="nav-logo">AWS SageMaker MLOps · Pipeline 2</a>
+            <ul class="nav-list">
+                <li><a href="#overview" class="nav-link active">Overview</a></li>
+                <li><a href="#problem" class="nav-link">Problem</a></li>
+                <li><a href="#architecture" class="nav-link">Architecture</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#pipeline" class="nav-link">Pipeline</a></li>
+                <li><a href="#assets" class="nav-link">Assets</a></li>
+            </ul>
+            <button class="nav-toggle"><i class="fas fa-bars"></i></button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- hero -->
+        <section id="overview" class="section hero-section">
+            <h1 class="hero-title">SageMaker Modelling Pipeline</h1>
+            <p class="hero-subtitle">Train · Evaluate · Register (MLOps quality gates)</p>
+            <div class="hero-summary">
+                <p>Fully automated ML training pipeline on AWS: data preprocessing, XGBoost training, evaluation with conditional quality gate (MSE), and governed model registration in SageMaker Model Registry. Triggered via GitHub Actions + OIDC.</p>
+                <div class="hero-repo-buttons">
+                    <a href="https://github.com/Rajesh-Arigala/mlops-cdk-github-action" class="hero-repo-btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> MLOps CDK GitHub Action</a>
+                    <a href="https://github.com/Rajesh-Arigala/psitron-ml-build" class="hero-repo-btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Psitron ML Build</a>
+                    <a href="https://github.com/Rajesh-Arigala/psitron-ml-deploy" class="hero-repo-btn" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Psitron ML Deploy</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- project summary cards -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Project Summary</h2>
+                <p class="section-subtitle">MLOps · Pipeline-2 (Train/Evaluate/Register)</p>
+            </div>
+            <div class="grid-3">
+                <div class="card"><h3 class="card-title"><i class="fas fa-brain"></i>AI/ML type</h3><div class="card-content"><p>Supervised regression (XGBoost) + automated MLOps</p></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-industry"></i>Domain</h3><div class="card-content"><p>AWS SageMaker · Model building &amp; registration</p></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-code-branch"></i>DevOps focus</h3><div class="card-content"><p>CI/CD for ML (GitHub Actions + OIDC + SageMaker Pipelines)</p></div></div>
+            </div>
+        </section>
+
+        <!-- keywords -->
+        <section class="section">
+            <div class="section-header"><h2 class="section-title">Key technologies</h2><p class="section-subtitle">AWS + CI/CD + containers</p></div>
+            <div class="card">
+                <div class="card-content">
+                    <span class="tech-tag energy">SageMaker Pipelines</span>
+                    <span class="tech-tag energy">GitHub Actions</span>
+                    <span class="tech-tag">OIDC → IAM</span>
+                    <span class="tech-tag">Amazon ECR</span>
+                    <span class="tech-tag energy">S3 (artifacts)</span>
+                    <span class="tech-tag">Model Registry</span>
+                    <span class="tech-tag">CloudWatch</span>
+                    <span class="tech-tag">XGBoost / Python</span>
+                    <span class="tech-tag energy">quality gates</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- problem & objective -->
+        <section id="problem" class="section">
+            <div class="section-header"><h2 class="section-title">Problem &amp; Objective</h2><p class="section-subtitle">Why this pipeline?</p></div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Problems solved</h3><div class="card-content"><ul class="list"><li class="list-item">Manual training → non‑reproducible experiments, inconsistent evaluation</li><li class="list-item">No quality gates → bad models could reach production</li><li class="list-item">Lack of governance &amp; traceability</li></ul></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-bullseye"></i>Primary objectives</h3><div class="card-content"><ul class="list"><li class="list-item">Fully automated train/eval/register pipeline on AWS</li><li class="list-item">Conditional registration based on MSE threshold</li><li class="list-item">Integrate CI/CD with GitHub Actions + OIDC (no static secrets)</li></ul></div></div>
+            </div>
+        </section>
+
+        <!-- solution & architecture -->
+        <section id="architecture" class="section">
+            <div class="section-header"><h2 class="section-title">Solution &amp; Architecture</h2><p class="section-subtitle">SageMaker Pipeline · quality gate</p></div>
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-sitemap"></i>Overview</h3>
+                <div class="card-content">
+                    <p>SageMaker Pipeline with steps: <strong>Process → Train → Evaluate → Conditional Register</strong>. Triggered via GitHub Actions (Linux runner) that assumes IAM role through OIDC. Evaluation metrics (MSE) are written to JSON; only models that pass threshold are registered in SageMaker Model Registry with approval workflow enabled. Artifacts stored in S3, images in ECR.</p>
+                    <div class="highlight-box"><span class="highlight-text">Quality gate:</span> if MSE &gt; threshold, pipeline stops – bad model never registered.</div>
+                </div>
+            </div>
+            <div class="architecture-visual">
+                <div class="architecture-placeholder">
+                    <img src="/img/ml-systems/project in 1.3.webp" alt="GitHub → OIDC → IAM → SageMaker Pipeline (Process ▸ Train ▸ Eval ▸ Condition) → Registry">
+                </div>
+                <div class="flow-steps">
+                    <div class="flow-step"><div class="step-number">1</div><div>Git push</div></div>
+                    <div class="flow-step"><div class="step-number">2</div><div>GitHub Actions</div></div>
+                    <div class="flow-step"><div class="step-number">3</div><div>OIDC assume</div></div>
+                    <div class="flow-step"><div class="step-number">4</div><div>SageMaker Pipeline</div></div>
+                    <div class="flow-step"><div class="step-number">5</div><div>Model Registry</div></div>
+                </div>
+            </div>
+            <div class="architecture-visual">
+                <div class="architecture-placeholder">
+                    <img src="/img/ml-systems/project in 1.6.webp" alt="SageMaker modelling pipeline reference visual">
+                </div>
+            </div>
+            <div class="architecture-visual">
+                <div class="architecture-placeholder">
+                    <img src="/img/ml-systems/project in 1.7.webp" alt="SageMaker modelling pipeline YAML mapping visual">
+                </div>
+            </div>
+        </section>
+
+        <!-- skills & tech used (pdf page 4-5) -->
+        <section id="skills" class="section">
+            <div class="section-header"><h2 class="section-title">Skills &amp; Technologies</h2><p class="section-subtitle">ML engineering + AWS</p></div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fas fa-star"></i>Primary skills</h3><div class="card-content"><ul class="list"><li class="list-item">Amazon SageMaker Pipelines (advanced)</li><li class="list-item">MLOps: training/evaluation/registry (advanced)</li><li class="list-item">CI/CD with GitHub Actions + OIDC (advanced)</li><li class="list-item">Docker, ECR, IAM, CloudWatch</li></ul></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-code"></i>Languages &amp; tools</h3><div class="card-content"><ul class="list"><li class="list-item">Python (SDK, processing/training scripts)</li><li class="list-item">YAML (GitHub workflows, pipeline config)</li><li class="list-item">XGBoost / scikit-learn</li></ul></div></div>
+            </div>
+        </section>
+
+        <!-- pipeline execution & governance -->
+        <section id="pipeline" class="section">
+            <div class="section-header"><h2 class="section-title">Pipeline execution &amp; governance</h2><p class="section-subtitle">conditional registration + approvals</p></div>
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-play-circle"></i>Execution</h3>
+                <div class="card-content">
+                    <ul class="list"><li class="list-item">Trigger: push to main or workflow_dispatch</li><li class="list-item">GitHub runner: ubuntu-latest, assumes IAM role via OIDC</li><li class="list-item">SageMaker Pipeline execution: processing (prep), training (XGBoost), evaluation (MSE to JSON)</li><li class="list-item">Conditional step: if metrics pass → register model (status pending/manual approval)</li></ul>
+                </div>
+            </div>
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-shield-alt"></i>Governance &amp; controls</h3>
+                <div class="card-content">
+                    <ul class="list"><li class="list-item">Quality gate on MSE – auto‑reject underperforming models</li><li class="list-item">Model Registry approval workflow (manual approval step before production)</li><li class="list-item">Least‑privilege IAM roles + KMS encryption for S3</li><li class="list-item">CloudWatch logs for every job (traceability)</li></ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- AWS DevOps CI/CD - architecture & YAML mapping (pdf page 9) -->
+        <section class="section">
+            <div class="section-header"><h2 class="section-title">AWS CI/CD · YAML mapping</h2><p class="section-subtitle">GitHub Actions → SageMaker Pipeline</p></div>
+            <div class="card">
+                <table class="yaml-table">
+                    <thead><tr><th>Architecture block</th><th>AWS / YAML construct</th></tr></thead>
+                    <tbody>
+                        <tr><td>Source repository</td><td>GitHub (modeling / pipeline repository)</td></tr>
+                        <tr><td>CI trigger</td><td>on: push / workflow_dispatch</td></tr>
+                        <tr><td>Runner</td><td>GitHub Actions Linux runner (ubuntu-latest)</td></tr>
+                        <tr><td>Authentication</td><td>aws-actions/configure-aws-credentials (OIDC → IAM Role)</td></tr>
+                        <tr><td>Runtime setup</td><td>setup-python (SageMaker Pipeline SDK + dependencies)</td></tr>
+                        <tr><td>Dependency install</td><td>pip install requirements</td></tr>
+                        <tr><td>Pipeline packaging</td><td>Package pipeline code and dependencies</td></tr>
+                        <tr><td>Pipeline create/update</td><td>run-pipeline creates or updates SageMaker Pipeline</td></tr>
+                        <tr><td>Pipeline execution</td><td>Start SageMaker Pipeline execution</td></tr>
+                        <tr><td>Processing</td><td>SageMaker Processing Jobs for preprocessing and evaluation</td></tr>
+                        <tr><td>Training</td><td>SageMaker Training Jobs train model and store artifacts in S3</td></tr>
+                        <tr><td>Evaluation metrics</td><td>metrics.json written to S3 and checked against quality gates</td></tr>
+                        <tr><td>Conditional gate</td><td>Condition step blocks failed models from registration</td></tr>
+                        <tr><td>Model registry</td><td>SageMaker Model Registry registration when thresholds pass</td></tr>
+                        <tr><td>Approval status</td><td>Model version set to Pending/Approved for downstream Pipeline‑3 deployment</td></tr>
+                        <tr><td>Artifact storage</td><td>S3 (datasets, model.tar.gz, metrics.json)</td></tr>
+                        <tr><td>Container registry</td><td>Amazon ECR (custom images)</td></tr>
+                        <tr><td>Encryption</td><td>KMS encryption for S3 artifacts (optional)</td></tr>
+                        <tr><td>Publish status</td><td>Publish metrics / pipeline status back to CI</td></tr>
+                        <tr><td>Logs</td><td>GitHub Actions + SageMaker Pipelines + CloudWatch Logs</td></tr>
+                    </tbody>
+                </table>
+                <p class="text-secondary" style="margin-top:1rem;"><i class="fas fa-arrow-right"></i> YAML steps: checkout, configure AWS credentials, setup-python, pip install requirements, run-pipeline, start execution, wait for completion, publish metrics/status.</p>
+            </div>
+        </section>
+
+        <!-- AWS DevOps CI/CD - Pipeline 2 reference architecture -->
+        <section class="section">
+            <div class="section-header"><h2 class="section-title">AWS DevOps CI/CD – Reference Architecture</h2><p class="section-subtitle">Pipeline-2: Modelling / Train–Evaluate–Register</p></div>
+            <div class="reference-grid">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-route"></i>Architecture Flow:</h3>
+                    <div class="card-content">
+                        <ol class="reference-list">
+                            <li>Developer pushes changes to GitHub (modeling / pipeline repository).</li>
+                            <li>GitHub Actions workflow is triggered (push / manual dispatch).</li>
+                            <li>GitHub Actions assumes AWS IAM Role via OIDC (no static credentials).</li>
+                            <li>CI job packages pipeline code and dependencies.</li>
+                            <li>SageMaker Pipeline is created/updated (Process → Train → Evaluate → Condition).</li>
+                            <li>SageMaker Processing Jobs run data preprocessing and evaluation.</li>
+                            <li>SageMaker Training Jobs train models and store artifacts in S3.</li>
+                            <li>Evaluation metrics are written to JSON and checked against quality gates.</li>
+                            <li>If metrics pass thresholds, model is registered in SageMaker Model Registry.</li>
+                            <li>Model version is set to Pending/Approved for downstream deployment (Pipeline-3).</li>
+                            <li>Logs and status are available in GitHub Actions + SageMaker Pipelines + CloudWatch.</li>
+                        </ol>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-code-branch"></i>YAML Mapping (GitHub Actions → SageMaker Pipelines):</h3>
+                    <div class="card-content">
+                        <ul class="dash-list">
+                            <li>Trigger: on push / workflow_dispatch</li>
+                            <li>Auth: aws-actions/configure-aws-credentials (OIDC → IAM Role)</li>
+                            <li>Runtime: setup-python (pipeline SDK + deps)</li>
+                            <li>Steps:
+                                <ul class="dash-list">
+                                    <li>pip install requirements</li>
+                                    <li>run-pipeline (create/update SageMaker Pipeline)</li>
+                                    <li>start pipeline execution</li>
+                                    <li>wait for completion (optional)</li>
+                                    <li>publish metrics / status</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-shield-alt"></i>Security &amp; Guardrails:</h3>
+                    <div class="card-content">
+                        <ul class="dash-list">
+                            <li>OIDC-based IAM roles for CI (no secrets in CI)</li>
+                            <li>Least-privilege IAM roles for SageMaker jobs (processing/training)</li>
+                            <li>KMS encryption for S3 artifacts (optional)</li>
+                            <li>Quality gates on evaluation metrics (block bad models)</li>
+                            <li>Model Registry approvals before production promotion</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Assets & references (from pdf pages 5,8,9) -->
+        <section id="assets" class="section">
+            <div class="section-header"><h2 class="section-title">Assets &amp; references</h2><p class="section-subtitle">Code, diagrams, study material</p></div>
+            <div class="assets-grid">
+                <div class="asset-card">
+                    <div class="asset-icon"><i class="fab fa-github"></i></div>
+                    <h3 class="asset-title">MLOps CDK GitHub Action</h3>
+                    <p class="asset-description">Infrastructure-as-code and GitHub Actions workflow for platform provisioning.</p>
+                    <a href="https://github.com/Rajesh-Arigala/mlops-cdk-github-action" target="_blank" rel="noopener noreferrer" class="asset-link">View GitHub repo <i class="fas fa-external-link-alt"></i></a>
+                </div>
+                <div class="asset-card">
+                    <div class="asset-icon"><i class="fab fa-github"></i></div>
+                    <h3 class="asset-title">Psitron ML Build</h3>
+                    <p class="asset-description">Build repository for the ML pipeline stage and related implementation assets.</p>
+                    <a href="https://github.com/Rajesh-Arigala/psitron-ml-build" target="_blank" rel="noopener noreferrer" class="asset-link">View GitHub repo <i class="fas fa-external-link-alt"></i></a>
+                </div>
+                <div class="asset-card">
+                    <div class="asset-icon"><i class="fab fa-github"></i></div>
+                    <h3 class="asset-title">Psitron ML Deploy</h3>
+                    <p class="asset-description">Deployment repository for ML release workflows and production delivery assets.</p>
+                    <a href="https://github.com/Rajesh-Arigala/psitron-ml-deploy" target="_blank" rel="noopener noreferrer" class="asset-link">View GitHub repo <i class="fas fa-external-link-alt"></i></a>
+                </div>
+            </div>
+            <div class="card">
+                <div class="study-cta-card">
+                    <h3 class="study-cta-title">Study Material Resources</h3>
+                    <p class="study-cta-subtitle">Official docs, restricted guides, workflow notes</p>
+                    <a href="/index#contact" class="trigger-btn"><i class="fas fa-book"></i>Request Study Material</a>
+                </div>
+            </div>
+            
+        </section>
+    </main>
+
+    <!-- study modal (content from pdf page 8/9) -->
+    <div class="study-modal" id="studyModal">
+        <div class="study-modal-content">
+            <div class="study-modal-header">
+                <h3 class="study-modal-title">SageMaker MLOps · study pack</h3>
+                <button class="study-modal-close" id="closeModalBtn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="study-material-list">
+                <div class="study-material-item"><div class="study-material-icon"><i class="fas fa-file-pdf"></i></div><div class="study-material-info"><div class="study-material-name">AWS SageMaker Pipeline deep dive</div><div class="study-material-desc">Official documentation + custom YAML examples</div></div><a href="#" class="download-btn"><span>PDF</span><i class="fas fa-download"></i></a></div>
+                <div class="study-material-item"><div class="study-material-icon"><i class="fas fa-file-pdf"></i></div><div class="study-material-info"><div class="study-material-name">CDK for ML pipelines</div><div class="study-material-desc">Restricted · infrastructure as code for Pipeline-2</div></div><a href="#" class="download-btn"><span>PDF</span><i class="fas fa-download"></i></a></div>
+                <div class="study-material-item"><div class="study-material-icon"><i class="fas fa-file-pdf"></i></div><div class="study-material-info"><div class="study-material-name">OIDC + GitHub Actions AWS auth</div><div class="study-material-desc">Step‑by‑step guide with IAM policies</div></div><a href="#" class="download-btn"><span>PDF</span><i class="fas fa-download"></i></a></div>
+                <div class="study-material-item"><div class="study-material-icon"><i class="fas fa-file-pdf"></i></div><div class="study-material-info"><div class="study-material-name">Model Registry &amp; approval workflows</div><div class="study-material-desc">Governance patterns, manual approval setup</div></div><a href="#" class="download-btn"><span>PDF</span><i class="fas fa-download"></i></a></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function(){
+            // mobile toggle
+            const navToggle = document.querySelector('.nav-toggle');
+            const navList = document.querySelector('.nav-list');
+            if (navToggle) {
+                navToggle.addEventListener('click', ()=> navList.classList.toggle('active'));
+            }
+
+            // active nav highlight
+            const sections = document.querySelectorAll('.section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            function updateActive() {
+                let current = '';
+                sections.forEach(s => {
+                    const rect = s.getBoundingClientRect();
+                    if (rect.top <= 150 && rect.bottom >= 150) current = s.getAttribute('id');
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
+                });
+            }
+            window.addEventListener('scroll', updateActive);
+            updateActive();
+
+            // smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#') return;
+                    e.preventDefault();
+                    const target = document.querySelector(href);
+                    if (target) {
+                        window.scrollTo({ top: target.offsetTop - 100, behavior: 'smooth' });
+                        if (navList.classList.contains('active')) navList.classList.remove('active');
+                    }
+                });
+            });
+
+            // modal
+            const modal = document.getElementById('studyModal');
+            const openBtn = document.getElementById('openModalBtn');
+            const closeBtn = document.getElementById('closeModalBtn');
+            if (openBtn) {
+                openBtn.addEventListener('click', ()=> { modal.classList.add('active'); document.body.style.overflow = 'hidden'; });
+            }
+            if (closeBtn) {
+                closeBtn.addEventListener('click', ()=> { modal.classList.remove('active'); document.body.style.overflow = ''; });
+            }
+            modal?.addEventListener('click', (e)=> { if(e.target === modal) { modal.classList.remove('active'); document.body.style.overflow = ''; } });
+            document.addEventListener('keydown', (e)=> { if(e.key === 'Escape' && modal?.classList.contains('active')) { modal.classList.remove('active'); document.body.style.overflow = ''; } });
+        })();
+    </script>
+
+
+</body></html>

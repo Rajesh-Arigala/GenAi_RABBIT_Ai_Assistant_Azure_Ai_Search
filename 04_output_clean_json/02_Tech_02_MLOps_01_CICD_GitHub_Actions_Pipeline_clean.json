@@ -1,0 +1,192 @@
+{
+  "id": "02_Tech_02_MLOps_01_CICD_GitHub_Actions_Pipeline",
+  "source_type": "website_rendered_v4_site_crawl",
+  "domain": "rajesharigala.com",
+  "url": "https://rajesharigala.com/mlops/CI-CD/github-actions-ci-cd-pipeline-yaml",
+  "depth": 0,
+  "parent_url": null,
+  "parent_page_id": "ROOT",
+  "logical_parent_page_id": "02_Technical_Skills",
+  "title": "GitHub Actions CI/CD Pipeline - Project Case Study",
+  "meta_description": "",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "GitHub Actions CI/CD Pipeline"
+    },
+    {
+      "level": "h2",
+      "text": "Project Summary"
+    },
+    {
+      "level": "h2",
+      "text": "Key Technologies & Concepts"
+    },
+    {
+      "level": "h2",
+      "text": "Problem & Objective"
+    },
+    {
+      "level": "h2",
+      "text": "Solution & Architecture"
+    },
+    {
+      "level": "h2",
+      "text": "Skills & Technologies Used"
+    },
+    {
+      "level": "h2",
+      "text": "Pipeline Execution & Governance"
+    },
+    {
+      "level": "h2",
+      "text": "Azure DevOps CI/CD - Architecture & YAML Mapping"
+    },
+    {
+      "level": "h2",
+      "text": "Pipeline Execution Evidence"
+    },
+    {
+      "level": "h2",
+      "text": "Assets & References"
+    },
+    {
+      "level": "h3",
+      "text": "Project Category"
+    },
+    {
+      "level": "h3",
+      "text": "Industry/Domain"
+    },
+    {
+      "level": "h3",
+      "text": "DevOps Focus"
+    },
+    {
+      "level": "h3",
+      "text": "GitHub Actions CI/CD Keywords"
+    },
+    {
+      "level": "h3",
+      "text": "Problems Solved"
+    },
+    {
+      "level": "h3",
+      "text": "Primary Objectives"
+    },
+    {
+      "level": "h3",
+      "text": "Solution Overview"
+    },
+    {
+      "level": "h3",
+      "text": "Key Components"
+    },
+    {
+      "level": "h3",
+      "text": "Primary Skills"
+    },
+    {
+      "level": "h3",
+      "text": "Secondary Tools / Frameworks"
+    },
+    {
+      "level": "h3",
+      "text": "Programming Languages"
+    },
+    {
+      "level": "h3",
+      "text": "GitHub DevOps Tools"
+    },
+    {
+      "level": "h3",
+      "text": "Pipeline Execution"
+    },
+    {
+      "level": "h3",
+      "text": "Governance & Controls"
+    },
+    {
+      "level": "h3",
+      "text": "Technical Challenges & Resolutions"
+    },
+    {
+      "level": "h3",
+      "text": "Pipeline Run History"
+    },
+    {
+      "level": "h3",
+      "text": "Multi-stage Execution"
+    },
+    {
+      "level": "h3",
+      "text": "Project execution link (proof)"
+    },
+    {
+      "level": "h3",
+      "text": "GitHub Repository"
+    },
+    {
+      "level": "h3",
+      "text": "Study Material Resources"
+    },
+    {
+      "level": "h3",
+      "text": "Study Material - GitHub Actions CI/CD"
+    },
+    {
+      "level": "h4",
+      "text": "Key Technical Challenge"
+    },
+    {
+      "level": "h4",
+      "text": "Resolution"
+    }
+  ],
+  "paragraphs": [
+    "Pipeline as Code (YAML) | Platform Engineering Project",
+    "Building CI/CD pipelines with the concept/technique of Pipeline as Code (PaC) by building .yaml Key-Value Pair script and Automating the software delivery by building the software and conducting tests if necessary through GitHub Actions. Build and deliver a Node.js application to GitHub Pages.",
+    "Comprehensive Project Overview",
+    "GitHub + GitHub Actions (CI/CD) → GitHub Pages",
+    "Git Repo + GitHub Actions + GitHub Pages",
+    "DevOps Focus with Automation",
+    "Core Technologies Used",
+    "What problem did this project solve?",
+    "Architectural Overview",
+    "Using GitHub repo as the source for the code and then using the YAML script to build the CI/CD Pipeline with multiple stages for building and deploying the application on GitHub Pages.",
+    "GitHub Pages was chosen to demonstrate CI/CD principles independent of backend complexity, keeping focus on pipeline design and deployment strategy rather than application logic.",
+    "GitHub Actions provides an ability to build custom workflows/pipelines where we can build, test and deploy the application to any third party cloud like AWS, Azure, GCP. Here we are deploying the application to GitHub Pages.",
+    "Technical Proficiency Demonstrated",
+    "How the pipeline works and is controlled",
+    "Governance / Controls for GitHub Actions:",
+    "Architecture to YAML construct mapping",
+    "Proof of successful implementation",
+    "CI + Manual execution history demonstrating successful pipeline runs.",
+    "Evidence of multi-stage pipeline execution with different jobs and steps.",
+    "Live link to the deployed Node.js application on GitHub Pages.",
+    "Code, diagrams, study material",
+    "Source code repository containing the Node.js application and GitHub Actions workflows.",
+    "Click the button below to open the study materials"
+  ],
+  "links": [
+    {
+      "text": "GitHub Actions CI/CD",
+      "href": "https://rajesharigala.com/mlops/CI-CD/github-actions-ci-cd-pipeline-yaml"
+    },
+    {
+      "text": "GitHub",
+      "href": "https://github.com/Rajesh-Arigala/GitHub-Actions-CI-CD-nodejs"
+    },
+    {
+      "text": "View Deployed Project",
+      "href": "https://rajesh-arigala.github.io/GitHub-Actions-CI-CD-nodejs"
+    },
+    {
+      "text": "Request Study Material",
+      "href": "https://rajesharigala.com/"
+    }
+  ],
+  "content": "GitHub Actions CI/CD Pipeline Pipeline as Code (YAML) | Platform Engineering Project Building CI/CD pipelines with the concept/technique of Pipeline as Code (PaC) by building .yaml Key-Value Pair script and Automating the software delivery by building the software and conducting tests if necessary through GitHub Actions. Build and deliver a Node.js application to GitHub Pages. GitHub View Deployed Project Tech Stack Project Summary Comprehensive Project Overview Project Category GitHub + GitHub Actions (CI/CD) → GitHub Pages Industry/Domain Git Repo + GitHub Actions + GitHub Pages DevOps Focus DevOps Focus with Automation Key Technologies & Concepts Core Technologies Used GitHub Actions CI/CD Keywords GitHub Actions (Workflows, Jobs, Steps) Workflow as Code (YAML) Event-driven CI/CD (push, PR, manual) Branch-based triggers Linux runners (ubuntu-latest) Secure deployments using GitHub Secrets Build and release automation PR-based governance and approval controls Problem & Objective What problem did this project solve? Problems Solved Automated Deployment of a software product like App or website through automatic pull request and trigger, at a speed Safe roll-back option whenever necessary Primary Objectives Creating a robust Infrastructure through Pipeline as Code (PAC) Technique Build a Working Model - Use GitHub Actions for CI/CD Pipelines by Using YAML based pipeline Structure - Use GitHub Pages to store and deploy the artifacts Solution & Architecture Architectural Overview Solution Overview Using GitHub repo as the source for the code and then using the YAML script to build the CI/CD Pipeline with multiple stages for building and deploying the application on GitHub Pages. GitHub Pages was chosen to demonstrate CI/CD principles independent of backend complexity, keeping focus on pipeline design and deployment strategy rather than application logic. GitHub Actions provides an ability to build custom workflows/pipelines where we can build, test and deploy the application to any third party cloud like AWS, Azure, GCP. Here we are deploying the application to GitHub Pages. 1 GitHub Repository 2 GitHub Actions 3 Build & Test 4 GitHub Pages 5 Deployment Key Components GitHub Account → GitHub Repository → GitHub Actions → GitHub Pages Services Used: Runners, Managed Actions Cloud Platform used: None (GitHub ecosystem only) Skills & Technologies Used Technical Proficiency Demonstrated Primary Skills PipeLine As Code (Pac): YAML configuration based on GitHub Actions Official documentation Skill in using the Git tools - GitHub repos, GitHub Actions, GitHub Pages Pipeline building process Secondary Tools / Frameworks GitHub Secrets usage skill GitHub CLI Commands Programming Languages YAML pipeline configuration file Node.js (provided by developer) GitHub DevOps Tools GitHub Repos GitHub Actions GitHub Pages Pipeline Execution & Governance How the pipeline works and is controlled Pipeline Execution CI/CD pipelines run automatically upon changes in the code (on:push:branches:master) Orchestration: steps → uses/runs Logging - View Raw Logs Governance & Controls Governance / Controls for GitHub Actions: By using the YAML script → On → Push → Branches → master/dev/test Production deployments are governed through branch protection rules and pull-request reviews, serving as approval gates in the GitHub Actions workflow Technical Challenges & Resolutions Key Technical Challenge Challenge: How to run Automated pipeline Resolution Resolution: Implemented through YAML configuration with event triggers and branch-based execution Azure DevOps CI/CD - Architecture & YAML Mapping Architecture to YAML construct mapping Architecture Block YAML Construct User / Developer on: (event trigger source) GitHub Repository on: push, on: pull_request, branches Branches (master / dev / test) branches: filter under push / pull_request GitHub Actions Workflow .github/workflows/**.yml Checkout Code uses: actions/checkout@v4 Ubuntu Runner / Server runs-on: ubuntu-latest Set up Node.js Environment uses: actions/setup-node@v4 Node.js Version (v16) with: node-version: 16 Install Dependencies run: npm install Build Application run: npm run build GitHub Token (Auth) ${[ secrets.GITHUB_TOKEN ]} Deploy to GitHub Pages uses: peaceris/actions-gh-pages@v3 (or equivalent deploy action) CI Pipeline Execution jobs: Sequential Steps steps: Job Orchestration Single job or multiple jobs with needs: Environment Isolation Separate workflows or branch-based logic Pipeline Execution Evidence Proof of successful implementation Pipeline Run History CI + Manual execution history demonstrating successful pipeline runs. Multi-stage Execution Evidence of multi-stage pipeline execution with different jobs and steps. Project execution link (proof) Live link to the deployed Node.js application on GitHub Pages. View Deployed Project Assets & References Code, diagrams, study material GitHub Repository Source code repository containing the Node.js application and GitHub Actions workflows. Access Repository Study Material Resources Click the button below to open the study materials Request Study Material",
+  "crawl_timestamp": "2026-06-17T06:27:55.397397+00:00",
+  "raw_html_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/02_Tech_02_MLOps_01_CICD_GitHub_Actions_Pipeline.html"
+}

@@ -1,0 +1,994 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI‑GCP Pipeline‑3 : Agent Platform Deployment &amp; Endpoints · Case Study</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-main: #0C1117;
+            --bg-surface: #121923;
+            --bg-elevated: #161F2B;
+            --card-bg: #161F2B;
+
+            --accent-primary: #B8B2A7;
+            --accent-energy: #7CFFB2;
+            --accent-depth: #3A1F2D;
+
+            --text-primary: #E6E9EF;
+            --text-secondary: #A1A8B3;
+            --text-muted: #6F7682;
+
+            --line-subtle: #1E2633;
+            --glass-border: rgba(184, 178, 167, 0.15);
+
+            --ease-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --accent-gradient: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* header / nav */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(12, 17, 23, 0.9);
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 70px;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            text-decoration: none;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.4s var(--ease-slow);
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-primary);
+            transition: width 0.4s var(--ease-slow);
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--accent-energy);
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+            background: var(--accent-energy);
+        }
+
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        main {
+            padding-top: 100px;
+            padding-bottom: 4rem;
+        }
+
+        .section {
+            margin-bottom: 5rem;
+            scroll-margin-top: 100px;
+        }
+
+        .section-header {
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            width: 60px;
+            height: 3px;
+            background: var(--accent-energy);
+            border-radius: 2px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--accent-primary);
+            font-weight: 500;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.4s var(--ease-slow);
+        }
+
+        .card:hover {
+            border-color: var(--accent-primary);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .card-title i {
+            color: var(--accent-energy);
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .list-item {
+            margin-bottom: 0.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .list-item::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent-energy);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .highlight-box {
+            background: rgba(124, 255, 178, 0.05);
+            border-left: 4px solid var(--accent-energy);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-text {
+            color: var(--accent-energy);
+            font-weight: 500;
+        }
+
+        .hero-section {
+            text-align: center;
+            padding-top: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent-energy), transparent);
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin: 1rem;
+            letter-spacing: -0.02em;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--accent-primary);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        .hero-summary {
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        /* architecture visual */
+        .architecture-visual {
+            background: var(--bg-elevated);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--line-subtle);
+            margin: 2rem 0;
+        }
+
+        .architecture-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This fills the container, may crop edges */
+    display: block;
+}
+
+        .architecture-label {
+            position: relative;
+            z-index: 2;
+            background: rgba(12, 17, 23, 0.7);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            text-align: center;
+            max-width: 80%;
+        }
+
+        .flow-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .flow-step {
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: var(--accent-energy);
+            color: var(--bg-main);
+            border-radius: 50%;
+            line-height: 30px;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tech-tag {
+            background: rgba(184, 178, 167, 0.1);
+            color: var(--accent-primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(184, 178, 167, 0.2);
+        }
+
+        .tech-tag.energy {
+            background: rgba(124, 255, 178, 0.1);
+            color: var(--accent-energy);
+            border-color: rgba(124, 255, 178, 0.2);
+        }
+
+        .yaml-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--bg-elevated);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .yaml-table th {
+            background: rgba(124, 255, 178, 0.1);
+            color: var(--accent-energy);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid var(--line-subtle);
+        }
+
+        .yaml-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--line-subtle);
+            color: var(--text-secondary);
+        }
+
+        .yaml-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .yaml-table tr:hover {
+            background: rgba(184, 178, 167, 0.05);
+        }
+
+        .assets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .asset-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--line-subtle);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .asset-card:hover {
+            border-color: var(--accent-energy);
+            transform: translateY(-4px);
+        }
+
+        .asset-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(124, 255, 178, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--accent-energy);
+            font-size: 1.5rem;
+        }
+
+        .asset-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .asset-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .asset-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-energy);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .asset-link:hover {
+            text-decoration: underline;
+        }
+
+        .demo-section {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .demo-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-energy);
+        }
+
+        .demo-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .trigger-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--accent-energy);
+            color: var(--bg-main);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-slow);
+         text-decoration: none; }
+
+        .trigger-btn:hover {
+            background: transparent;
+            color: var(--accent-energy);
+            border: 2px solid var(--accent-energy);
+            transform: translateY(-2px);
+        }
+
+        .study-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(12, 17, 23, 0.95);
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .study-modal.active {
+            display: flex;
+        }
+
+        .study-modal-content {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            max-width: 700px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid var(--line-subtle);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+
+        .study-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .study-modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .study-modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+        }
+
+        .study-modal-close:hover {
+            color: var(--accent-energy);
+            background: rgba(124, 255, 178, 0.1);
+        }
+
+        .study-material-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .study-material-item {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            gap: 1.2rem;
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .study-material-item:hover {
+            background: rgba(184, 178, 167, 0.05);
+            transform: translateX(5px);
+        }
+
+        .study-material-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(108, 155, 207, 0.1);
+            color: #6C9BCF;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        .study-material-info {
+            flex: 1;
+        }
+
+        .study-material-name {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .study-material-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
+            background: transparent;
+            border: 2px solid var(--accent-energy);
+            color: var(--accent-energy);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .download-btn:hover {
+            background: rgba(124, 255, 178, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(124, 255, 178, 0.2);
+        }
+
+        .disclaimer {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: rgba(184, 178, 167, 0.05);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid var(--line-subtle);
+            margin-top: 4rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-list {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                flex-direction: column;
+                background: var(--bg-surface);
+                padding: 2rem;
+                border-bottom: 1px solid var(--line-subtle);
+                gap: 1.5rem;
+            }
+            .nav-list.active {
+                display: flex;
+            }
+            .nav-toggle {
+                display: block;
+            }
+            .hero-title {
+                font-size: 2.5rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+        }
+        /* animations */
+        .section {
+            animation: fadeInUp 0.6s var(--ease-slow) forwards;
+            opacity: 0;
+        }
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+        .section:nth-child(6) { animation-delay: 0.6s; }
+        .section:nth-child(7) { animation-delay: 0.7s; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .study-modal-content {
+            animation: modalFadeIn 0.3s var(--ease-slow);
+        }
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="nav-logo">AI‑GCP Pipeline‑3 · Deployment &amp; Endpoints</a>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="#overview" class="nav-link active">Overview</a></li>
+                <li class="nav-item"><a href="#problem" class="nav-link">Problem</a></li>
+                <li class="nav-item"><a href="#architecture" class="nav-link">Architecture</a></li>
+                <li class="nav-item"><a href="#skills" class="nav-link">Skills</a></li>
+                <li class="nav-item"><a href="#mapping" class="nav-link">CI/CD Map</a></li>
+                <li class="nav-item"><a href="#assets" class="nav-link">Assets</a></li>
+            </ul>
+            <button class="nav-toggle"><i class="fas fa-bars"></i></button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Hero / overview -->
+        <section id="overview" class="section hero-section">
+            <h1 class="hero-title">Agent Platform Deployment, Endpoints &amp; Scheduling</h1>
+            <p class="hero-subtitle">Production‑grade model serving &amp; continuous retraining on GCP</p>
+            <div class="hero-summary">
+                <p><strong>Project:</strong> AI‑GCP Pipeline‑3 · Endpoint lifecycle, traffic splitting, scheduled pipelines for model refresh. Online inference with managed Agent Platform Endpoints.</p>
+                <p><span class="tech-tag energy" style="display:inline-block; margin-top:1rem;">AI + MLOps</span> <span class="tech-tag">Model Serving</span> <span class="tech-tag">Blue/Green Deployment</span> <span class="tech-tag">Agent Platform Scheduler</span></p>
+            </div>
+        </section>
+
+        <!-- Project summary cards -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Project Summary</h2>
+                <p class="section-subtitle">Model deployment &amp; serving platform</p>
+            </div>
+            <div class="grid-3">
+                <div class="card"><h3 class="card-title"><i class="fas fa-tag"></i>Category</h3><div class="card-content"><p>AI + MLOps · Cloud Platform Engineering</p></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-industry"></i>Domain</h3><div class="card-content"><p>Model Deployment Engineering / AI Serving Platforms</p></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-code"></i>Focus</h3><div class="card-content"><p>Production online inference, endpoint management, retraining loops</p></div></div>
+            </div>
+        </section>
+
+        <!-- Key technologies (keywords) -->
+        <section class="section">
+            <div class="section-header"><h2 class="section-title">Key technologies &amp; concepts</h2><p class="section-subtitle">Agent Platform serving stack</p></div>
+            <div class="card">
+                <div class="card-content">
+                    <div class="tech-tags">
+                        <span class="tech-tag energy">Agent Platform Model Registry</span><span class="tech-tag">Agent Platform Endpoints</span>
+                        <span class="tech-tag energy">Traffic splitting (blue/green, canary)</span><span class="tech-tag">Online Prediction APIs</span>
+                        <span class="tech-tag">Pipeline scheduling (cron)</span><span class="tech-tag energy">Artifact Registry</span>
+                        <span class="tech-tag">GCS model artifacts</span><span class="tech-tag">IAM service accounts</span>
+                        <span class="tech-tag">Cloud Logging &amp; Monitoring</span><span class="tech-tag">Endpoint lifecycle management</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Problem & Objective -->
+        <section id="problem" class="section">
+            <div class="section-header"><h2 class="section-title">Problem &amp; Objective</h2><p class="section-subtitle">Why this deployment pipeline?</p></div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Problems solved</h3><div class="card-content"><ul class="list"><li class="list-item">Manual endpoint deployment → risk, drift, inconsistency</li><li class="list-item">No automated rollout or traffic management for new model versions</li><li class="list-item">Scheduled retraining missing → model stagnation</li></ul></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-bullseye"></i>Primary objective</h3><div class="card-content"><ul class="list"><li class="list-item">Repeatable, production‑grade deployment pipeline with Agent Platform managed endpoints</li><li class="list-item">Versioned models, controlled traffic splits, scheduled retraining (continuous refresh)</li></ul></div></div>
+            </div>
+        </section>
+
+        <!-- Solution & Architecture (with two‑lane visual) -->
+        <section id="architecture" class="section">
+            <div class="section-header"><h2 class="section-title">Solution &amp; Architecture</h2><p class="section-subtitle">Deployment + retraining loop</p></div>
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-sitemap"></i>Deployment pipeline design</h3>
+                <div class="card-content"><p>Programmatic model upload to Agent Platform Model Registry, endpoint creation/reuse, traffic‑split deployment for new versions, and scheduled pipeline runs for continuous retraining &amp; redeployment. All managed via Agent Platform SDK + KFP.</p>
+                <div class="highlight-box"><p class="highlight-text">Autoscaling endpoints, versioned rollbacks, canary deployments — fully managed on GCP.</p></div></div>
+            </div>
+
+            <div class="architecture-visual">
+                <div class="architecture-placeholder">
+                    <img src="/img/ml-systems/project in 2.4.webp" alt="Pipeline‑3 two‑lane flow">
+                </div>
+                <div class="flow-steps">
+                    <div class="flow-step"><span class="step-number">1</span><span class="step-label">Trained model (GCS)</span></div>
+                    <div class="flow-step"><span class="step-number">2</span><span class="step-label">Model Registry</span></div>
+                    <div class="flow-step"><span class="step-number">3</span><span class="step-label">Endpoint (create/reuse)</span></div>
+                    <div class="flow-step"><span class="step-number">4</span><span class="step-label">Traffic split</span></div>
+                    <div class="flow-step"><span class="step-number">5</span><span class="step-label">Online API</span></div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-cogs"></i>Key components (GCP)</h3>
+                <div class="card-content"><ul class="list"><li>Agent Platform Model Registry (versioned models)</li><li>Agent Platform Endpoints (managed inference)</li><li>Agent Platform Pipeline Scheduler (cron retraining)</li><li>GCS + Artifact Registry (artefacts &amp; containers)</li><li>Cloud Logging &amp; Monitoring (observability)</li><li>IAM service accounts (secure serving identity)</li></ul></div>
+            </div>
+        </section>
+
+        <!-- AI / DevOps Details (from PDF page 2) -->
+        <section class="section">
+            <div class="section-header"><h2 class="section-title">AI / DevOps Details</h2><p class="section-subtitle">Model serving automation</p></div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fas fa-robot"></i>AI/ML focus</h3><div class="card-content"><p>Model Serving + Deployment Automation (MLOps – Online Inference)</p></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-cogs"></i>Implemented automation</h3><div class="card-content"><ul class="list"><li>Model upload to Agent Platform Registry</li><li>Endpoint create/reuse logic</li><li>Traffic‑split deployment (blue/green, canary)</li><li>Scheduled pipeline runs for retraining</li><li>Online prediction API invocation</li></ul></div></div>
+            </div>
+        </section>
+
+        <!-- Skills & Technologies -->
+        <section id="skills" class="section">
+            <div class="section-header"><h2 class="section-title">Skills &amp; Technologies</h2><p class="section-subtitle">MLOps serving expertise</p></div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fas fa-star"></i>Primary skills</h3><div class="card-content"><ul class="list"><li>AI Deployment Architecture (advanced)</li><li>Agent Platform Endpoint Engineering (advanced)</li><li>MLOps Production Deployment (advanced)</li><li>Cloud AI Platform Engineering</li></ul></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-tools"></i>Secondary tools</h3><div class="card-content"><ul class="list"><li>Agent Platform SDK (Python)</li><li>Kubeflow Pipelines v2</li><li>scikit‑learn (model framework)</li><li>GCS / IAM / Artifact Registry</li></ul></div></div>
+            </div>
+        </section>
+
+        <!-- GCP DevOps CI/CD – Architecture & YAML mapping (the table from PDF) -->
+        <section id="mapping" class="section">
+            <div class="section-header"><h2 class="section-title">GCP CI/CD · Architecture &amp; YAML mapping</h2><p class="section-subtitle">Pipeline‑3 (deployment) constructs</p></div>
+            <div class="card">
+                <table class="yaml-table">
+                    <thead><tr><th>Architecture Block</th><th>GCP CI/CD / MLOps Construct</th><th>YAML / Config Mapping</th></tr></thead>
+                    <tbody>
+                        <tr><td>Source Repository</td><td>GitHub (deployment / pipeline definitions)</td><td><code>repository</code>, <code>workflow.checkout</code></td></tr>
+                        <tr><td>Deployment Trigger</td><td>Agent Platform Pipeline output (approved model from Pipeline‑2)</td><td><code>approved_model_uri</code>, <code>pipeline_output</code></td></tr>
+                        <tr><td>Deployment Orchestration</td><td>Agent Platform Model Upload + Endpoint Deployment APIs</td><td><code>components.upload-model</code>, <code>components.deploy-model</code></td></tr>
+                        <tr><td>Serving Platform</td><td>Agent Platform Endpoints (managed online prediction)</td><td><code>endpoint.display_name</code>, <code>machine_type</code>, <code>min_replica_count</code></td></tr>
+                        <tr><td>Online Inference API</td><td>Agent Platform Prediction Service (HTTPS endpoint)</td><td><code>predict.endpoint</code>, <code>instances</code>, <code>parameters</code></td></tr>
+                        <tr><td>Traffic Management</td><td>Agent Platform Endpoint traffic split (blue/green / versioned deploy)</td><td><code>traffic_split</code>, <code>deployed_model_id</code></td></tr>
+                        <tr><td>Artifact Storage</td><td>Google Cloud Storage (model artifacts)</td><td><code>artifact_uri: gs://...</code>, <code>model_dir</code></td></tr>
+                        <tr><td>Model Registry</td><td>Agent Platform Model Registry (versioned models)</td><td><code>model.display_name</code>, <code>version_aliases</code></td></tr>
+                        <tr><td>Approval Gate</td><td>Metric‑based gate in Pipeline‑2 (deployment only if threshold passed)</td><td><code>condition: metrics.accuracy &gt;= threshold</code></td></tr>
+                        <tr><td>Security &amp; Auth</td><td>GCP IAM (Endpoint access control, Service Accounts)</td><td><code>service_account</code>, <code>roles/aiplatform.user</code></td></tr>
+                        <tr><td>Secrets / Config</td><td>IAM roles + environment configs (optionally Secret Manager)</td><td><code>env</code>, <code>secretEnv</code>, <code>availableSecrets</code></td></tr>
+                        <tr><td>Monitoring &amp; Logs</td><td>Cloud Logging + Agent Platform Endpoint Metrics</td><td><code>logging.enabled</code>, <code>metrics.latency</code>, <code>metrics.errors</code></td></tr>
+                        <tr><td>Model Performance Monitoring</td><td>Endpoint metrics (latency, request volume, errors)</td><td><code>monitoring_config</code>, <code>alert_policy</code></td></tr>
+                        <tr><td>Scheduled Retraining</td><td>Agent Platform Pipeline Schedules (cron-based retraining jobs)</td><td><code>schedule.cron</code>, <code>max_concurrent_run_count</code></td></tr>
+                        <tr><td>Closed‑Loop Feedback</td><td>Endpoint metrics → retraining pipeline → model re‑upload</td><td><code>feedback.metrics_uri</code>, <code>retraining_pipeline</code></td></tr>
+                        <tr><td>Infrastructure Backend</td><td>Agent Platform Managed Endpoints (no Kubernetes / VM management)</td><td><code>managed_endpoint: true</code>, <code>dedicated_resources</code></td></tr>
+                    </tbody>
+                </table>
+                <p class="highlight-text" style="margin-top:1rem;"><i class="fas fa-quote-left"></i> Enterprise‑scale model serving with traffic splitting, canary rollouts, and cron‑based retraining.</p>
+            </div>
+        </section>
+
+        <!-- Complete PDF content -->
+        <section id="pdf-details" class="section">
+            <div class="section-header"><h2 class="section-title">Complete Project Details</h2><p class="section-subtitle">All content from the Pipeline‑3 PDF</p></div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fas fa-clipboard-list"></i>Project Summary</h3><div class="card-content"><ul class="list"><li class="list-item"><strong>Project Name:</strong> AI‑GCP Pipeline‑3 – Agent Platform Deployment, Endpoints &amp; Scheduling</li><li class="list-item"><strong>One‑Line Description:</strong> Production‑grade model deployment, endpoint management, online inference, and scheduled retraining on Google Agent Platform.</li><li class="list-item"><strong>Category:</strong> AI + MLOps + Cloud Platform Engineering</li><li class="list-item"><strong>Industry:</strong> Cross‑industry (Enterprise AI Platform / MLOps Infrastructure)</li><li class="list-item"><strong>Domain:</strong> Model Deployment Engineering / AI Serving Platforms</li></ul></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-tags"></i>Key Words</h3><div class="card-content"><ul class="list"><li class="list-item">Agent Platform Model Upload (Model Registry Equivalent)</li><li class="list-item">Agent Platform Endpoints (Managed Online Inference)</li><li class="list-item">Model Versioning &amp; Traffic Splitting</li><li class="list-item">Online Prediction APIs</li><li class="list-item">Agent Platform Pipeline Scheduling</li><li class="list-item">Blue/Green or Canary Deployment (Traffic Split)</li><li class="list-item">Artifact Registry (Serving Containers)</li><li class="list-item">GCS Model Artifacts</li><li class="list-item">Service Accounts &amp; IAM (Secure Serving Identity)</li><li class="list-item">Cloud Logging &amp; Monitoring (Inference Logs)</li><li class="list-item">Endpoint Lifecycle Management</li><li class="list-item">Production AI Serving Architecture</li></ul></div></div>
+            </div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Problem Solved</h3><div class="card-content"><p>Deploying ML models to production endpoints reliably on GCP requires handling model packaging, endpoint lifecycle, traffic management, and scheduled retraining. Manual deployment introduces risk, drift, and inconsistency.</p></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-bullseye"></i>Primary Objective</h3><div class="card-content"><p>Build a repeatable, production‑grade deployment and serving pipeline on Agent Platform with managed endpoints, versioned models, automated rollout, and scheduled pipeline execution for continuous model refresh.</p></div></div>
+            </div>
+            <div class="card"><h3 class="card-title"><i class="fas fa-project-diagram"></i>Solution &amp; Architecture</h3><div class="card-content"><p>Implemented an Agent Platform deployment pipeline that programmatically uploads trained models, provisions or reuses endpoints, deploys model versions with controlled traffic, and schedules periodic pipeline runs for continuous retraining and redeployment.</p><ul class="list"><li class="list-item"><strong>Cloud Platform:</strong> Google Cloud Platform (Agent Platform)</li><li class="list-item"><strong>Key components:</strong> Agent Platform Model Registry (Model upload), Agent Platform Endpoints (Online inference), Agent Platform Pipelines Scheduler (Recurrent jobs), GCS (Model artifact storage), Artifact Registry (Serving container images), IAM Service Accounts (Secure serving identity), Cloud Logging &amp; Monitoring (Endpoint observability)</li><li class="list-item"><strong>Scalability / Reliability:</strong> Managed Agent Platform Endpoints with autoscaling; traffic splitting for safe rollouts (canary/blue‑green); versioned deployments with rollback capability; scheduled retraining pipelines to prevent model drift; stateless serving with durable artifact storage in GCS</li></ul></div></div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fas fa-robot"></i>AI / DevOps Details</h3><div class="card-content"><ul class="list"><li class="list-item"><strong>AI/ML type or DevOps focus:</strong> Model Serving + Deployment Automation (MLOps – Online Inference)</li><li class="list-item"><strong>Models, pipeline, or automation:</strong> model upload automation to Agent Platform; endpoint creation &amp; reuse logic; traffic‑split deployment for new versions; pipeline scheduling for continuous retraining; online prediction API invocation</li><li class="list-item"><strong>CI/CD, containerisation or orchestration tools:</strong> GitHub Actions (CI trigger), Agent Platform Pipelines (orchestration), Artifact Registry (serving containers), Agent Platform Endpoints (serving runtime)</li></ul></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-chart-line"></i>Monitoring, Logging &amp; Optimization</h3><div class="card-content"><ul class="list"><li class="list-item">Cloud Logging for inference requests</li><li class="list-item">Agent Platform Endpoint metrics (latency, throughput)</li><li class="list-item">Traffic shifting for rollout safety</li><li class="list-item">Scheduled pipeline runs for drift mitigation</li></ul></div></div>
+            </div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fas fa-star"></i>Skills &amp; Technologies Used</h3><div class="card-content"><ul class="list"><li class="list-item"><strong>Primary Skills:</strong> AI Deployment Architecture (Advanced), Agent Platform Endpoint Engineering (Advanced), MLOps Production Deployment (Advanced), Cloud AI Platform Engineering (Advanced)</li><li class="list-item"><strong>Secondary Tools / Frameworks:</strong> Agent Platform SDK (Python), Kubeflow Pipelines (KFP v2), scikit‑learn (model framework), Google Cloud Storage</li><li class="list-item"><strong>Programming Language:</strong> Python (primary), YAML (configuration / pipeline specs where applicable)</li><li class="list-item"><strong>Cloud &amp; DevOps Tools:</strong> Google Agent Platform, Artifact Registry, GCS, IAM / Service Accounts, GitHub Actions, Agent Platform Pipeline Scheduler</li></ul></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-check-circle"></i>Challenges &amp; Outcomes</h3><div class="card-content"><ul class="list"><li class="list-item"><strong>Packaging models to match Agent Platform serving container requirements:</strong> resolved with standardized model artifact layout for Agent Platform containers</li><li class="list-item"><strong>Managing endpoint lifecycle (create vs reuse):</strong> resolved with programmatic endpoint discovery &amp; reuse</li><li class="list-item"><strong>Safe rollout of new model versions:</strong> resolved with traffic‑split based deployment strategy</li><li class="list-item"><strong>Operationalizing scheduled retraining on GCP:</strong> resolved with Agent Platform Pipeline scheduling with controlled concurrency</li></ul></div></div>
+            </div>
+            <div class="card"><h3 class="card-title"><i class="fas fa-route"></i>GCP Production‑Grade Implementation Details</h3><div class="card-content"><p><strong>Architecture implemented on GCP:</strong> Trained models → Agent Platform Model Registry → Endpoint Deployment → Online Inference → Scheduled Pipeline Re‑runs.</p><ul class="list"><li class="list-item"><strong>Top lane — Online Serving Path:</strong> Trained Model (from Pipeline‑2) → Agent Platform Model Upload (Model Registry) → Agent Platform Endpoint (Create / Reuse) → Online Inference API (Real‑Time Predictions)</li><li class="list-item"><strong>Bottom lane — Monitoring &amp; Retraining Loop:</strong> Online Inference API / Endpoint → Monitoring &amp; Logs (Cloud Logging, Metrics) → Scheduled Retraining (Agent Platform Pipeline Scheduler) → Back to Model Upload (Model Registry)</li><li class="list-item"><strong>Process Flow:</strong> Model Artifact (GCS) → Agent Platform Model Upload → Endpoint Provisioning / Reuse → Traffic‑Split Deployment → Online Inference API → Monitoring &amp; Logs → Scheduled Pipeline Triggers</li><li class="list-item">The main project document has detailed view.</li></ul></div></div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fab fa-github"></i>Assets &amp; References</h3><div class="card-content"><ul class="list"><li class="list-item"><strong>GitHub / Repository Link:</strong> <a href="https://github.com/Rajesh-Arigala/vertex-ai-mlops-kfp2" target="_blank" rel="noopener noreferrer" class="asset-link">https://github.com/Rajesh-Arigala/vertex-ai-mlops-kfp2 <i class="fas fa-external-link-alt"></i></a></li><li class="list-item"><strong>Notebook:</strong> <a href="https://github.com/Rajesh-Arigala/vertex-ai-mlops-kfp2/blob/main/Vertex_AI_kfp2_pipeline.ipynb" target="_blank" rel="noopener noreferrer" class="asset-link">Vertex_AI_kfp2_pipeline.ipynb <i class="fas fa-external-link-alt"></i></a></li><li class="list-item"><strong>Weblink:</strong> https://rajesharigala.com/mlops/ai4/ai4.3</li><li class="list-item"><strong>Proof Link:</strong> later</li><li class="list-item"><strong>Demo or Live Link:</strong> I will give the link later.</li></ul></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-book"></i>Study Material</h3><div class="card-content"><ul class="list"><li class="list-item"><strong>Public Study Material:</strong> Official documentation of KFP, YAML file for GCP, Python SDK; downloadable PDF if available</li><li class="list-item"><strong>Restricted Study Material:</strong> KFP file specific, Colab Google specific; downloadable PDF with access limited to authorised users</li></ul></div></div>
+            </div>
+            <div class="card"><h3 class="card-title"><i class="fas fa-table"></i>Reference Architecture Mapping</h3><div class="card-content"><p>The Pipeline‑3 architecture maps source repository, deployment trigger, orchestration, serving platform, online inference API, traffic management, artifact storage, model registry, approval gate, security/auth, secrets/config, monitoring/logs, model performance monitoring, scheduled retraining, closed‑loop feedback, and infrastructure backend to GCP CI/CD / MLOps constructs.</p></div></div>
+            <div class="card"><h3 class="card-title"><i class="fas fa-sync-alt"></i>Pipeline‑3 Summary</h3><div class="card-content"><p>Enterprise‑scale model serving and lifecycle management on Google Cloud using Agent Platform Model Registry, Endpoints, and Pipeline Schedulers to operationalize approved models into secure, scalable online inference APIs. This layer establishes production deployment patterns, endpoint traffic management, continuous monitoring and logging via Cloud Logging/Metrics, and closed‑loop scheduled retraining pipelines, enabling continuous improvement, governed re‑deployments, and reliable real‑time ML services in production.</p></div></div>
+        </section>
+
+        <!-- Challenges & Outcomes -->
+        <section class="section">
+            <div class="section-header"><h2 class="section-title">Challenges &amp; Outcomes</h2><p class="section-subtitle">Technical resolutions</p></div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Key challenges</h3><div class="card-content"><ul class="list"><li>Packaging models for Agent Platform serving containers</li><li>Endpoint lifecycle (create vs reuse) logic</li><li>Safe rollout of new model versions</li><li>Operationalizing scheduled retraining on GCP</li></ul></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-check-circle"></i>Resolutions</h3><div class="card-content"><ul class="list"><li>Standardized model artifact layout</li><li>Programmatic endpoint discovery &amp; reuse</li><li>Traffic‑split deployment (blue/green, canary)</li><li>Agent Platform Pipeline scheduling with concurrency control</li></ul></div></div>
+            </div>
+        </section>
+
+        <!-- Assets & References (with repo / modal trigger) -->
+        <section id="assets" class="section">
+            <div class="section-header"><h2 class="section-title">Assets &amp; References</h2><p class="section-subtitle">Code, diagrams, study material</p></div>
+                        <div class="assets-grid">
+                <div class="asset-card"><div class="asset-icon"><i class="fab fa-github"></i></div><h3 class="asset-title">Repository</h3><p class="asset-description">Deployment pipelines, endpoint configs, and scheduling definitions.</p><a href="https://github.com/Rajesh-Arigala/vertex-ai-mlops-kfp2" target="_blank" rel="noopener noreferrer" class="asset-link"><span>vertex-ai-mlops-kfp2</span> <i class="fas fa-external-link-alt"></i></a></div>
+                <div class="asset-card"><div class="asset-icon"><i class="fas fa-file-code"></i></div><h3 class="asset-title">Notebook</h3><p class="asset-description">KFP v2 notebook for Agent Platform pipeline implementation.</p><a href="https://github.com/Rajesh-Arigala/vertex-ai-mlops-kfp2/blob/main/Vertex_AI_kfp2_pipeline.ipynb" target="_blank" rel="noopener noreferrer" class="asset-link"><span>Vertex_AI_kfp2_pipeline.ipynb</span> <i class="fas fa-external-link-alt"></i></a></div>
+                <div class="asset-card"><div class="asset-icon"><i class="fas fa-link"></i></div><h3 class="asset-title">Weblink</h3><p class="asset-description">Published project page for Pipeline‑3.</p><a href="https://rajesharigala.com/mlops/ai4/ai4.3" target="_blank" rel="noopener noreferrer" class="asset-link"><span>rajesharigala.com/mlops/ai4/ai4.3</span> <i class="fas fa-external-link-alt"></i></a></div>
+                <div class="asset-card"><div class="asset-icon"><i class="fas fa-clock"></i></div><h3 class="asset-title">Proof Link</h3><p class="asset-description">Proof link placeholder from the project brief.</p><a href="#" class="asset-link"><span>Proof link: later</span> <i class="fas fa-clock"></i></a></div>
+            </div>
+
+            <!-- Study material modal trigger -->
+            <div class="card">
+                <div class="demo-section">
+                    <h3 class="demo-title">Study material resources</h3>
+                    <p class="demo-subtitle">Agent Platform deployment &amp; scheduling guides</p>
+                    <a href="/index#contact" class="trigger-btn"><i class="fas fa-book"></i><span>Request Study Material</span></a>
+                </div>
+            </div>
+            
+        </section>
+    </main>
+
+    <!-- Study modal (PDF‑themed items) -->
+    <div class="study-modal" id="studyModal">
+        <div class="study-modal-content">
+            <div class="study-modal-header">
+                <h3 class="study-modal-title">Agent Platform deployment study material</h3>
+                <button class="study-modal-close" id="closeModalBtn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="study-material-list">
+                <div class="study-material-item"><div class="study-material-icon"><i class="fas fa-file-pdf"></i></div><div class="study-material-info"><div class="study-material-name">Pipeline‑3 architecture deep dive</div><div class="study-material-desc">Two‑lane diagram: online serving + retraining loop</div></div><a href="#" class="download-btn"><span>Download</span><i class="fas fa-download"></i></a></div>
+                <div class="study-material-item"><div class="study-material-icon"><i class="fas fa-file-pdf"></i></div><div class="study-material-info"><div class="study-material-name">Agent Platform Endpoint traffic split (blue/green)</div><div class="study-material-desc">YAML / SDK examples for canary deployment</div></div><a href="#" class="download-btn"><span>Download</span><i class="fas fa-download"></i></a></div>
+                <div class="study-material-item"><div class="study-material-icon"><i class="fas fa-file-pdf"></i></div><div class="study-material-info"><div class="study-material-name">Scheduled retraining with Agent Platform Pipelines</div><div class="study-material-desc">Cron triggers, concurrency, pipeline reuse</div></div><a href="#" class="download-btn"><span>Download</span><i class="fas fa-download"></i></a></div>
+                <div class="study-material-item"><div class="study-material-icon"><i class="fas fa-file-pdf"></i></div><div class="study-material-info"><div class="study-material-name">IAM &amp; secure serving identity</div><div class="study-material-desc">Service accounts, endpoint access control</div></div><a href="#" class="download-btn"><span>Download</span><i class="fas fa-download"></i></a></div>
+                <div class="study-material-item"><div class="study-material-icon"><i class="fas fa-file-pdf"></i></div><div class="study-material-info"><div class="study-material-name">Colab notebook: model upload + endpoint deploy</div><div class="study-material-desc">Interactive Agent Platform SDK deployment walkthrough</div></div><a href="#" class="download-btn"><span>Download</span><i class="fas fa-download"></i></a></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // mobile nav
+            const navToggle = document.querySelector('.nav-toggle');
+            const navList = document.querySelector('.nav-list');
+            if (navToggle && navList) {
+                navToggle.addEventListener('click', () => navList.classList.toggle('active'));
+                document.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && navList.classList.contains('active') && !e.target.closest('.nav')) {
+                        navList.classList.remove('active');
+                    }
+                });
+            }
+
+            // smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href.startsWith('#') && href !== '#') {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            window.scrollTo({ top: target.offsetTop - 100, behavior: 'smooth' });
+                            if (navList?.classList.contains('active')) navList.classList.remove('active');
+                        }
+                    }
+                });
+            });
+
+            // active nav update
+            const sections = document.querySelectorAll('.section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            function updateActive() {
+                let current = '';
+                sections.forEach(s => { const top = s.offsetTop - 150; if (scrollY >= top && scrollY < top + s.clientHeight) current = s.getAttribute('id'); });
+                navLinks.forEach(l => { l.classList.remove('active'); if (l.getAttribute('href') === `#${current}`) l.classList.add('active'); });
+            }
+            window.addEventListener('scroll', updateActive);
+
+            // modal
+            const modal = document.getElementById('studyModal');
+            const openBtn = document.getElementById('openModalBtn');
+            const closeBtn = document.getElementById('closeModalBtn');
+            if (openBtn && modal) {
+                openBtn.addEventListener('click', () => { modal.classList.add('active'); document.body.style.overflow = 'hidden'; });
+            }
+            if (closeBtn && modal) {
+                closeBtn.addEventListener('click', () => { modal.classList.remove('active'); document.body.style.overflow = ''; });
+            }
+            modal?.addEventListener('click', (e) => { if (e.target === modal) { modal.classList.remove('active'); document.body.style.overflow = ''; } });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal?.classList.contains('active')) { modal.classList.remove('active'); document.body.style.overflow = ''; } });
+        })();
+    </script>
+
+
+</body></html>

@@ -1,0 +1,910 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise AI Platform on AWS · SageMaker MLOps Pipelines</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=IBM+Plex+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet">
+    <style>
+        /* ===== reuse ai‑work2 theme, adapt for AWS ===== */
+        * { margin:0; padding:0; box-sizing:border-box; }
+        :root {
+            --bg-main: #0C1117;
+            --bg-surface: #121923;
+            --bg-elevated: #161F2B;
+            --card-bg: #161F2B;
+            --accent-primary: #B8B2A7;
+            --accent-energy: #7CFFB2;          /* AWS fresh green */
+            --accent-aws-orange: #FF9900;       /* AWS signature */
+            --accent-depth: #3A1F2D;
+            --text-primary: #E6E9EF;
+            --text-secondary: #A1A8B3;
+            --text-muted: #6F7682;
+            --line-subtle: #1E2633;
+            --glass-border: rgba(184, 178, 167, 0.15);
+            --ease-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --aws-gradient: linear-gradient(90deg, #FF9900, #7CFFB2);
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+        }
+        body {
+            font-family: var(--font-main);
+            background:
+                radial-gradient(circle at 88% 8%, rgba(255, 153, 0, 0.14), transparent 28%),
+                radial-gradient(circle at 12% 18%, rgba(124, 255, 178, 0.08), transparent 24%),
+                var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+            background-size: 28px 28px;
+            mask-image: radial-gradient(circle at center, black 35%, transparent 82%);
+            pointer-events: none;
+            z-index: -2;
+            opacity: 0.55;
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background:
+                linear-gradient(135deg, transparent 0%, rgba(255, 153, 0, 0.03) 50%, transparent 100%);
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.9;
+        }
+        @keyframes azureFlow { 0% { background-position:0% 0%; } 100% { background-position:100px 100px; } }
+        @keyframes fadeInUp { to { opacity:1; transform:translateY(0); } }
+        @keyframes badgePulse { 0% { box-shadow:0 0 0 0 rgba(255,153,0,0.3); } 70% { box-shadow:0 0 0 10px rgba(255,153,0,0); } 100% { box-shadow:0 0 0 0 rgba(255,153,0,0); } }
+
+        .container { max-width:1280px; margin:0 auto; padding:0 2rem; }
+
+        /* fixed nav (match ai-work2 / landing theme) */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            backdrop-filter: blur(12px);
+            background: rgba(12, 17, 23, 0.84);
+            border-bottom: 1px solid var(--line-subtle);
+        }
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 72px;
+            gap: 1rem;
+        }
+        .nav-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+            text-decoration: none;
+            white-space: nowrap;
+        }
+        .nav-logo i { color: var(--accent-aws-orange); }
+        .nav-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: 1.2rem;
+            list-style: none;
+        }
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            position: relative;
+            transition: color 180ms ease;
+        }
+        .nav-link:hover,
+        .nav-link.active { color: var(--accent-energy); }
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -6px;
+            width: 0;
+            height: 1px;
+            background: var(--aws-gradient);
+            transition: width 220ms ease;
+        }
+        .nav-link:hover::after,
+        .nav-link.active::after { width: 100%; }
+
+        main { padding-top: 2rem; padding-bottom: 5rem; }
+        .section { margin-bottom: 5rem; scroll-margin-top: 100px; }
+        .section-header { margin-bottom: 2.25rem; position: relative; }
+        .section-header::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -10px;
+            width: 88px;
+            height: 3px;
+            background: var(--aws-gradient);
+            border-radius: 2px;
+            opacity: 0.75;
+        }
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .section-subtitle {
+            text-align: center;
+            max-width: 980px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            line-height: 1.85;
+        }
+
+        /* generic cards/grids for content sections */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.35s var(--ease-slow);
+        }
+        .card:hover {
+            border-color: rgba(255, 153, 0, 0.35);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.28);
+            transform: translateY(-4px);
+        }
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.9rem;
+        }
+        .card-title i { color: var(--accent-aws-orange); }
+        .card-content { color: var(--text-secondary); line-height: 1.85; }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        .list { list-style: none; padding-left: 0; margin: 0; }
+        .list-item {
+            position: relative;
+            padding-left: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: var(--text-secondary);
+        }
+        .list-item::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: var(--accent-energy);
+        }
+        .highlight-box {
+            background: rgba(255, 153, 0, 0.06);
+            border-left: 4px solid var(--accent-aws-orange);
+            border-radius: 10px;
+            padding: 1.25rem 1.4rem;
+            margin-top: 1.25rem;
+        }
+        .highlight-box strong { color: var(--text-primary); }
+
+        /* hero CTAs */
+        .hero-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+            margin-top: 2rem;
+            align-items: center;
+        }
+        .hero-actions-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.85rem;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.65rem;
+            padding: 0.95rem 1.25rem;
+            min-height: 52px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+            border: 1px solid transparent;
+            transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, border-color 180ms ease, color 180ms ease;
+            user-select: none;
+        }
+        .btn-primary { background: var(--accent-aws-orange); color: #090b16; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(255,153,0,0.22); }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.08);
+            color: var(--text-primary);
+        }
+        .btn-secondary:hover { transform: translateY(-2px); border-color: rgba(124,255,178,0.28); box-shadow: 0 16px 40px rgba(124,255,178,0.12); }
+        .btn-ghost { background: transparent; border-color: rgba(255, 153, 0, 0.18); color: var(--accent-aws-orange); }
+        .btn-ghost:hover { transform: translateY(-2px); border-color: rgba(255, 153, 0, 0.32); }
+        .btn-disabled { opacity: 0.55; cursor: not-allowed; pointer-events: none; }
+
+        /* finops table */
+        .yaml-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: rgba(12, 17, 23, 0.35);
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--line-subtle);
+        }
+        .yaml-table th {
+            text-align: left;
+            padding: 1rem;
+            background: rgba(255, 153, 0, 0.12);
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--line-subtle);
+            font-weight: 800;
+        }
+        .yaml-table td {
+            padding: 1rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--line-subtle);
+            vertical-align: top;
+        }
+        .yaml-table tr:last-child td { border-bottom: none; }
+
+        /* numbered flow */
+        .flow-steps { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.9rem; margin-top: 1.25rem; }
+        .flow-step {
+            flex: 1;
+            min-width: 165px;
+            max-width: 240px;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--line-subtle);
+            border-radius: 14px;
+            padding: 1rem 1.1rem;
+            text-align: center;
+        }
+        .step-number {
+            width: 34px;
+            height: 34px;
+            margin: 0 auto 0.5rem;
+            border-radius: 999px;
+            display: grid;
+            place-items: center;
+            background: var(--aws-gradient);
+            color: #090b16;
+            font-weight: 900;
+        }
+        .step-label { color: var(--text-secondary); font-weight: 700; font-size: 0.95rem; line-height: 1.35; }
+
+        /* header section */
+        .header-section {
+            padding: 7.5rem 0 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            scroll-margin-top: 100px;
+        }
+        .header-section::after {
+            content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+            width:300px; height:2px; background:var(--aws-gradient); opacity:0.7;
+        }
+        .main-heading {
+            font-size:3.8rem; font-weight:700; letter-spacing:-0.02em; margin-bottom:1.5rem;
+            background:var(--aws-gradient); -webkit-background-clip:text; background-clip:text; color:transparent;
+            line-height:1.2;
+        }
+        .sub-heading {
+            font-size:2rem; color:var(--accent-aws-orange); max-width:800px; margin:0 auto 2rem;
+            font-weight:400; font-style:italic;
+        }
+        .description {
+            font-size:1.25rem; color:var(--text-secondary); max-width:900px; margin:2rem auto 1.5rem;
+            line-height:1.8;
+        }
+        .aws-badge {
+            display:inline-flex; align-items:center; gap:0.75rem; margin-top:3rem;
+            padding:0.75rem 1.5rem;
+            background:linear-gradient(135deg, rgba(255,153,0,0.1) 0%, rgba(124,255,178,0.1) 100%);
+            border:1px solid var(--glass-border); border-radius:12px;
+            font-family:var(--font-mono); font-size:0.9rem; color:var(--accent-energy);
+            backdrop-filter:blur(10px); animation:badgePulse 3s ease-in-out infinite;
+        }
+
+        /* team responsibility model */
+        .team-model {
+            background: rgba(22,31,43,0.6); border-radius:20px; padding:2rem; margin:3rem 0;
+            border-left:4px solid #FF9900;
+            display:flex; flex-wrap:wrap; justify-content:center; gap:3rem;
+        }
+        .team-item { display:flex; flex-direction:column; align-items:center; text-align:center; }
+        .team-icon { width:64px; height:64px; border-radius:50%; background:rgba(255,153,0,0.1); display:flex; align-items:center; justify-content:center; font-size:1.8rem; color:#FF9900; border:1px solid rgba(255,153,0,0.3); margin-bottom:1rem; }
+        .team-name { font-weight:600; color:var(--accent-energy); margin-bottom:0.3rem; }
+        .team-desc { font-size:0.9rem; color:var(--text-secondary); max-width:220px; }
+
+        /* three cards grid */
+        .projects-grid {
+            display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:2rem; margin:4rem 0;
+        }
+        .project-card {
+            background:var(--card-bg); border:1px solid var(--line-subtle); border-radius:16px;
+            overflow:hidden; transition:all 0.4s var(--ease-slow); opacity:0; transform:translateY(20px);
+            animation:fadeInUp 0.8s var(--ease-slow) forwards;
+            display:flex; flex-direction:column;
+        }
+        .project-card:nth-child(1) { animation-delay:0.1s; }
+        .project-card:nth-child(2) { animation-delay:0.2s; }
+        .project-card:nth-child(3) { animation-delay:0.3s; }
+        .project-card:hover { transform:translateY(-8px); box-shadow:0 16px 48px rgba(0,0,0,0.3); border-color:#FF9900; }
+
+        .card-header {
+            padding:1.8rem 1.8rem 1rem; background:linear-gradient(135deg, rgba(255,153,0,0.1) 0%, rgba(124,255,178,0.02) 100%);
+            border-bottom:1px solid var(--line-subtle);
+        }
+        .card-header .phase-tag {
+            font-family:var(--font-mono); color:var(--accent-energy); font-size:0.9rem; letter-spacing:0.5px; margin-bottom:0.5rem;
+        }
+        .card-header h3 { font-size:1.9rem; font-weight:600; color:var(--text-primary); line-height:1.2; margin-bottom:0.5rem; }
+        .card-header h3 span { color:#FF9900; font-size:1.2rem; margin-left:0.3rem; }
+        .card-header .project-desc { color:var(--text-secondary); font-size:0.95rem; margin-top:0.8rem; }
+
+        .card-body { padding:1.8rem; flex-grow:1; display:flex; flex-direction:column; }
+        .tech-list { list-style:none; padding:0; margin-bottom:2rem; }
+        .tech-list li { display:flex; align-items:center; gap:0.7rem; margin-bottom:0.7rem; color:var(--text-secondary); font-size:0.95rem; }
+        .tech-list li i { color:var(--accent-energy); font-size:0.8rem; width:1.2rem; }
+
+        .view-more-btn {
+            display:inline-flex; align-items:center; gap:0.8rem; padding:0.9rem 1.8rem;
+            background:linear-gradient(135deg, rgba(255,153,0,0.1) 0%, rgba(124,255,178,0.1) 100%);
+            border:1px solid #FF9900; border-radius:12px; color:#FF9900; text-decoration:none;
+            font-weight:600; font-size:0.95rem; transition:all 0.4s var(--ease-slow); margin-top:auto; align-self:flex-start;
+        }
+        .view-more-btn:hover {
+            background:linear-gradient(135deg, rgba(255,153,0,0.2) 0%, rgba(124,255,178,0.2) 100%);
+            transform:translateY(-3px); box-shadow:0 8px 24px rgba(255,153,0,0.2); border-color:var(--accent-energy);
+        }
+        .view-more-btn i { transition:transform 0.4s; }
+        .view-more-btn:hover i { transform:translateX(5px); }
+
+        /* architecture diagram placeholder (AWS flavour) */
+        .architecture-aws {
+            background:var(--bg-elevated); border-radius:20px; padding:2.5rem; margin:4rem 0;
+            border:1px solid var(--line-subtle);
+        }
+        .arch-title { font-size:2rem; font-weight:600; margin-bottom:2rem; text-align:center; }
+        .arch-title::after { content:''; display:block; width:80px; height:3px; background:var(--aws-gradient); margin:0.5rem auto 0; border-radius:2px; }
+        .arch-visual {
+            display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:1rem;
+            background:linear-gradient(135deg, rgba(255,153,0,0.05), rgba(124,255,178,0.02));
+            padding:2rem; border-radius:16px; margin-bottom:2rem;
+        }
+        .arch-block { display:flex; flex-direction:column; align-items:center; min-width:90px; }
+        .arch-icon { width:56px; height:56px; background:rgba(255,153,0,0.1); border-radius:12px; display:flex; align-items:center; justify-content:center; color:#FF9900; font-size:1.8rem; border:1px solid rgba(255,153,0,0.2); margin-bottom:0.5rem; }
+        .arch-label { font-size:0.8rem; color:var(--text-secondary); font-family:var(--font-mono); }
+        .arch-arrow { color:var(--accent-energy); font-size:1.4rem; margin:0 0.2rem; }
+
+        .arch-footer { text-align:center; color:var(--text-secondary); max-width:700px; margin:2rem auto 0; font-size:1rem; background:rgba(12,17,23,0.5); padding:1.5rem; border-radius:12px; border-left:3px solid #FF9900; }
+
+        /* footer */
+        .footer {
+            text-align:center; padding:5rem 0 6rem; background:linear-gradient(to bottom, transparent, rgba(12,17,23,0.3) 20%, rgba(12,17,23,0.6) 100%);
+        }
+        .footer::before {
+            content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+            width:80%; max-width:600px; height:1px; background:linear-gradient(90deg, transparent, #FF9900, #7CFFB2, transparent); opacity:0.3;
+        }
+        .footer-message { color:var(--text-secondary); font-size:1.2rem; margin-bottom:3rem; max-width:700px; margin-left:auto; margin-right:auto; line-height:1.8; }
+        .contact-btn {
+            background:linear-gradient(135deg, rgba(255,153,0,0.1) 0%, rgba(124,255,178,0.1) 100%);
+            border:1px solid var(--glass-border); color:#FF9900; padding:1.2rem 3rem; border-radius:12px;
+            font-weight:600; font-size:1.1rem; cursor:pointer; transition:all 0.4s var(--ease-slow);
+            display:inline-flex; align-items:center; gap:1rem; text-decoration:none; backdrop-filter:blur(10px);
+        }
+        .contact-btn:hover { background:linear-gradient(135deg, rgba(255,153,0,0.2) 0%, rgba(124,255,178,0.2) 100%); transform:translateY(-3px); border-color:var(--accent-energy); box-shadow:0 10px 30px rgba(0,0,0,0.3); }
+        .contact-btn i { transition:transform 0.4s; }
+        .contact-btn:hover i { transform:translateX(5px) translateY(-2px); }
+
+        @media (max-width:768px) {
+            .main-heading { font-size:2.5rem; }
+            .sub-heading { font-size:1.35rem; }
+            .projects-grid { grid-template-columns:1fr; }
+            .team-model { flex-direction:column; gap:1.5rem; }
+            .arch-visual { flex-wrap:wrap; }
+            .arch-arrow { display:none; }
+            .container { padding: 0 1rem; }
+            .nav { flex-direction: column; align-items: flex-start; padding: 0.85rem 0; }
+            .nav-list { justify-content: flex-start; }
+            .section-title { font-size: 1.9rem; }
+            .btn { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a class="nav-logo" href="#overview">
+                <i class="fab fa-aws"></i>
+                <span>Enterprise AI Platform (AWS)</span>
+            </a>
+            <ul class="nav-list">
+                <li><a class="nav-link active" href="#overview">Overview</a></li>
+                <li><a class="nav-link" href="#business-problem">Business</a></li>
+                <li><a class="nav-link" href="#pipelines">Pipelines</a></li>
+                <li><a class="nav-link" href="#architecture">Architecture</a></li>
+                <li><a class="nav-link" href="#finops">FinOps</a></li>
+                <li><a class="nav-link" href="#resources">Resources</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <header id="overview" class="header-section">
+        <div class="container">
+            <h1 class="main-heading">Enterprise AI Platform on AWS</h1>
+            <h3 class="sub-heading">End-to-End AWS SageMaker MLOps Pipelines for Production ML Deployment</h3>
+            <p class="description">
+                <strong>Enterprise AI Platform on AWS:</strong> a complete, enterprise‑grade MLOps foundation built with
+                <strong>Amazon SageMaker</strong>, <strong>AWS CDK (IaC)</strong>, <strong>GitHub Actions</strong>, and <strong>OIDC authentication</strong>.
+                It automates infrastructure provisioning, model training with quality gates, governed registry approvals, and production endpoint deployment across <strong>Dev / Pre‑Prod / Prod</strong>.
+            </p>
+            <p class="description" style="margin-top: 1rem;">
+                The demo use case is <strong>Abalone Age Prediction</strong> (regression). The real value is the reusable platform pattern—portable to demand forecasting, pricing, churn, risk scoring, and predictive maintenance.
+            </p>
+            <div class="aws-badge">
+                <i class="fab fa-aws"></i>
+                <span>AWS CDK · SageMaker · GitHub Actions OIDC · Service Catalog · MLOps</span>
+            </div>
+
+            <div class="hero-actions">
+                <div class="hero-actions-row">
+                    <a class="btn btn-primary" href="#pipelines">
+                        <i class="fas fa-diagram-project"></i>
+                        <span>Explore the 3 Pipelines</span>
+                    </a>
+                    <a class="btn btn-secondary" href="#finops">
+                        <i class="fas fa-coins"></i>
+                        <span>FinOps Cost View</span>
+                    </a>
+                    <a class="btn btn-ghost" href="#architecture">
+                        <i class="fas fa-sitemap"></i>
+                        <span>Architecture Story</span>
+                    </a>
+                </div>
+                <div class="hero-actions-row">
+                    <span class="btn btn-secondary btn-disabled">
+                        <i class="fab fa-github"></i>
+                        <span>Repository Link (add when ready)</span>
+                    </span>
+                    <span class="btn btn-secondary btn-disabled">
+                        <i class="fas fa-plug-circle-xmark"></i>
+                        <span>Endpoint Link (only during live execution)</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Team responsibility model (AWS adapt) -->
+            <div class="team-model">
+                <div class="team-item">
+                    <div class="team-icon"><i class="fas fa-cloud"></i></div>
+                    <div class="team-name">Platform Team</div>
+                    <div class="team-desc">Project‑1: IaC foundation – CDK, SageMaker Domain, Org Templates, OIDC</div>
+                </div>
+                <div class="team-item">
+                    <div class="team-icon"><i class="fas fa-robot"></i></div>
+                    <div class="team-name">ML Engineering</div>
+                    <div class="team-desc">Project‑2: Modelling pipeline – process, train, evaluate, register + quality gates</div>
+                </div>
+                <div class="team-item">
+                    <div class="team-icon"><i class="fas fa-rocket"></i></div>
+                    <div class="team-name">Production Eng</div>
+                    <div class="team-desc">Project‑3: Deployment pipeline – registry‑driven endpoints, CDK, traffic mgmt</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">End-to-End AWS SageMaker MLOps</h2>
+                <p class="section-subtitle">
+                    This project demonstrates a complete enterprise‑grade MLOps platform on AWS using Amazon SageMaker, AWS CDK (Infrastructure as Code),
+                    GitHub Actions, and OIDC authentication. It automates the ML lifecycle across infrastructure, training with quality gates, and registry‑driven production deployment.
+                </p>
+            </div>
+
+            <div class="grid-3">
+                <article class="card">
+                    <h3 class="card-title"><i class="fas fa-shield-halved"></i>Secure CI/CD</h3>
+                    <div class="card-content">
+                        <p><strong>OIDC‑based GitHub Actions</strong> avoids static cloud credentials. Deployments are scoped with least‑privilege IAM and can be cleanly separated per environment.</p>
+                    </div>
+                </article>
+                <article class="card">
+                    <h3 class="card-title"><i class="fas fa-scale-balanced"></i>Governed promotion</h3>
+                    <div class="card-content">
+                        <p>Models are versioned in <strong>SageMaker Model Registry</strong> and promoted only after <strong>manual approval</strong> gates to reduce risk.</p>
+                    </div>
+                </article>
+                <article class="card">
+                    <h3 class="card-title"><i class="fas fa-rotate"></i>Automation first</h3>
+                    <div class="card-content">
+                        <p>Infrastructure, training, evaluation, registration, and deployment are automated so teams can iterate quickly with traceability.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="business-problem" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Business Problem</h2>
+                <p class="section-subtitle">Notebook models are easy. Production ML is hard without a repeatable delivery platform.</p>
+            </div>
+            <div class="grid-2">
+                <article class="card">
+                    <h3 class="card-title"><i class="fas fa-triangle-exclamation"></i>The pain</h3>
+                    <div class="card-content">
+                        <p>Many teams train models manually and deploy inconsistently. They lack governance, monitoring, and secure automation—leading to delays, quality issues, security risks, and high operational overhead.</p>
+                        <div class="highlight-box">
+                            <strong>Impact:</strong> slow releases, fragile deployments, limited auditability, and expensive rework.
+                        </div>
+                    </div>
+                </article>
+                <article class="card">
+                    <h3 class="card-title"><i class="fas fa-bullseye"></i>The solution</h3>
+                    <div class="card-content">
+                        <p>This project delivers a reusable AWS MLOps foundation that standardizes training, evaluation, registry governance, and production deployment using native AWS services.</p>
+                        <div class="highlight-box">
+                            <strong>Outcome:</strong> consistent, reproducible, and governed ML operations across environments.
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="pipelines" class="section">
+            <div class="section-header">
+                <h2 class="section-title">What The Project Does</h2>
+                <p class="section-subtitle">The platform is built as three modular pipelines.</p>
+            </div>
+
+        <!-- Three project cards (matching ai-work2 style) -->
+        <div class="projects-grid">
+            <!-- Card 1: Platform (IaC)  -> link to ai6.1.html -->
+            <div class="project-card">
+                <div class="card-header">
+                    <div class="phase-tag"><i class="fas fa-cubes"></i> Pipeline‑1 · Infrastructure (IaC)</div>
+                    <h3>Enterprise SageMaker <span>Foundation</span></h3>
+                    <p class="project-desc">AWS CDK · Service Catalog · Organization Templates · SageMaker Domain</p>
+                </div>
+                <div class="card-body">
+                    <ul class="tech-list">
+                        <li><i class="fas fa-check-circle"></i> SageMaker Domain + Studio provisioning</li>
+                        <li><i class="fas fa-check-circle"></i> Organization Templates (Service Catalog)</li>
+                        <li><i class="fas fa-check-circle"></i> IAM least‑privilege, KMS, S3 artifacts</li>
+                        <li><i class="fas fa-check-circle"></i> GitHub Actions OIDC + CDK bootstrap/synth/deploy</li>
+                    </ul>
+                    <a href="/mlops/ai6/ai6.1" class="view-more-btn" rel="noopener">
+                        <span>View IaC details</span> <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 2: Modelling (Pipeline-2)  -> link to ai6.2.html -->
+            <div class="project-card">
+                <div class="card-header">
+                    <div class="phase-tag"><i class="fas fa-brain"></i> Pipeline‑2 · Training</div>
+                    <h3>SageMaker Pipeline <span>Process→Train→Evaluate→Register</span></h3>
+                    <p class="project-desc">XGBoost · quality gates · Model Registry · manual approval</p>
+                </div>
+                <div class="card-body">
+                    <ul class="tech-list">
+                        <li><i class="fas fa-check-circle"></i> Automated preprocessing, training, evaluation</li>
+                        <li><i class="fas fa-check-circle"></i> MSE quality gate – conditional registration</li>
+                        <li><i class="fas fa-check-circle"></i> Model Registry + manual approval stage</li>
+                        <li><i class="fas fa-check-circle"></i> GitHub Actions + OIDC orchestration</li>
+                    </ul>
+                    <a href="/mlops/ai6/ai6.2" class="view-more-btn" rel="noopener">
+                        <span>View training pipeline</span> <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 3: Deployment (Pipeline-3) -> link to ai6.3.html -->
+            <div class="project-card">
+                <div class="card-header">
+                    <div class="phase-tag"><i class="fas fa-server"></i> Pipeline‑3 · Deployment</div>
+                    <h3>Registry-Driven Serving <span>Approved→Endpoint</span></h3>
+                    <p class="project-desc">AWS CDK · registry promotion · real-time + batch · multi-env</p>
+                </div>
+                <div class="card-body">
+                    <ul class="tech-list">
+                        <li><i class="fas fa-check-circle"></i> Registry‑driven model promotion (latest Approved)</li>
+                        <li><i class="fas fa-check-circle"></i> SageMaker Model + EndpointConfig + Endpoint</li>
+                        <li><i class="fas fa-check-circle"></i> YAML instance config, traffic weights</li>
+                        <li><i class="fas fa-check-circle"></i> GitHub Actions CDK deploy + OIDC</li>
+                    </ul>
+                    <a href="/mlops/ai6/ai6.3" class="view-more-btn" rel="noopener">
+                        <span>View deployment details</span> <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+            <div class="grid-2" style="margin-top: 2.5rem;">
+                <article class="card">
+                    <h3 class="card-title"><i class="fas fa-list-check"></i>Key capabilities</h3>
+                    <ul class="list">
+                        <li class="list-item">Infrastructure as Code with AWS CDK (Python)</li>
+                        <li class="list-item">Secure CI/CD using GitHub Actions + OIDC (no static credentials)</li>
+                        <li class="list-item">Quality gates during training evaluation</li>
+                        <li class="list-item">Model governance with SageMaker Model Registry + manual approval</li>
+                        <li class="list-item">Multi‑environment support (Dev / Pre‑Prod / Prod)</li>
+                        <li class="list-item">Support for both real‑time and batch inference</li>
+                    </ul>
+                </article>
+                <article class="card">
+                    <h3 class="card-title"><i class="fas fa-briefcase"></i>Business value</h3>
+                    <ul class="list">
+                        <li class="list-item">Faster time from model development to production</li>
+                        <li class="list-item">Consistent, reproducible, and auditable ML processes</li>
+                        <li class="list-item">Strong governance and traceability via Model Registry</li>
+                        <li class="list-item">Reduced manual effort and operational risk</li>
+                        <li class="list-item">Clear separation of infrastructure, training, and deployment</li>
+                        <li class="list-item">Secure, scalable, cost‑aware design using AWS services</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Business Use Cases</h2>
+                <p class="section-subtitle">Abalone Age Prediction is the demo. The same architecture powers real enterprise workloads.</p>
+            </div>
+            <article class="card">
+                <h3 class="card-title"><i class="fas fa-shapes"></i>Cross-industry applications</h3>
+                <ul class="list">
+                    <li class="list-item"><strong>Transportation:</strong> fare prediction, ETA, demand forecasting, route optimization</li>
+                    <li class="list-item"><strong>Retail:</strong> sales forecasting, dynamic pricing, inventory optimization</li>
+                    <li class="list-item"><strong>Finance:</strong> credit risk scoring, fraud detection, customer churn prediction</li>
+                    <li class="list-item"><strong>Healthcare:</strong> patient risk scoring, readmission prediction</li>
+                    <li class="list-item"><strong>Manufacturing:</strong> predictive maintenance, quality control, yield optimization</li>
+                    <li class="list-item"><strong>Marketing:</strong> customer lifetime value, next-best-action recommendation</li>
+                </ul>
+            </article>
+        </section>
+
+        <section id="architecture" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Business Architecture Story</h2>
+                <p class="section-subtitle">
+                    A business team provides historical data. The MLOps platform handles preparation, training, evaluation with quality gates,
+                    governed registration, and automated promotion to scalable production endpoints for applications to consume.
+                </p>
+            </div>
+
+            <article class="card">
+                <h3 class="card-title"><i class="fas fa-diagram-project"></i>Plain-text flow</h3>
+                <div class="card-content">
+                    <div class="highlight-box">
+                        <strong>Business Data</strong> → <strong>GitHub (IaC + Seed Code)</strong> →
+                        <strong>Pipeline‑1: Infrastructure (CDK + Service Catalog)</strong> → SageMaker Domain + Templates →
+                        <strong>Pipeline‑2: Training (SageMaker Pipelines)</strong> → Process → Train → Evaluate → Model Registry →
+                        <strong>Pipeline‑3: Deployment (CDK)</strong> → Approved Model → Real-time Endpoint / Batch →
+                        <strong>Business Applications</strong> → Predictions → Decisions + Monitoring + Retraining
+                    </div>
+                    <div class="flow-steps">
+                        <div class="flow-step"><div class="step-number">1</div><div class="step-label">Business Data</div></div>
+                        <div class="flow-step"><div class="step-number">2</div><div class="step-label">GitHub + OIDC</div></div>
+                        <div class="flow-step"><div class="step-number">3</div><div class="step-label">IaC (Pipeline‑1)</div></div>
+                        <div class="flow-step"><div class="step-number">4</div><div class="step-label">Train + Gates</div></div>
+                        <div class="flow-step"><div class="step-number">5</div><div class="step-label">Registry Approval</div></div>
+                        <div class="flow-step"><div class="step-number">6</div><div class="step-label">Deploy + Monitor</div></div>
+                    </div>
+                </div>
+            </article>
+
+            <div class="architecture-aws" style="margin-top: 2rem;">
+                <h2 class="arch-title">Complete Architecture Diagram</h2>
+                <div class="arch-visual">
+                    <div class="arch-block"><div class="arch-icon"><i class="fab fa-github"></i></div><span class="arch-label">GitHub Actions</span></div>
+                    <span class="arch-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <div class="arch-block"><div class="arch-icon"><i class="fas fa-cloud"></i></div><span class="arch-label">OIDC + IAM</span></div>
+                    <span class="arch-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <div class="arch-block"><div class="arch-icon"><i class="fas fa-code"></i></div><span class="arch-label">CDK (IaC)</span></div>
+                    <span class="arch-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <div class="arch-block"><div class="arch-icon"><i class="fas fa-robot"></i></div><span class="arch-label">SageMaker</span></div>
+                    <span class="arch-arrow"><i class="fas fa-arrow-right"></i></span>
+                    <div class="arch-block"><div class="arch-icon"><i class="fas fa-server"></i></div><span class="arch-label">Endpoints</span></div>
+                </div>
+                <div class="arch-footer">
+                    <strong>End-to-end automation:</strong> CDK provisions enterprise-ready SageMaker infrastructure, pipelines train with quality gates,
+                    approved models promote to real-time or batch endpoints—governed by OIDC and least-privilege IAM.
+                </div>
+            </div>
+        </section>
+
+        <section id="finops" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Cost-Aware AWS MLOps (FinOps)</h2>
+                <p class="section-subtitle">Designed with FinOps principles: scale-to-zero jobs, on-demand endpoints, and quality gates to prevent wasteful deployments.</p>
+            </div>
+            <div class="grid-2">
+                <article class="card">
+                    <h3 class="card-title"><i class="fas fa-sliders"></i>Key cost controls</h3>
+                    <ul class="list">
+                        <li class="list-item">Scale-to-zero training and processing jobs</li>
+                        <li class="list-item">On-demand SageMaker endpoints (easy to create/delete)</li>
+                        <li class="list-item">Infrastructure as Code for quick spin-up/teardown</li>
+                        <li class="list-item">Quality gates to prevent wasteful deployments</li>
+                        <li class="list-item">Batch Transform for non-urgent workloads</li>
+                    </ul>
+                    <div class="highlight-box">
+                        <strong>Main cost driver:</strong> real-time SageMaker endpoints. Delete endpoints after testing for portfolio/demo projects to stay under ~$60/month.
+                    </div>
+                </article>
+                <article class="card">
+                    <h3 class="card-title"><i class="fas fa-table"></i>Estimated monthly cost profile</h3>
+                    <div class="card-content">
+                        <table class="yaml-table" aria-label="Estimated monthly cost profile">
+                            <thead>
+                                <tr>
+                                    <th>Scenario</th>
+                                    <th>Description</th>
+                                    <th>Approx. monthly cost</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Portfolio / Demo</td>
+                                    <td>No running endpoint</td>
+                                    <td>$15 – $60</td>
+                                </tr>
+                                <tr>
+                                    <td>Active Development</td>
+                                    <td>Occasional training + testing</td>
+                                    <td>$50 – $150</td>
+                                </tr>
+                                <tr>
+                                    <td>Production Pilot</td>
+                                    <td>One real-time endpoint + retraining</td>
+                                    <td>$120 – $280</td>
+                                </tr>
+                                <tr>
+                                    <td>Small Production</td>
+                                    <td>Endpoint + monitoring + weekly retraining</td>
+                                    <td>$200 – $500</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="highlight-box" style="margin-top: 1rem;">
+                            <strong>Recommendation:</strong> use Batch Transform where latency is not critical; keep real-time endpoints only when the business requires low-latency predictions.
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section id="resources" class="section">
+            <div class="section-header">
+                <h2 class="section-title">Resources Used</h2>
+                <p class="section-subtitle">Core AWS services and compute profiles that power the platform.</p>
+            </div>
+            <div class="grid-2">
+                <article class="card">
+                    <h3 class="card-title"><i class="fas fa-toolbox"></i>Core stack</h3>
+                    <ul class="list">
+                        <li class="list-item">AWS CDK (Python) + GitHub Actions + OIDC</li>
+                        <li class="list-item">Amazon SageMaker (Domain, Pipelines, Model Registry, Endpoints)</li>
+                        <li class="list-item">Training / Processing: <code>ml.m5.xlarge</code> (scale-to-zero)</li>
+                        <li class="list-item">Real-time Endpoint: <code>ml.m5.xlarge</code></li>
+                    </ul>
+                </article>
+                <article class="card">
+                    <h3 class="card-title"><i class="fas fa-layer-group"></i>Supporting services</h3>
+                    <ul class="list">
+                        <li class="list-item">S3, ECR, CloudWatch</li>
+                        <li class="list-item">KMS, SSM Parameter Store</li>
+                        <li class="list-item">AWS Service Catalog (Organization Templates)</li>
+                        <li class="list-item">Multi-environment support (Dev / Pre-Prod / Prod)</li>
+                    </ul>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-message">
+                Ready to deploy an enterprise AI platform on AWS? Let's build automated infrastructure, 
+                training pipelines, and production-grade serving with full governance and cost optimisation.
+            </p>
+            <a href="/index#contact" class="contact-btn">
+                <span>Discuss AWS AI Platform Strategy</span>
+                <i class="fas fa-paper-plane"></i>
+            </a>
+        </div>
+    </footer>
+
+    <!-- minimal script for active/hover (copy style from ai‑work2) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach(c => {
+                c.addEventListener('mouseenter', () => {
+                    const btn = c.querySelector('.view-more-btn i');
+                    if (btn) btn.style.transform = 'translateX(5px)';
+                });
+                c.addEventListener('mouseleave', () => {
+                    const btn = c.querySelector('.view-more-btn i');
+                    if (btn) btn.style.transform = 'translateX(0)';
+                });
+            });
+
+            const navLinks = Array.from(document.querySelectorAll('.nav-link'));
+            const sections = navLinks
+                .map(a => document.querySelector(a.getAttribute('href')))
+                .filter(Boolean);
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = document.querySelector(link.getAttribute('href'));
+                    if (target) target.scrollIntoView({ behavior: 'smooth' });
+                    navLinks.forEach(n => n.classList.remove('active'));
+                    link.classList.add('active');
+                });
+            });
+
+            if (sections.length) {
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach(ent => {
+                        if (ent.isIntersecting) {
+                            const id = '#' + ent.target.id;
+                            navLinks.forEach(n => n.classList.toggle('active', n.getAttribute('href') === id));
+                        }
+                    });
+                }, { threshold: 0.45 });
+                sections.forEach(s => io.observe(s));
+            }
+        });
+
+        // Always start from top on reload (ignore hash anchors)
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                window.scrollTo(0, 0);
+                if (window.location.hash) {
+                    history.replaceState(null, document.title, window.location.pathname + window.location.search);
+                }
+            }, 20);
+        });
+    </script>
+
+</body></html>

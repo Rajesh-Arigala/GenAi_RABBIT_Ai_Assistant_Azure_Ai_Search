@@ -1,0 +1,218 @@
+[
+  {
+    "source_page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+    "source_url": "https://rajesharigala.com/mlops/mlops,sys",
+    "target_page_id": "03_01_AI_Project_MLflow_AWS_Platform",
+    "target_url": "https://rajesharigala.com/mlops/ai1",
+    "relationship": "related_ai_project_page",
+    "link_text": "View Project Details"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+    "source_url": "https://rajesharigala.com/mlops/mlops,sys",
+    "target_page_id": "03_02_02_AI_Project_Azure_Module_02",
+    "target_url": "https://rajesharigala.com/mlops/ai2/ai2.2",
+    "relationship": "related_ai_project_page",
+    "link_text": "View Project Details"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+    "source_url": "https://rajesharigala.com/mlops/mlops,sys",
+    "target_page_id": "03_03_02_AI_Project_AWS_Training_Pipeline",
+    "target_url": "https://rajesharigala.com/mlops/ai6/ai6.2",
+    "relationship": "related_ai_project_page",
+    "link_text": "View Project Details"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+    "source_url": "https://rajesharigala.com/mlops/mlops,sys",
+    "target_page_id": "03_04_02_AI_Project_GCP_Training_Pipeline",
+    "target_url": "https://rajesharigala.com/mlops/ai4/ai4.2",
+    "relationship": "related_ai_project_page",
+    "link_text": "View Project Details"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+    "source_url": "https://rajesharigala.com/mlops/mlops,sys",
+    "target_page_id": "03_05_02_AI_Project_Kubeflow_Training_Pipeline",
+    "target_url": "https://rajesharigala.com/mlops/ai5/ai5.2",
+    "relationship": "related_ai_project_page",
+    "link_text": "View Project Details"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+    "source_url": "https://rajesharigala.com/mlops/mlops,sys",
+    "target_page_id": "03_02_03_AI_Project_Azure_Module_03",
+    "target_url": "https://rajesharigala.com/mlops/ai2/ai2.3",
+    "relationship": "related_ai_project_page",
+    "link_text": "View Project Details"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+    "source_url": "https://rajesharigala.com/mlops/mlops,sys",
+    "target_page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems_MLflow_AWS_Project",
+    "target_url": "https://rajesharigala.com/mlops/ml-project4",
+    "relationship": "related_mlops_page",
+    "link_text": "View Project Details"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+    "source_url": "https://rajesharigala.com/mlops/mlops,sys",
+    "target_page_id": "03_03_03_AI_Project_AWS_Deployment_Details",
+    "target_url": "https://rajesharigala.com/mlops/ai6/ai6.3",
+    "relationship": "related_ai_project_page",
+    "link_text": "View Project Details"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+    "source_url": "https://rajesharigala.com/mlops/mlops,sys",
+    "target_page_id": "03_04_03_AI_Project_GCP_Deployment_Details",
+    "target_url": "https://rajesharigala.com/mlops/ai4/ai4.3",
+    "relationship": "related_ai_project_page",
+    "link_text": "View Project Details"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+    "source_url": "https://rajesharigala.com/mlops/mlops,sys",
+    "target_page_id": "03_05_03_AI_Project_Kubeflow_Deployment_Details",
+    "target_url": "https://rajesharigala.com/mlops/ai5/ai5.3",
+    "relationship": "related_ai_project_page",
+    "link_text": "View Project Details"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+    "source_url": "https://rajesharigala.com/mlops/mlops,sys",
+    "target_page_id": "00_Homepage",
+    "target_url": "https://rajesharigala.com",
+    "relationship": "related_internal_page",
+    "link_text": "Discuss MLOps Architecture"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_04_IaC",
+    "source_url": "https://rajesharigala.com/mlops/infra-code",
+    "target_page_id": "02_Tech_02_MLOps_04_IaC_01_Project_1",
+    "target_url": "https://rajesharigala.com/mlops/infra project1",
+    "relationship": "related_mlops_page",
+    "link_text": "View Project"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_04_IaC",
+    "source_url": "https://rajesharigala.com/mlops/infra-code",
+    "target_page_id": "02_Tech_02_MLOps_04_IaC_02_Project_2",
+    "target_url": "https://rajesharigala.com/mlops/infra project2",
+    "relationship": "related_mlops_page",
+    "link_text": "View Patterns"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_04_IaC",
+    "source_url": "https://rajesharigala.com/mlops/infra-code",
+    "target_page_id": "03_02_01_AI_Project_Azure_Module_01",
+    "target_url": "https://rajesharigala.com/mlops/ai2/ai2.1",
+    "relationship": "related_ai_project_page",
+    "link_text": "View Project"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_04_IaC",
+    "source_url": "https://rajesharigala.com/mlops/infra-code",
+    "target_page_id": "03_04_01_AI_Project_GCP_IaC_Details",
+    "target_url": "https://rajesharigala.com/mlops/ai4/ai4.1",
+    "relationship": "related_ai_project_page",
+    "link_text": "View Project"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_04_IaC",
+    "source_url": "https://rajesharigala.com/mlops/infra-code",
+    "target_page_id": "03_05_01_AI_Project_Kubeflow_IaC_Details",
+    "target_url": "https://rajesharigala.com/mlops/ai5/ai5.1",
+    "relationship": "related_ai_project_page",
+    "link_text": "View Project"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_04_IaC",
+    "source_url": "https://rajesharigala.com/mlops/infra-code",
+    "target_page_id": "03_03_01_AI_Project_AWS_IaC_Details",
+    "target_url": "https://rajesharigala.com/mlops/ai6/ai6.1",
+    "relationship": "related_ai_project_page",
+    "link_text": "View Project"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_04_IaC",
+    "source_url": "https://rajesharigala.com/mlops/infra-code",
+    "target_page_id": "00_Homepage",
+    "target_url": "https://rajesharigala.com",
+    "relationship": "related_internal_page",
+    "link_text": "Discuss Infrastructure as Code"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_01_CICD",
+    "source_url": "https://rajesharigala.com/mlops/cicd",
+    "target_page_id": "02_Tech_02_MLOps_01_CICD_Azure_DevOps_Pipeline",
+    "target_url": "https://rajesharigala.com/mlops/CI-CD/azure-devops-ci-cd-pipeline-yaml",
+    "relationship": "related_mlops_page",
+    "link_text": "View Project"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_01_CICD",
+    "source_url": "https://rajesharigala.com/mlops/cicd",
+    "target_page_id": "02_Tech_02_MLOps_01_CICD_GitHub_Actions_Pipeline",
+    "target_url": "https://rajesharigala.com/mlops/CI-CD/github-actions-ci-cd-pipeline-yaml",
+    "relationship": "related_mlops_page",
+    "link_text": "View Project"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_01_CICD",
+    "source_url": "https://rajesharigala.com/mlops/cicd",
+    "target_page_id": "02_Tech_02_MLOps_01_CICD_AWS_DevOps_Pipeline",
+    "target_url": "https://rajesharigala.com/mlops/CI-CD/aws-cicd-pipeline-devops",
+    "relationship": "related_mlops_page",
+    "link_text": "View Project"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_01_CICD",
+    "source_url": "https://rajesharigala.com/mlops/cicd",
+    "target_page_id": "02_Tech_02_MLOps_01_CICD_GCP_Cloud_Build_Pipeline",
+    "target_url": "https://rajesharigala.com/mlops/CI-CD/gcp-cloud-build-ci-cd-pipeline-yaml",
+    "relationship": "related_mlops_page",
+    "link_text": "View Project"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_01_CICD",
+    "source_url": "https://rajesharigala.com/mlops/cicd",
+    "target_page_id": "02_Tech_02_MLOps_01_CICD_AWS_CDK_IaC_Platform",
+    "target_url": "https://rajesharigala.com/mlops/CI-CD/cicd-project5",
+    "relationship": "related_mlops_page",
+    "link_text": "View Project"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_01_CICD",
+    "source_url": "https://rajesharigala.com/mlops/cicd",
+    "target_page_id": "00_Homepage",
+    "target_url": "https://rajesharigala.com",
+    "relationship": "related_internal_page",
+    "link_text": "Discuss CI/CD Strategy"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_02_Containers",
+    "source_url": "https://rajesharigala.com/mlops/ContainersOrchestration",
+    "target_page_id": "02_Tech_02_MLOps_02_Containers_01_Dockers",
+    "target_url": "https://rajesharigala.com/mlops/docker",
+    "relationship": "related_mlops_page",
+    "link_text": "View Docker Projects"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_02_Containers",
+    "source_url": "https://rajesharigala.com/mlops/ContainersOrchestration",
+    "target_page_id": "02_Tech_02_MLOps_02_Containers_02_Kubernetes",
+    "target_url": "https://rajesharigala.com/mlops/kubernetes",
+    "relationship": "related_mlops_page",
+    "link_text": "View Kubernetes Projects"
+  },
+  {
+    "source_page_id": "02_Tech_02_MLOps_02_Containers",
+    "source_url": "https://rajesharigala.com/mlops/ContainersOrchestration",
+    "target_page_id": "00_Homepage",
+    "target_url": "https://rajesharigala.com",
+    "relationship": "related_internal_page",
+    "link_text": "Discuss Container Strategy"
+  }
+]

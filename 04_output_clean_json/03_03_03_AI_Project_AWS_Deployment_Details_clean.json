@@ -1,0 +1,188 @@
+{
+  "id": "03_03_03_AI_Project_AWS_Deployment_Details",
+  "source_type": "website_rendered_v4_site_crawl",
+  "domain": "rajesharigala.com",
+  "url": "https://rajesharigala.com/mlops/ai6/ai6.3",
+  "depth": 1,
+  "parent_url": "https://rajesharigala.com/mlops/mlops,sys",
+  "parent_page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+  "logical_parent_page_id": "03_AI_Projects",
+  "title": "AWS AI Deployment Pipeline · CDK · MLOps",
+  "meta_description": "",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "AWS AI Deployment Pipeline"
+    },
+    {
+      "level": "h2",
+      "text": "Project Summary"
+    },
+    {
+      "level": "h2",
+      "text": "Key Technologies"
+    },
+    {
+      "level": "h2",
+      "text": "Problem & Objective"
+    },
+    {
+      "level": "h2",
+      "text": "Solution & Architecture"
+    },
+    {
+      "level": "h2",
+      "text": "MLOps & Automation"
+    },
+    {
+      "level": "h2",
+      "text": "Skills & Technologies"
+    },
+    {
+      "level": "h2",
+      "text": "Challenges & Resolutions"
+    },
+    {
+      "level": "h2",
+      "text": "CI/CD · AWS Mapping"
+    },
+    {
+      "level": "h2",
+      "text": "AWS DevOps CI/CD – Reference Architecture"
+    },
+    {
+      "level": "h2",
+      "text": "Assets & References"
+    },
+    {
+      "level": "h3",
+      "text": "Category"
+    },
+    {
+      "level": "h3",
+      "text": "Domain"
+    },
+    {
+      "level": "h3",
+      "text": "Method"
+    },
+    {
+      "level": "h3",
+      "text": "Problem"
+    },
+    {
+      "level": "h3",
+      "text": "Objective"
+    },
+    {
+      "level": "h3",
+      "text": "Overview"
+    },
+    {
+      "level": "h3",
+      "text": "Components"
+    },
+    {
+      "level": "h3",
+      "text": "Scalability & reliability"
+    },
+    {
+      "level": "h3",
+      "text": "AI/ML type"
+    },
+    {
+      "level": "h3",
+      "text": "Pipeline automation"
+    },
+    {
+      "level": "h3",
+      "text": "CI/CD & containerisation"
+    },
+    {
+      "level": "h3",
+      "text": "Monitoring & optimisation"
+    },
+    {
+      "level": "h3",
+      "text": "Primary skills"
+    },
+    {
+      "level": "h3",
+      "text": "Secondary tools"
+    },
+    {
+      "level": "h3",
+      "text": "Languages"
+    },
+    {
+      "level": "h3",
+      "text": "Challenges"
+    },
+    {
+      "level": "h3",
+      "text": "Resolutions"
+    },
+    {
+      "level": "h3",
+      "text": "Architecture Flow:"
+    },
+    {
+      "level": "h3",
+      "text": "Security & Guardrails:"
+    },
+    {
+      "level": "h3",
+      "text": "MLOps CDK GitHub Action"
+    },
+    {
+      "level": "h3",
+      "text": "Psitron ML Build"
+    },
+    {
+      "level": "h3",
+      "text": "Psitron ML Deploy"
+    },
+    {
+      "level": "h3",
+      "text": "Study Material – Pipeline‑3"
+    }
+  ],
+  "paragraphs": [
+    "Registry‑Driven Endpoint Promotion · Pipeline‑3",
+    "Triggering AWS Lambda via AWS EventBridge when the model is manually approved. This leads to automated running of the third CI/CD pipeline for promotion of the approved model from SageMaker Model Registry to real-time endpoints.",
+    "MLOps + Cloud · cross‑industry",
+    "AWS + CI/CD stack",
+    "CDK pipeline fetches latest Approved model from SageMaker Model Registry, provisions Model, EndpointConfig, Endpoint to Dev/Pre‑Prod/Prod. Triggered by GitHub Actions (OIDC auth). Endpoint configuration (instance, weight) YAML‑driven. Completes lifecycle started in Pipeline‑2.",
+    "Pipeline‑3 constructs",
+    "Process flow: GitHub → GitHub Actions → OIDC → IAM → CDK → CloudFormation → Model/EndpointConfig → Real‑time Endpoint.",
+    "Pipeline‑3: Deployment / Promotion",
+    "Infrastructure-as-code and GitHub Actions workflow for platform provisioning.",
+    "Build repository for the ML pipeline stage and related implementation assets.",
+    "Deployment repository for ML release workflows and production delivery assets."
+  ],
+  "links": [
+    {
+      "text": "AWS CDK · MLOps",
+      "href": "https://rajesharigala.com/mlops/ai6/ai6.3"
+    },
+    {
+      "text": "MLOps CDK GitHub Action",
+      "href": "https://github.com/Rajesh-Arigala/mlops-cdk-github-action"
+    },
+    {
+      "text": "Psitron ML Build",
+      "href": "https://github.com/Rajesh-Arigala/psitron-ml-build"
+    },
+    {
+      "text": "Psitron ML Deploy",
+      "href": "https://github.com/Rajesh-Arigala/psitron-ml-deploy"
+    },
+    {
+      "text": "Request Study Material",
+      "href": "https://rajesharigala.com/"
+    }
+  ],
+  "content": "AWS AI Deployment Pipeline Registry‑Driven Endpoint Promotion · Pipeline‑3 Triggering AWS Lambda via AWS EventBridge when the model is manually approved. This leads to automated running of the third CI/CD pipeline for promotion of the approved model from SageMaker Model Registry to real-time endpoints. MLOps CDK GitHub Action Psitron ML Build Psitron ML Deploy Project Summary MLOps + Cloud · cross‑industry Category MLOps + Cloud · AI Platform Engineering Domain Model Deployment & Serving · Enterprise AI Method CDK (IaC) · GitHub Actions · SageMaker Key Technologies AWS + CI/CD stack AWS CDK SageMaker Endpoints Model Registry EndpointConfig GitHub Actions OIDC → IAM CloudFormation S3 / ECR KMS encryption Multi‑env CloudWatch YAML config Problem & Objective Problem Manual model deployment → inconsistent environments, security risks, slow promotion, lack of governance. Objective Secure, repeatable, registry‑driven promotion to SageMaker endpoints via CDK + CI/CD (GitHub Actions + OIDC). Solution & Architecture Overview CDK pipeline fetches latest Approved model from SageMaker Model Registry, provisions Model, EndpointConfig, Endpoint to Dev/Pre‑Prod/Prod. Triggered by GitHub Actions (OIDC auth). Endpoint configuration (instance, weight) YAML‑driven. Completes lifecycle started in Pipeline‑2. 1 GitHub Actions 2 CDK synth 3 Model Registry 4 EndpointConfig 5 Real‑time Endpoint Components AWS CDK (Python) SageMaker Model Registry Endpoint + EndpointConfig IAM / KMS / S3 / ECR CloudFormation backend Scalability & reliability Managed SageMaker endpoints (HA) Config‑driven instance sizing CloudFormation rollback Multi‑environment isolation MLOps & Automation AI/ML type MLOps Deployment / Model Serving Automation Pipeline automation Pull latest Approved model → create Model + EndpointConfig + Endpoint → CDK deployment CI/CD & containerisation GitHub Actions (orchestration) + OIDC → IAM AWS CDK (deployment as code) Docker/ECR for custom inference containers Monitoring & optimisation CloudWatch metrics & logs for endpoints GitHub Actions + CloudFormation logs YAML‑driven instance tuning Cost guardrails via fixed defaults Skills & Technologies Primary skills MLOps Deployment / Model Serving – Advanced AWS CDK (IaC) – Advanced SageMaker Endpoints – Advanced CI/CD GitHub Actions – Advanced Secondary tools AWS IAM, KMS, S3 CloudFormation Docker / ECR Languages Python (primary), YAML (CI/CD & config) Challenges & Resolutions Challenges Registry‑driven without hardcoding versions Secure CI/CD auth for prod Environment‑specific config IAM least‑privilege scoping Resolutions Lookup latest Approved model OIDC‑based IAM roles for GitHub YAML‑driven endpoint configs Least‑privilege IAM + KMS encryption CI/CD · AWS Mapping Pipeline‑3 constructs Architecture Block AWS CI/CD Construct (Pipeline‑3) Source Repository GitHub (deployment/IaC repo) Trigger GitHub Actions (manual / approval) CI Runner GitHub Linux runner (ubuntu‑latest) Orchestration AWS CDK (synth / deploy) Infra Backend AWS CloudFormation Model Source SageMaker Model Registry (approved packages) Model Packaging SageMaker Model (CfnModel from Registry) Endpoint Configuration SageMaker EndpointConfig (instance, weight) Deployment Target SageMaker Real‑time Endpoint (Dev/Pre‑Prod/Prod) Artifact Storage Amazon S3 (model artifacts) Container Registry Amazon ECR (custom images) Security & Auth OIDC (GitHub→AWS) + IAM roles Endpoint Execution Role IAM Role for SageMaker Endpoint runtime Secrets / Config AWS SSM Parameter Store (+ env vars) Encryption AWS KMS (endpoint data & artifacts) Monitoring & Logs Amazon CloudWatch Logs & Metrics (endpoint) + GitHub Actions Logs Deployment Governance Model Registry approvals + CDK-controlled promotion Infrastructure State CloudFormation Stack Events (rollback on failure) Process flow: GitHub → GitHub Actions → OIDC → IAM → CDK → CloudFormation → Model/EndpointConfig → Real‑time Endpoint. AWS DevOps CI/CD – Reference Architecture Pipeline‑3: Deployment / Promotion Architecture Flow: Developer triggers deployment via GitHub Actions (manual/approval-based). GitHub Actions assumes AWS IAM Role via OIDC. CDK synth generates CloudFormation templates. CDK deploy provisions: SageMaker Model (from Registry) EndpointConfig (instance type, traffic) SageMaker Endpoint CloudFormation applies changes with rollback on failure. Logs visible in GitHub Actions + CloudFormation + CloudWatch. Security & Guardrails: OIDC-based IAM roles Least-privilege endpoint execution roles KMS encryption for endpoint resources Env isolation (Dev / Pre-Prod / Prod) P3 Mapping: GitHub → GitHub Actions → OIDC → IAM → CDK → CloudFormation → SageMaker Model/EndpointConfig → Real-time Endpoint. Assets & References MLOps CDK GitHub Action Infrastructure-as-code and GitHub Actions workflow for platform provisioning. View GitHub repo Psitron ML Build Build repository for the ML pipeline stage and related implementation assets. View GitHub repo Psitron ML Deploy Deployment repository for ML release workflows and production delivery assets. View GitHub repo Request Study Material",
+  "crawl_timestamp": "2026-06-17T06:47:55.516061+00:00",
+  "raw_html_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/03_03_03_AI_Project_AWS_Deployment_Details.html"
+}

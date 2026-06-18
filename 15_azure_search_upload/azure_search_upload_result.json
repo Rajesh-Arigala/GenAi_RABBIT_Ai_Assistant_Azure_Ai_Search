@@ -1,0 +1,883 @@
+{
+  "action": "upload-docs",
+  "created_at": "2026-06-17T20:29:55.907915+00:00",
+  "endpoint": "https://my-profile-db-resume.search.windows.net",
+  "index_name": "profile-rag-v1",
+  "source_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/14_output_embeddings/azure_upload_documents_with_vectors_batch_v1.json",
+  "input_documents": 142,
+  "schema_filtered_documents": 142,
+  "uploaded_documents": 0,
+  "failed_documents": 142,
+  "failed_batches": [
+    {
+      "batch_index": 1,
+      "http_status": 200,
+      "failed": [
+        {
+          "key": "00_Homepage__v1__chunk_001__fa4151aa1303",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "00_Homepage__v1__chunk_002__3b45e8f39838",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "00_Homepage__v1__chunk_003__86786d91bcab",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "00_Homepage__v1__chunk_004__6d32706e2467",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_01_Business_Skill_BPCL__v1__chunk_001__4bf22c8e07c1",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_01_Business_Skill_BPCL__v1__chunk_002__2403672fdcc9",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_01_Business_Skill_BPCL__v1__chunk_003__0fb19a76bcf9",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_02_Business_Skill_Medtronic__v1__chunk_001__768954fee009",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_02_Business_Skill_Medtronic__v1__chunk_002__52b35ad3ed6e",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_02_Business_Skill_Medtronic__v1__chunk_003__b557ffdec4de",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_03_Business_Skill_SMAAT__v1__chunk_001__3b227a3de6cd",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_03_Business_Skill_SMAAT__v1__chunk_002__7df8a2ee12b1",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_03_Business_Skill_SMAAT__v1__chunk_003__602eb9098ab7",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_03_Business_Skill_SMAAT__v1__chunk_004__ab1b9a1feb0a",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_04_Business_Skill_R_Cafe__v1__chunk_001__d1e6703f7d5b",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_04_Business_Skill_R_Cafe__v1__chunk_002__9d46ba35ce93",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_04_Business_Skill_R_Cafe__v1__chunk_003__c32c31ccf7b2",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_04_Business_Skill_R_Cafe__v1__chunk_004__884fd6dbec8d",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_05_Business_Skill_RedRybbons__v1__chunk_001__b86ee1f4d565",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_05_Business_Skill_RedRybbons__v1__chunk_002__a2481724fdb7",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_05_Business_Skill_RedRybbons__v1__chunk_003__339378238a0c",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_06_Business_Skill_Law__v1__chunk_001__28760b86041f",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_06_Business_Skill_Law__v1__chunk_002__76f05fc8131b",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_06_Business_Skill_Law__v1__chunk_003__695e8c7c0c63",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_Business_Skills__v1__chunk_001__10c6fc6a0229",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "01_Business_Skills__v1__chunk_002__f780bff375b0",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_01_Technical_Skills__v1__chunk_001__51db3b4e3423",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_01_Technical_Skills__v1__chunk_002__8dd61bf16af9",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_01_Technical_Skills_01_GitHub__v1__chunk_001__8fcf928ad3d4",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_01_Technical_Skills_02_AWS__v1__chunk_001__4636cd04f049",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_01_Technical_Skills_03_Azure__v1__chunk_001__d74ffa16fd9d",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_01_Technical_Skills_04_GCP__v1__chunk_001__96439df133da",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_01_Technical_Skills_05_Docker__v1__chunk_001__6a4650b91963",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_01_Technical_Skills_06_Kubernetes__v1__chunk_001__f2136fa594b6",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_01_Technical_Skills_07_MLflow__v1__chunk_001__95404529c9bb",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_01_CICD__v1__chunk_001__1638c7737211",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_01_CICD__v1__chunk_002__7465cd373aff",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_01_CICD_AWS_CDK_IaC_Platform__v1__chunk_001__3b12359aa3ed",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_01_CICD_AWS_CDK_IaC_Platform__v1__chunk_002__32547db3fa87",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_01_CICD_AWS_DevOps_Pipeline__v1__chunk_001__1cdaa290d3c3",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_01_CICD_AWS_DevOps_Pipeline__v1__chunk_002__10bb07c74267",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_01_CICD_AWS_DevOps_Pipeline__v1__chunk_003__dcfcd479a50c",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_01_CICD_Azure_DevOps_Pipeline__v1__chunk_001__581cf168c1df",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_01_CICD_Azure_DevOps_Pipeline__v1__chunk_002__746b0913c04c",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_01_CICD_Azure_DevOps_Pipeline__v1__chunk_003__5bbdafc176b7",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_01_CICD_GCP_Cloud_Build_Pipeline__v1__chunk_001__887f9952d19a",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_01_CICD_GCP_Cloud_Build_Pipeline__v1__chunk_002__12237532f66c",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_01_CICD_GCP_Cloud_Build_Pipeline__v1__chunk_003__0b6d700031d0",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_01_CICD_GitHub_Actions_Pipeline__v1__chunk_001__ea517c683f04",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_01_CICD_GitHub_Actions_Pipeline__v1__chunk_002__d01d9574569d",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        }
+      ]
+    },
+    {
+      "batch_index": 2,
+      "http_status": 200,
+      "failed": [
+        {
+          "key": "02_Tech_02_MLOps_02_Containers__v1__chunk_001__95e26044c87e",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_01_Dockers__v1__chunk_001__4deb26fdfe39",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_01_Dockers__v1__chunk_002__3efafcf73177",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_01_Dockers_01_NodeJS_App__v1__chunk_001__4c5e65819c87",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_01_Dockers_01_NodeJS_App__v1__chunk_002__55c573c94162",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_01_Dockers_01_NodeJS_App__v1__chunk_003__1d1e7c1faacd",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_01_Dockers_02_Project_2__v1__chunk_001__6c450c89c501",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_01_Dockers_02_Project_2__v1__chunk_002__1a9f7f12828e",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_01_Dockers_02_Project_2__v1__chunk_003__1bb2f79b5b31",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_01_Dockers_03_Project_3__v1__chunk_001__7894e1a4d3a1",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_01_Dockers_03_Project_3__v1__chunk_002__05f93899d202",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_01_Dockers_03_Project_3__v1__chunk_003__c4f259e1fabc",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_02_Kubernetes__v1__chunk_001__e91cfd04eaa5",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_02_Kubernetes__v1__chunk_002__f2fcc7ef644e",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_02_Kubernetes_01_ML_Inference_Minikube__v1__chunk_001__aeb22da92bce",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_02_Kubernetes_01_ML_Inference_Minikube__v1__chunk_002__0343276c8a96",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_02_Kubernetes_01_ML_Inference_Minikube__v1__chunk_003__f165bbed3040",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_02_Kubernetes_01_ML_Inference_Minikube__v1__chunk_004__2a85a916cd30",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_02_Kubernetes_02_Multi_Pod_Flask_ML__v1__chunk_001__7ad096de1b3b",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_02_Kubernetes_02_Multi_Pod_Flask_ML__v1__chunk_002__80451b087eed",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_02_Kubernetes_02_Multi_Pod_Flask_ML__v1__chunk_003__a5a085dc0f2d",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_02_Kubernetes_02_Multi_Pod_Flask_ML__v1__chunk_004__3e91f1e39faa",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_02_Kubernetes_03_AWS_EKS_ML_Deployment__v1__chunk_001__289d18467cc2",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_02_Kubernetes_03_AWS_EKS_ML_Deployment__v1__chunk_002__76b1291490b8",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_02_Kubernetes_03_AWS_EKS_ML_Deployment__v1__chunk_003__dfcf4a20fbbd",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_02_Containers_02_Kubernetes_03_AWS_EKS_ML_Deployment__v1__chunk_004__6d6ac73a8f85",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_03_MLOps_ML_Systems__v1__chunk_001__07a2b6d96b2e",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_03_MLOps_ML_Systems__v1__chunk_002__755e6adb5719",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_03_MLOps_ML_Systems__v1__chunk_003__b9efb8b4884c",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_03_MLOps_ML_Systems__v1__chunk_004__3521a5cfefdc",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_03_MLOps_ML_Systems_MLflow_AWS_Project__v1__chunk_001__6a697ad61dee",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_03_MLOps_ML_Systems_MLflow_AWS_Project__v1__chunk_002__98f06521c8b3",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_03_MLOps_ML_Systems_MLflow_AWS_Project__v1__chunk_003__e48c6f4789f8",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_03_MLOps_ML_Systems_MLflow_AWS_Project__v1__chunk_004__82ecd53786c6",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_04_IaC__v1__chunk_001__7c63901542a2",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_04_IaC__v1__chunk_002__fdfb12eaa8e6",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_04_IaC_01_Project_1__v1__chunk_001__10810e692d2e",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_04_IaC_01_Project_1__v1__chunk_002__583133fa6492",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_04_IaC_01_Project_1__v1__chunk_003__ca846bfb2820",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_04_IaC_01_Project_1__v1__chunk_004__80a12b40c716",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_04_IaC_02_Project_2__v1__chunk_001__bb274ee10a9d",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "02_Tech_02_MLOps_04_IaC_02_Project_2__v1__chunk_002__32547db3fa87",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_01_AI_Project_MLflow_AWS_Platform__v1__chunk_001__72f4b3aedfb4",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_01_AI_Project_MLflow_AWS_Platform__v1__chunk_002__92a2c6516d8f",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_01_AI_Project_MLflow_AWS_Platform__v1__chunk_003__90618db35abf",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_02_01_AI_Project_Azure_Module_01__v1__chunk_001__97b4f3c2c6b2",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_02_01_AI_Project_Azure_Module_01__v1__chunk_002__8cbe3edf247d",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_02_01_AI_Project_Azure_Module_01__v1__chunk_003__45fb9722ffe2",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_02_02_AI_Project_Azure_Module_02__v1__chunk_001__9e7f8adb1a87",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_02_02_AI_Project_Azure_Module_02__v1__chunk_002__6b2959a0efd3",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        }
+      ]
+    },
+    {
+      "batch_index": 3,
+      "http_status": 200,
+      "failed": [
+        {
+          "key": "03_02_02_AI_Project_Azure_Module_02__v1__chunk_003__5b81c2401edb",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_02_03_AI_Project_Azure_Module_03__v1__chunk_001__519faa006310",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_02_03_AI_Project_Azure_Module_03__v1__chunk_002__2ab358ff7ade",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_02_03_AI_Project_Azure_Module_03__v1__chunk_003__3dab770aa7bd",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_02_AI_Project_Azure_MLOps_Platform__v1__chunk_001__fbfcb44db239",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_02_AI_Project_Azure_MLOps_Platform__v1__chunk_002__5562d6818428",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_02_AI_Project_Azure_MLOps_Platform__v1__chunk_003__7146e3ccc0e9",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_02_AI_Project_Azure_MLOps_Platform__v1__chunk_004__0f04aaf6048a",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_03_01_AI_Project_AWS_IaC_Details__v1__chunk_001__3e6224863c8c",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_03_01_AI_Project_AWS_IaC_Details__v1__chunk_002__361eab46dee0",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_03_01_AI_Project_AWS_IaC_Details__v1__chunk_003__254361b663c8",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_03_02_AI_Project_AWS_Training_Pipeline__v1__chunk_001__005eb5757011",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_03_02_AI_Project_AWS_Training_Pipeline__v1__chunk_002__f3c1dbfdadcd",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_03_03_AI_Project_AWS_Deployment_Details__v1__chunk_001__7bcfb2b7b8c5",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_03_03_AI_Project_AWS_Deployment_Details__v1__chunk_002__63ded3b6729b",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_03_AI_Project_AWS_SageMaker_MLOps_Platform__v1__chunk_001__7056ab8e8f08",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_03_AI_Project_AWS_SageMaker_MLOps_Platform__v1__chunk_002__6e14de7151d1",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_03_AI_Project_AWS_SageMaker_MLOps_Platform__v1__chunk_003__75dd088f4da4",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_04_01_AI_Project_GCP_IaC_Details__v1__chunk_001__8adcb623601c",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_04_01_AI_Project_GCP_IaC_Details__v1__chunk_002__f9154e0fe069",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_04_01_AI_Project_GCP_IaC_Details__v1__chunk_003__77c8a2a47a8f",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_04_01_AI_Project_GCP_IaC_Details__v1__chunk_004__b61a91d85cc2",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_04_01_AI_Project_GCP_IaC_Details__v1__chunk_005__285646208733",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_04_02_AI_Project_GCP_Training_Pipeline__v1__chunk_001__5274f8e00785",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_04_02_AI_Project_GCP_Training_Pipeline__v1__chunk_002__9aad4ddd472c",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_04_02_AI_Project_GCP_Training_Pipeline__v1__chunk_003__a35bcda7b3ff",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_04_02_AI_Project_GCP_Training_Pipeline__v1__chunk_004__0c176018a884",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_04_02_AI_Project_GCP_Training_Pipeline__v1__chunk_005__1e98c173b258",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_04_03_AI_Project_GCP_Deployment_Details__v1__chunk_001__ec4cbde6b568",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_04_03_AI_Project_GCP_Deployment_Details__v1__chunk_002__40c5417a374c",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_04_03_AI_Project_GCP_Deployment_Details__v1__chunk_003__4792e62bf231",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_04_03_AI_Project_GCP_Deployment_Details__v1__chunk_004__19b390020ea7",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_04_AI_Project_GCP_Automation_Platform__v1__chunk_001__15b1a956a116",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_04_AI_Project_GCP_Automation_Platform__v1__chunk_002__87540303b398",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_05_01_AI_Project_Kubeflow_IaC_Details__v1__chunk_001__a6a6f52793e1",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_05_01_AI_Project_Kubeflow_IaC_Details__v1__chunk_002__3fa6a4f793c4",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_05_02_AI_Project_Kubeflow_Training_Pipeline__v1__chunk_001__3ebb281940f3",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_05_02_AI_Project_Kubeflow_Training_Pipeline__v1__chunk_002__e56b48834921",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_05_03_AI_Project_Kubeflow_Deployment_Details__v1__chunk_001__2b363e3bd03c",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_05_03_AI_Project_Kubeflow_Deployment_Details__v1__chunk_002__e17ff8eb156b",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_05_AI_Project_Kubeflow_MLOps_Platform__v1__chunk_001__5b7c9970c2e3",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        },
+        {
+          "key": "03_05_AI_Project_Kubeflow_MLOps_Platform__v1__chunk_002__ccfefbde84d1",
+          "status": true,
+          "errorMessage": null,
+          "statusCode": 201
+        }
+      ]
+    }
+  ]
+}

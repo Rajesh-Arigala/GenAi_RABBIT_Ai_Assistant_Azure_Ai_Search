@@ -1,0 +1,25 @@
+{
+  "id": "buiss_skills_buiss",
+  "source_type": "website_rendered_v4_site_crawl",
+  "domain": "rajesharigala.com",
+  "url": "https://rajesharigala.com/buiss skills/buiss",
+  "depth": 3,
+  "parent_url": "https://rajesharigala.com/tech skills/skill",
+  "parent_page_id": "02_Technical_Skills",
+  "logical_parent_page_id": "02_Technical_Skills",
+  "title": "This Page Does Not Exist",
+  "meta_description": "Oops, looks like the page is lost.",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "This Page Does Not Exist"
+    }
+  ],
+  "paragraphs": [
+    "Sorry, the page you are looking for could not be found. It's just an accident that was not intentional."
+  ],
+  "links": [],
+  "content": "This Page Does Not Exist This Page Does Not Exist Sorry, the page you are looking for could not be found. It's just an accident that was not intentional.",
+  "crawl_timestamp": "2026-06-17T06:17:32.798230+00:00",
+  "raw_html_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/buiss_skills_buiss.html"
+}

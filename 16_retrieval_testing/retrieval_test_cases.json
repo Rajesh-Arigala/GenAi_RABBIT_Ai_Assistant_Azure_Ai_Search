@@ -1,0 +1,105 @@
+{
+  "test_suite_version": "retrieval_test_cases_v1",
+  "top_k": 5,
+  "tests": [
+    {
+      "id": "sensitivity_001_business_background",
+      "category": "sensitivity_test",
+      "question": "Tell me about Rajesh's business background and leadership experience.",
+      "intent": "Broad business profile retrieval",
+      "expected_signals": ["BPCL", "Medtronic", "SMAAT", "R-Cafe", "business leadership"]
+    },
+    {
+      "id": "sensitivity_002_technical_capabilities",
+      "category": "sensitivity_test",
+      "question": "What technical and cloud capabilities are shown in this portfolio?",
+      "intent": "Broad technical capability retrieval",
+      "expected_signals": ["AWS", "Azure", "GCP", "Docker", "Kubernetes", "MLflow"]
+    },
+    {
+      "id": "sensitivity_003_ai_platform_work",
+      "category": "sensitivity_test",
+      "question": "What kind of AI platform engineering work has Rajesh built?",
+      "intent": "Broad AI platform retrieval",
+      "expected_signals": ["MLOps", "Azure", "AWS", "GCP", "Kubeflow", "MLflow"]
+    },
+    {
+      "id": "sensitivity_004_deployment_work",
+      "category": "sensitivity_test",
+      "question": "Which work is relevant to deploying machine learning systems into production?",
+      "intent": "General production ML deployment retrieval",
+      "expected_signals": ["CI/CD", "deployment", "Kubernetes", "MLOps", "pipeline"]
+    },
+    {
+      "id": "sensitivity_005_recruiter_summary",
+      "category": "sensitivity_test",
+      "question": "Why is this profile relevant for AI engineer or MLOps engineer roles?",
+      "intent": "Recruiter-style broad relevance retrieval",
+      "expected_signals": ["AI", "MLOps", "cloud", "platform", "business"]
+    },
+    {
+      "id": "specificity_001_bpcl",
+      "category": "specificity_test",
+      "question": "What experience does Rajesh have with BPCL?",
+      "intent": "Specific business page retrieval",
+      "expected_page_ids": ["01_01_Business_Skill_BPCL"],
+      "expected_signals": ["BPCL", "refinery", "maintenance", "SAP"]
+    },
+    {
+      "id": "specificity_002_kubernetes",
+      "category": "specificity_test",
+      "question": "Which projects use Kubernetes?",
+      "intent": "Specific Kubernetes project retrieval",
+      "expected_page_id_contains": ["Kubernetes", "Kubeflow"],
+      "expected_signals": ["Kubernetes", "EKS", "Minikube", "Kubeflow"]
+    },
+    {
+      "id": "specificity_003_azure_modules",
+      "category": "specificity_test",
+      "question": "What are the Azure MLOps modules?",
+      "intent": "Specific Azure AI project module retrieval",
+      "expected_page_ids": ["03_02_AI_Project_Azure_MLOps_Platform", "03_02_01_AI_Project_Azure_Module_01", "03_02_02_AI_Project_Azure_Module_02", "03_02_03_AI_Project_Azure_Module_03"],
+      "expected_signals": ["Azure", "MLOps", "Module"]
+    },
+    {
+      "id": "specificity_004_cicd",
+      "category": "specificity_test",
+      "question": "Which pages discuss CI/CD pipelines?",
+      "intent": "Specific CI/CD section retrieval",
+      "expected_page_id_contains": ["CICD"],
+      "expected_signals": ["CI/CD", "pipeline", "GitHub Actions", "Azure DevOps"]
+    },
+    {
+      "id": "specificity_005_iac",
+      "category": "specificity_test",
+      "question": "What infrastructure as code work is included?",
+      "intent": "Specific IaC section retrieval",
+      "expected_page_id_contains": ["IaC"],
+      "expected_signals": ["Infrastructure as Code", "CDK", "Terraform", "IaC"]
+    },
+    {
+      "id": "filter_001_business_section",
+      "category": "filter_test",
+      "question": "What business leadership examples are available?",
+      "intent": "Filter to business section",
+      "filter": "section_id eq '01_Business_Skills'",
+      "expected_page_id_startswith": ["01_"]
+    },
+    {
+      "id": "filter_002_ai_projects_section",
+      "category": "filter_test",
+      "question": "What AI platform projects are listed?",
+      "intent": "Filter to AI projects section",
+      "filter": "section_id eq '03_AI_Projects'",
+      "expected_page_id_startswith": ["03_"]
+    },
+    {
+      "id": "filter_003_containers_section",
+      "category": "filter_test",
+      "question": "What container and orchestration projects are included?",
+      "intent": "Filter to containers section",
+      "filter": "section_id eq '02_Tech_02_MLOps_02_Containers'",
+      "expected_page_id_contains": ["Containers"]
+    }
+  ]
+}

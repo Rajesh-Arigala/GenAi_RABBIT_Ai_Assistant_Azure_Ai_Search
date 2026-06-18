@@ -1,0 +1,165 @@
+{
+  "id": "03_05_01_AI_Project_Kubeflow_IaC_Details",
+  "source_type": "website_rendered_v4_site_crawl",
+  "domain": "rajesharigala.com",
+  "url": "https://rajesharigala.com/mlops/ai5/ai5.1",
+  "depth": 1,
+  "parent_url": "https://rajesharigala.com/mlops/infra-code",
+  "parent_page_id": "02_Tech_02_MLOps_04_IaC",
+  "logical_parent_page_id": "03_AI_Projects",
+  "title": "Kubeflow AI Platform · MLOps Foundation",
+  "meta_description": "",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "AI‑Kubeflow Pipeline‑1"
+    },
+    {
+      "level": "h2",
+      "text": "Project summary"
+    },
+    {
+      "level": "h2",
+      "text": "Problem & Objective"
+    },
+    {
+      "level": "h2",
+      "text": "Solution & Architecture"
+    },
+    {
+      "level": "h2",
+      "text": "AI/DevOps & automation"
+    },
+    {
+      "level": "h2",
+      "text": "Skills & technologies"
+    },
+    {
+      "level": "h2",
+      "text": "Platform foundation & governance"
+    },
+    {
+      "level": "h2",
+      "text": "GCP DevOps CI/CD · Architecture mapping"
+    },
+    {
+      "level": "h2",
+      "text": "Assets & references"
+    },
+    {
+      "level": "h3",
+      "text": "Category"
+    },
+    {
+      "level": "h3",
+      "text": "Keywords"
+    },
+    {
+      "level": "h3",
+      "text": "Runtime"
+    },
+    {
+      "level": "h3",
+      "text": "Problem solved"
+    },
+    {
+      "level": "h3",
+      "text": "Primary objective"
+    },
+    {
+      "level": "h3",
+      "text": "Solution overview"
+    },
+    {
+      "level": "h3",
+      "text": "Key components & scalability"
+    },
+    {
+      "level": "h3",
+      "text": "MLOps focus"
+    },
+    {
+      "level": "h3",
+      "text": "CI/CD & orchestration"
+    },
+    {
+      "level": "h3",
+      "text": "Monitoring & optimisation"
+    },
+    {
+      "level": "h3",
+      "text": "Primary skills"
+    },
+    {
+      "level": "h3",
+      "text": "Languages & tools"
+    },
+    {
+      "level": "h3",
+      "text": "Cloud & DevOps tools"
+    },
+    {
+      "level": "h3",
+      "text": "Governance baseline"
+    },
+    {
+      "level": "h3",
+      "text": "Challenges"
+    },
+    {
+      "level": "h3",
+      "text": "Resolutions"
+    },
+    {
+      "level": "h3",
+      "text": "GitHub Repository"
+    },
+    {
+      "level": "h3",
+      "text": "Study material modal"
+    },
+    {
+      "level": "h3",
+      "text": "Kubeflow study materials"
+    }
+  ],
+  "paragraphs": [
+    "Kubeflow Platform Foundation · Kubernetes‑Native MLOps IaC",
+    "Provisioning a production‑style Kubeflow AI platform on Kubernetes using Infrastructure‑as‑Code, namespaces, RBAC, artifact storage, and pipeline runtime setup.",
+    "AI / MLOps / Platform Engineering",
+    "AI · MLOps · Platform Engineering · Kubernetes",
+    "Industry: Cross‑industry (Enterprise AI Platforms)",
+    "Domain: AI Platform Engineering / Kubernetes‑Native MLOps",
+    "Kubeflow Pipelines (KFP v2), Argo, ML Metadata, MinIO, multi‑env (Dev/Pre‑prod/Prod)",
+    "Why this platform foundation?",
+    "Infrastructure as Code for MLOps",
+    "Provisions a Kubernetes cluster and installs Kubeflow Pipelines with MinIO (artifact store), ML Metadata, and Argo Workflows. Platform‑level configs (namespaces, SAs, RBAC, network) are defined as code, creating a standardized foundation for training (Pipeline‑2) and deployment (Pipeline‑3) pipelines.",
+    "Cloud/platform: Kubernetes (Minikube dev, portable to EKS/AKS/GKE). Components: Kubeflow Pipelines v2, Argo Workflows, MinIO, ML Metadata, Ingress, Docker Hub.",
+    "MLOps platform engineering",
+    "Proficiency stack",
+    "RBAC, namespaces, MLMD",
+    "Kubernetes RBAC (least‑privilege) + isolated namespaces. ML Metadata (MLMD) tracks lineage; MinIO provides durable artifact storage. All defined as code for repeatability.",
+    "Pipeline‑1 (Platform) constructs",
+    "Pipeline‑1 establishes Kubernetes‑native Kubeflow AI platform foundation, enabling reproducible MLOps infrastructure and governed pipeline execution.",
+    "Code, diagrams, study material",
+    "Kubeflow-pipelines-mlops (IaC manifests, platform bootstrap)",
+    "Public & restricted Kubeflow references"
+  ],
+  "links": [
+    {
+      "text": "Kubeflow · MLOps Foundation",
+      "href": "https://rajesharigala.com/mlops/ai5/ai5.1"
+    },
+    {
+      "text": "View GitHub",
+      "href": "https://github.com/03sarah/Kubeflow-pipelines-mlops"
+    },
+    {
+      "text": "Request Study Material",
+      "href": "https://rajesharigala.com/"
+    }
+  ],
+  "content": "AI‑Kubeflow Pipeline‑1 Kubeflow Platform Foundation · Kubernetes‑Native MLOps IaC Provisioning a production‑style Kubeflow AI platform on Kubernetes using Infrastructure‑as‑Code, namespaces, RBAC, artifact storage, and pipeline runtime setup. Project summary AI / MLOps / Platform Engineering Category AI · MLOps · Platform Engineering · Kubernetes Industry: Cross‑industry (Enterprise AI Platforms) Domain: AI Platform Engineering / Kubernetes‑Native MLOps Keywords Kubeflow Platform KFP v2 Argo Workflows RBAC MinIO MLMD Platform Bootstrap Runtime Kubeflow Pipelines (KFP v2), Argo, ML Metadata, MinIO, multi‑env (Dev/Pre‑prod/Prod) Problem & Objective Why this platform foundation? Problem solved Manual/ad‑hoc Kubeflow installs → inconsistent environments Insecure access controls, misconfigured artifact storage Non‑reproducible ML pipeline runtimes across environments Primary objective Reproducible, governed Kubeflow AI platform foundation Programmatic bootstrap: cluster prerequisites, KFP runtime, RBAC, MinIO, MLMD Consistent, secure execution of ML pipelines across environments Solution & Architecture Infrastructure as Code for MLOps Solution overview Provisions a Kubernetes cluster and installs Kubeflow Pipelines with MinIO (artifact store), ML Metadata, and Argo Workflows. Platform‑level configs (namespaces, SAs, RBAC, network) are defined as code, creating a standardized foundation for training (Pipeline‑2) and deployment (Pipeline‑3) pipelines. 1 Source (IaC) 2 K8s cluster 3 KFP + Argo 4 MinIO + MLMD 5 RBAC/NS Cloud/platform: Kubernetes (Minikube dev, portable to EKS/AKS/GKE). Components: Kubeflow Pipelines v2, Argo Workflows, MinIO, ML Metadata, Ingress, Docker Hub. Key components & scalability KFP v2 runtime Argo Workflows engine Kubernetes (NS, RBAC) MinIO artifact store ML Metadata (MLMD) Stateless Deployments Horizontal pod autoscaling Health checks / auto restarts Durable artifact storage Environment parity via declarative AI/DevOps & automation MLOps platform engineering MLOps focus DevOps / MLOps Platform Engineering (Kubeflow AI Platform Foundation) Platform bootstrap automation (Kubeflow Pipelines installation) Namespace isolation & RBAC MinIO wiring, ML Metadata tracking CI/CD & orchestration Kubernetes manifests (platform components) Kubeflow Pipelines (ML orchestration) Argo Workflows (engine) Docker, GitHub Actions (optional CI) Monitoring & optimisation K8s health/readiness probes Kubeflow Pipelines UI (run observability) Centralized logs (kubectl logs) Resource isolation (namespaces/quotas) Declarative setup → no drift Skills & technologies Proficiency stack Primary skills Kubeflow Platform Engineering (Advanced) Kubernetes Platform Ops (Advanced) MLOps Platform Design (Advanced) Infrastructure‑as‑Code for K8s (Advanced) Languages & tools YAML (K8s/Kubeflow manifests) Python (bootstrap scripts) Helm/Kustomize (optional) Docker, GitHub Actions Cloud & DevOps tools Kubernetes (Minikube/EKS/AKS/GKE) Kubeflow Pipelines Argo Workflows MinIO Docker Hub GitHub Actions Platform foundation & governance RBAC, namespaces, MLMD Governance baseline Kubernetes RBAC (least‑privilege) + isolated namespaces. ML Metadata (MLMD) tracks lineage; MinIO provides durable artifact storage. All defined as code for repeatability. Challenges Correct KFP control plane install Wiring MinIO + MLMD for pipelines Least‑privilege for workloads Reproducible cross‑env setup Resolutions Standardized manifests + version pinning Centralized MinIO config for all pipelines RBAC policies for pipeline SAs Declarative bootstrap + docs GCP DevOps CI/CD · Architecture mapping Pipeline‑1 (Platform) constructs Architecture Block GCP CI/CD Construct (Pipeline‑1 – Platform) Source Repository GitHub (Kubeflow platform bootstrap / IaC repo) Source Trigger Manual trigger or CI trigger (GitHub Actions) CI Runner GitHub Actions Linux runner (ubuntu‑latest) Platform Provisioning Kubernetes manifests / Helm applied to cluster Pipeline Runtime Setup Kubeflow Pipelines control plane installation + config Artifact Storage MinIO (datasets, model artifacts, pipeline outputs) Pipeline‑1 establishes Kubernetes‑native Kubeflow AI platform foundation, enabling reproducible MLOps infrastructure and governed pipeline execution. Assets & references Code, diagrams, study material GitHub Repository Kubeflow-pipelines-mlops (IaC manifests, platform bootstrap) View GitHub Study material modal Public & restricted Kubeflow references Request Study Material",
+  "crawl_timestamp": "2026-06-17T06:59:45.507307+00:00",
+  "raw_html_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/03_05_01_AI_Project_Kubeflow_IaC_Details.html"
+}

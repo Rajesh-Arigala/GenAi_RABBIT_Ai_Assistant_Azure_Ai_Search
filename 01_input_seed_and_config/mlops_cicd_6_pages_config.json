@@ -1,0 +1,17 @@
+{
+  "seed_urls": [
+    "https://rajesharigala.com/mlops/cicd",
+    "https://rajesharigala.com/mlops/CI-CD/azure-devops-ci-cd-pipeline-yaml",
+    "https://rajesharigala.com/mlops/CI-CD/github-actions-ci-cd-pipeline-yaml",
+    "https://rajesharigala.com/mlops/CI-CD/aws-cicd-pipeline-devops",
+    "https://rajesharigala.com/mlops/CI-CD/gcp-cloud-build-ci-cd-pipeline-yaml",
+    "https://rajesharigala.com/mlops/CI-CD/cicd-project5"
+  ],
+  "max_pages": 6,
+  "max_depth": 0,
+  "delay_seconds": 0.5,
+  "timeout_ms": 60000,
+  "viewport_width": 1440,
+  "viewport_height": 1800,
+  "same_domain_only": true
+}

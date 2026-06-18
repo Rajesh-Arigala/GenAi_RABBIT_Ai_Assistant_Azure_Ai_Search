@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: rabbit-assistant
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --chdir 18_flask_chat_ui app:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9

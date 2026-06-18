@@ -1,0 +1,33 @@
+{
+  "version": "v4_site_crawler",
+  "page_id": "00_Homepage",
+  "url": "https://rajesharigala.com/",
+  "depth": 1,
+  "parent_url": "https://rajesharigala.com/mlops/infra-code",
+  "parent_page_id": "02_Tech_02_MLOps_04_IaC",
+  "logical_parent_page_id": "ROOT",
+  "title": "Rajesh Arigala | AI & GenAI Systems · Business Integration!",
+  "characters_content": 10130,
+  "words_content": 1371,
+  "characters_rag_text": 16481,
+  "words_rag_text": 2213,
+  "headings_count": 52,
+  "paragraphs_count": 43,
+  "links_count": 16,
+  "bad_character_counts": {
+    "Â": 0,
+    "â": 0,
+    "ð": 0,
+    "Ã": 0,
+    "�": 0
+  },
+  "suspicious_values": [],
+  "saved_files": {
+    "raw_html": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/00_Homepage.html",
+    "structured_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/03_output_structured_json/00_Homepage_structured.json",
+    "clean_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/04_output_clean_json/00_Homepage_clean.json",
+    "clean_text": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/05_output_clean_text/00_Homepage_clean.txt",
+    "rag_document": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/00_Homepage_rag.txt",
+    "report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/00_Homepage_quality_report.json"
+  }
+}

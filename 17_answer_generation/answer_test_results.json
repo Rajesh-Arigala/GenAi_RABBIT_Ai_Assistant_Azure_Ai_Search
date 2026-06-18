@@ -1,0 +1,158 @@
+[
+  {
+    "user": {
+      "question": "What experience does Rajesh have with BPCL?",
+      "answer": "Rajesh Arigala's experience with BPCL involved working in a live 24×7 refinery operating system, where he managed mission-critical operations, maintenance engineering, and turnaround projects. Key highlights include:\n\n1. **Preventing a ₹250 Mn/day Stoppage Loss**: Led 25 personnel to prevent a plant stoppage, ensuring safety and revenue continuity.\n2. **Turnaround Leadership**: Promoted within 7 months to lead a ₹625 Cr refinery overhaul project, coordinating multi-department efforts under tight deadlines.\n3. **Efficiency Improvements**: Achieved a 26% efficiency improvement in Sulphur Units through structured preventive maintenance.\n4. **SAP-Driven Execution**: Managed maintenance, procurement, and project workflows using SAP PM/MM/PS, integrating physical operations with enterprise systems.\n5. **Cross-Functional Coordination**: Orchestrated efforts across operations, inspection, planning, maintenance, contracts, and finance to maintain refinery uptime and safety.\n6. **Industrial Systems Thinking**: Developed expertise in asset lifecycle governance, safety-critical execution, and reliability engineering, which now informs his AI and MLOps systems design.\n\n### Why It Matters\nThis experience demonstrates Rajesh's ability to manage complex, high-stakes systems under operational constraints. His grounding in industrial systems thinking, cross-functional leadership, and SAP integration directly translates to his current focus on designing reliable AI platforms, MLOps systems, and enterprise data pipelines.\n\n### Sources\n- [Source 1](https://rajesharigala.com/buiss%20skills/bpcl)\n- [Source 2](https://rajesharigala.com/buiss%20skills/bpcl)\n- [Source 4](https://rajesharigala.com/buiss%20skills/bpcl)",
+      "sources": [
+        {
+          "page_id": "01_01_Business_Skill_BPCL",
+          "section_id": "01_Business_Skills",
+          "title": "BPCL — Mission-Critical Refinery Operations & Industrial Platform",
+          "source_url": "https://rajesharigala.com/buiss skills/bpcl",
+          "chunk_index": 3,
+          "score": 0.03333333507180214
+        },
+        {
+          "page_id": "01_01_Business_Skill_BPCL",
+          "section_id": "01_Business_Skills",
+          "title": "BPCL — Mission-Critical Refinery Operations & Industrial Platform",
+          "source_url": "https://rajesharigala.com/buiss skills/bpcl",
+          "chunk_index": 1,
+          "score": 0.032522473484277725
+        },
+        {
+          "page_id": "00_Homepage",
+          "section_id": "00_Homepage",
+          "title": "Rajesh Arigala | AI & GenAI Systems · Business Integration!",
+          "source_url": "https://rajesharigala.com/",
+          "chunk_index": 3,
+          "score": 0.03151364624500275
+        },
+        {
+          "page_id": "01_01_Business_Skill_BPCL",
+          "section_id": "01_Business_Skills",
+          "title": "BPCL — Mission-Critical Refinery Operations & Industrial Platform",
+          "source_url": "https://rajesharigala.com/buiss skills/bpcl",
+          "chunk_index": 2,
+          "score": 0.0314980149269104
+        },
+        {
+          "page_id": "00_Homepage",
+          "section_id": "00_Homepage",
+          "title": "Rajesh Arigala | AI & GenAI Systems · Business Integration!",
+          "source_url": "https://rajesharigala.com/",
+          "chunk_index": 4,
+          "score": 0.03055037185549736
+        }
+      ]
+    },
+    "debug": {
+      "search_mode": "hybrid",
+      "top_k": 5,
+      "filter": null,
+      "retrieved_chunks": [
+        {
+          "page_id": "01_01_Business_Skill_BPCL",
+          "section_id": "01_Business_Skills",
+          "title": "BPCL — Mission-Critical Refinery Operations & Industrial Platform",
+          "source_url": "https://rajesharigala.com/buiss skills/bpcl",
+          "chunk_index": 3,
+          "score": 0.03333333507180214,
+          "snippet": "Applied structured preventive maintenance and process discipline to achieve measurable operational gains. Critical Project — ₹250 Mn/day Stoppage Loss Avoided Led 25 personnel on a highly critical refinery project — preventing a plant stoppage that would have cost ₹250 million per day. Promoted within 7 months to lead a turnaround project worth ₹625 Cr on the basis of execution performance. Machine Shop FCCU DHDS CDU/VDU Hydrocracker 26% Hard Business Impact Outcomes that moved the refinery Reli"
+        },
+        {
+          "page_id": "01_01_Business_Skill_BPCL",
+          "section_id": "01_Business_Skills",
+          "title": "BPCL — Mission-Critical Refinery Operations & Industrial Platform",
+          "source_url": "https://rajesharigala.com/buiss skills/bpcl",
+          "chunk_index": 1,
+          "score": 0.032522473484277725,
+          "snippet": "Title: BPCL — Mission-Critical Refinery Operations & Industrial Platform Source URL: https://rajesharigala.com/buiss skills/bpcl Headings: H1: Mission- Critical Industrial Platform H2: A safety-critical 24×7 refinery operating ecosystem H2: Structural constraints in a live refinery H2: Refinery as an industrial operating system H2: What was operated on the ground H2: Outcomes that moved the refinery H2: Built through this engagement H2: The BPCL journey H2: The principle that transfers Paragraph"
+        },
+        {
+          "page_id": "00_Homepage",
+          "section_id": "00_Homepage",
+          "title": "Rajesh Arigala | AI & GenAI Systems · Business Integration!",
+          "source_url": "https://rajesharigala.com/",
+          "chunk_index": 3,
+          "score": 0.03151364624500275,
+          "snippet": "I bring a foundation of engineering and business, combining systems thinking from the National Institute of Technology, Surathkal (NITK) with strategic depth from the Indian Institute of Management Calcutta (IIM Calcutta) . Early experience at Bharat Petroleum Corporation Limited (BPCL) and Medtronic India exposed me to real-world operational systems where reliability, process discipline, and stakeholder alignment were critical. I later extended this into infrastructure systems through my work w"
+        },
+        {
+          "page_id": "01_01_Business_Skill_BPCL",
+          "section_id": "01_Business_Skills",
+          "title": "BPCL — Mission-Critical Refinery Operations & Industrial Platform",
+          "source_url": "https://rajesharigala.com/buiss skills/bpcl",
+          "chunk_index": 2,
+          "score": 0.0314980149269104,
+          "snippet": "The core structural reality: industrial plants fail not because of missing equipment, but because operating systems break under scale, complexity, and safety constraints. \"Designing reliability into industrial systems where failure is not an option.\" Operating Scope 24×7 Live Refinery Operations 5+ Departments Coordinated SAP PM / MM / PS Enterprise Backbone 3+ Major Turnaround Units FCCU · DHDS Fluidized Catalytic Cracking · Desulphurisation CDU/VDU Crude / Vacuum Distillation Units H 2 Units H"
+        },
+        {
+          "page_id": "00_Homepage",
+          "section_id": "00_Homepage",
+          "title": "Rajesh Arigala | AI & GenAI Systems · Business Integration!",
+          "source_url": "https://rajesharigala.com/",
+          "chunk_index": 4,
+          "score": 0.03055037185549736,
+          "snippet": "Explore Technical Expertise Professional Journey Click on any milestone to explore the details 2025 - Present AI, ML and Platform Systems IISc Bangalore and Independent Build Phase AI ML GenAI Pursued Business Analytics at IISc Bangalore followed by ML, MLOps, and GenAI Shifted from physical ventures to intelligent platform systems Applied system-building principles from operations and business platforms to AI systems 2023 - 2024 Entrepreneur - Commercial Launch and Strategic Pivot R-Cafe / RedR"
+        }
+      ],
+      "search_request": {
+        "request_body_without_vector": {
+          "top": 5,
+          "select": "id,page_id,section_id,title,source_url,content,chunk_index,chunk_total,related_page_ids",
+          "count": true,
+          "search": "What experience does Rajesh have with BPCL?"
+        },
+        "count": 138
+      },
+      "prompt_preview": "Question:\nWhat experience does Rajesh have with BPCL?\n\nRetrieved Azure AI Search context:\n[Source 1]\npage_id: 01_01_Business_Skill_BPCL\nsection_id: 01_Business_Skills\ntitle: BPCL — Mission-Critical Refinery Operations & Industrial Platform\nurl: https://rajesharigala.com/buiss skills/bpcl\nchunk: 3/3\nscore: 0.03333333507180214\ncontent: Applied structured preventive maintenance and process discipline to achieve measurable operational gains. Critical Project — ₹250 Mn/day Stoppage Loss Avoided Led 25 personnel on a highly critical refinery project — preventing a plant stoppage that would have cost ₹250 million per day. Promoted within 7 months to lead a turnaround project worth ₹625 Cr on the basis of execution performance. Machine Shop FCCU DHDS CDU/VDU Hydrocracker 26% Hard Business Impact Outcomes that moved the refinery Reliability & Uptime ₹250 Mn/day Stoppage loss avoided on a critical project through rapid multi-team intervention. Led 25 personnel under tight operational pressure to prevent a full plant shutdown — protecting both safety and revenue continuity. +26 % Efficiency improvement in Sulphur Units achieved by leading 16 personnel on critical maintenance tasks with structured preventive maintenance and process discipline applied at unit level. Cost & Capital Discipline ₹3 Cr+ Maintenance Engineering cost reduction by 3Cr+ Turnaround Leadership ₹625 Cr Part of the maintenance team of a 625Cr OverHaul Turn Around project scope. Operational Excellence 24×7 Standardized preventive maintenance and asset history tracking across rotating and static equipment. Improved shutdown readiness and execution discipline. Strengthened inspection-maintenance feedback loops across units. Cross-Functional Leadership 5+ Departments coordinated daily: Operations, Inspection, Planning, Maintenance, Contracts, and Finance. Translated physical engineering tasks into systemized workflows enabling refinery uptime, safety, and execution discipline. Strategic Capabilities Built through this engagement 🏭 Industrial Operating System Thinking Operated within a live refinery platform where maintenance, inspection, operations, materials, and finance had to function as one synchronized system — not separate departments. Systems thinking grounded in physical-world constraints. 🔩 Asset Lifecycle & Reliability Engineering Managed preventive maintenance regimes, overhaul planning, and condition monitoring for both rotating (compressors, turbines, pumps) and static equipment (vessels, ",
+      "llm_usage": {
+        "completion_tokens": 367,
+        "completion_tokens_details": {
+          "accepted_prediction_tokens": 0,
+          "audio_tokens": 0,
+          "reasoning_tokens": 0,
+          "rejected_prediction_tokens": 0
+        },
+        "latency_checkpoint": {
+          "engine_tbt_ms": 11,
+          "engine_ttft_ms": 797,
+          "engine_ttlt_ms": 4666,
+          "pre_inference_ms": 126,
+          "service_tbt_ms": 11,
+          "service_ttft_ms": 1436,
+          "service_ttlt_ms": 5300,
+          "total_duration_ms": 5183,
+          "user_visible_ttft_ms": 1311
+        },
+        "prompt_tokens": 7818,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cached_tokens": 0
+        },
+        "total_tokens": 8185
+      }
+    },
+    "observability": {
+      "status": "success",
+      "error": null,
+      "timestamp": "2026-06-17T22:35:18.057746+00:00",
+      "index_name": "profile-rag-v1",
+      "embedding_deployment": "text-embedding-3-small",
+      "chat_deployment": "gpt-4o-new-deployment",
+      "embedding_latency_ms": 2771.16,
+      "search_latency_ms": 1601.77,
+      "answer_latency_ms": 7099.7,
+      "total_latency_ms": 11474.93,
+      "retrieved_chunk_count": 5,
+      "source_page_ids": [
+        "01_01_Business_Skill_BPCL",
+        "01_01_Business_Skill_BPCL",
+        "00_Homepage",
+        "01_01_Business_Skill_BPCL",
+        "00_Homepage"
+      ]
+    }
+  }
+]

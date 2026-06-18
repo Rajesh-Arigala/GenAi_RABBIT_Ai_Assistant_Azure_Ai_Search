@@ -1,0 +1,511 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kubeflow ML Pipeline · MLOps case study</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ----- same theme as github_project.html (preserved variables, layout, animations) ----- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg-main: #0C1117;
+            --bg-surface: #121923;
+            --bg-elevated: #161F2B;
+            --card-bg: #161F2B;
+            --accent-primary: #B8B2A7;
+            --accent-energy: #7CFFB2;
+            --accent-depth: #3A1F2D;
+            --text-primary: #E6E9EF;
+            --text-secondary: #A1A8B3;
+            --text-muted: #6F7682;
+            --line-subtle: #1E2633;
+            --glass-border: rgba(184, 178, 167, 0.15);
+            --ease-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
+            --accent-gradient: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+        .header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(12, 17, 23, 0.9);
+            border-bottom: 1px solid var(--line-subtle);
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+        .nav {
+            display: flex; justify-content: space-between; align-items: center;
+            height: 70px;
+        }
+        .nav-logo {
+            font-size: 1.5rem; font-weight: 500; color: var(--text-primary);
+            text-decoration: none; letter-spacing: -0.02em;
+        }
+        .nav-list { display: flex; list-style: none; gap: 2rem; }
+        .nav-link {
+            color: var(--text-primary); text-decoration: none; font-weight: 500;
+            transition: color 0.4s var(--ease-slow); position: relative;
+        }
+        .nav-link:hover { color: var(--accent-primary); }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -5px; left: 0;
+            width: 0; height: 1px; background: var(--accent-primary);
+            transition: width 0.4s var(--ease-slow);
+        }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: var(--accent-energy); }
+        .nav-link.active::after { width: 100%; background: var(--accent-energy); }
+        .nav-toggle { display: none; background: none; border: none; color: var(--text-primary); font-size: 1.5rem; cursor: pointer; }
+
+        main { padding-top: 100px; padding-bottom: 4rem; }
+        .section { margin-bottom: 5rem; scroll-margin-top: 100px; opacity: 0; animation: fadeInUp 0.6s var(--ease-slow) forwards; }
+        .section:nth-child(1) { animation-delay: 0.1s; }
+        .section:nth-child(2) { animation-delay: 0.2s; }
+        .section:nth-child(3) { animation-delay: 0.3s; }
+        .section:nth-child(4) { animation-delay: 0.4s; }
+        .section:nth-child(5) { animation-delay: 0.5s; }
+        .section-header { margin-bottom: 2.5rem; position: relative; }
+        .section-header::after {
+            content: ''; position: absolute; left: 0; bottom: -10px;
+            width: 60px; height: 3px; background: var(--accent-energy); border-radius: 2px;
+        }
+        .section-title { font-size: 2.2rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.5rem; letter-spacing: -0.02em; }
+        .section-subtitle { font-size: 1.2rem; color: var(--accent-primary); font-weight: 500; }
+
+        .card {
+            background: var(--card-bg); border: 1px solid var(--line-subtle); border-radius: 16px;
+            padding: 2rem; margin-bottom: 2rem; transition: all 0.4s var(--ease-slow);
+        }
+        .card:hover { border-color: var(--accent-primary); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .card-title { font-size: 1.4rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.8rem; }
+        .card-title i { color: var(--accent-energy); }
+        .card-content { color: var(--text-secondary); line-height: 1.8; }
+
+        .list { list-style: none; padding-left: 0; }
+        .list-item { margin-bottom: 0.8rem; padding-left: 1.5rem; position: relative; color: var(--text-secondary); }
+        .list-item::before { content: "▸"; position: absolute; left: 0; color: var(--accent-energy); }
+
+        .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+
+        .highlight-box { background: rgba(124,255,178,0.05); border-left: 4px solid var(--accent-energy); padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; }
+        .highlight-text { color: var(--accent-energy); font-weight: 500; }
+
+        .hero-section { text-align: center; padding-top: 4rem; position: relative; overflow: hidden; }
+        .hero-section::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0;
+            height: 1px; background: linear-gradient(90deg, transparent, var(--accent-energy), transparent);
+        }
+        .hero-title {
+            font-size: 3.5rem; font-weight: 700; margin: 1rem; letter-spacing: -0.02em;
+            background: var(--accent-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .hero-subtitle { font-size: 1.5rem; color: var(--accent-primary); margin-bottom: 2rem; font-weight: 500; }
+        .hero-summary { max-width: 800px; margin: 0 auto; color: var(--text-secondary); font-size: 1.1rem; line-height: 1.8; }
+        .hero-link-buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-top: 1.5rem; }
+        .hero-link-btn { display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.8rem 1.2rem; border-radius: 8px; border: 1px solid rgba(124,255,178,0.35); background: rgba(124,255,178,0.08); color: var(--accent-energy); text-decoration: none; font-weight: 600; transition: all 0.3s var(--ease-slow); }
+        .hero-link-btn:hover { border-color: var(--accent-energy); background: rgba(124,255,178,0.14); transform: translateY(-2px); }
+
+        .architecture-visual {
+            background: var(--bg-elevated); border-radius: 16px; padding: 2rem;
+            border: 1px solid var(--line-subtle); margin: 2rem 0;
+        }
+        .architecture-placeholder {
+            height: 300px; background: linear-gradient(135deg, rgba(184,178,167,0.1), rgba(124,255,178,0.05));
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            color: var(--text-muted); font-size: 1.2rem; position: relative; overflow: hidden;
+        }
+        .architecture-placeholder::before {
+            content: ''; position: absolute; top:0; left:0; right:0; bottom:0;
+            background-image: linear-gradient(var(--line-subtle) 1px, transparent 1px),
+                              linear-gradient(90deg, var(--line-subtle) 1px, transparent 1px);
+            background-size: 40px 40px; opacity: 0.3;
+        }
+        .architecture-label { position: relative; z-index:2; background: rgba(12,17,23,0.7); padding: 1rem 2rem; border-radius: 8px; border:1px solid var(--glass-border); }
+
+        .flow-steps { display: flex; flex-wrap: wrap; justify-content: space-between; margin-top: 2rem; gap:1rem; }
+        .flow-step { flex:1; min-width:120px; text-align: center; padding:1rem; background:rgba(0,0,0,0.2); border-radius:8px; border:1px solid var(--line-subtle); }
+        .step-number { display:inline-block; width:30px; height:30px; background:var(--accent-energy); color:var(--bg-main); border-radius:50%; line-height:30px; font-weight:600; margin-bottom:0.5rem; }
+        .step-label { font-size:0.9rem; color:var(--text-secondary); }
+
+        .tech-tags { display: flex; flex-wrap: wrap; gap:0.8rem; }
+        .tech-tag { background:rgba(184,178,167,0.1); color:var(--accent-primary); padding:0.6rem 1.2rem; border-radius:8px; font-size:0.9rem; border:1px solid rgba(184,178,167,0.2); }
+        .tech-tag.energy { background:rgba(124,255,178,0.1); color:var(--accent-energy); border-color:rgba(124,255,178,0.2); }
+
+        .yaml-table { width:100%; border-collapse: collapse; margin:2rem 0; background:var(--bg-elevated); border-radius:12px; overflow:hidden; border:1px solid var(--line-subtle); }
+        .yaml-table th { background:rgba(124,255,178,0.1); color:var(--accent-energy); padding:1rem; text-align:left; font-weight:600; border-bottom:2px solid var(--line-subtle); }
+        .yaml-table td { padding:1rem; border-bottom:1px solid var(--line-subtle); color:var(--text-secondary); }
+        .yaml-table tr:last-child td { border-bottom:none; }
+        .yaml-table tr:hover { background:rgba(184,178,167,0.05); }
+
+        .assets-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap:2rem; margin-bottom:1.5rem; }
+        .asset-card { background:var(--bg-elevated); border:1px solid var(--line-subtle); border-radius:12px; padding:1.5rem; transition: all 0.3s var(--ease-slow); }
+        .asset-card:hover { border-color:var(--accent-energy); transform: translateY(-4px); }
+        .asset-icon { width:50px; height:50px; background:rgba(124,255,178,0.1); border-radius:10px; display:flex; align-items:center; justify-content:center; margin-bottom:1rem; color:var(--accent-energy); font-size:1.5rem; }
+        .asset-title { font-size:1.1rem; font-weight:600; color:var(--text-primary); margin-bottom:0.8rem; }
+        .asset-description { font-size:0.9rem; color:var(--text-secondary); margin-bottom:1.2rem; line-height:1.6; }
+        .asset-link { display:inline-flex; align-items:center; gap:0.5rem; color:var(--accent-energy); text-decoration:none; font-size:0.9rem; font-weight:500; }
+        .asset-link:hover { text-decoration:underline; }
+
+        .demo-section { text-align:center; padding:40px 0; }
+        .demo-title { font-size:2.5rem; margin-bottom:1rem; color: var(--accent-energy); }
+        .demo-subtitle { color:var(--text-secondary); margin-bottom:2rem; }
+        .trigger-btn {
+            display:inline-flex; align-items:center; gap:0.6rem;
+            background:var(--accent-energy); color:var(--bg-main);
+            padding:1rem 2rem; border-radius:8px; font-weight:600;
+            border:none; cursor:pointer; transition: all 0.3s var(--ease-slow);
+         text-decoration: none; }
+        .trigger-btn:hover { background:transparent; color:var(--accent-energy); border:2px solid var(--accent-energy); transform: translateY(-2px); }
+
+        .study-modal {
+            display: none; position:fixed; top:0; left:0; width:100%; height:100%;
+            background:rgba(12,17,23,0.95); z-index:2000; backdrop-filter:blur(10px);
+            align-items:center; justify-content:center; padding:2rem;
+        }
+        .study-modal.active { display:flex; }
+        .study-modal-content {
+            background:var(--card-bg); border-radius:20px; padding:2.5rem;
+            max-width:700px; width:100%; max-height:85vh; overflow-y:auto;
+            border:1px solid var(--line-subtle); box-shadow:0 25px 50px rgba(0,0,0,0.5);
+            position:relative; animation: modalFadeIn 0.3s var(--ease-slow);
+        }
+        @keyframes modalFadeIn { from { opacity:0; transform:scale(0.95); } to { opacity:1; transform:scale(1); } }
+        .study-modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem; padding-bottom:1.5rem; border-bottom:1px solid var(--line-subtle); }
+        .study-modal-title { font-size:1.5rem; font-weight:600; color:var(--text-primary); }
+        .study-modal-close { background:none; border:none; color:var(--text-secondary); font-size:1.5rem; cursor:pointer; transition:color 0.3s; width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center; }
+        .study-modal-close:hover { color:var(--accent-energy); background:rgba(124,255,178,0.1); }
+        .study-material-list { display:flex; flex-direction:column; gap:1rem; }
+        .study-material-item {
+            display:flex; align-items:center; padding:1.2rem; border-radius:12px;
+            background:rgba(0,0,0,0.2); gap:1.2rem; transition:all 0.3s var(--ease-slow);
+        }
+        .study-material-item:hover { background:rgba(184,178,167,0.05); transform:translateX(5px); }
+        .study-material-icon { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; background:rgba(108,155,207,0.1); color:#6C9BCF; flex-shrink:0; font-size:1.2rem; }
+        .study-material-info { flex:1; }
+        .study-material-name { font-size:1rem; font-weight:500; color:var(--text-primary); margin-bottom:0.4rem; }
+        .study-material-desc { font-size:0.9rem; color:var(--text-secondary); }
+        .download-btn { display:flex; align-items:center; gap:0.6rem; padding:0.7rem 1.2rem; border-radius:8px; background:transparent; border:2px solid var(--accent-energy); color:var(--accent-energy); font-weight:600; cursor:pointer; transition:all 0.3s; text-decoration:none; flex-shrink:0; }
+        .download-btn:hover { background:rgba(124,255,178,0.1); transform:translateY(-2px); box-shadow:0 4px 8px rgba(124,255,178,0.2); }
+        .footer { text-align:center; padding:3rem 0; border-top:1px solid var(--line-subtle); margin-top:4rem; color:var(--text-muted); font-size:0.9rem; }
+
+        @media (max-width:768px) {
+            .nav-list { display:none; position:absolute; top:70px; left:0; width:100%; flex-direction:column; background:var(--bg-surface); padding:2rem; border-bottom:1px solid var(--line-subtle); gap:1.5rem; }
+            .nav-list.active { display:flex; }
+            .nav-toggle { display:block; }
+            .hero-title { font-size:2.5rem; }
+            .hero-subtitle { font-size:1.2rem; }
+            .container { padding:0 1.5rem; }
+            .flow-steps { flex-direction:column; }
+            .grid-2, .grid-3 { grid-template-columns:1fr; }
+            .yaml-table { display:block; overflow-x:auto; }
+        }
+        @media (max-width:480px) {
+            .hero-title { font-size:2rem; }
+            .section-title { font-size:1.6rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="nav-logo">Kubeflow MLOps · Pipeline v2</a>
+            <ul class="nav-list">
+                <li><a href="#overview" class="nav-link active">Overview</a></li>
+                <li><a href="#problem" class="nav-link">Problem</a></li>
+                <li><a href="#architecture" class="nav-link">Architecture</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#mapping" class="nav-link">YAML mapping</a></li>
+                <li><a href="#assets" class="nav-link">Assets</a></li>
+            </ul>
+            <button class="nav-toggle"><i class="fas fa-bars"></i></button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- hero -->
+        <section id="overview" class="section hero-section" style="opacity: 1; transform: translateY(0px);">
+            <h1 class="hero-title">AI‑Kubeflow Pipeline‑2</h1>
+            <p class="hero-subtitle">Training, Evaluation &amp; Model Selection · Kubernetes‑Native MLOps</p>
+            <div class="hero-summary">
+                <p>Production‑style ML training and evaluation pipelines using Kubeflow Pipelines with containerized components, artifact lineage, and metric‑driven model selection (KFP v2, MinIO, MLMD).</p>
+                <div class="hero-link-buttons">
+                    <a href="https://github.com/kubeflow/pipelines" target="_blank" rel="noopener noreferrer" class="hero-link-btn"><i class="fab fa-github"></i> kubeflow/pipelines</a>
+                    <a href="https://github.com/Rajesh-Arigala/Kubeflow-pipelines-MLOps" target="_blank" rel="noopener noreferrer" class="hero-link-btn"><i class="fab fa-github"></i> Kubeflow-pipelines-MLOps</a>
+                    <a href="#" class="hero-link-btn"><i class="fas fa-rocket"></i> Later</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- summary cards -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header"><h2 class="section-title">Project Summary</h2><p class="section-subtitle">MLOps / Platform Engineering</p></div>
+            <div class="grid-3">
+                <div class="card"><h3 class="card-title"><i class="fas fa-tag"></i>Category</h3><div class="card-content"><p>AI + MLOps + Platform Engineering (Kubernetes / Kubeflow)</p></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-industry"></i>Industry</h3><div class="card-content"><p>Cross‑industry Enterprise AI Platforms / MLOps Infrastructure</p></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-code"></i>Domain</h3><div class="card-content"><p>Model Training Engineering / Pipeline Orchestration</p></div></div>
+            </div>
+        </section>
+
+        <!-- keywords -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header"><h2 class="section-title">Key Technologies &amp; Concepts</h2><p class="section-subtitle">Kubeflow native keywords</p></div>
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-key"></i>MLOps keywords</h3>
+                <div class="card-content">
+                    <div class="tech-tags">
+                        <span class="tech-tag energy">Kubeflow Pipelines (KFP v2)</span>
+                        <span class="tech-tag">Pipeline as Code</span>
+                        <span class="tech-tag energy">Containerized ML components</span>
+                        <span class="tech-tag">Training pipelines (LR, DT)</span>
+                        <span class="tech-tag">Evaluation metrics (accuracy)</span>
+                        <span class="tech-tag energy">Experiment tracking</span>
+                        <span class="tech-tag">Artifact lineage (MLMD)</span>
+                        <span class="tech-tag">Model comparison</span>
+                        <span class="tech-tag energy">Metric-based selection</span>
+                        <span class="tech-tag">MinIO artifact store</span>
+                        <span class="tech-tag energy">Argo Workflows</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- problem & objective -->
+        <section id="problem" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header"><h2 class="section-title">Problem &amp; Objective</h2><p class="section-subtitle">Why this project exists</p></div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Problems Solved</h3><div class="card-content"><ul class="list"><li class="list-item">Notebook‑driven training lacks reproducibility &amp; governance</li><li class="list-item">Manual execution → inconsistent environments, fragmented metrics</li><li class="list-item">Limited visibility into experiment lineage and outcomes</li></ul></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-bullseye"></i>Primary Objective</h3><div class="card-content"><ul class="list"><li class="list-item">Reproducible, pipeline‑driven ML training &amp; evaluation on Kubeflow</li><li class="list-item">Containerized components + standardized artifact storage + metric‑driven model selection</li></ul></div></div>
+            </div>
+        </section>
+
+        <!-- solution & architecture -->
+        <section id="architecture" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header"><h2 class="section-title">Solution &amp; Architecture</h2><p class="section-subtitle">Kubeflow pipeline flow</p></div>
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-sitemap"></i>Orchestration overview</h3>
+                <div class="card-content">
+                    <p>Kubeflow Pipelines workflow orchestrates multiple containerized components for data ingestion, model training (Logistic Regression and Decision Tree), and evaluation. Each pipeline run produces versioned artifacts and metrics, enabling systematic comparison and model selection based on evaluation criteria.</p>
+                    <div class="highlight-box"><span class="highlight-text">Flow: Data → Train (LR, DT) → Evaluate → Compare Metrics → (conditional selection)</span></div>
+                </div>
+            </div>
+            <div class="architecture-visual">
+
+                <div style="text-align: center; width: 100%;">
+        <img src="/img/ml-systems/project in 1.5.webp" alt="Kubeflow DAG (KFP v2)" style="max-width: 100%; height: auto; display: inline-block; margin: 0 auto;">
+    </div>
+
+
+                <div class="flow-steps">
+                    <div class="flow-step"><span class="step-number">1</span><span class="step-label">Data ingestion</span></div>
+                    <div class="flow-step"><span class="step-number">2</span><span class="step-label">Train LR</span></div>
+                    <div class="flow-step"><span class="step-number">3</span><span class="step-label">Train DT</span></div>
+                    <div class="flow-step"><span class="step-number">4</span><span class="step-label">Evaluate</span></div>
+                    <div class="flow-step"><span class="step-number">5</span><span class="step-label">Compare / select</span></div>
+                </div>
+            </div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fas fa-cubes"></i>Components</h3><div class="card-content"><ul class="list"><li>Download data (component)</li><li>Training (scikit‑learn containers)</li><li>Evaluation metrics (accuracy)</li><li>Kubeflow Pipelines orchestration</li><li>MinIO artifact storage</li></ul></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-cloud"></i>Platform &amp; services</h3><div class="card-content"><ul class="list"><li>Kubernetes + Kubeflow (KFP v2 runtime)</li><li>Argo Workflows (execution engine)</li><li>Docker (containerized training components)</li><li>MinIO artifact storage for datasets and outputs</li><li>Kubeflow Metadata Store (MLMD) for lineage and run metadata</li><li>Kubernetes Pods, Services, Namespaces, RBAC</li></ul></div></div>
+            </div>
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-shield-alt"></i>Scalability &amp; reliability</h3>
+                <div class="card-content"><ul class="list"><li class="list-item">Stateless pipeline components executed as isolated pods</li><li class="list-item">Retry and failure isolation at step level</li><li class="list-item">Artifact durability via object storage (MinIO)</li><li class="list-item">Re-runnable pipelines with deterministic environments via image versioning</li></ul></div>
+            </div>
+        </section>
+
+        <!-- AI / DevOps details -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header"><h2 class="section-title">AI / DevOps Details</h2><p class="section-subtitle">Automation, orchestration, and observability</p></div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fas fa-robot"></i>AI/ML focus</h3><div class="card-content"><p>Model Training, Evaluation &amp; Experiment Orchestration (MLOps – Offline Training).</p></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-diagram-project"></i>Pipeline automation</h3><div class="card-content"><ul class="list"><li class="list-item">Automated data ingestion component</li><li class="list-item">Parallel/serial training components (Logistic Regression, Decision Tree)</li><li class="list-item">Metric computation and logging (accuracy)</li><li class="list-item">Metric-based model comparison and selection</li><li class="list-item">Pipeline as code (compiled KFP YAML)</li></ul></div></div>
+            </div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fas fa-cogs"></i>CI/CD &amp; orchestration</h3><div class="card-content"><ul class="list"><li class="list-item">Docker training component images</li><li class="list-item">Kubeflow Pipelines orchestration</li><li class="list-item">Argo Workflows pipeline execution</li><li class="list-item">Kubernetes runtime scheduling</li></ul></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-eye"></i>Monitoring &amp; optimisation</h3><div class="card-content"><ul class="list"><li class="list-item">Kubeflow Pipelines UI for run status, DAG visualization, and step-level logs</li><li class="list-item">Kubernetes pod logs for component-level debugging</li><li class="list-item">ML Metadata Store for run lineage and artifact traceability</li><li class="list-item">Metric visibility (accuracy) across experiments for comparative analysis</li><li class="list-item">Failure isolation and targeted re-runs of failed steps</li></ul></div></div>
+            </div>
+        </section>
+
+        <!-- skills & tech -->
+        <section id="skills" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header"><h2 class="section-title">Skills &amp; Technologies</h2><p class="section-subtitle">Proficiencies demonstrated</p></div>
+            <div class="grid-2">
+                <div class="card"><h3 class="card-title"><i class="fas fa-star"></i>Primary skills</h3><div class="card-content"><ul class="list"><li>Kubeflow Pipelines (advanced)</li><li>Kubernetes‑Native MLOps (advanced)</li><li>ML Training Pipeline Design (advanced)</li><li>Experiment Tracking &amp; Lineage (advanced)</li></ul></div></div>
+                <div class="card"><h3 class="card-title"><i class="fas fa-tools"></i>Secondary tools</h3><div class="card-content"><ul class="list"><li>scikit‑learn (model framework)</li><li>Docker (containerization)</li><li>YAML (pipeline/component specifications)</li><li>Argo Workflows</li><li>MinIO, ML Metadata</li><li>Kubeflow UI / SDK</li><li>Docker Hub</li></ul></div></div>
+            </div>
+            <div class="card"><h3 class="card-title"><i class="fas fa-code"></i>Programming languages</h3><div class="card-content"><p>Python (primary), YAML (pipeline/component specs).</p></div></div>
+        </section>
+
+        <!-- mapping table (exactly as pdf) -->
+        <section id="mapping" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header"><h2 class="section-title">Kubeflow DevOps — Architecture &amp; YAML mapping</h2><p class="section-subtitle">Reference: Pipeline‑2 modelling</p></div>
+            <div class="card"><div class="card-content">
+                <table class="yaml-table">
+                    <thead><tr><th>Architecture Block</th><th>Kubeflow CI/CD / MLOps Construct (Pipeline‑2)</th></tr></thead>
+                    <tbody>
+                        <tr><td>Source Repository</td><td>GitHub (Kubeflow modeling / pipelines repo)</td></tr>
+                        <tr><td>Source Trigger</td><td>Manual trigger (Kubeflow UI / SDK) or CI trigger (GitHub Actions / local pipeline submission)</td></tr>
+                        <tr><td>CI Runner</td><td>GitHub Actions Linux Runner (ubuntu-latest) (optional for CI-driven pipeline compilation and submission)</td></tr>
+                        <tr><td>Build / Pipeline Execution</td><td>Kubeflow Pipelines (KFP v2: Data → Train → Evaluate → Condition)</td></tr>
+                        <tr><td>Training Orchestration</td><td>Kubeflow Pipelines (KFP v2 running on Kubernetes via Argo Workflows)</td></tr>
+                        <tr><td>Data Processing</td><td>Kubeflow Pipeline Component (Python + scikit‑learn preprocessing in containerized step)</td></tr>
+                        <tr><td>Model Evaluation</td><td>Kubeflow Pipeline Component (Python + scikit‑learn evaluation component; accuracy metric)</td></tr>
+                        <tr><td>Artifact Storage</td><td>MinIO (S3-compatible object store for datasets, model artifacts, metrics JSON)</td></tr>
+                        <tr><td>Container Registry</td><td>Docker Hub (versioned training component images)</td></tr>
+                        <tr><td>Model Registry</td><td>Kubeflow Pipelines run history + ML Metadata Store (MLMD) + MinIO artifact versions (open-source equivalent of managed model registries)</td></tr>
+                        <tr><td>Approval Gate</td><td>Pipeline Condition (metric threshold gate for downstream deployment pipeline)</td></tr>
+                        <tr><td>Security &amp; Auth</td><td>Kubernetes Service Accounts + RBAC (least-privilege execution identity for pipeline pods)</td></tr>
+                        <tr><td>Secrets / Config</td><td>Kubernetes Secrets + Environment Variables (mounted into pipeline containers)</td></tr>
+                        <tr><td>Monitoring &amp; Logs</td><td>Kubeflow Pipelines UI + Kubernetes Pod Logs (per-step execution logs)</td></tr>
+                        <tr><td>Lineage &amp; Governance</td><td>Kubeflow Pipelines lineage + ML Metadata Store (inputs/outputs, run lineage, artifact traceability)</td></tr>
+                        <tr><td>Infrastructure Backend</td><td>Self-managed Kubernetes (Minikube / EKS / AKS / GKE) hosting Kubeflow Pipelines runtime (control plane + workflow engine deployed via Kubeflow manifests)</td></tr>
+                    </tbody>
+                </table>
+                <p class="text-muted" style="margin-top:1rem;"><i class="fas fa-info-circle"></i> Pipeline‑2 implements Kubernetes‑native ML training and evaluation using Kubeflow Pipelines, providing the open-source equivalent of managed Vertex AI Pipelines for model experimentation, metric-based selection, and governed promotion to deployment workflows.</p>
+            </div></div>
+        </section>
+
+        <!-- challenges & outcomes (inline) -->
+        <section class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header"><h2 class="section-title">Challenges &amp; Resolutions</h2><p class="section-subtitle">Technical hurdles</p></div>
+            <div class="grid-2">
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-exclamation-triangle"></i>Key challenges</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Packaging training code into reproducible container images</li>
+                            <li class="list-item">Wiring artifact paths between components</li>
+                            <li class="list-item">Consistent metric logging across variants</li>
+                            <li class="list-item">Experiment lineage and traceability</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="card-title"><i class="fas fa-check-circle"></i>Resolutions</h3>
+                    <div class="card-content">
+                        <ul class="list">
+                            <li class="list-item">Standardised Dockerfiles per component</li>
+                            <li class="list-item">Kubeflow artifact inputs/outputs for clean handoffs</li>
+                            <li class="list-item">Centralised accuracy logging for model comparison</li>
+                            <li class="list-item">ML Metadata Store + KFP run history</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- assets & references -->
+        <section id="assets" class="section" style="opacity: 1; transform: translateY(0px);">
+            <div class="section-header"><h2 class="section-title">Assets &amp; References</h2><p class="section-subtitle">Code, diagrams, study material</p></div>
+            <div class="assets-grid">
+                <div class="asset-card"><div class="asset-icon"><i class="fab fa-github"></i></div><h3 class="asset-title">Kubeflow Official Documentation Repo</h3><p class="asset-description">Official Kubeflow Pipelines repository and documentation source.</p><a href="https://github.com/kubeflow/pipelines" target="_blank" rel="noopener noreferrer" class="asset-link"><span>kubeflow/pipelines</span><i class="fas fa-external-link-alt"></i></a></div>
+                <div class="asset-card"><div class="asset-icon"><i class="fab fa-github"></i></div><h3 class="asset-title">Kubeflow Pipelines MLOps</h3><p class="asset-description">Project repository for Kubeflow Pipelines MLOps implementation.</p><a href="https://github.com/Rajesh-Arigala/Kubeflow-pipelines-MLOps" target="_blank" rel="noopener noreferrer" class="asset-link"><span>Kubeflow-pipelines-MLOps</span><i class="fas fa-external-link-alt"></i></a></div>
+                <div class="asset-card"><div class="asset-icon"><i class="fas fa-rocket"></i></div><h3 class="asset-title">Deployment Link</h3><p class="asset-description">Deployment link will be added later.</p><a href="#" class="asset-link"><span>Later</span><i class="fas fa-clock"></i></a></div>
+            </div>
+
+            <!-- study material modal trigger (exactly same style) -->
+            <div class="card">
+                <div class="demo-section">
+                    <h3 class="demo-title">MLOps Study Resources</h3>
+                    <p class="demo-subtitle">Kubeflow Pipelines – restricted &amp; public materials</p>
+                    <a href="/index#contact" class="trigger-btn"><i class="fas fa-book"></i><span>Request Study Material</span></a>
+                </div>
+            </div>
+
+            <div class="disclaimer" style="background:rgba(184,178,167,0.05); border-radius:12px; padding:1.5rem; margin-top:2rem; text-align:center; color:var(--text-secondary);">
+                <p><strong>Note:</strong> Additional project materials (KFP v2 YAML, component specs) are shared selectively for interview / evaluation.</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- study modal (materials from pdf) -->
+    <div class="study-modal" id="studyModal">
+        <div class="study-modal-content">
+            <div class="study-modal-header">
+                <h3 class="study-modal-title">Study Material – Kubeflow Pipelines v2</h3>
+                <button class="study-modal-close" id="closeModalBtn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="study-material-list">
+                <div class="study-material-item"><div class="study-material-icon"><i class="fas fa-file-pdf"></i></div><div class="study-material-info"><div class="study-material-name">KFP official documentation + YAML guide</div><div class="study-material-desc">Downloadable PDF (public) – KFP v2, Python SDK</div></div><a href="#" class="download-btn"><span>Download</span><i class="fas fa-download"></i></a></div>
+                <div class="study-material-item"><div class="study-material-icon"><i class="fas fa-file-pdf"></i></div><div class="study-material-info"><div class="study-material-name">Restricted: KFP pipeline‑2 component specs</div><div class="study-material-desc">Access limited to authorised users – container definitions, metrics</div></div><a href="#" class="download-btn"><span>Download</span><i class="fas fa-download"></i></a></div>
+                <div class="study-material-item"><div class="study-material-icon"><i class="fas fa-file-pdf"></i></div><div class="study-material-info"><div class="study-material-name">Architecture diagrams (training &amp; evaluation)</div><div class="study-material-desc">High‑res: Data → Train(LR/DT) → Evaluate → Compare</div></div><a href="#" class="download-btn"><span>Download</span><i class="fas fa-download"></i></a></div>
+                <div class="study-material-item"><div class="study-material-icon"><i class="fas fa-file-pdf"></i></div><div class="study-material-info"><div class="study-material-name">ML Metadata &amp; lineage best practices</div><div class="study-material-desc">MLMD + MinIO artifact tracking</div></div><a href="#" class="download-btn"><span>Download</span><i class="fas fa-download"></i></a></div>
+                <div class="study-material-item"><div class="study-material-icon"><i class="fas fa-file-pdf"></i></div><div class="study-material-info"><div class="study-material-name">Kubeflow + Argo workflows deep dive</div><div class="study-material-desc">Execution engine &amp; pod isolation</div></div><a href="#" class="download-btn"><span>Download</span><i class="fas fa-download"></i></a></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // mobile toggle
+            const navToggle = document.querySelector('.nav-toggle');
+            const navList = document.querySelector('.nav-list');
+            if (navToggle && navList) {
+                navToggle.addEventListener('click', () => navList.classList.toggle('active'));
+                document.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 768 && navList.classList.contains('active') && !e.target.closest('.nav')) {
+                        navList.classList.remove('active');
+                    }
+                });
+            }
+
+            // active nav highlight on scroll
+            const sections = document.querySelectorAll('.section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            function updateActive() {
+                let current = '';
+                sections.forEach(s => {
+                    const rect = s.getBoundingClientRect();
+                    if (rect.top <= 200 && rect.bottom >= 200) current = s.getAttribute('id');
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${current}`) link.classList.add('active');
+                });
+            }
+            window.addEventListener('scroll', updateActive);
+            updateActive();
+
+            // smooth scroll
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href.startsWith('#') && href !== '#') {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) window.scrollTo({ top: target.offsetTop - 100, behavior: 'smooth' });
+                        if (navList.classList.contains('active')) navList.classList.remove('active');
+                    }
+                });
+            });
+
+            // modal logic
+            const modal = document.getElementById('studyModal');
+            const openBtn = document.getElementById('openModalBtn');
+            const closeBtn = document.getElementById('closeModalBtn');
+            if (openBtn) openBtn.addEventListener('click', () => { modal.classList.add('active'); document.body.style.overflow = 'hidden'; });
+            if (closeBtn) closeBtn.addEventListener('click', () => { modal.classList.remove('active'); document.body.style.overflow = ''; });
+            modal.addEventListener('click', (e) => { if (e.target === modal) { modal.classList.remove('active'); document.body.style.overflow = ''; } });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('active')) { modal.classList.remove('active'); document.body.style.overflow = ''; } });
+
+            // initial animation (already in CSS, but we ensure sections visible after load)
+            setTimeout(() => {
+                document.querySelectorAll('.section').forEach(s => { s.style.opacity = '1'; s.style.transform = 'translateY(0)'; });
+            }, 500);
+        })();
+    </script>
+
+
+</body></html>

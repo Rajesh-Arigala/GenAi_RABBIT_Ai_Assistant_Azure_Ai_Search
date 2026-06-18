@@ -1,0 +1,2053 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLOps &amp; AI Systems Portfolio | ML Lifecycle Engineering</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=IBM+Plex+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet">
+    <style>
+        /* ==================== RESET AND BASE STYLES ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Core Surfaces - Updated Theme */
+            --bg-main: #0C1117;
+            --bg-surface: #121923;
+            --bg-elevated: #161F2B;
+            --card-bg: #161F2B;
+
+            /* Updated Accents */
+            --accent-primary: #B8B2A7;
+            --accent-energy: #7CFFB2;
+            --accent-depth: #3A1F2D;
+            --accent-secondary: #6C9BCF;
+            --accent-tertiary: #8A7CC5;
+
+            /* Text */
+            --text-primary: #E6E9EF;
+            --text-secondary: #A1A8B3;
+            --text-muted: #6F7682;
+
+            /* Lines & Dividers */
+            --line-subtle: #1E2633;
+            --glass-border: rgba(184, 178, 167, 0.15);
+
+            /* Motion */
+            --ease-slow: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+            /* Gradients */
+            --accent-gradient: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+            --depth-gradient: linear-gradient(135deg, var(--accent-depth), transparent 70%);
+            
+            /* Fonts */
+            --font-main: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+        @keyframes pipelineFlow {
+            0% {
+                background-position: 0% 0%;
+            }
+            100% {
+                background-position: 100px 100px;
+            }
+        }
+
+        @keyframes infraPulse {
+            0%, 100% {
+                opacity: 0.05;
+            }
+            50% {
+                opacity: 0.12;
+            }
+        }
+
+        @keyframes cloudNode {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.1;
+            }
+            50% {
+                transform: translate(3px, -3px) scale(1.03);
+                opacity: 0.2;
+            }
+            100% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.1;
+            }
+        }
+
+        @keyframes terminalBlink {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.8;
+            }
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes badgePulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(184, 178, 167, 0.3);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(184, 178, 167, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(184, 178, 167, 0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* ==================== BACKGROUND PATTERNS ==================== */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: 
+                /* Main gradient */
+                linear-gradient(
+                    135deg,
+                    var(--bg-main) 0%,
+                    var(--bg-surface) 50%,
+                    var(--bg-main) 100%
+                ),
+                /* Infrastructure grid */
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 39px,
+                    rgba(184, 178, 167, 0.02) 39px,
+                    rgba(184, 178, 167, 0.02) 40px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 39px,
+                    rgba(124, 255, 178, 0.02) 39px,
+                    rgba(124, 255, 178, 0.02) 40px
+                ),
+                /* Pipeline patterns */
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 15px,
+                    rgba(58, 31, 45, 0.03) 15px,
+                    rgba(58, 31, 45, 0.03) 30px
+                ),
+                /* Depth accents */
+                radial-gradient(
+                    circle at 20% 30%,
+                    rgba(184, 178, 167, 0.04) 0%,
+                    transparent 40%
+                );
+            
+            background-size: 
+                400% 400%,
+                80px 80px,
+                80px 80px,
+                60px 60px,
+                300px 300px;
+            
+            animation: 
+                pipelineFlow 30s linear infinite,
+                infraPulse 20s ease-in-out infinite;
+            
+            pointer-events: none;
+            z-index: -2;
+            opacity: 0.6;
+        }
+
+        /* Animated infrastructure nodes */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: 
+                /* Cloud service nodes */
+                radial-gradient(
+                    5px circle at 10% 20%,
+                    var(--accent-primary) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    4px circle at 25% 45%,
+                    var(--accent-energy) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    4px circle at 40% 75%,
+                    var(--accent-primary) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    5px circle at 60% 25%,
+                    var(--accent-energy) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    4px circle at 75% 60%,
+                    var(--accent-primary) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    4px circle at 90% 35%,
+                    var(--accent-energy) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    5px circle at 15% 85%,
+                    var(--accent-primary) 50%,
+                    transparent 100%
+                ),
+                radial-gradient(
+                    4px circle at 85% 85%,
+                    var(--accent-energy) 50%,
+                    transparent 100%
+                );
+            
+            background-repeat: no-repeat;
+            background-size: 
+                100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
+                100% 100%, 100% 100%, 100% 100%;
+            
+            animation: 
+                cloudNode 15s ease-in-out infinite,
+                terminalBlink 4s ease-in-out infinite;
+            
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.25;
+            mix-blend-mode: screen;
+        }
+
+        /* ==================== CONTAINER ==================== */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* ==================== PAGE HEADER ==================== */
+        .page-header {
+            padding: 5rem 0 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                var(--accent-primary), 
+                var(--accent-energy), 
+                transparent
+            );
+            opacity: 0.5;
+        }
+
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+            opacity: 0.7;
+        }
+
+        .page-title {
+            font-size: 3.25rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-energy) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+            line-height: 1.2;
+        }
+
+        .page-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1.4;
+        }
+
+        .page-intro {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            max-width: 900px;
+            margin: 2rem auto 1.5rem;
+            line-height: 1.7;
+        }
+
+        .infra-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-top: 2rem;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, 
+                rgba(184, 178, 167, 0.1) 0%, 
+                rgba(124, 255, 178, 0.1) 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--accent-energy);
+            backdrop-filter: blur(10px);
+            animation: badgePulse 3s ease-in-out infinite;
+        }
+
+        /* ==================== MAIN CONTENT SECTION ==================== */
+        .main-section {
+            position: relative;
+            padding: 4rem 0;
+            background: rgba(12, 17, 23, 0.8);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+            border-radius: 2px;
+        }
+
+        .section-description {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 4rem;
+            text-align: center;
+            line-height: 1.7;
+        }
+
+        /* ==================== PROJECTS GRID ==================== */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: 2rem;
+            margin-bottom: 5rem;
+        }
+
+        @media (max-width: 1100px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* ==================== PROJECT CARD ==================== */
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--line-subtle);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.4s var(--ease-slow);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.8s var(--ease-slow) forwards;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .project-card.coming-soon-card {
+            cursor: pointer;
+        }
+
+        .project-card:nth-child(1) { animation-delay: 0.1s; }
+        .project-card:nth-child(2) { animation-delay: 0.2s; }
+        .project-card:nth-child(3) { animation-delay: 0.3s; }
+        .project-card:nth-child(4) { animation-delay: 0.4s; }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-primary), var(--accent-energy));
+            opacity: 0;
+            transition: opacity 0.4s var(--ease-slow);
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-primary);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-card:hover::before {
+            opacity: 1;
+        }
+
+        /* Project Image */
+        .project-image {
+            height: 350px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(135deg, 
+                rgba(184, 178, 167, 0.1), 
+                rgba(124, 255, 178, 0.1));
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s var(--ease-slow);
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.05);
+        }
+
+        .project-image-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                transparent 0%,
+                rgba(12, 17, 23, 0.9) 100%
+            );
+            display: flex;
+            align-items: flex-end;
+            padding: 1.2rem;
+        }
+
+        .project-type {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(184, 178, 167, 0.15);
+            color: var(--accent-primary);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Project Content */
+        .project-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.3;
+            flex: 1;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            font-size: 0.9rem;
+            flex-grow: 1;
+        }
+
+        /* Cloud Provider Badges */
+        .cloud-provider {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 0.9rem;
+            background: rgba(184, 178, 167, 0.1);
+            border: 1px solid rgba(184, 178, 167, 0.2);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            font-family: var(--font-mono);
+            margin-left: 1rem;
+            flex-shrink: 0;
+        }
+
+        .cloud-provider.aws { 
+            background: rgba(255, 153, 0, 0.1); 
+            border-color: rgba(255, 153, 0, 0.2);
+            color: #FF9900;
+        }
+
+        .cloud-provider.azure { 
+            background: rgba(0, 120, 212, 0.1); 
+            border-color: rgba(0, 120, 212, 0.2);
+            color: #0078D4;
+        }
+
+        .cloud-provider.gcp { 
+            background: rgba(66, 133, 244, 0.1); 
+            border-color: rgba(66, 133, 244, 0.2);
+            color: #4285F4;
+        }
+
+        .cloud-provider.github { 
+            background: rgba(36, 41, 46, 0.1); 
+            border-color: rgba(36, 41, 46, 0.2);
+            color: #24292E;
+        }
+
+        .cloud-provider.mlops { 
+            background: rgba(124, 255, 178, 0.1); 
+            border-color: rgba(124, 255, 178, 0.2);
+            color: var(--accent-energy);
+        }
+
+        .cloud-provider.datasys { 
+            background: rgba(138, 124, 197, 0.1); 
+            border-color: rgba(138, 124, 197, 0.2);
+            color: var(--accent-tertiary);
+        }
+
+        /* Tech Stack */
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .tech-tag {
+            padding: 0.3rem 0.7rem;
+            background: rgba(184, 178, 167, 0.08);
+            border: 1px solid rgba(184, 178, 167, 0.15);
+            border-radius: 15px;
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            font-weight: 500;
+            font-family: var(--font-mono);
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .tech-tag:hover {
+            background: rgba(124, 255, 178, 0.15);
+            color: var(--accent-energy);
+            transform: translateY(-1px);
+        }
+
+        .tech-tag.iac {
+            background: rgba(108, 155, 207, 0.1);
+            border-color: rgba(108, 155, 207, 0.2);
+            color: var(--accent-secondary);
+        }
+
+        .coming-soon-modal {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            background: rgba(12, 17, 23, 0.82);
+            backdrop-filter: blur(8px);
+            z-index: 1200;
+        }
+
+        .coming-soon-modal.active {
+            display: flex;
+        }
+
+        .coming-soon-dialog {
+            width: min(420px, 100%);
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 18px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        .coming-soon-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1rem;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(124, 255, 178, 0.12);
+            color: var(--accent-energy);
+            font-size: 1.5rem;
+        }
+
+        .coming-soon-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.6rem;
+        }
+
+        .coming-soon-text {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1.4rem;
+        }
+
+        .coming-soon-close {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 1.4rem;
+            border-radius: 999px;
+            border: 1px solid rgba(124, 255, 178, 0.24);
+            background: rgba(124, 255, 178, 0.12);
+            color: var(--accent-energy);
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        /* Project Tags Section */
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.2rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(184, 178, 167, 0.1);
+        }
+
+        .project-tag {
+            padding: 0.25rem 0.6rem;
+            background: rgba(124, 255, 178, 0.1);
+            border: 1px solid rgba(124, 255, 178, 0.2);
+            border-radius: 12px;
+            font-size: 0.7rem;
+            color: var(--accent-energy);
+            font-weight: 500;
+            font-family: var(--font-mono);
+            transition: all 0.3s var(--ease-slow);
+        }
+
+        .project-tag:hover {
+            background: rgba(124, 255, 178, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* Key Capabilities */
+        .capabilities {
+            margin-bottom: 1.2rem;
+            flex-grow: 1;
+        }
+
+        .capability-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .capability-item i {
+            color: var(--accent-energy);
+            font-size: 0.8rem;
+            width: 16px;
+        }
+
+        /* Project Actions - FIXED ALIGNMENT */
+        .project-actions {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(184, 178, 167, 0.1);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.4s var(--ease-slow);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            position: relative;
+            overflow: hidden;
+            flex: 1;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            min-height: 38px;
+        }
+
+        .btn-github {
+            background: rgba(184, 178, 167, 0.05);
+            border-color: var(--accent-primary);
+            color: var(--accent-primary);
+        }
+
+        .btn-github:hover {
+            background: rgba(184, 178, 167, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn-icon {
+            transition: transform 0.4s var(--ease-slow);
+        }
+
+        .btn:hover .btn-icon {
+            transform: translateX(3px);
+        }
+
+        /* ==================== SECTION HEADERS ==================== */
+        .section-header {
+            margin-top: 4rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .section-header h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 0.5rem;
+        }
+
+        .section-header h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--accent-primary);
+            opacity: 0.7;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        /* ==================== FLOATING ELEMENTS ==================== */
+        .floating-element {
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.08;
+        }
+
+        .floating-element:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, var(--accent-primary), transparent);
+            animation: cloudNode 25s infinite ease-in-out;
+        }
+
+        .floating-element:nth-child(2) {
+            top: 60%;
+            right: 10%;
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, transparent, var(--accent-energy));
+            animation: cloudNode 30s infinite ease-in-out reverse;
+            animation-delay: 5s;
+        }
+
+        .floating-element:nth-child(3) {
+            bottom: 20%;
+            left: 15%;
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-energy));
+            animation: cloudNode 20s infinite ease-in-out;
+            animation-delay: 10s;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            text-align: center;
+            padding: 5rem 0 6rem;
+            position: relative;
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                rgba(12, 17, 23, 0.3) 20%,
+                rgba(12, 17, 23, 0.6) 100%
+            );
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 600px;
+            height: 1px;
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                var(--accent-primary), 
+                var(--accent-energy), 
+                transparent
+            );
+            opacity: 0.3;
+        }
+
+        .footer-message {
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .contact-btn {
+            background: linear-gradient(
+                135deg,
+                rgba(184, 178, 167, 0.1) 0%,
+                rgba(124, 255, 178, 0.1) 100%
+            );
+            border: 1px solid var(--glass-border);
+            color: var(--accent-primary);
+            padding: 1.2rem 3rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.4s var(--ease-slow);
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(124, 255, 178, 0.1),
+                transparent
+            );
+            transition: left 0.6s var(--ease-slow);
+        }
+
+        .contact-btn:hover {
+            background: linear-gradient(
+                135deg,
+                rgba(184, 178, 167, 0.2) 0%,
+                rgba(124, 255, 178, 0.2) 100%
+            );
+            transform: translateY(-3px);
+            border-color: var(--accent-energy);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .contact-btn:hover::before {
+            left: 100%;
+        }
+
+        .contact-btn i {
+            transition: transform 0.4s var(--ease-slow);
+        }
+
+        .contact-btn:hover i {
+            transform: translateX(5px) translateY(-2px);
+        }
+
+        .contact-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 992px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+            
+            .page-header {
+                padding: 3rem 0 2rem;
+            }
+            
+            .page-title {
+                font-size: 2.5rem;
+            }
+            
+            .page-subtitle {
+                font-size: 1.3rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                max-width: 500px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            
+            .project-content {
+                padding: 1.2rem;
+            }
+            
+            .project-title {
+                font-size: 1.2rem;
+            }
+            
+            .project-actions {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .project-image {
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .project-title {
+                font-size: 1.1rem;
+            }
+            
+            .project-image {
+                height: 240px;
+            }
+            
+            .tech-stack {
+                gap: 0.4rem;
+            }
+            
+            .tech-tag {
+                padding: 0.25rem 0.6rem;
+                font-size: 0.7rem;
+            }
+            
+            .project-actions {
+                gap: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Background Elements -->
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+    <div class="floating-element"></div>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Page Header -->
+        <header class="page-header">
+            <div class="container">
+                <h1 class="page-title">MLOPS &amp; AI SYSTEMS ENGINEERING</h1>
+                <h3 class="page-subtitle">End-to-End ML Lifecycle Systems Across Cloud Platforms</h3>
+                
+                <p class="page-intro">
+                    Designing and implementing production-grade MLOps systems that span the complete machine learning lifecycle—from data versioning and feature stores to training pipelines, model deployment, and operational monitoring. These systems demonstrate scalable, reproducible AI infrastructure across multiple cloud platforms.
+                </p>
+                
+                <div class="infra-badge">
+                    <i class="fas fa-brain"></i>
+                    <span>ML Lifecycle · Production AI · Model Operations · Data Systems · Cloud-Native ML</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Section -->
+        <section class="main-section">
+            <div class="container">
+                <h2 class="section-title">MLOps Core Systems Architecture</h2>
+                <p class="section-description">
+                    Three pillar architecture covering the complete ML lifecycle: Training Pipelines, Deployment &amp; Operations, and Data &amp; Feature Systems.
+                </p>
+
+                <!-- Section 1: Training Pipelines -->
+                <div class="section-header">
+                    <h3>1. Training Pipelines</h3>
+                    <p>End-to-end ML platform implementations for automated model building, training, evaluation, and registration</p>
+                </div>
+
+                <div class="projects-grid">
+                    <!-- Project 1: MLflow + SageMaker (AWS) -->
+                    <article class="project-card" onclick="window.location.href='MLflow-SageMaker-AWS'" style="opacity: 1; transform: translateY(0px);">
+                        <div class="project-image">
+                            <div class="project-image-overlay">
+                                <span class="project-type">End-to-End ML Platform</span>
+                            </div>
+                            <img src="/img/ml-systems/project1.1.webp" alt="MLflow + SageMaker AWS Platform">
+                        </div>
+                        
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">End-to-End ML Platform on AWS (MLflow + SageMaker)</h3>
+                                <div class="cloud-provider aws">AWS</div>
+                            </div>
+                            
+                            <p class="project-description">
+                                Production-grade ML platform with experiment tracking, model registry, and SageMaker-based training &amp; deployment, provisioned using AWS CDK Infrastructure as Code.
+                            </p>
+                            
+                            <div class="tech-stack">
+                                <span class="tech-tag iac">AWS CDK (Python IaC)</span>
+                                <span class="tech-tag">MLflow</span>
+                                <span class="tech-tag">SageMaker</span>
+                                <span class="tech-tag">ECS Fargate</span>
+                                <span class="tech-tag">RDS MySQL</span>
+                                <span class="tech-tag">S3 Artifacts</span>
+                            </div>
+
+                            <div class="project-tags">
+                                <span class="project-tag">Experiment Tracking</span>
+                                <span class="project-tag">Model Registry</span>
+                                <span class="project-tag">Infrastructure as Code</span>
+                                <span class="project-tag">Production ML Platform</span>
+                            </div>
+                            
+                            <div class="capabilities">
+                                <div class="capability-item">
+                                    <i class="fas fa-cogs"></i>
+                                    <span>MLflow tracking server on ECS Fargate with RDS + S3 backend</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-rocket"></i>
+                                    <span>SageMaker training jobs integrated with remote MLflow tracking</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-code"></i>
+                                    <span>Infrastructure fully provisioned using AWS CDK (IaC)</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-layer-group"></i>
+                                    <span>Model promotion and deployment via MLflow → SageMaker endpoints</span>
+                                </div>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <a href="ai1" class="btn btn-github">
+                                    <i class="fas fa-external-link-alt btn-icon"></i>
+                                    <span>View Project Details</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 2: Azure ML Training Pipeline -->
+                    <article class="project-card" onclick="window.location.href='Azure-ML-Training'" style="opacity: 1; transform: translateY(0px);">
+                        <div class="project-image">
+                            <div class="project-image-overlay">
+                                <span class="project-type">CI/CD ML Pipeline</span>
+                            </div>
+                            <img src="/img/ml-systems/project1.2.webp" alt="Azure ML Training Pipeline">
+                        </div>
+                        
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">Azure ML Training Pipeline (Build → Train → Evaluate → Register)</h3>
+                                <div class="cloud-provider azure">Azure</div>
+                            </div>
+                            
+                            <p class="project-description">
+                                Production-grade Azure ML pipeline that automates model building, training, evaluation, and governed registration using CI/CD-driven orchestration with experiment tracking and promotion gates.
+                            </p>
+                            
+                            <div class="tech-stack">
+                                <span class="tech-tag">Azure ML Pipelines</span>
+                                <span class="tech-tag">MLflow Tracking</span>
+                                <span class="tech-tag">Azure DevOps</span>
+                                <span class="tech-tag">Model Registry</span>
+                                <span class="tech-tag">CI/CD for ML</span>
+                                <span class="tech-tag">Reproducible ML</span>
+                            </div>
+
+                            <div class="project-tags">
+                                <span class="project-tag">Training Automation</span>
+                                <span class="project-tag">Model Registration</span>
+                                <span class="project-tag">Experiment Tracking</span>
+                                <span class="project-tag">CI/CD Driven</span>
+                            </div>
+                            
+                            <div class="capabilities">
+                                <div class="capability-item">
+                                    <i class="fas fa-project-diagram"></i>
+                                    <span>Azure ML pipeline orchestrated via Azure DevOps YAML pipelines</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-database"></i>
+                                    <span>Standardized data prep, training, evaluation on hold-out data</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Conditional model registration into MLflow Model Registry</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>MLflow experiment tracking for metrics, parameters, artifacts</span>
+                                </div>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <a href="ai2/ai2.2" class="btn btn-github">
+                                    <i class="fas fa-external-link-alt btn-icon"></i>
+                                    <span>View Project Details</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 2: AWS ML – Modelling Pipeline (Process → Train → Evaluate → Register) -->
+                    <article class="project-card" onclick="window.location.href='ai6.2'" style="opacity: 1; transform: translateY(0px);">
+                        <div class="project-image">
+                            <div class="project-image-overlay">
+                                <span class="project-type">CI/CD ML Pipeline</span>
+                            </div>
+                            <img src="/img/ml-systems/project1.3.webp" alt="AWS SageMaker MLOps Pipeline">
+                        </div>
+                        
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">AWS ML – Modelling Pipeline (Process → Train → Evaluate → Register)</h3>
+                                <div class="cloud-provider aws">AWS</div>
+                            </div>
+                            
+                            <p class="project-description">
+                                Fully automated ML training pipeline on AWS: data preprocessing, XGBoost training, evaluation with conditional quality gate (MSE), and governed model registration in SageMaker Model Registry. Triggered via GitHub Actions + OIDC.
+                            </p>
+                            
+                            <div class="tech-stack">
+                                <span class="tech-tag">SageMaker Pipelines</span>
+                                <span class="tech-tag">GitHub Actions</span>
+                                <span class="tech-tag">OIDC → IAM</span>
+                                <span class="tech-tag">Amazon ECR</span>
+                                <span class="tech-tag">S3 Artifacts</span>
+                                <span class="tech-tag">Model Registry</span>
+                                <span class="tech-tag">XGBoost</span>
+                            </div>
+
+                            <div class="project-tags">
+                                <span class="project-tag">Training Automation</span>
+                                <span class="project-tag">Model Registration</span>
+                                <span class="project-tag">Quality Gates</span>
+                                <span class="project-tag">CI/CD Driven</span>
+                            </div>
+                            
+                            <div class="capabilities">
+                                <div class="capability-item">
+                                    <i class="fas fa-project-diagram"></i>
+                                    <span>SageMaker Pipeline: Process → Train → Evaluate → Conditional Register</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Quality gate with MSE threshold – auto‑reject underperforming models</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Conditional registration into SageMaker Model Registry with approval workflow</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-lock"></i>
+                                    <span>OIDC authentication between GitHub Actions and AWS (no static secrets)</span>
+                                </div>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <a href="/mlops/ai6/ai6.2" class="btn btn-github">
+                                    <i class="fas fa-external-link-alt btn-icon"></i>
+                                    <span>View Project Details</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                    <!-- Project 2: GCP ML – Modelling Pipeline (Data → Train → Evaluate → Register) -->
+                    <article class="project-card" onclick="window.location.href='ai4.2'" style="opacity: 1; transform: translateY(0px);">
+                        <div class="project-image">
+                            <div class="project-image-overlay">
+                                <span class="project-type">CI/CD ML Pipeline</span>
+                            </div>
+                            <img src="/img/ml-systems/project1.4.webp" alt="GCP Vertex AI MLOps Pipeline">
+                        </div>
+                        
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">GCP ML – Modelling Pipeline (Data → Train → Evaluate → Register)</h3>
+                                <div class="cloud-provider gcp">GCP</div>
+                            </div>
+                            
+                            <p class="project-description">
+                                Production‑grade ML training, evaluation, gating, and conditional registration pipeline on Google Vertex AI using Kubeflow Pipelines (KFP v2). Enforces model quality, tracks lineage, and registers only validated models in Vertex AI Model Registry.
+                            </p>
+                            
+                            <div class="tech-stack">
+                                <span class="tech-tag">Vertex AI Pipelines</span>
+                                <span class="tech-tag">Kubeflow Pipelines v2</span>
+                                <span class="tech-tag">Vertex AI Training</span>
+                                <span class="tech-tag">Vertex AI Metadata</span>
+                                <span class="tech-tag">Cloud Storage</span>
+                                <span class="tech-tag">Model Registry</span>
+                                <span class="tech-tag">Workload Identity</span>
+                            </div>
+
+                            <div class="project-tags">
+                                <span class="project-tag">Training Automation</span>
+                                <span class="project-tag">Model Registration</span>
+                                <span class="project-tag">Quality Gates</span>
+                                <span class="project-tag">ML Governance</span>
+                            </div>
+                            
+                            <div class="capabilities">
+                                <div class="capability-item">
+                                    <i class="fas fa-project-diagram"></i>
+                                    <span>Vertex AI Pipelines (KFP v2): Data Prep → Train → Eval → Conditional Register</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-chart-line"></i>
+                                    <span>Evaluation gate with accuracy/ROC threshold – auto‑reject underperforming models</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Conditional registration into Vertex AI Model Registry with version tracking</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-database"></i>
+                                    <span>Artifact persistence in GCS + lineage tracking in Vertex AI Metadata Store</span>
+                                </div>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <a href="/mlops/ai4/ai4.2" class="btn btn-github">
+                                    <i class="fas fa-external-link-alt btn-icon"></i>
+                                    <span>View Project Details</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                    <!-- Project 2: Kubeflow – Modelling Pipeline (Data → Train → Evaluate → Select) -->
+                    <article class="project-card" onclick="window.location.href='ai5.2'" style="opacity: 1; transform: translateY(0px);">
+                        <div class="project-image">
+                            <div class="project-image-overlay">
+                                <span class="project-type">Kubeflow MLOps</span>
+                            </div>
+                            <img src="/img/ml-systems/project1.5.webp" alt="Kubeflow MLOps Pipeline">
+                        </div>
+                        
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">Kubeflow – Modelling Pipeline (Data → Train → Evaluate → Select)</h3>
+                                <div class="cloud-provider kubeflow">Kubeflow</div>
+                            </div>
+                            
+                            <p class="project-description">
+                                Production‑style ML training and evaluation pipelines using Kubeflow Pipelines (KFP v2) with containerized components, artifact lineage, and metric‑driven model selection across multiple algorithms (LR, DT) for optimal model governance.
+                            </p>
+                            
+                            <div class="tech-stack">
+                                <span class="tech-tag">Kubeflow Pipelines v2</span>
+                                <span class="tech-tag">Argo Workflows</span>
+                                <span class="tech-tag">Kubernetes</span>
+                                <span class="tech-tag">Containerized Components</span>
+                                <span class="tech-tag">MinIO Artifact Store</span>
+                                <span class="tech-tag">ML Metadata</span>
+                                <span class="tech-tag">Docker</span>
+                            </div>
+
+                            <div class="project-tags">
+                                <span class="project-tag">Training Automation</span>
+                                <span class="project-tag">Model Selection</span>
+                                <span class="project-tag">Algorithm Comparison</span>
+                                <span class="project-tag">ML Governance</span>
+                            </div>
+                            
+                            <div class="capabilities">
+                                <div class="capability-item">
+                                    <i class="fas fa-project-diagram"></i>
+                                    <span>KFP v2 DAG: Data → Train (LR/DT) → Evaluate → Metric‑Driven Selection</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-cubes"></i>
+                                    <span>Containerized ML components with scikit‑learn (Logistic Regression, Decision Tree)</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span>Evaluation with accuracy metrics &amp; model comparison for optimal selection</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-database"></i>
+                                    <span>Artifact lineage in ML Metadata Store + versioned storage in MinIO (S3‑compatible)</span>
+                                </div>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <a href="/mlops/ai5/ai5.2" class="btn btn-github">
+                                    <i class="fas fa-external-link-alt btn-icon"></i>
+                                    <span>View Project Details</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+
+                <!-- Section 2: Deployment & Operations -->
+                <div class="section-header">
+                    <h3>2. Deployment &amp; Operations</h3>
+                    <p>Production-grade model deployment pipelines, serving infrastructure, and operational monitoring systems</p>
+                </div>
+
+                <div class="projects-grid">
+                    <!-- Project 3: Azure ML Deployment Pipeline -->
+                    <article class="project-card" onclick="window.location.href='Azure-ML-Deployment'" style="opacity: 1; transform: translateY(0px);">
+                        <div class="project-image">
+                            <div class="project-image-overlay">
+                                <span class="project-type">Production Deployment</span>
+                            </div>
+                            <img src="/img/ml-systems/project2.1.webp" alt="Azure ML Deployment Pipeline">
+                        </div>
+                        
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">Azure ML Deployment Pipeline (Endpoint → Invoke → Monitor → Retrain)</h3>
+                                <div class="cloud-provider azure">Azure</div>
+                            </div>
+                            
+                            <p class="project-description">
+                                Production-grade Azure ML deployment pipeline that automates endpoint creation, model serving, traffic routing, validation, monitoring, and retraining orchestration using CI/CD.
+                            </p>
+                            
+                            <div class="tech-stack">
+                                <span class="tech-tag">Azure ML Managed Endpoints</span>
+                                <span class="tech-tag">Azure DevOps</span>
+                                <span class="tech-tag">Traffic Routing</span>
+                                <span class="tech-tag">Model Monitoring</span>
+                                <span class="tech-tag">Automated Retraining</span>
+                                <span class="tech-tag">Blue/Green Deployment</span>
+                            </div>
+
+                            <div class="project-tags">
+                                <span class="project-tag">Model Serving</span>
+                                <span class="project-tag">Traffic Routing</span>
+                                <span class="project-tag">Production Monitoring</span>
+                                <span class="project-tag">Automated Retraining</span>
+                            </div>
+                            
+                            <div class="capabilities">
+                                <div class="capability-item">
+                                    <i class="fas fa-server"></i>
+                                    <span>Managed online/batch endpoints with traffic routing control</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-exchange-alt"></i>
+                                    <span>Blue/green-style rollouts through traffic routing</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <span>CI/CD gating with automated smoke tests for validation</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-redo"></i>
+                                    <span>Operational hooks for retraining triggers and scheduled runs</span>
+                                </div>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <a href="ai2/ai2.3" class="btn btn-github">
+                                    <i class="fas fa-external-link-alt btn-icon"></i>
+                                    <span>View Project Details</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 4: MLflow Serving (ECS / SageMaker) -->
+                    <article class="project-card" onclick="window.location.href='MLflow-Serving'" style="opacity: 1; transform: translateY(0px);">
+                        <div class="project-image">
+                            <div class="project-image-overlay">
+                                <span class="project-type">Model Serving</span>
+                            </div>
+                            <img src="/img/ml-systems/project2.2.webp" alt="MLflow Serving Infrastructure">
+                        </div>
+                        
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">MLflow Serving Infrastructure (ECS / SageMaker)</h3>
+                                <div class="cloud-provider mlops">MLOps</div>
+                            </div>
+                            
+                            <p class="project-description">
+                                Custom MLflow inference containers and SageMaker endpoint deployment for production model serving with custom Docker images, ECR integration, and real-time inference capabilities.
+                            </p>
+                            
+                            <div class="tech-stack">
+                                <span class="tech-tag">Docker</span>
+                                <span class="tech-tag">Amazon ECR</span>
+                                <span class="tech-tag">SageMaker Endpoints</span>
+                                <span class="tech-tag">MLflow PyFunc</span>
+                                <span class="tech-tag">Custom Containers</span>
+                                <span class="tech-tag">Real-time Inference</span>
+                            </div>
+
+                            <div class="project-tags">
+                                <span class="project-tag">Inference Containers</span>
+                                <span class="project-tag">Model Serving</span>
+                                <span class="project-tag">Real-time Deployment</span>
+                                <span class="project-tag">Custom Docker</span>
+                            </div>
+                            
+                            <div class="capabilities">
+                                <div class="capability-item">
+                                    <i class="fas fa-cube"></i>
+                                    <span>Custom MLflow inference containers built and pushed to Amazon ECR</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-plug"></i>
+                                    <span>SageMaker real-time endpoints with MLflow model registry integration</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-sync-alt"></i>
+                                    <span>Blue/green model updates via MLflow versioning</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-trash-alt"></i>
+                                    <span>Cost-aware endpoint management and deletion practices</span>
+                                </div>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <a href="ml-project4" class="btn btn-github">
+                                    <i class="fas fa-external-link-alt btn-icon"></i>
+                                    <span>View Project Details</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 3: AWS ML Deployment Pipeline (Registry → Endpoint → Invoke → Monitor / Retrain) -->
+<article class="project-card" onclick="window.location.href='ai6.3'" style="opacity: 1; transform: translateY(0px);">
+    <div class="project-image">
+        <div class="project-image-overlay">
+            <span class="project-type">MLOps Deployment</span>
+        </div>
+        <img src="/img/ml-systems/project2.3.webp" alt="AWS SageMaker Deployment Pipeline">
+    </div>
+    
+    <div class="project-content">
+        <div class="project-header">
+            <h3 class="project-title">AWS ML Deployment Pipeline (Registry → Endpoint → Invoke → Monitor / Retrain)</h3>
+            <div class="cloud-provider aws">AWS</div>
+        </div>
+        
+        <p class="project-description">
+            Automated promotion of approved models from SageMaker Model Registry to real‑time endpoints using AWS CDK and CI/CD (GitHub Actions + OIDC). Multi‑environment (dev, pre‑prod, prod) with least‑privilege IAM, KMS encryption, and integrated monitoring for retraining triggers.
+        </p>
+        
+        <div class="tech-stack">
+            <span class="tech-tag">AWS CDK</span>
+            <span class="tech-tag">SageMaker Endpoints</span>
+            <span class="tech-tag">Model Registry</span>
+            <span class="tech-tag">GitHub Actions</span>
+            <span class="tech-tag">OIDC → IAM</span>
+            <span class="tech-tag">CloudWatch</span>
+            <span class="tech-tag">KMS Encryption</span>
+            <span class="tech-tag">Multi-Environment</span>
+        </div>
+
+        <div class="project-tags">
+            <span class="project-tag">Model Deployment</span>
+            <span class="project-tag">Endpoint Promotion</span>
+            <span class="project-tag">Infrastructure as Code</span>
+            <span class="project-tag">Model Monitoring</span>
+        </div>
+        
+        <div class="capabilities">
+            <div class="capability-item">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>Registry-driven promotion: fetch latest Approved model → deploy to SageMaker endpoint</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-code-branch"></i>
+                <span>Multi-environment deployment (dev, pre-prod, prod) with YAML-driven configuration</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-lock"></i>
+                <span>Secure CI/CD with GitHub Actions + OIDC authentication to AWS (no static secrets)</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-chart-line"></i>
+                <span>CloudWatch monitoring for endpoint health, metrics, and automated retraining triggers</span>
+            </div>
+        </div>
+        
+        <div class="project-actions">
+            <a href="/mlops/ai6/ai6.3" class="btn btn-github">
+                <i class="fas fa-external-link-alt btn-icon"></i>
+                <span>View Project Details</span>
+            </a>
+        </div>
+    </div>
+</article>
+
+<!-- Project 3: GCP ML Deployment Pipeline (Registry → Endpoint → Invoke → Monitor / Retrain) -->
+<article class="project-card" onclick="window.location.href='ai4.3'" style="opacity: 1; transform: translateY(0px);">
+    <div class="project-image">
+        <div class="project-image-overlay">
+            <span class="project-type">MLOps Deployment</span>
+        </div>
+        <img src="/img/ml-systems/project2.4.webp" alt="GCP Vertex AI Deployment Pipeline">
+    </div>
+    
+    <div class="project-content">
+        <div class="project-header">
+            <h3 class="project-title">GCP ML Deployment Pipeline (Registry → Endpoint → Invoke → Monitor / Retrain)</h3>
+            <div class="cloud-provider gcp">GCP</div>
+        </div>
+        
+        <p class="project-description">
+            Production‑grade model deployment pipeline on Google Cloud with Vertex AI Endpoints, traffic splitting (blue/green, canary), and scheduled retraining. Automates model promotion from Vertex AI Model Registry to managed online inference endpoints with integrated monitoring and continuous refresh loops.
+        </p>
+        
+        <div class="tech-stack">
+            <span class="tech-tag">Vertex AI Model Registry</span>
+            <span class="tech-tag">Vertex AI Endpoints</span>
+            <span class="tech-tag">Traffic Splitting</span>
+            <span class="tech-tag">Cloud Scheduler</span>
+            <span class="tech-tag">GCS Artifacts</span>
+            <span class="tech-tag">Cloud Monitoring</span>
+            <span class="tech-tag">IAM Service Accounts</span>
+            <span class="tech-tag">KFP v2</span>
+        </div>
+
+        <div class="project-tags">
+            <span class="project-tag">Model Deployment</span>
+            <span class="project-tag">Endpoint Promotion</span>
+            <span class="project-tag">Traffic Management</span>
+            <span class="project-tag">Scheduled Retraining</span>
+        </div>
+        
+        <div class="capabilities">
+            <div class="capability-item">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <span>Registry‑driven promotion: approved models from Vertex AI Registry → managed endpoints</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-random"></i>
+                <span>Advanced traffic management: blue/green deployments, canary rollouts with traffic splitting</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-clock"></i>
+                <span>Scheduled retraining with Vertex AI Pipelines (cron) for continuous model refresh</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Integrated monitoring with Cloud Logging &amp; Metrics → triggers retraining pipeline</span>
+            </div>
+        </div>
+        
+        <div class="project-actions">
+            <a href="/mlops/ai4/ai4.3" class="btn btn-github">
+                <i class="fas fa-external-link-alt btn-icon"></i>
+                <span>View Project Details</span>
+            </a>
+        </div>
+    </div>
+</article>
+ 
+<!-- Project 3: Kubeflow ML Deployment Pipeline (Select → Package → Serve → Monitor → Retrain) -->
+<article class="project-card" onclick="window.location.href='Kubeflow-Deployment'" style="opacity: 1; transform: translateY(0px);">
+    <div class="project-image">
+        <div class="project-image-overlay">
+            <span class="project-type">ML Deployment</span>
+        </div>
+        <img src="/img/ml-systems/project2.5.webp" alt="Kubeflow ML Deployment Pipeline">
+    </div>
+    
+    <div class="project-content">
+        <div class="project-header">
+            <h3 class="project-title">Kubeflow ML Deployment Pipeline (Select → Package → Serve → Monitor → Retrain)</h3>
+            <div class="cloud-provider mlops">MLOps</div>
+        </div>
+        
+        <p class="project-description">
+            Production‑grade model deployment pipeline on Kubernetes with Kubeflow, KServe, and integrated monitoring. Automates metric‑gated model promotion from training pipelines to containerized inference services with traffic splitting (rolling updates, canary) and continuous retraining loops.
+        </p>
+        
+        <div class="tech-stack">
+            <span class="tech-tag">Kubeflow Pipelines</span>
+            <span class="tech-tag">KServe</span>
+            <span class="tech-tag">Kubernetes</span>
+            <span class="tech-tag">Docker</span>
+            <span class="tech-tag">Istio</span>
+            <span class="tech-tag">Prometheus</span>
+            <span class="tech-tag">Grafana</span>
+            <span class="tech-tag">RBAC</span>
+        </div>
+
+        <div class="project-tags">
+            <span class="project-tag">Model Deployment</span>
+            <span class="project-tag">Containerized Serving</span>
+            <span class="project-tag">Traffic Management</span>
+            <span class="project-tag">Continuous Training</span>
+        </div>
+        
+        <div class="capabilities">
+            <div class="capability-item">
+                <i class="fas fa-chart-line"></i>
+                <span>Metric‑gated promotion: validated models from Kubeflow Pipelines → production serving</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-box"></i>
+                <span>Containerized inference: model artifacts packaged into custom Docker images</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-random"></i>
+                <span>Advanced traffic management: rolling updates, canary rollouts with KServe/ Istio</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-shield-alt"></i>
+                <span>Secure serving: Kubernetes Service Accounts + RBAC for auth/ authorization</span>
+            </div>
+            <div class="capability-item">
+                <i class="fas fa-chart-pie"></i>
+                <span>Integrated monitoring: Prometheus metrics + Grafana dashboards → triggers retraining</span>
+            </div>
+        </div>
+        
+        <div class="project-actions">
+            <a href="/mlops/ai5/ai5.3" class="btn btn-github">
+                <i class="fas fa-external-link-alt btn-icon"></i>
+                <span>View Project Details</span>
+            </a>
+        </div>
+    </div>
+</article>
+
+                </div>
+
+                <!-- Section 3: Data & Feature Systems -->
+                <div class="section-header">
+                    <h3>3. Data &amp; Feature Systems</h3>
+                    <p>Data versioning, feature store implementations, and reproducible data pipelines for ML systems</p>
+                </div>
+
+                <div class="projects-grid">
+                    <!-- Project 5: DVC (Data Version Control) -->
+                    <article class="project-card coming-soon-card" data-coming-soon="true" style="opacity: 1; transform: translateY(0px);">
+                        <div class="project-image">
+                            <div class="project-image-overlay">
+                                <span class="project-type">Data Versioning</span>
+                            </div>
+                            <img src="/img/ml-systems/comming soon.webp" alt="DVC Data Version Control">
+                        </div>
+                        
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">DVC (Data Version Control) for ML Reproducibility</h3>
+                                <div class="cloud-provider datasys">Data Systems</div>
+                            </div>
+                            
+                            <p class="project-description">
+                                Git-like version control for datasets and ML artifacts with cloud storage integration (S3/Azure Blob), pipeline tracking, and reproducible ML workflows across training and experimentation cycles.
+                            </p>
+                            
+                            <div class="tech-stack">
+                                <span class="tech-tag">DVC</span>
+                                <span class="tech-tag">Git</span>
+                                <span class="tech-tag">S3 / Azure Blob</span>
+                                <span class="tech-tag">Pipeline Tracking</span>
+                                <span class="tech-tag">Data Lineage</span>
+                                <span class="tech-tag">Reproducible ML</span>
+                            </div>
+
+                            <div class="project-tags">
+                                <span class="project-tag">Data Versioning</span>
+                                <span class="project-tag">Pipeline Tracking</span>
+                                <span class="project-tag">Reproducibility</span>
+                                <span class="project-tag">Cloud Storage</span>
+                            </div>
+                            
+                            <div class="capabilities">
+                                <div class="capability-item">
+                                    <i class="fas fa-code-branch"></i>
+                                    <span>Git-like version control for datasets, models, and artifacts</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-cloud"></i>
+                                    <span>Cloud storage integration (S3, Azure Blob, GCS) for large datasets</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-sitemap"></i>
+                                    <span>Pipeline tracking and dependency management for ML workflows</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-history"></i>
+                                    <span>Full reproducibility of experiments with data and code versions</span>
+                                </div>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <a href="#" class="btn btn-github coming-soon-trigger">
+                                    <i class="fas fa-external-link-alt btn-icon"></i>
+                                    <span>View Project Details</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 6: Feast Feature Store -->
+                    <article class="project-card coming-soon-card" data-coming-soon="true" style="opacity: 1; transform: translateY(0px);">
+                        <div class="project-image">
+                            <div class="project-image-overlay">
+                                <span class="project-type">Feature Store</span>
+                            </div>
+                            <img src="/img/ml-systems/comming soon.webp" alt="Feast Feature Store">
+                        </div>
+                        
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">Feast Feature Store for Production ML</h3>
+                                <div class="cloud-provider datasys">Data Systems</div>
+                            </div>
+                            
+                            <p class="project-description">
+                                Production-grade feature store implementation for consistent feature engineering across training and serving, with unified feature repository, online/offline stores, and feature registry capabilities.
+                            </p>
+                            
+                            <div class="tech-stack">
+                                <span class="tech-tag">Feast</span>
+                                <span class="tech-tag">Redis / PostgreSQL</span>
+                                <span class="tech-tag">Feature Registry</span>
+                                <span class="tech-tag">Online Serving</span>
+                                <span class="tech-tag">Offline Storage</span>
+                                <span class="tech-tag">Feature Engineering</span>
+                            </div>
+
+                            <div class="project-tags">
+                                <span class="project-tag">Feature Store</span>
+                                <span class="project-tag">Feature Registry</span>
+                                <span class="project-tag">Online Serving</span>
+                                <span class="project-tag">Consistent Features</span>
+                            </div>
+                            
+                            <div class="capabilities">
+                                <div class="capability-item">
+                                    <i class="fas fa-store"></i>
+                                    <span>Unified feature repository for training and serving consistency</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-bolt"></i>
+                                    <span>Low-latency online feature serving (Redis/PostgreSQL)</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-database"></i>
+                                    <span>Historical feature storage for training (offline store)</span>
+                                </div>
+                                <div class="capability-item">
+                                    <i class="fas fa-search"></i>
+                                    <span>Feature discovery and governance through feature registry</span>
+                                </div>
+                            </div>
+                            
+                            <div class="project-actions">
+                                <a href="#" class="btn btn-github coming-soon-trigger">
+                                    <i class="fas fa-external-link-alt btn-icon"></i>
+                                    <span>View Project Details</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-message">
+                Ready to architect production-grade MLOps systems? Let's design scalable ML infrastructure that spans the complete lifecycle from data to deployment.
+            </p>
+            <a href="/index#contact" class="contact-btn">
+                <span>Discuss MLOps Architecture</span>
+                <i class="fas fa-paper-plane"></i>
+            </a>
+        </div>
+    </footer>
+
+    <div class="coming-soon-modal" id="comingSoonModal" aria-hidden="true">
+        <div class="coming-soon-dialog" role="dialog" aria-modal="true" aria-labelledby="comingSoonTitle">
+            <div class="coming-soon-icon">
+                <i class="fas fa-clock"></i>
+            </div>
+            <h3 class="coming-soon-title" id="comingSoonTitle">Coming soon</h3>
+            <p class="coming-soon-text">This project page is under development and will be available soon.</p>
+            <button type="button" class="coming-soon-close" id="comingSoonClose">Close</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Project card interactions
+            const projectCards = document.querySelectorAll('.project-card');
+            const comingSoonModal = document.getElementById('comingSoonModal');
+            const comingSoonClose = document.getElementById('comingSoonClose');
+
+            const openComingSoon = () => {
+                if (!comingSoonModal) return;
+                comingSoonModal.classList.add('active');
+                comingSoonModal.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            };
+
+            const closeComingSoon = () => {
+                if (!comingSoonModal) return;
+                comingSoonModal.classList.remove('active');
+                comingSoonModal.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+            };
+            
+            projectCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    const icon = card.querySelector('.btn-icon');
+                    if (icon) {
+                        icon.style.transform = 'translateX(3px)';
+                    }
+                    
+                    // Animate tags
+                    const tags = card.querySelectorAll('.project-tag');
+                    tags.forEach((tag, index) => {
+                        setTimeout(() => {
+                            tag.style.transform = 'translateY(-2px)';
+                        }, index * 50);
+                    });
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    const icon = card.querySelector('.btn-icon');
+                    if (icon) {
+                        icon.style.transform = 'translateX(0)';
+                    }
+                    
+                    // Reset tags
+                    const tags = card.querySelectorAll('.project-tag');
+                    tags.forEach(tag => {
+                        tag.style.transform = 'translateY(0)';
+                    });
+                });
+
+                // Click navigation
+                card.addEventListener('click', (e) => {
+                    if (card.dataset.comingSoon === 'true') {
+                        e.preventDefault();
+                        openComingSoon();
+                        return;
+                    }
+
+                    // Only navigate if not clicking on a link inside
+                    if (!e.target.closest('a')) {
+                        const projectLink = card.querySelector('a.btn-github');
+                        if (projectLink && projectLink.getAttribute('href') && projectLink.getAttribute('href') !== '#') {
+                            window.location.href = projectLink.href;
+                        }
+                    }
+                });
+            });
+
+            document.querySelectorAll('.coming-soon-trigger').forEach(trigger => {
+                trigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    openComingSoon();
+                });
+            });
+
+            comingSoonClose?.addEventListener('click', closeComingSoon);
+            comingSoonModal?.addEventListener('click', (e) => {
+                if (e.target === comingSoonModal) {
+                    closeComingSoon();
+                }
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && comingSoonModal?.classList.contains('active')) {
+                    closeComingSoon();
+                }
+            });
+            
+            // Animate elements on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            projectCards.forEach(card => {
+                observer.observe(card);
+            });
+            
+            // Tech tags hover effect
+            const techTags = document.querySelectorAll('.tech-tag');
+            techTags.forEach(tag => {
+                tag.addEventListener('mouseenter', () => {
+                    tag.style.transform = 'translateY(-2px)';
+                    tag.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.2)';
+                });
+                
+                tag.addEventListener('mouseleave', () => {
+                    tag.style.transform = 'translateY(0)';
+                    tag.style.boxShadow = 'none';
+                });
+            });
+
+            // Project tags hover effect
+            const projectTags = document.querySelectorAll('.project-tag');
+            projectTags.forEach(tag => {
+                tag.addEventListener('mouseenter', () => {
+                    tag.style.transform = 'translateY(-2px)';
+                    tag.style.boxShadow = '0 4px 12px rgba(124, 255, 178, 0.1)';
+                });
+                
+                tag.addEventListener('mouseleave', () => {
+                    tag.style.transform = 'translateY(0)';
+                    tag.style.boxShadow = 'none';
+                });
+            });
+        });
+    </script>
+
+
+</body></html>

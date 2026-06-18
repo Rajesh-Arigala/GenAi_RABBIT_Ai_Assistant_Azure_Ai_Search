@@ -1,0 +1,1178 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SMAAT India — Distributed Water Infrastructure Platform</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&amp;family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&amp;family=DM+Mono:wght@300;400;500&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+
+:root{
+  --bg:        #070a0d;
+  --bg1:       #0b0f14;
+  --bg2:       #0f151c;
+  --bg3:       #141c26;
+  --border:    rgba(255,255,255,0.06);
+  --border2:   rgba(56,140,210,0.2);
+  --blue:      #3878c8;
+  --blue2:     #5badee;
+  --blue-dim:  rgba(56,120,200,0.1);
+  --steel:     #c0cfe0;
+  --text:      #d8e8f4;
+  --text2:     #6a8eaa;
+  --text3:     #3d5a72;
+  --white:     #ffffff;
+  --accent:    #4fc3f7;
+  --gold:      #c8a96e;
+  --gold2:     #e8c87a;
+  --ff-head:   'Syne',sans-serif;
+  --ff-body:   'DM Sans',sans-serif;
+  --ff-mono:   'DM Mono',monospace;
+}
+
+body{background:var(--bg);color:var(--text);font-family:var(--ff-body);font-weight:300;line-height:1.6;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--blue);border-radius:2px}
+
+/* ── CURSOR GLOW ─────────────────────────────── */
+.glow{pointer-events:none;position:fixed;top:0;left:0;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(56,120,200,0.05) 0%,transparent 70%);transform:translate(-50%,-50%);z-index:0;transition:transform 0.08s linear}
+
+/* ── NAV ─────────────────────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.3rem 3rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid transparent;transition:all 0.4s}
+nav.scrolled{background:rgba(7,10,13,0.88);backdrop-filter:blur(20px);border-bottom-color:var(--border)}
+.nav-logo{font-family:var(--ff-head);font-weight:700;font-size:1rem;letter-spacing:0.04em;display:flex;align-items:center;gap:0.6rem}
+.nav-dot{width:7px;height:7px;border-radius:50%;background:var(--blue2);box-shadow:0 0 10px var(--blue2)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-family:var(--ff-mono);font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);transition:color 0.3s}
+.nav-links a:hover{color:var(--blue2)}
+.nav-badge{
+  font-family:var(--ff-mono);
+  font-size:0.68rem;
+  color:var(--white);
+  border:1px solid rgba(91,173,238,0.28);
+  padding:0.42rem 1rem;
+  border-radius:999px;
+  letter-spacing:0.08em;
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(120deg,rgba(56,120,200,0.18),rgba(91,173,238,0.08),rgba(56,120,200,0.18));
+  background-size:200% 200%;
+  box-shadow:0 0 0 1px rgba(56,120,200,0.08) inset;
+  transition:transform 0.3s ease,border-color 0.3s ease,box-shadow 0.3s ease,color 0.3s ease;
+  animation:navGlow 6s ease-in-out infinite
+}
+.nav-badge::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:linear-gradient(90deg,transparent,rgba(91,173,238,0.16),transparent);
+  transform:translateX(-120%);
+  transition:transform 0.55s ease
+}
+.nav-badge:hover{
+  color:#eaf6ff;
+  border-color:rgba(91,173,238,0.55);
+  box-shadow:0 0 24px rgba(56,120,200,0.18),0 0 0 1px rgba(91,173,238,0.16) inset;
+  transform:translateY(-1px)
+}
+.nav-badge:hover::before{transform:translateX(120%)}
+
+/* ── HERO ─────────────────────────────────────── */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3rem 5.5rem;overflow:hidden}
+
+.hero-bg{position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 90% 60% at 60% 20%, rgba(56,120,200,0.07) 0%,transparent 60%),
+    radial-gradient(ellipse 60% 50% at 10% 70%, rgba(20,60,120,0.1) 0%,transparent 55%),
+    radial-gradient(ellipse 40% 40% at 85% 80%, rgba(30,80,150,0.06) 0%,transparent 50%),
+    linear-gradient(180deg,#07090e 0%,#0a1018 100%)}
+
+/* Pipe / industrial grid SVG bg */
+.hero-pipes{position:absolute;inset:0;opacity:0.06;overflow:hidden}
+.hero-pipes svg{width:100%;height:100%}
+
+.hero-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(56,120,200,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(56,120,200,0.04) 1px,transparent 1px);
+  background-size:80px 80px;
+  mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 20%,transparent 100%)}
+
+.hero-noise{position:absolute;inset:0;opacity:0.025;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* Floating architecture diagram in hero */
+.hero-diagram{position:absolute;right:1.5rem;top:52%;transform:translateY(-50%);z-index:2;width:320px;opacity:0;animation:fadeLeft 1s ease 0.7s forwards}
+.hero-diagram-inner{
+  background:transparent;
+  border:none;
+  border-radius:0;
+  padding:0;
+  backdrop-filter:none;
+  animation:heroFloat 7s ease-in-out infinite}
+.hero-diagram-img{display:block;width:100%;height:auto;filter:drop-shadow(0 20px 40px rgba(0,0,0,0.18))}
+
+.hero-eyebrow{position:relative;z-index:2;display:inline-flex;align-items:center;gap:0.8rem;margin-bottom:1.8rem;opacity:0;animation:fadeUp 0.8s ease 0.2s forwards}
+.eyebrow-line{width:36px;height:1px;background:var(--blue2)}
+.eyebrow-text{font-family:var(--ff-mono);font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--blue2)}
+
+.hero-title{position:relative;z-index:2;font-family:var(--ff-head);font-size:clamp(3rem,6.5vw,6.5rem);font-weight:800;line-height:0.95;letter-spacing:-0.03em;max-width:760px;opacity:0;animation:fadeUp 0.9s ease 0.35s forwards}
+.hero-title em{font-style:normal;color:transparent;-webkit-text-stroke:1px rgba(91,173,238,0.4)}
+.hero-title .accent{color:var(--blue2)}
+
+.hero-sub{position:relative;z-index:2;max-width:540px;font-size:1.05rem;color:var(--text2);line-height:1.75;margin-top:1.8rem;opacity:0;animation:fadeUp 0.9s ease 0.5s forwards}
+
+.hero-kpis{position:relative;z-index:2;display:flex;flex-wrap:wrap;gap:0.85rem;margin-top:3rem;opacity:0;animation:fadeUp 0.9s ease 0.65s forwards}
+.kpi-chip{display:flex;align-items:center;gap:0.9rem;background:rgba(11,15,20,0.8);border:1px solid var(--border2);border-radius:100px;padding:0.75rem 1.5rem 0.75rem 1rem;backdrop-filter:blur(12px);transition:border-color 0.3s,transform 0.3s}
+.kpi-chip:hover{border-color:rgba(91,173,238,0.4);transform:translateY(-2px)}
+.kpi-chip-val{font-family:var(--ff-head);font-size:1.5rem;font-weight:800;color:var(--white);letter-spacing:-0.03em;line-height:1}
+.kpi-chip-lbl{font-family:var(--ff-mono);font-size:0.64rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text2);line-height:1.3}
+
+.hero-scroll{position:absolute;bottom:2.5rem;right:3rem;z-index:2;display:flex;flex-direction:column;align-items:center;gap:0.5rem;opacity:0;animation:fadeIn 1s ease 1.2s forwards}
+.scroll-label{font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);writing-mode:vertical-rl}
+.scroll-line{width:1px;height:55px;background:linear-gradient(var(--blue2),transparent);animation:scrollPulse 2s ease-in-out infinite}
+
+/* ── LAYOUT UTILS ─────────────────────────────── */
+.wrap{max-width:1260px;margin:0 auto;padding:0 3rem}
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--border2) 30%,var(--border2) 70%,transparent)}
+.section-label{font-family:var(--ff-mono);font-size:0.68rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--blue2);display:flex;align-items:center;gap:0.7rem;margin-bottom:1rem}
+.section-label::before{content:'';display:block;width:26px;height:1px;background:var(--blue2)}
+.section-head{font-family:var(--ff-head);font-size:clamp(1.9rem,3.5vw,3rem);font-weight:700;line-height:1.1;letter-spacing:-0.025em;margin-bottom:1rem}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── EXEC SUMMARY ─────────────────────────────── */
+.summary-section{padding:8rem 0 7rem}
+.summary-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start}
+.summary-body{font-size:1.05rem;color:var(--text2);line-height:1.85}
+.summary-body p+p{margin-top:1.2rem}
+.summary-body strong{color:var(--text);font-weight:500}
+.summary-quote{margin-top:2.5rem;padding:1.8rem 2rem 1.8rem 2.2rem;border-left:2px solid var(--blue2);background:var(--blue-dim);border-radius:0 1rem 1rem 0}
+.summary-quote p{font-family:var(--ff-head);font-size:1.05rem;font-weight:600;line-height:1.55;color:var(--text);font-style:italic}
+
+/* right: role card */
+.role-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.5rem;padding:2.5rem;transition:border-color 0.3s}
+.role-card:hover{border-color:var(--border2)}
+.role-card-tag{font-family:var(--ff-mono);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue2);margin-bottom:1.2rem;display:flex;align-items:center;gap:0.5rem}
+.role-card-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--blue2);box-shadow:0 0 6px var(--blue2)}
+.role-card-title{font-family:var(--ff-head);font-size:1.05rem;font-weight:700;margin-bottom:0.4rem;color:var(--white)}
+.role-card-sub{font-size:0.82rem;color:var(--text2);margin-bottom:2rem}
+.role-list{list-style:none;display:flex;flex-direction:column;gap:0.6rem}
+.role-list li{position:relative;padding-left:1.2rem;font-size:0.85rem;color:var(--text2);line-height:1.5}
+.role-list li::before{content:'→';position:absolute;left:0;top:0.1rem;color:var(--blue2);font-size:0.72rem}
+.role-list li strong{color:var(--text);font-weight:500}
+.absorption-badge{margin-top:2rem;display:flex;align-items:center;gap:0.8rem;padding:1rem 1.2rem;background:rgba(56,120,200,0.08);border:1px solid var(--border2);border-radius:0.8rem}
+.absorption-badge-icon{font-size:1.3rem}
+.absorption-badge-text{font-size:0.82rem;color:var(--text2);line-height:1.4}
+.absorption-badge-text strong{color:var(--blue2);font-weight:500}
+
+/* ── CHALLENGES / BEFORE ──────────────────────── */
+.challenge-section{padding:0 0 7rem}
+.before-after{display:grid;grid-template-columns:1fr 2fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:1.5rem;overflow:hidden;margin-top:3.5rem}
+.ba-col{background:var(--bg1);padding:2.5rem}
+.ba-col.highlight{background:var(--bg2)}
+.ba-label{font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:1.5rem;padding:0.35rem 0.8rem;border-radius:100px;display:inline-block}
+.ba-label.before{background:rgba(200,60,60,0.1);border:1px solid rgba(200,60,60,0.2);color:#e06060}
+.ba-label.after{background:rgba(56,120,200,0.1);border:1px solid var(--border2);color:var(--blue2)}
+.ba-items{list-style:none;display:flex;flex-direction:column;gap:0.7rem}
+.ba-items li{font-size:0.85rem;color:var(--text2);display:flex;align-items:flex-start;gap:0.7rem;line-height:1.5}
+.ba-items li::before{content:'—';color:var(--text3);flex-shrink:0}
+.ba-items.good li::before{content:'✓';color:var(--blue2)}
+.ba-after-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.ba-after-col{}
+
+/* challenge cards */
+.challenge-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:1.5rem;overflow:hidden;margin-top:3rem}
+.ch-card{background:var(--bg1);padding:2.5rem;transition:background 0.3s}
+.ch-card:hover{background:var(--bg3)}
+.ch-num{font-family:var(--ff-mono);font-size:0.62rem;color:var(--blue2);letter-spacing:0.1em;margin-bottom:1rem;opacity:0.7}
+.ch-title{font-family:var(--ff-head);font-size:1rem;font-weight:700;margin-bottom:0.6rem;color:var(--text)}
+.ch-desc{font-size:0.84rem;color:var(--text2);line-height:1.65}
+
+/* ── PLATFORM SECTION ─────────────────────────── */
+.platform-section{padding:7rem 0;background:var(--bg1)}
+.platform-header{display:grid;grid-template-columns:1fr 1.4fr;gap:5rem;align-items:end;margin-bottom:4rem}
+.platform-desc{font-size:1.02rem;color:var(--text2);line-height:1.8}
+.platform-desc strong{color:var(--text);font-weight:500}
+
+.platform-arch{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:3rem}
+.arch-node{
+  background:var(--bg2);border:1px solid var(--border);border-radius:1.2rem;padding:1.8rem 1.5rem;
+  display:flex;flex-direction:column;gap:1rem;
+  transition:border-color 0.3s,transform 0.35s;cursor:default;position:relative;overflow:hidden}
+.arch-node::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--blue),transparent);opacity:0;transition:opacity 0.3s}
+.arch-node:hover{border-color:var(--border2);transform:translateY(-5px)}
+.arch-node:hover::before{opacity:1}
+.arch-node-num{font-family:var(--ff-mono);font-size:0.6rem;color:var(--blue2);letter-spacing:0.1em;opacity:0.7}
+.arch-node-icon{width:38px;height:38px;border-radius:10px;background:var(--blue-dim);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.arch-node-title{font-family:var(--ff-head);font-size:0.85rem;font-weight:700;line-height:1.3;color:var(--text)}
+.arch-node-items{list-style:none;display:flex;flex-direction:column;gap:0.35rem}
+.arch-node-items li{font-size:0.76rem;color:var(--text2);display:flex;align-items:flex-start;gap:0.4rem;line-height:1.4}
+.arch-node-items li::before{content:'→';color:var(--blue2);font-size:0.68rem;flex-shrink:0}
+
+/* platform analogy table */
+.analogy-table{background:var(--bg2);border:1px solid var(--border);border-radius:1.5rem;overflow:hidden;margin-top:2rem}
+.analogy-header{display:grid;grid-template-columns:1fr 1fr;background:var(--bg3);border-bottom:1px solid var(--border)}
+.analogy-header div{padding:1rem 2rem;font-family:var(--ff-mono);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3)}
+.analogy-row{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--border)}
+.analogy-row:last-child{border-bottom:none}
+.analogy-row div{padding:1rem 2rem;font-size:0.84rem;line-height:1.5}
+.analogy-row .smaat-col{color:var(--text2);border-right:1px solid var(--border)}
+.analogy-row .ai-col{color:var(--blue2)}
+
+/* ── SCALE SECTION ────────────────────────────── */
+.scale-section{padding:7rem 0}
+.scale-bg-num{position:absolute;top:-2rem;right:2rem;font-family:var(--ff-head);font-size:18rem;font-weight:800;color:transparent;-webkit-text-stroke:1px rgba(56,120,200,0.04);pointer-events:none;user-select:none;line-height:1}
+.scale-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:4rem}
+.scale-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.5rem;padding:2.5rem;position:relative;overflow:hidden;transition:border-color 0.3s,transform 0.35s}
+.scale-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--blue2),transparent);opacity:0;transition:opacity 0.3s}
+.scale-card:hover{border-color:var(--border2);transform:translateY(-4px)}
+.scale-card:hover::before{opacity:1}
+.scale-card.wide{grid-column:span 2}
+.scale-card-cat{font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:1.5rem}
+.scale-stat{display:flex;align-items:baseline;gap:0.4rem;margin-bottom:0.5rem}
+.scale-num{font-family:var(--ff-head);font-size:3rem;font-weight:800;color:var(--white);letter-spacing:-0.04em;line-height:1}
+.scale-unit{font-family:var(--ff-head);font-size:1.3rem;font-weight:700;color:var(--blue2)}
+.scale-desc{font-size:0.84rem;color:var(--text2);line-height:1.65;margin-top:0.7rem}
+.scale-card.wide .scale-inner{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+
+/* ── EXECUTION SECTION ────────────────────────── */
+.exec-section{padding:7rem 0;background:var(--bg1)}
+.exec-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:5rem;align-items:start}
+.exec-timeline{display:flex;flex-direction:column;gap:0;position:relative}
+.exec-timeline::before{content:'';position:absolute;left:11px;top:4px;bottom:20px;width:1px;background:linear-gradient(var(--blue2),transparent)}
+.exec-item{display:flex;gap:1.8rem;padding-bottom:2.2rem}
+.exec-dot{width:24px;height:24px;border-radius:50%;border:1px solid var(--border2);background:var(--bg2);flex-shrink:0;display:flex;align-items:center;justify-content:center;z-index:1;margin-top:0.1rem;transition:background 0.3s,border-color 0.3s}
+.exec-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:var(--blue2)}
+.exec-item:hover .exec-dot{background:var(--blue-dim);border-color:var(--blue2)}
+.exec-title{font-family:var(--ff-head);font-size:0.94rem;font-weight:700;color:var(--text);margin-bottom:0.35rem}
+.exec-desc{font-size:0.84rem;color:var(--text2);line-height:1.65}
+
+/* sticky visual */
+.exec-visual{position:sticky;top:7rem}
+.exec-img{height:440px;border-radius:1.5rem;overflow:hidden;position:relative;border:1px solid var(--border)}
+.exec-img-inner{
+  width:100%;
+  height:100%;
+  background:
+    linear-gradient(rgba(7,10,13,0.18),rgba(7,10,13,0.28)),
+    url("img/smaat4.webp") center/cover no-repeat,
+    radial-gradient(ellipse at 50% 30%,rgba(56,120,200,0.12) 0%,transparent 55%),
+    linear-gradient(160deg,#0c1520 0%,#07090d 100%);
+  display:flex;align-items:center;justify-content:center
+}
+.exec-img-pattern{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(56,120,200,0.07) 1px,transparent 1px);background-size:20px 20px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black,transparent)}
+.exec-img-pills{position:absolute;bottom:1.5rem;left:1.5rem;right:1.5rem;display:flex;gap:0.5rem;flex-wrap:wrap}
+.exec-pill{background:rgba(7,10,13,0.85);border:1px solid var(--border2);border-radius:100px;padding:0.35rem 0.85rem;font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:0.08em;color:var(--blue2);backdrop-filter:blur(12px)}
+
+/* ── CAPABILITIES ─────────────────────────────── */
+.cap-section{padding:7rem 0}
+.cap-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-areas:
+    "cap-1 cap-image"
+    "cap-2 cap-image"
+    "cap-3 cap-4"
+    "cap-5 cap-6";
+  gap:1.5rem;
+  margin-top:3rem
+}
+.cap-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.5rem;padding:2.5rem;display:grid;grid-template-columns:auto 1fr;gap:1.5rem;align-items:start;transition:border-color 0.3s,background 0.3s}
+.cap-card:hover{border-color:var(--border2);background:var(--bg3)}
+.cap-card.cap-1{grid-area:cap-1}
+.cap-card.cap-2{grid-area:cap-2}
+.cap-card.cap-3{grid-area:cap-3}
+.cap-card.cap-4{grid-area:cap-4}
+.cap-card.cap-5{grid-area:cap-5}
+.cap-card.cap-6{grid-area:cap-6}
+.cap-icon{width:46px;height:46px;border-radius:12px;background:var(--blue-dim);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.cap-title{font-family:var(--ff-head);font-size:0.98rem;font-weight:700;margin-bottom:0.5rem;color:var(--text)}
+.cap-desc{font-size:0.84rem;color:var(--text2);line-height:1.7}
+.cap-image-card{
+  grid-area:cap-image;
+  min-height:100%;
+  border-radius:1.5rem;
+  overflow:hidden;
+  border:1px solid var(--border);
+  position:relative;
+  background:
+    linear-gradient(rgba(7,10,13,0.16),rgba(7,10,13,0.42)),
+    url("img/smaat6.webp") center/cover no-repeat,
+    linear-gradient(160deg,#0c1520 0%,#07090d 100%);
+  box-shadow:0 24px 50px rgba(0,0,0,0.22)
+}
+.cap-image-card::after{
+  content:'';
+  position:absolute;
+  inset:auto 0 0 0;
+  height:42%;
+  background:linear-gradient(180deg,transparent,rgba(7,10,13,0.94))
+}
+.cap-image-label{
+  position:absolute;
+  left:1.4rem;
+  right:1.4rem;
+  bottom:1.35rem;
+  z-index:1
+}
+.cap-image-kicker{
+  font-family:var(--ff-mono);
+  font-size:0.62rem;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--blue2);
+  margin-bottom:0.45rem
+}
+.cap-image-title{
+  font-family:var(--ff-head);
+  font-size:1.35rem;
+  font-weight:700;
+  line-height:1.15;
+  color:var(--white)
+}
+
+/* ── BRIDGE SECTION ───────────────────────────── */
+.bridge-section{padding:7rem 0;background:var(--bg1)}
+.bridge-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.bridge-visual{height:400px;border-radius:1.5rem;overflow:hidden;position:relative;border:1px solid var(--border)}
+.bridge-visual-inner{width:100%;height:100%;background:radial-gradient(ellipse at 55% 40%,rgba(56,120,200,0.1) 0%,transparent 55%),linear-gradient(140deg,#0c1622 0%,#07090d 100%);display:flex;align-items:center;justify-content:center;position:relative}
+.bridge-visual-img{display:block;width:100%;height:100%;object-fit:cover}
+.bridge-rings{position:relative;width:180px;height:180px}
+.b-ring{position:absolute;border-radius:50%;border:1px solid rgba(56,120,200,0.15);top:50%;left:50%;transform:translate(-50%,-50%)}
+.b-ring:nth-child(1){width:50px;height:50px;background:var(--blue-dim);border-color:var(--border2)}
+.b-ring:nth-child(2){width:95px;height:95px;animation:spin 14s linear infinite}
+.b-ring:nth-child(3){width:140px;height:140px;animation:spin 20s linear infinite reverse}
+.b-ring:nth-child(4){width:185px;height:185px;animation:spin 28s linear infinite;border-style:dashed}
+.b-ring-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:2}
+.b-ring-label span{font-family:var(--ff-head);font-size:0.65rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--blue2)}
+
+.bridge-principle{font-family:var(--ff-head);font-size:1.5rem;font-weight:700;line-height:1.4;color:var(--white);margin:1.8rem 0 1.2rem}
+.bridge-principle em{font-style:normal;color:var(--blue2)}
+.bridge-body{font-size:1rem;color:var(--text2);line-height:1.8}
+.bridge-body p+p{margin-top:1rem}
+.bridge-tags{display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:2rem}
+.bridge-tag{font-family:var(--ff-mono);font-size:0.66rem;letter-spacing:0.08em;padding:0.38rem 0.9rem;border:1px solid var(--border2);border-radius:100px;color:var(--blue2);background:var(--blue-dim)}
+
+/* ── FOOTER ───────────────────────────────────── */
+footer{border-top:1px solid var(--border);padding:2.8rem 3rem;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:1.5rem}
+.footer-l{font-family:var(--ff-head);font-size:0.9rem;font-weight:700;color:var(--text2);text-align:center;width:100%}
+.footer-c{font-family:var(--ff-mono);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3)}
+.footer-r{font-family:var(--ff-mono);font-size:0.65rem;color:var(--text3)}
+
+/* ── KEYFRAMES ────────────────────────────────── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes fadeLeft{from{opacity:0;transform:translate(20px,-50%)}to{opacity:1;transform:translate(0,-50%)}}
+@keyframes navGlow{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes heroFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes scrollPulse{0%,100%{opacity:1;transform:scaleY(1)}50%{opacity:0.3;transform:scaleY(0.5)}}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* ── RESPONSIVE ───────────────────────────────── */
+@media(max-width:1100px){
+  .hero-diagram{display:none}
+  .platform-arch{grid-template-columns:repeat(2,1fr)}
+  .platform-header{grid-template-columns:1fr;gap:2rem}
+  .bridge-inner{grid-template-columns:1fr;gap:3rem}
+  .bridge-visual{height:260px}
+  .exec-grid{grid-template-columns:1fr}
+  .exec-visual{position:static}
+  .cap-grid{
+    grid-template-columns:1fr 1fr;
+    grid-template-areas:
+      "cap-image cap-image"
+      "cap-1 cap-2"
+      "cap-3 cap-4"
+      "cap-5 cap-6"
+  }
+  .cap-image-card{min-height:320px}
+}
+@media(max-width:768px){
+  nav{padding:1.2rem 1.5rem}
+  .nav-links,.nav-badge{display:none}
+  .hero{padding:0 1.5rem 4rem}
+  .wrap{padding:0 1.5rem}
+  .summary-grid{grid-template-columns:1fr;gap:3rem}
+  .challenge-cards{grid-template-columns:1fr}
+  .platform-arch{grid-template-columns:1fr 1fr}
+  .scale-grid{grid-template-columns:1fr}
+  .scale-card.wide{grid-column:span 1}
+  .scale-card.wide .scale-inner{grid-template-columns:1fr}
+  .cap-grid{
+    grid-template-columns:1fr;
+    grid-template-areas:
+      "cap-image"
+      "cap-1"
+      "cap-2"
+      "cap-3"
+      "cap-4"
+      "cap-5"
+      "cap-6"
+  }
+  .before-after{grid-template-columns:1fr}
+  .ba-after-grid{grid-template-columns:1fr}
+  footer{flex-direction:column;align-items:center;padding:2rem 1.5rem}
+  .hero-scroll{display:none}
+  .analogy-header,.analogy-row{grid-template-columns:1fr}
+  .analogy-row .smaat-col{border-right:none;border-bottom:1px solid var(--border)}
+}
+
+/* ── VISUAL STORY SECTION ─────────────────────── */
+.vstory-section{padding:7rem 0;background:var(--bg)}
+.vstory-intro{max-width:620px;margin-bottom:4rem}
+.vstory-intro p{font-size:1.05rem;color:var(--text2);line-height:1.8;margin-top:0.8rem}
+
+.vstory-split{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:2rem;align-items:stretch}
+.vstory-panel{border-radius:1.5rem;overflow:hidden;border:1px solid var(--border);display:flex;flex-direction:column}
+.vstory-panel-head{padding:1.5rem 2rem 1.2rem;display:flex;flex-direction:column;align-items:flex-start;gap:0.8rem}
+.vstory-panel-tag{font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;padding:0.3rem 0.8rem;border-radius:100px}
+.vstory-panel-tag.before-tag{background:rgba(200,80,60,0.1);border:1px solid rgba(200,80,60,0.2);color:#e07060}
+.vstory-panel-tag.after-tag{background:rgba(56,120,200,0.12);border:1px solid var(--border2);color:var(--blue2)}
+.vstory-panel-title{font-family:var(--ff-head);font-size:0.9rem;font-weight:700;color:var(--text)}
+.vstory-illustration{flex:1;min-height:260px;display:flex;align-items:center;justify-content:center;padding:1.5rem;position:relative;overflow:hidden}
+.vstory-illustration img{display:block;width:100%;height:100%;object-fit:cover;border-radius:0.8rem}
+.vstory-panel.before-panel{background:var(--bg2)}
+.vstory-panel.before-panel .vstory-illustration{background:linear-gradient(135deg,rgba(120,40,30,0.08) 0%,transparent 60%)}
+.vstory-panel.after-panel{background:var(--bg2)}
+.vstory-panel.after-panel .vstory-illustration{background:linear-gradient(135deg,rgba(30,80,160,0.1) 0%,transparent 60%)}
+.vstory-panel-caption{padding:1.5rem 2rem 1.9rem;border-top:1px solid var(--border);text-align:center}
+.vstory-panel-caption-title{font-family:var(--ff-head);font-size:clamp(2rem,3vw,3.2rem);font-weight:800;letter-spacing:-0.04em;line-height:0.95;margin-bottom:0.85rem}
+.before-panel .vstory-panel-caption-title{color:#f07d68}
+.after-panel .vstory-panel-caption-title{color:#58a9f8}
+.vstory-panel-caption-text{font-size:0.84rem;line-height:1.6;color:var(--text2);max-width:32ch;margin:0 auto}
+.vstory-arrow{display:flex;align-items:center;justify-content:center;font-size:2rem;color:var(--blue2);opacity:0.5;align-self:center;min-width:2.5rem}
+
+/* transformation comparison strip */
+.transform-strip{margin-top:3rem;border:1px solid var(--border);border-radius:1.5rem;overflow:hidden}
+.ts-header{display:grid;grid-template-columns:1fr auto 1fr;background:var(--bg2);border-bottom:1px solid var(--border)}
+.ts-header-cell{padding:1rem 2rem;font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase}
+.ts-header-cell.left{color:#e07060}
+.ts-header-cell.mid{color:var(--text3);text-align:center;border-left:1px solid var(--border);border-right:1px solid var(--border)}
+.ts-header-cell.right{color:var(--blue2);text-align:right}
+.ts-row{display:grid;grid-template-columns:1fr auto 1fr;border-bottom:1px solid var(--border)}
+.ts-row:last-child{border-bottom:none}
+.ts-cell{padding:1rem 2rem;font-size:0.84rem;line-height:1.5}
+.ts-cell.left{color:rgba(220,100,80,0.8);background:rgba(200,60,40,0.03)}
+.ts-cell.mid{display:flex;align-items:center;justify-content:center;border-left:1px solid var(--border);border-right:1px solid var(--border);color:var(--text3);font-size:0.9rem}
+.ts-cell.right{color:var(--blue2);text-align:right;background:rgba(56,120,200,0.03)}
+
+/* infra cost visual */
+.cost-compare{margin-top:3rem;display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.cost-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.5rem;padding:2rem;text-align:center;transition:border-color 0.3s}
+.cost-card:hover{border-color:var(--border2)}
+.cost-card-label{font-family:var(--ff-mono);font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:1.5rem}
+.cost-card-illustration{height:160px;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem}
+.cost-card-val{font-family:var(--ff-head);font-size:2rem;font-weight:800;letter-spacing:-0.03em;line-height:1;margin-bottom:0.4rem}
+.cost-card.expensive .cost-card-val{color:#e07060}
+.cost-card.smart .cost-card-val{color:var(--blue2)}
+.cost-card-desc{font-size:0.8rem;color:var(--text2);line-height:1.5}
+
+@media(max-width:768px){
+  .vstory-split{grid-template-columns:1fr}
+  .vstory-arrow{transform:rotate(90deg)}
+  .ts-header,.ts-row{grid-template-columns:1fr}
+  .ts-cell.mid{border-left:none;border-right:none;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .ts-header-cell.mid{border-left:none;border-right:none}
+  .cost-compare{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="glow" id="glow"></div>
+
+<!-- NAV -->
+<nav id="nav" class="scrolled">
+  <div class="nav-logo">
+    <span class="nav-dot"></span>
+    SMAAT India
+  </div>
+  <ul class="nav-links">
+    <li><a href="#summary" style="color: var(--blue2);">Overview</a></li>
+    <li><a href="#story" style="">The Story</a></li>
+    <li><a href="#platform" style="">Platform</a></li>
+    <li><a href="#scale" style="">Scale</a></li>
+    <li><a href="#execution" style="">Execution</a></li>
+    <li><a href="#bridge" style="">Bridge</a></li>
+  </ul>
+  <a class="nav-badge" href="/index#contact">Contact</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-noise"></div>
+
+  <!-- Architecture flow diagram -->
+  <div class="hero-diagram">
+    <div class="hero-diagram-inner">
+      <img class="hero-diagram-img" src="img/smaat1.webp" alt="SMAAT infrastructure transformation">
+    </div>
+  </div>
+
+  <div class="hero-eyebrow">
+    <div class="eyebrow-line"></div>
+    <span class="eyebrow-text">SMAAT India Pvt. Ltd. · Enterprise Systems Consulting</span>
+  </div>
+
+  <h1 class="hero-title">
+    Building<br>
+    Distributed<br>
+    <span class="accent">Infrastructure</span><br>
+    <em>at Scale</em>
+  </h1>
+
+  <p class="hero-sub">
+    Independent Consultant → offered Leadership role. <br>Designed and scaled a production-grade business-software platform across 835+ live Community Water Centres in 3 states, integrating Vodafone + M-Pesa payments, workflow automation, telemetry, and field operations.
+  </p>
+
+  <div class="hero-kpis">
+    <div class="kpi-chip">
+      <div class="kpi-chip-val">835+</div>
+      <div class="kpi-chip-lbl">Community<br>Water Centres</div>
+    </div>
+    <div class="kpi-chip">
+      <div class="kpi-chip-val">+24%</div>
+      <div class="kpi-chip-lbl">Sales<br>Improvement</div>
+    </div>
+    <div class="kpi-chip">
+      <div class="kpi-chip-val">−18%</div>
+      <div class="kpi-chip-lbl">Cost<br>Reduction</div>
+    </div>
+    <div class="kpi-chip">
+      <div class="kpi-chip-val">+41%</div>
+      <div class="kpi-chip-lbl">Revenue Growth<br>Project C25L</div>
+    </div>
+    <div class="kpi-chip">
+      <div class="kpi-chip-val">₹1.1Cr</div>
+      <div class="kpi-chip-lbl">IT Program<br>Executed</div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span class="scroll-label">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXEC SUMMARY -->
+<section class="summary-section" id="summary">
+  <div class="wrap">
+    <div class="summary-grid">
+      <div class="reveal visible">
+        <div class="section-label">Executive Summary</div>
+        <h2 class="section-head">Platform engineering in the physical world</h2>
+        <div class="summary-body">
+          <p>At SMAAT India Pvt. Ltd., I was engaged as an independent consultant to design and operationalize the systems backbone for a large, distributed water-infrastructure network spanning hundreds of live treatment sites.</p>
+          <p>The work evolved into building a <strong>production-grade business-software platform</strong> that connected water treatment plants, vending machines, payment rails, field teams, and central operations through digital workflows, telemetry, and automation.</p>
+          <p>The platform was deployed across <strong>835+ live Community Water Centres (CWCs) spanning 3 states</strong>, including integration of Vodafone + M-Pesa payments, reconciliation workflows, and operator-facing process controls. Based on delivery and ownership of outcomes, I was subsequently offered absorption into an operating leadership role — a COO-track position.</p>
+        </div>
+        <div class="summary-quote">
+          <p>"I have built and operated production platform at scale– integrating business with technology with allied services and support systems. AI/MLOps is a natural extension of proven operating discipline."</p>
+        </div>
+      </div>
+
+      <!-- Role card -->
+      <div class="reveal visible" style="transition-delay:0.15s">
+        <div class="section-label">Engagement Type</div>
+        <div class="role-card">
+          <div class="role-card-tag">Role</div>
+          <div class="role-card-title">Independent Business Process &amp; Systems Consultant</div>
+          <div class="role-card-sub">Engagement expanded into a COO-track / operating leadership offer</div>
+          <ul class="role-list">
+            <li>Diagnosed end-to-end operating bottlenecks across distributed plants</li>
+            <li>Designed <strong>standard operating workflows</strong> for distributed sites at scale</li>
+            <li>Integrated physical plant operations with <strong>digital control systems</strong></li>
+            <li>Built governance, escalation, and accountability mechanisms</li>
+            <li>Structured org roles, field ops hierarchy, and escalation paths</li>
+            <li>Hired &amp; ran sales teams, appointed delivery service providers</li>
+            <li>Negotiated vendors, ran ₹1.1 Cr IT program across hardware + IT</li>
+            <li>Owned production outcomes: uptime, revenue capture, service quality</li>
+          </ul>
+          <div class="absorption-badge">
+            <div class="absorption-badge-icon">🏆</div>
+            <div class="absorption-badge-text"><strong>COO-Track Absorption Offer</strong> — delivery strong enough that SMAAT offered to absorb into full operating leadership. Third-party validation of execution maturity.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CHALLENGES -->
+<section class="challenge-section" id="challenges">
+  <div class="wrap">
+    <div class="reveal visible" style="margin-bottom:1rem">
+      <div class="section-label">The Problem</div>
+      <h2 class="section-head">Structural failures in a fragmented field operation</h2>
+    </div>
+    <div class="challenge-cards reveal visible" style="transition-delay:0.1s">
+      <div class="ch-card">
+        <div class="ch-num">01</div>
+        <div class="ch-title">Fragmented Operations</div>
+        <div class="ch-desc">Manual reporting with no unified plant monitoring. Zero visibility into uptime, failures, or revenue status across geographically distributed sites.</div>
+      </div>
+      <div class="ch-card">
+        <div class="ch-num">02</div>
+        <div class="ch-title">Operational Leakage</div>
+        <div class="ch-desc">Revenue loss due to manual cash transactions, weak reconciliation, and field accountability gaps. No digital trail for daily collections across CWCs.</div>
+      </div>
+      <div class="ch-card">
+        <div class="ch-num">03</div>
+        <div class="ch-title">Scale Complexity</div>
+        <div class="ch-desc">Hundreds of sites across multiple states, multiple hardware vendors, and disconnected workflows. No standardized operating model for field execution.</div>
+      </div>
+    </div>
+
+    <!-- Before / After -->
+    <div class="reveal visible" style="margin-top:4rem;margin-bottom:1.5rem">
+      <div class="section-label">Transformation</div>
+      <h3 style="font-family:var(--ff-head);font-size:1.4rem;font-weight:700;letter-spacing:-0.02em">From fragmentation to operating platform</h3>
+    </div>
+    <div class="before-after reveal visible" style="transition-delay:0.1s">
+      <div class="ba-col">
+        <div class="ba-label before">Before</div>
+        <ul class="ba-items" style="margin-top:1rem">
+          <li>Fragmented plant operations across states</li>
+          <li>Manual reporting, no central visibility</li>
+          <li>Revenue leakage via untracked cash transactions</li>
+          <li>Inconsistent field service processes</li>
+          <li>No digital payment integration</li>
+          <li>No plant uptime monitoring</li>
+        </ul>
+      </div>
+      <div class="ba-col highlight">
+        <div class="ba-label after">Platform Built → Executed Reality</div>
+        <div class="ba-after-grid" style="margin-top:1rem">
+          <div>
+            <div style="font-family:var(--ff-mono);font-size:0.63rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.8rem">System Built</div>
+            <ul class="ba-items good">
+              <li>ETM + PMS as operational backbone</li>
+              <li>Digital payments: Vodafone + M-Pesa</li>
+              <li>Standardized service workflows</li>
+              <li>SMS automation for operators</li>
+              <li>Inventory management module</li>
+              <li>Call-center ops (internal + customers)</li>
+            </ul>
+          </div>
+          <div>
+            <div style="font-family:var(--ff-mono);font-size:0.63rem;color:var(--text3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.8rem">Executed Reality</div>
+            <ul class="ba-items good">
+              <li>Live rollout across 800+ plants</li>
+              <li>Centralized ops visibility</li>
+              <li>Real-world billing &amp; reconciliation</li>
+              <li>Production platform adopted by ops teams</li>
+              <li>Multi-state field workforce standardized</li>
+              <li>1000% capacity utilization improvement</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- VISUAL STORY SECTION -->
+<section class="vstory-section" id="story">
+  <div class="wrap">
+
+    <div class="vstory-intro reveal visible">
+      <div class="section-label">The Infrastructure Story</div>
+      <h2 class="section-head">From expensive &amp; broken to lean &amp; scalable</h2>
+      <p>The core premise of SMAAT's transformation: replace fragmented, capital-heavy, manually operated water infrastructure with compact, automated, digitally-governed water vending machines — serving the same communities at a fraction of the cost, with full operational visibility.</p>
+    </div>
+
+    <!-- BEFORE vs AFTER panels -->
+    <div class="vstory-split reveal visible" style="transition-delay:0.1s">
+      <div class="vstory-panel before-panel">
+        <div class="vstory-panel-head">
+          <div class="vstory-panel-tag before-tag">Before</div>
+          <div class="vstory-panel-title">Traditional Water Infrastructure High Capex</div>
+        </div>
+        <div class="vstory-illustration">
+          <img src="img/smaat2.webp" alt="SMAAT infrastructure visual">
+        </div>
+        <div class="vstory-panel-caption">
+          <div class="vstory-panel-caption-title">High Capex</div>
+          <div class="vstory-panel-caption-text">Complex fixed assets, manual operations, fragmented visibility, slow deployment across sites.</div>
+        </div>
+      </div>
+
+      <div class="vstory-arrow reveal visible" style="transition-delay:0.2s">→</div>
+
+      <div class="vstory-panel after-panel">
+        <div class="vstory-panel-head">
+          <div class="vstory-panel-tag after-tag">After</div>
+          <div class="vstory-panel-title">SMAAT Water ATM Platform Lean &amp; Scalable</div>
+        </div>
+        <div class="vstory-illustration">
+          <img src="img/smaat3.webp" alt="SMAAT water ATM platform visual">
+        </div>
+        <div class="vstory-panel-caption">
+          <div class="vstory-panel-caption-title">Lean &amp; Scalable</div>
+          <div class="vstory-panel-caption-text">835+ compact ATM units, digital payments, automated monitoring, centralized governance.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRANSFORMATION TABLE -->
+    <div class="transform-strip reveal visible" style="transition-delay:0.15s">
+      <div class="ts-header">
+        <div class="ts-header-cell left">Old Infrastructure</div>
+        <div class="ts-header-cell mid">→</div>
+        <div class="ts-header-cell right">SMAAT Platform</div>
+      </div>
+      <div class="ts-row">
+        <div class="ts-cell left">Large fixed water treatment plant per site</div>
+        <div class="ts-cell mid">→</div>
+        <div class="ts-cell right">Compact RO vending unit, plug-and-deploy</div>
+      </div>
+      <div class="ts-row">
+        <div class="ts-cell left">Manual cash collection by field operators</div>
+        <div class="ts-cell mid">→</div>
+        <div class="ts-cell right">Vodafone M-Pesa + card digital payments</div>
+      </div>
+      <div class="ts-row">
+        <div class="ts-cell left">No uptime data — failures discovered late</div>
+        <div class="ts-cell mid">→</div>
+        <div class="ts-cell right">PMS dashboard — live plant status, daily KPIs</div>
+      </div>
+      <div class="ts-row">
+        <div class="ts-cell left">Fragmented ops — each site runs differently</div>
+        <div class="ts-cell mid">→</div>
+        <div class="ts-cell right">ETM-standardized workflows, one playbook</div>
+      </div>
+      <div class="ts-row">
+        <div class="ts-cell left">High capital, slow scale, complex maintenance</div>
+        <div class="ts-cell mid">→</div>
+        <div class="ts-cell right">Deployed IT and business systems across 835+ units in 3 states at scale</div>
+      </div>
+      <div class="ts-row">
+        <div class="ts-cell left">Revenue leakage, no reconciliation</div>
+        <div class="ts-cell mid">→</div>
+        <div class="ts-cell right">+41% revenue (C25L) · −18% cost · +24% sales</div>
+      </div>
+    </div>
+    </div>
+
+  
+</section>
+
+<div class="divider"></div>
+
+<!-- PLATFORM -->
+<section class="platform-section" id="platform">
+  <div class="wrap">
+    <div class="platform-header">
+      <div class="reveal visible">
+        <div class="section-label">The Operating Platform</div>
+        <h2 class="section-head">Not tasks. A system.</h2>
+      </div>
+      <div class="platform-desc reveal visible" style="transition-delay:0.15s">
+        <p>SMAAT wasn't "just operations" — it was architecting a <strong>mini platform for 800+ Community Water Centres</strong> across 3 states. Distributed endpoints (water plants), a centralized control plane (PMS, reporting, reconciliation), observability (daily KPIs), automation (cards, SMS, payments), and reliability engineering (process modules, checklists). This is <strong>proto-MLOps / proto-platform engineering</strong> in the physical world.</p>
+      </div>
+    </div>
+
+    <div class="platform-arch reveal visible" style="transition-delay:0.05s">
+      <div class="arch-node">
+        <div class="arch-node-num">01 —</div>
+        <div class="arch-node-icon">🏭</div>
+        <div class="arch-node-title">Field Units (CWCs)</div>
+        <ul class="arch-node-items">
+          <li>835+ Community Water Centres</li>
+          <li>RO water treatment plants</li>
+          <li>Water vending machines</li>
+          <li>Distributed production nodes</li>
+        </ul>
+      </div>
+      <div class="arch-node">
+        <div class="arch-node-num">02 —</div>
+        <div class="arch-node-icon">⚙️</div>
+        <div class="arch-node-title">ETM / PMS Layer</div>
+        <ul class="arch-node-items">
+          <li>Electronic Transaction Mgmt</li>
+          <li>Plant Management System</li>
+          <li>Daily reporting + KPIs</li>
+          <li>Uptime + maintenance tracking</li>
+        </ul>
+      </div>
+      <div class="arch-node">
+        <div class="arch-node-num">03 —</div>
+        <div class="arch-node-icon">💳</div>
+        <div class="arch-node-title">Payments &amp; Automation</div>
+        <ul class="arch-node-items">
+          <li>Vodafone + M-Pesa integration</li>
+          <li>Card dispensing automation</li>
+          <li>SMS operator workflows</li>
+          <li>Inventory management module</li>
+        </ul>
+      </div>
+      <div class="arch-node">
+        <div class="arch-node-num">04 —</div>
+        <div class="arch-node-icon">🎛️</div>
+        <div class="arch-node-title">Ops Control Plane</div>
+        <ul class="arch-node-items">
+          <li>Central reporting + governance</li>
+          <li>Reconciliation workflows</li>
+          <li>100+ CUG connections for field</li>
+          <li>Cluster / circle / field ops org</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Analogy table -->
+    <div class="reveal visible" style="transition-delay:0.1s;margin-top:3rem">
+      <div style="font-family:var(--ff-mono);font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:1rem">SMAAT Reality → AI/MLOps Analogy</div>
+      <div class="analogy-table">
+        <div class="analogy-header">
+          <div>SMAAT Physical Reality</div>
+          <div>AI / MLOps Platform Analogy</div>
+        </div>
+        <div class="analogy-row"><div class="smaat-col">Distributed water centres (CWCs)</div><div class="ai-col">Distributed ML services / endpoints</div></div>
+        <div class="analogy-row"><div class="smaat-col">PMS + Reporting</div><div class="ai-col">Control plane + monitoring / observability</div></div>
+        <div class="analogy-row"><div class="smaat-col">SMS + Cards + M-Pesa automation</div><div class="ai-col">Workflow orchestration + automation</div></div>
+        <div class="analogy-row"><div class="smaat-col">Inventory management module</div><div class="ai-col">Data &amp; artifact management</div></div>
+        <div class="analogy-row"><div class="smaat-col">Process modules + checklists</div><div class="ai-col">SRE playbooks / runbooks</div></div>
+        <div class="analogy-row"><div class="smaat-col">Vendor integrations (IT + hardware)</div><div class="ai-col">Multi-cloud / toolchain integration</div></div>
+        <div class="analogy-row"><div class="smaat-col">Capacity utilization metrics</div><div class="ai-col">Throughput &amp; cost optimization</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SCALE -->
+<section class="scale-section" id="scale">
+  <div class="wrap" style="position:relative">
+    <div class="scale-bg-num">800</div>
+    <div class="reveal visible">
+      <div class="section-label">Scale &amp; Proof</div>
+      <h2 class="section-head">Enterprise execution — not pilot mode</h2>
+    </div>
+    <div class="scale-grid">
+      <div class="scale-card wide reveal visible" style="transition-delay:0.05s">
+        <div class="scale-card-cat">Deployment Scale</div>
+        <div class="scale-inner">
+          <div>
+            <div class="scale-stat"><div class="scale-num">835</div><div class="scale-unit">+</div></div>
+            <div class="scale-desc">Community Water Centres automated across 3 states. Live physical infrastructure deployed at population scale — not a pilot, not a prototype.</div>
+          </div>
+          <div>
+            <div class="scale-stat"><div class="scale-num">800</div><div class="scale-unit">+</div></div>
+            <div class="scale-desc">Live water treatment plants integrated with digital payments, ETM reconciliation, and centralized monitoring through PMS.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="scale-card reveal visible" style="transition-delay:0.1s">
+        <div class="scale-card-cat">Revenue Growth</div>
+        <div class="scale-stat"><div class="scale-num">+24</div><div class="scale-unit">%</div></div>
+        <div class="scale-desc">Sales improvement driven by ETM-based reconciliation, automated payment capture, and standardized field operations eliminating revenue leakage.</div>
+      </div>
+
+      <div class="scale-card reveal visible" style="transition-delay:0.1s">
+        <div class="scale-card-cat">Cost Efficiency</div>
+        <div class="scale-stat"><div class="scale-num">−18</div><div class="scale-unit">%</div></div>
+        <div class="scale-desc">Cost reduction through process automation, standardized service workflows, and digital reporting replacing manual field operations.</div>
+      </div>
+
+      <div class="scale-card reveal visible" style="transition-delay:0.15s">
+        <div class="scale-card-cat">Project C25L — Revenue</div>
+        <div class="scale-stat"><div class="scale-num">+41</div><div class="scale-unit">%</div></div>
+        <div class="scale-desc">Revenue increase in Project C25L initiative — demonstrating platform-level commercial outcomes beyond operational improvements.</div>
+      </div>
+
+      <div class="scale-card reveal visible" style="transition-delay:0.15s">
+        <div class="scale-card-cat">Capacity Utilization</div>
+        <div class="scale-stat"><div class="scale-num">1000</div><div class="scale-unit">%</div></div>
+        <div class="scale-desc">Capacity utilization improvement (₹25L per circle). Turning dormant infrastructure capacity into live, operational revenue-generating assets.</div>
+      </div>
+
+      <div class="scale-card reveal visible" style="transition-delay:0.2s">
+        <div class="scale-card-cat">IT Program Executed</div>
+        <div class="scale-stat"><div class="scale-num">₹1.1</div><div class="scale-unit">Cr</div></div>
+        <div class="scale-desc">IT transformation program executed across vendors — hardware integration, software systems, and multi-vendor coordination managed end-to-end.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXECUTION TIMELINE -->
+<section class="exec-section" id="execution">
+  <div class="wrap">
+    <div class="exec-grid">
+      <div>
+        <div class="reveal visible">
+          <div class="section-label">What Was Built</div>
+          <h2 class="section-head">Operator-architect on the ground</h2>
+          <p style="color:var(--text2);font-size:0.95rem;line-height:1.8;margin-bottom:3rem">Every initiative was hands-on, production-grade, and outcome-accountable. This is how the distributed water infrastructure operating system was built in practice.</p>
+        </div>
+        <div class="exec-timeline">
+          <div class="exec-item reveal visible" style="transition-delay:0.05s">
+            <div class="exec-dot"></div>
+            <div>
+              <div class="exec-title">Plant-Level Diagnosis &amp; Process Redesign</div>
+              <div class="exec-desc">Diagnosed plant-level mechanical and operational bottlenecks across live water treatment systems. Redesigned process flows grounded in physical machine constraints — not abstract reporting.</div>
+            </div>
+          </div>
+          <div class="exec-item reveal visible" style="transition-delay:0.1s">
+            <div class="exec-dot"></div>
+            <div>
+              <div class="exec-title">ETM + PMS Platform Rollout</div>
+              <div class="exec-desc">Designed and deployed Electronic Transaction Management (ETM) and Plant Management System (PMS) across 835+ CWCs. Created digital backbone for billing, reconciliation, uptime tracking and daily KPI reporting.</div>
+            </div>
+          </div>
+          <div class="exec-item reveal visible" style="transition-delay:0.15s">
+            <div class="exec-dot"></div>
+            <div>
+              <div class="exec-title">Payments Integration: Vodafone + M-Pesa</div>
+              <div class="exec-desc">Integrated Vodafone and M-Pesa payment systems across 800+ live plants. Implemented card dispensing automation, SMS workflows for operators, and digital reconciliation — eliminating manual cash leakage.</div>
+            </div>
+          </div>
+          <div class="exec-item reveal visible" style="transition-delay:0.2s">
+            <div class="exec-dot"></div>
+            <div>
+              <div class="exec-title">Field Operations Standardization</div>
+              <div class="exec-desc">Built standardized operating workflows for installation, service, uptime management, and escalation. Defined training modules, job descriptions, and incentive systems for field operators across cluster, circle, and field ops roles.</div>
+            </div>
+          </div>
+          <div class="exec-item reveal visible" style="transition-delay:0.25s">
+            <div class="exec-dot"></div>
+            <div>
+              <div class="exec-title">Call-Center &amp; Governance Systems</div>
+              <div class="exec-desc">Built call-center operations (internal + external CX), established accountability and escalation mechanisms, and deployed 100+ CUG connections for field team coordination across the multi-state operation.</div>
+            </div>
+          </div>
+          <div class="exec-item reveal visible" style="transition-delay:0.3s">
+            <div class="exec-dot"></div>
+            <div>
+              <div class="exec-title">Vendor Management &amp; IT Program</div>
+              <div class="exec-desc">Negotiated and ran a ₹1.1 Cr IT program spanning hardware + software vendors. Worked with IT vendors on code + data handshaking (hardware–software integration). Appointed delivery service providers and managed multi-vendor ecosystem.</div>
+            </div>
+          </div>
+          <div class="exec-item reveal visible" style="transition-delay:0.35s">
+            <div class="exec-dot"></div>
+            <div>
+              <div class="exec-title">Pilot to Production Scale</div>
+              <div class="exec-desc">Ran pilots and scaled to full production across 800+ plants. Hired and ran sales teams. Built inventory + procurement workflows. Designed accountability systems. Platform adopted by ops teams and validated at scale — resulting in the COO-track absorption offer.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="exec-visual reveal visible" style="transition-delay:0.1s">
+        <div class="exec-img">
+          <div class="exec-img-inner">
+            <div class="exec-img-pattern"></div>
+          </div>
+          <div class="exec-img-pills">
+            <span class="exec-pill">3 States</span>
+            <span class="exec-pill">ETM</span>
+            <span class="exec-pill">PMS</span>
+            <span class="exec-pill">M-Pesa</span>
+            <span class="exec-pill">Vodafone</span>
+            <span class="exec-pill">COO Offer</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CAPABILITIES -->
+<section class="cap-section">
+  <div class="wrap">
+    <div class="reveal visible">
+      <div class="section-label">Strategic Capabilities</div>
+      <h2 class="section-head">What this engagement demonstrates</h2>
+    </div>
+    <div class="cap-grid">
+      <div class="cap-image-card reveal visible" style="transition-delay:0.03s">
+        <div class="cap-image-label">
+          <div class="cap-image-kicker">Field Execution Reality</div>
+          <div class="cap-image-title">Built in real infrastructure conditions, not in theory.</div>
+        </div>
+      </div>
+      <div class="cap-card cap-1 reveal visible" style="transition-delay:0.05s">
+        <div class="cap-icon">🏗️</div>
+        <div>
+          <div class="cap-title">End-to-End System Ownership</div>
+          <div class="cap-desc">Owned the full lifecycle of distributed infrastructure execution — from plant-level physical deployment to centralized digital governance. Mirrors how I now architect and own AI platforms and MLOps systems end-to-end.</div>
+        </div>
+      </div>
+      <div class="cap-card cap-2 reveal visible" style="transition-delay:0.1s">
+        <div class="cap-icon">⚡</div>
+        <div>
+          <div class="cap-title">Operating Under Real-World Constraints</div>
+          <div class="cap-desc">Worked within constraints of unreliable connectivity, hardware failures, field logistics, payment reconciliation, and service SLAs — directly analogous to production AI systems operating under infrastructure and compliance constraints.</div>
+        </div>
+      </div>
+      <div class="cap-card cap-3 reveal visible" style="transition-delay:0.15s">
+        <div class="cap-icon">🔧</div>
+        <div>
+          <div class="cap-title">Mechanical + Systems + Business (Rare Combo)</div>
+          <div class="cap-desc">Bridged physical infrastructure (machines, plants, water systems) with digital systems and business outcomes. Could diagnose plant-level failures, redesign process flows grounded in physical constraints, and align IT with real machine behavior.</div>
+        </div>
+      </div>
+      <div class="cap-card cap-4 reveal visible" style="transition-delay:0.2s">
+        <div class="cap-icon">🌐</div>
+        <div>
+          <div class="cap-title">Platform Thinking for Physical Systems</div>
+          <div class="cap-desc">Converted fragmented water distribution into a platform model (PMS + ETM + Operations) — the same approach I now apply to designing data platforms, ML pipelines, and MLOps control planes.</div>
+        </div>
+      </div>
+      <div class="cap-card cap-5 reveal visible" style="transition-delay:0.25s">
+        <div class="cap-icon">👥</div>
+        <div>
+          <div class="cap-title">Stakeholder Coordination at Scale</div>
+          <div class="cap-desc">Worked across technology vendors, field operators, management, and community interfaces. Full-stack business systems engineering: Process → Platform → People → Incentives → Revenue → Ops.</div>
+        </div>
+      </div>
+      <div class="cap-card cap-6 reveal visible" style="transition-delay:0.3s">
+        <div class="cap-icon">📊</div>
+        <div>
+          <div class="cap-title">Governance-First Execution</div>
+          <div class="cap-desc">Built reporting, reconciliation, governance, escalation, and accountability mechanisms from the ground up. Operator mindset: reliability, uptime, and revenue over slide decks. Production systems that survive real environments.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- BRIDGE TO AI -->
+<section class="bridge-section" id="bridge">
+  <div class="wrap">
+    <div class="bridge-inner">
+      <div class="bridge-visual reveal visible">
+        <div class="bridge-visual-inner">
+          <img class="bridge-visual-img" src="img/smaat5.webp" alt="SMAAT infrastructure visual">
+        </div>
+      </div>
+      <div class="reveal visible" style="transition-delay:0.15s">
+        <div class="section-label">From Physical Platforms to AI Platforms</div>
+        <h2 class="section-head">The operating logic that transfers</h2>
+        <div class="bridge-principle">
+          Real platforms fail not because of <em>algorithms</em> — but because of broken workflows, weak telemetry, and poor governance.
+        </div>
+        <div class="bridge-body">
+          <p>The SMAAT platform shaped how I design enterprise AI and MLOps systems today. The same discipline applied to water infrastructure — telemetry, uptime, workflows, reconciliation, and accountability — now guides how I build production AI platforms with reliability, observability, and accountability at the core.</p>
+          <p>Whether the system is water infrastructure or enterprise AI infrastructure, the operating pattern remains consistent: <strong>architect the platform, operate under governance constraints, absorb execution risk, and drive systems into real-world production.</strong></p>
+        </div>
+        <div class="bridge-tags">
+          <span class="bridge-tag">AI Platform Lead</span>
+          <span class="bridge-tag">Principal Solutions Architect</span>
+          <span class="bridge-tag">Head of AI Transformation</span>
+          <span class="bridge-tag">MLOps Control Planes</span>
+          <span class="bridge-tag">Production Systems</span>
+          <span class="bridge-tag">Infra-Heavy Industries</span>
+          <span class="bridge-tag">Distributed Systems</span>
+          <span class="bridge-tag">Operator-Architect</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<footer id="footer">
+  <div class="footer-l">SMAAT India Pvt. Ltd.</div>
+</footer>
+
+<script>
+// cursor glow
+const glow = document.getElementById('glow');
+document.addEventListener('mousemove', e => {
+  glow.style.transform = `translate(${e.clientX-300}px,${e.clientY-300}px)`;
+});
+
+// nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// reveal on scroll
+const revealEls = document.querySelectorAll('.reveal');
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+revealEls.forEach(el => ro.observe(el));
+
+// counter animation
+function countUp(el) {
+  const txt = el.textContent.trim();
+  const hasRs = txt.includes('₹');
+  const hasPlus = txt.startsWith('+');
+  const hasMinus = txt.startsWith('−');
+  const raw = txt.replace(/[^0-9.]/g,'');
+  if (!raw || isNaN(parseFloat(raw))) return;
+  const target = parseFloat(raw);
+  const isDecimal = raw.includes('.');
+  const dur = 1400, start = performance.now();
+  function step(now) {
+    const p = Math.min((now - start) / dur, 1);
+    const e = 1 - Math.pow(1-p, 3);
+    const v = target * e;
+    const f = isDecimal ? v.toFixed(1) : Math.floor(v).toString();
+    el.textContent = (hasRs?'₹':'') + (hasPlus?'+':'') + (hasMinus?'−':'') + f;
+    if (p < 1) requestAnimationFrame(step);
+    else el.textContent = txt;
+  }
+  requestAnimationFrame(step);
+}
+
+const scaleNums = document.querySelectorAll('.scale-num,.kpi-chip-val');
+const co = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { countUp(e.target); co.unobserve(e.target); }
+  });
+}, { threshold: 0.5 });
+scaleNums.forEach(n => co.observe(n));
+
+// kpi chip tilt
+document.querySelectorAll('.kpi-chip').forEach(chip => {
+  chip.addEventListener('mousemove', e => {
+    const r = chip.getBoundingClientRect();
+    const x = (e.clientX - r.left - r.width/2) / (r.width/2);
+    const y = (e.clientY - r.top - r.height/2) / (r.height/2);
+    chip.style.transform = `translateY(-3px) rotateX(${-y*4}deg) rotateY(${x*4}deg)`;
+  });
+  chip.addEventListener('mouseleave', () => chip.style.transform = '');
+});
+
+// active nav
+const secs = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.nav-links a');
+const sio = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.style.color = l.getAttribute('href')==='#'+e.target.id ? 'var(--blue2)' : '');
+    }
+  });
+}, { threshold: 0.4 });
+secs.forEach(s => sio.observe(s));
+</script>
+
+
+</body></html>

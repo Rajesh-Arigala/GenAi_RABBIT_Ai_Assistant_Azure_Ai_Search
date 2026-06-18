@@ -1,0 +1,13 @@
+{
+  "seed_urls": [
+    "https://rajesharigala.com/mlops/mlops,sys",
+    "https://rajesharigala.com/mlops/ml-project4"
+  ],
+  "max_pages": 20,
+  "max_depth": 2,
+  "delay_seconds": 0.5,
+  "timeout_ms": 60000,
+  "viewport_width": 1440,
+  "viewport_height": 1800,
+  "same_domain_only": true
+}

@@ -1,0 +1,661 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Supreme Court Advocacy — Constitutional Governance &amp; AI Systems</title>
+    <link rel="icon" type="image/png" href="/img/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600&amp;family=Jost:wght@300;400;500;600&amp;family=DM+Mono:wght@300;400&amp;display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:16px}
+
+:root{
+  --bg:       #08090b;
+  --bg1:      #0d0f13;
+  --bg2:      #111318;
+  --bg3:      #171a21;
+  --bg4:      #1c2029;
+  --navy:     #0e1520;
+  --navy2:    #152030;
+  --border:   rgba(255,255,255,0.055);
+  --border2:  rgba(180,155,100,0.2);
+  --border3:  rgba(180,155,100,0.35);
+  --gold:     #b49b64;
+  --gold2:    #cdb87a;
+  --gold3:    #e8d49a;
+  --gold-dim: rgba(180,155,100,0.07);
+  --ivory:    #f0ece2;
+  --text:     #c8c4b8;
+  --text2:    #7a7870;
+  --text3:    #3e3d38;
+  --white:    #f8f5ee;
+  --ff-head:  'Cormorant Garamond', Georgia, serif;
+  --ff-body:  'Jost', sans-serif;
+  --ff-mono:  'DM Mono', monospace;
+}
+
+body{background:var(--bg);color:var(--text);font-family:var(--ff-body);font-weight:300;line-height:1.65;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+strong{color:var(--ivory);font-weight:500}
+
+::-webkit-scrollbar{width:2px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--gold);border-radius:2px}
+
+/* ── CURSOR GLOW ─── */
+.cglow{pointer-events:none;position:fixed;top:0;left:0;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(180,155,100,0.04) 0%,transparent 70%);transform:translate(-50%,-50%);z-index:0;transition:transform 0.1s linear}
+
+/* ── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.4rem 3.5rem;display:flex;align-items:center;justify-content:space-between;transition:all 0.5s}
+nav.scrolled{background:rgba(8,9,11,0.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:var(--ff-head);font-size:1.24rem;font-weight:600;letter-spacing:0.04em;color:var(--ivory);display:flex;align-items:center;gap:0.8rem}
+.nav-logo-mark{display:flex;align-items:center;justify-content:center;font-size:2.05rem;line-height:0.75;color:var(--gold2);font-family:var(--ff-head);font-weight:600;text-shadow:0 0 18px rgba(205,184,122,0.18);transform:translateY(1px)}
+.nav-links{display:flex;gap:2.8rem;list-style:none}
+.nav-links a{font-family:var(--ff-mono);font-size:0.76rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2);transition:color 0.3s}
+.nav-links a:hover{color:var(--gold2)}
+.nav-cta{font-family:var(--ff-mono);font-size:0.76rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold2);border:1px solid rgba(180,155,100,0.28);padding:0.6rem 1.35rem;border-radius:999px;transition:all 0.3s}
+.nav-cta:hover{background:rgba(180,155,100,0.1);border-color:var(--border3)}
+
+/* ── HERO ─── */
+.hero{position:relative;height:100svh;min-height:680px;display:flex;flex-direction:column;justify-content:flex-end;padding:0 3.5rem 5rem;overflow:hidden}
+
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:url('img/law1.webp') center center / cover no-repeat;
+}
+.hero-overlay{position:absolute;inset:0;z-index:3;
+  background:
+    linear-gradient(90deg, rgba(8,9,11,0.58) 0%, rgba(8,9,11,0.28) 42%, rgba(8,9,11,0.58) 100%),
+    linear-gradient(180deg, rgba(8,9,11,0.12) 0%, rgba(8,9,11,0.48) 58%, rgba(8,9,11,0.84) 100%)
+}
+
+.hero-content{position:relative;z-index:5;max-width:860px}
+
+.hero-eyebrow{display:inline-flex;align-items:center;gap:0.9rem;margin-top:1.4rem;margin-bottom:0.6rem;opacity:0;animation:fadeUp 0.9s ease 0.15s forwards}
+.eyebrow-bar{width:36px;height:1px;background:var(--gold2)}
+.eyebrow-text{font-family:var(--ff-mono);font-size:0.78rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold2)}
+
+.hero-title{font-family:var(--ff-head);font-size:clamp(3.2rem,6.5vw,6.8rem);font-weight:300;line-height:0.95;letter-spacing:-0.01em;color:var(--white);opacity:0;animation:fadeUp 1s ease 0.3s forwards;margin-bottom:1.5rem}
+.hero-title em{font-style:italic;color:var(--gold2)}
+.hero-title .serif-accent{font-weight:600}
+
+.hero-sub{font-family:var(--ff-body);font-weight:300;font-size:1.16rem;color:var(--text2);line-height:1.78;max-width:620px;opacity:0;animation:fadeUp 0.9s ease 0.5s forwards;margin-bottom:2.5rem}
+
+.hero-pills{display:flex;flex-wrap:wrap;gap:0.7rem;opacity:0;animation:fadeUp 0.9s ease 0.65s forwards;margin-bottom:3rem}
+.hero-pill{font-family:var(--ff-mono);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);border:1px solid var(--border);padding:0.5rem 1.05rem;border-radius:999px;background:rgba(255,255,255,0.02);transition:all 0.3s}
+.hero-pill:hover{border-color:var(--border3);color:var(--gold2)}
+
+.hero-ctas{display:flex;gap:1.2rem;opacity:0;animation:fadeUp 0.9s ease 0.78s forwards}
+.btn-primary{font-family:var(--ff-mono);font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--bg);background:var(--gold2);padding:0.9rem 2.05rem;border-radius:999px;font-weight:400;transition:all 0.3s;border:1px solid transparent}
+.btn-primary:hover{background:var(--gold3);transform:translateY(-2px);box-shadow:0 12px 30px rgba(180,155,100,0.2)}
+.btn-ghost{font-family:var(--ff-mono);font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold2);border:1px solid rgba(180,155,100,0.3);padding:0.9rem 2.05rem;border-radius:999px;transition:all 0.3s}
+.btn-ghost:hover{background:rgba(180,155,100,0.07);border-color:var(--border3);transform:translateY(-2px)}
+
+.hero-scroll{position:absolute;bottom:2rem;right:3.5rem;z-index:5;display:flex;flex-direction:column;align-items:center;gap:0.6rem;opacity:0;animation:fadeIn 1s ease 1.3s forwards}
+.scroll-label{font-family:var(--ff-mono);font-size:0.7rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);writing-mode:vertical-rl}
+.scroll-line{width:1px;height:50px;background:linear-gradient(var(--gold),transparent);animation:scrollPulse 2.2s ease-in-out infinite}
+
+/* ── LAYOUT ─── */
+.wrap{max-width:1280px;margin:0 auto;padding:0 3.5rem}
+.divider{width:100%;height:1px;background:linear-gradient(90deg,transparent,var(--border2) 20%,var(--border2) 80%,transparent)}
+.section-label{font-family:var(--ff-mono);font-size:0.78rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold2);display:flex;align-items:center;gap:0.8rem;margin-bottom:0.9rem}
+.section-label::before{content:'';display:block;width:24px;height:1px;background:var(--gold2)}
+.section-head{font-family:var(--ff-head);font-size:clamp(2.2rem,4vw,3.8rem);font-weight:400;line-height:1.08;letter-spacing:-0.01em;color:var(--ivory);margin-bottom:1rem}
+.section-head em{font-style:italic;color:var(--gold2);font-weight:300}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity 0.75s ease,transform 0.75s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── INTRO SECTION ─── */
+.intro-section{padding:9rem 0 8rem}
+.intro-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:8rem;align-items:start}
+.intro-body{font-size:1.14rem;color:var(--text2);line-height:1.9}
+.intro-body p+p{margin-top:1.2rem}
+.intro-quote{margin-top:2.8rem;padding:2rem 2.2rem;border-left:2px solid var(--gold);background:var(--gold-dim);border-radius:0 1.2rem 1.2rem 0;position:relative}
+.intro-quote::before{content:'"';position:absolute;top:-0.5rem;left:1.5rem;font-family:var(--ff-head);font-size:5rem;color:var(--gold);opacity:0.15;line-height:1}
+.intro-quote p{font-family:var(--ff-head);font-size:1.32rem;font-weight:400;font-style:italic;line-height:1.6;color:var(--ivory)}
+
+.stats-stack{display:flex;flex-direction:column;gap:1rem}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.4rem;padding:2rem 2.2rem;transition:border-color 0.3s,background 0.3s,transform 0.3s;position:relative;overflow:hidden}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold-dim),transparent)}
+.stat-card:hover{border-color:var(--border3);background:var(--bg3);transform:translateX(4px)}
+.stat-num{font-family:var(--ff-head);font-size:3.2rem;font-weight:600;letter-spacing:-0.02em;line-height:1;color:var(--gold2);margin-bottom:0.3rem}
+.stat-lbl{font-family:var(--ff-mono);font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2)}
+.stat-desc{margin-top:0.6rem;font-size:1rem;color:var(--text2);line-height:1.65}
+.stat-card.featured{background:linear-gradient(135deg,var(--navy) 0%,var(--navy2) 100%);border-color:rgba(180,155,100,0.15)}
+
+/* ── TIMELINE ─── */
+.timeline-section{padding:8rem 0}
+.tl-wrap{display:grid;grid-template-columns:340px 1fr;gap:6rem;align-items:start}
+.tl-left{display:flex;flex-direction:column}
+.tl-right{position:relative}
+.tl-line{position:absolute;left:0;top:0;bottom:0;width:1px;background:linear-gradient(180deg,var(--gold) 0%,rgba(180,155,100,0.1) 100%)}
+.tl-items{display:flex;flex-direction:column;gap:0;padding-left:2.8rem}
+.tl-item{padding:1.8rem 0;border-bottom:1px solid var(--border);position:relative;transition:all 0.3s}
+.tl-item::before{content:'';position:absolute;left:-2.8rem;top:2rem;width:8px;height:8px;border-radius:50%;border:1px solid var(--gold);background:var(--bg);transform:translateX(-3.5px);transition:all 0.3s}
+.tl-item:hover::before{background:var(--gold);box-shadow:0 0 12px rgba(180,155,100,0.4)}
+.tl-item:last-child{border-bottom:none}
+.tl-year{font-family:var(--ff-mono);font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold2);margin-bottom:0.5rem}
+.tl-event{font-size:1.06rem;color:var(--text);line-height:1.7}
+.tl-visual{margin-top:2.5rem;border:1px solid rgba(180,155,100,0.12);border-radius:1.4rem;overflow:hidden;position:relative;background:linear-gradient(180deg,var(--bg2),var(--bg3));box-shadow:0 18px 40px rgba(0,0,0,0.3)}
+.tl-visual::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,9,11,0.04),rgba(8,9,11,0.36));pointer-events:none}
+.tl-visual img{display:block;width:100%;height:auto;object-fit:cover;filter:saturate(0.92) contrast(1.03)}
+
+/* ── CAPABILITIES ─── */
+.cap-section{padding:8rem 0}
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:3.5rem}
+.cap-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.4rem;padding:2.2rem;transition:all 0.35s;position:relative;overflow:hidden}
+.cap-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(180,155,100,0.04),transparent);opacity:0;transition:opacity 0.35s}
+.cap-card:hover{border-color:var(--border3);background:var(--bg3);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,0.4)}
+.cap-card:hover::after{opacity:1}
+.cap-icon{width:44px;height:44px;border:1px solid var(--border);border-radius:0.8rem;display:flex;align-items:center;justify-content:center;margin-bottom:1.4rem;transition:border-color 0.3s}
+.cap-card:hover .cap-icon{border-color:var(--border3)}
+.cap-icon svg{width:20px;height:20px;stroke:var(--gold2);fill:none;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
+.cap-title{font-family:var(--ff-head);font-size:1.38rem;font-weight:600;color:var(--ivory);margin-bottom:0.7rem;line-height:1.2}
+.cap-desc{font-size:1rem;color:var(--text2);line-height:1.78}
+
+/* ── GOVERNANCE BRIDGE ─── */
+.bridge-section{padding:9rem 0}
+.bridge-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:stretch}
+.bridge-panel{background:var(--bg2);border:1px solid var(--border);border-radius:2rem;padding:3rem;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.bridge-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.bridge-label{font-family:var(--ff-mono);font-size:0.76rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold2);margin-bottom:1.5rem;display:flex;align-items:center;gap:0.6rem}
+.bridge-label::before{content:'';width:16px;height:1px;background:var(--gold2)}
+.bridge-steps{display:flex;flex-direction:column;gap:0}
+.bridge-step{display:flex;align-items:center;gap:1rem;padding:1.1rem 0;border-bottom:1px solid var(--border)}
+.bridge-step:last-child{border-bottom:none}
+.bridge-step-num{font-family:var(--ff-mono);font-size:0.72rem;color:var(--gold);width:24px;flex-shrink:0}
+.bridge-step-text{font-size:1.02rem;color:var(--text);line-height:1.55}
+.bridge-arrow{font-size:0.78rem;color:var(--text3);margin-left:auto;flex-shrink:0}
+.bridge-connector{display:flex;align-items:center;justify-content:center;font-family:var(--ff-head);font-size:3rem;color:var(--gold);opacity:0.4;padding:0 1rem;align-self:center}
+.bridge-map{margin-top:2rem;padding-top:2rem;border-top:1px solid var(--border);flex-grow:1}
+.bridge-map-title{font-family:var(--ff-mono);font-size:0.76rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text3);margin-bottom:1rem}
+.bridge-tags{display:flex;flex-wrap:wrap;gap:0.5rem}
+.bridge-tag{font-family:var(--ff-mono);font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text2);border:1px solid var(--border);padding:0.4rem 0.9rem;border-radius:999px;transition:all 0.3s}
+.bridge-tag:hover{border-color:var(--border3);color:var(--gold2)}
+
+/* ── RECOGNITION ─── */
+.recognition-section{padding:8rem 0}
+.rec-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.6rem;align-items:stretch}
+.rec-inner{background:linear-gradient(135deg,var(--navy) 0%,rgba(13,15,19,0.5) 100%);border:1px solid rgba(180,155,100,0.12);border-radius:2rem;padding:4.2rem;position:relative;overflow:hidden;min-height:100%;display:flex;align-items:center}
+.rec-inner::before{content:'';position:absolute;top:-60px;right:-60px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(180,155,100,0.06),transparent 70%)}
+.rec-quote-mark{font-family:var(--ff-head);font-size:10rem;line-height:1;color:var(--gold);opacity:0.07;position:absolute;top:1rem;left:3rem;user-select:none}
+.rec-body{max-width:760px;margin:0 auto;position:relative;z-index:1}
+.rec-text{font-family:var(--ff-head);font-size:clamp(1.45rem,2.5vw,2.15rem);font-weight:300;font-style:italic;line-height:1.5;color:var(--ivory);margin-bottom:2.2rem}
+.rec-text em{color:var(--gold2);font-style:normal;font-weight:500}
+.rec-attribution{font-family:var(--ff-mono);font-size:0.78rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2);display:flex;align-items:center;justify-content:flex-start;gap:1rem}
+.rec-attribution::before,.rec-attribution::after{content:'';display:block;width:30px;height:1px;background:var(--text3)}
+.rec-media{border:1px solid rgba(180,155,100,0.12);border-radius:2rem;overflow:hidden;position:relative;min-height:100%;background:var(--bg2)}
+.rec-media img{display:block;width:100%;height:100%;object-fit:cover}
+
+/* ── CASES GRID ─── */
+.cases-section{padding:8rem 0}
+.cases-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-top:3.5rem}
+.case-card{background:var(--bg2);border:1px solid var(--border);border-radius:1.4rem;padding:2.2rem;display:flex;flex-direction:column;transition:all 0.35s;position:relative;overflow:hidden}
+.case-card:hover{border-color:var(--border3);background:var(--bg3);transform:translateY(-5px);box-shadow:0 24px 55px rgba(0,0,0,0.45)}
+.case-num{font-family:var(--ff-mono);font-size:0.76rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--text3);margin-bottom:1rem}
+.case-title{font-family:var(--ff-head);font-size:1.42rem;font-weight:600;color:var(--ivory);margin-bottom:0.8rem;line-height:1.25}
+.case-desc{font-size:1rem;color:var(--text2);line-height:1.72;flex-grow:1;margin-bottom:1.8rem}
+.case-btn{display:inline-flex;align-items:center;gap:0.6rem;font-family:var(--ff-mono);font-size:0.74rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold2);border:1px solid rgba(180,155,100,0.2);padding:0.65rem 1.25rem;border-radius:999px;transition:all 0.3s;width:fit-content;margin-top:auto}
+.case-btn:hover{background:rgba(180,155,100,0.07);border-color:var(--border3)}
+.case-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform 0.3s}
+.case-btn:hover svg{transform:translateX(3px)}
+
+/* ── FOOTER ─── */
+footer{padding:3rem 3.5rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;text-align:center}
+.foot-brand{font-family:var(--ff-head);font-size:1.2rem;font-weight:500;color:var(--text2);text-align:center}
+.foot-note{font-family:var(--ff-mono);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3)}
+.foot-gold{color:var(--gold2)}
+
+/* ── DECORATIVE ─── */
+.ornament{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
+.ornament-line{flex:1;height:1px;background:linear-gradient(90deg,var(--border2),transparent)}
+.ornament-diamond{width:6px;height:6px;border:1px solid var(--gold);transform:rotate(45deg);flex-shrink:0}
+.ornament-line.rev{background:linear-gradient(270deg,var(--border2),transparent)}
+
+/* ── ANIMATIONS ─── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes scrollPulse{0%,100%{opacity:0.3;transform:scaleY(0.8)}50%{opacity:1;transform:scaleY(1)}}
+
+/* ── RESPONSIVE ─── */
+@media(max-width:1100px){
+  .intro-grid,.bridge-grid,.tl-wrap{grid-template-columns:1fr}
+  .cap-grid,.cases-grid{grid-template-columns:repeat(2,1fr)}
+  .rec-grid{grid-template-columns:1fr}
+  .bridge-connector{display:none}
+  .tl-wrap{gap:3rem}
+}
+@media(max-width:768px){
+  nav{padding:1.2rem 1.5rem}
+  .nav-links,.nav-cta{display:none}
+  .hero{padding:0 1.5rem 4rem}
+  .wrap{padding:0 1.5rem}
+  .intro-section,.timeline-section,.cap-section,.bridge-section,.recognition-section,.cases-section{padding:5rem 0}
+  .cap-grid,.cases-grid{grid-template-columns:1fr}
+  .rec-inner{padding:3rem 1.8rem}
+  footer{flex-direction:column;gap:1rem;text-align:center;padding:2rem 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="cglow" id="cglow"></div>
+
+<!-- NAV -->
+<nav id="nav" class="scrolled">
+  <div class="nav-logo">
+    <div class="nav-logo-mark">⚖</div>
+    Constitutional Advocacy
+  </div>
+  <ul class="nav-links">
+    <li><a href="#intro" style="">Overview</a></li>
+    <li><a href="#timeline" style="">Timeline</a></li>
+    <li><a href="#capabilities" style="">Capabilities</a></li>
+    <li><a href="#governance" style="">Governance</a></li>
+    <li><a href="#cases" style="">Filings</a></li>
+  </ul>
+  <a href="#cases" class="nav-cta">View Case DETAILS</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-bar"></div>
+      <span class="eyebrow-text">Governance &amp; Constitutional Systems · 2013–2016</span>
+    </div>
+
+    <h1 class="hero-title">
+      Supreme Court<br>
+      <em>Advocacy</em> &amp;<br>
+      <span class="serif-accent">AI Architecture</span>
+    </h1>
+
+    <p class="hero-sub">Citizen-led constitutional advocacy at India's apex judicial forum — seven Public Interest Litigations pursued as petitioner-in-person, directly informing a governance-first approach to AI platform design.</p>
+
+    <div class="hero-pills">
+      <span class="hero-pill">7 PILs Filed</span>
+      <span class="hero-pill">Article 32 · PIL Jurisdiction</span>
+      <span class="hero-pill">Petitioner-in-Person</span>
+      <span class="hero-pill">CJI H. L. Dattu Tenure</span>
+      <span class="hero-pill">Responsible AI Governance</span>
+    </div>
+
+    <div class="hero-ctas">
+      <a href="#cases" class="btn-primary">View Case DETAILS</a>
+      <a href="#governance" class="btn-ghost">Governance Model</a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span class="scroll-label">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- INTRO -->
+<section class="intro-section" id="intro">
+  <div class="wrap">
+    <div class="intro-grid">
+      <!-- Left -->
+      <div class="reveal visible">
+        <div class="section-label">Overview</div>
+        <h2 class="section-head">Citizen-Led Constitutional <em>Advocacy</em></h2>
+
+        <div class="intro-body">
+          <p>Between 2013 and 2016, I independently pursued <strong>seven Public Interest Litigations</strong> before the Supreme Court of India, appearing as petitioner-in-person in matters of constitutional and public interest. These were not institution-backed cases, not NGO-sponsored actions, and not proxy filings.</p>
+          <p>Each petition cleared <strong>registry scrutiny and preliminary judicial screening</strong>, was listed before the Bench, and was heard by the Court across multiple hearings before being disposed of as part of the judicial process.</p>
+          <p>Matters that do not meet judicial thresholds do not reach the Bench. The fact that these were listed and heard reflects that the issues raised met the Court's <strong>threshold for judicial consideration in PIL jurisdiction</strong>.</p>
+          <p>This body of work is presented not as a legal career, but as evidence of engagement with the highest level of institutional governance — navigating constitutional processes, formal procedures, and judicial scrutiny to bring public-interest concerns into the apex constitutional system.</p>
+        </div>
+
+        <div class="intro-quote">
+          <p>Complex systems only become real when engaged at the level where authority and governance reside.</p>
+        </div>
+      </div>
+
+      <!-- Right -->
+      <div class="stats-stack reveal visible" style="transition-delay:0.15s">
+        <div class="stat-card featured">
+          <div class="stat-num">7</div>
+          <div class="stat-lbl">Public Interest Litigations</div>
+          <div class="stat-desc">Filed and pursued as petitioner-in-person under Article 32 of the Constitution of India, covering a three-year span of constitutional advocacy.</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">3</div>
+          <div class="stat-lbl">Years of Active Advocacy</div>
+          <div class="stat-desc">2013 through 2016 — from first PIL filing through disposal of all matters by the Supreme Court.</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">100%</div>
+          <div class="stat-lbl">Registry Clearance Rate</div>
+          <div class="stat-desc">All seven petitions cleared Supreme Court registry scrutiny and preliminary judicial screening — listed and heard before the Bench.</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">Judicial Recognition</div>
+          <div class="stat-lbl">oral acknowledgement</div>
+          <div class="stat-desc">Efforts as petitioner-in-person were orally acknowledged by Hon'ble Chief Justice H. L. Dattu during proceedings (2014–2015).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TIMELINE -->
+<section class="timeline-section" id="timeline">
+  <div class="wrap">
+    <div class="tl-wrap">
+      <div class="tl-left reveal visible">
+        <div class="section-label">Chronology</div>
+        <h2 class="section-head">Advocacy <em>Timeline</em></h2>
+        <p style="color:var(--text2);font-size:1.08rem;line-height:1.85;margin-top:1.2rem">From the first citizen-initiated petition to the disposal of all matters by India's apex constitutional forum — a complete record of institutional engagement spanning three years.</p>
+        <div class="tl-visual">
+          <img src="img/law2.webp" alt="Constitutional advocacy archival visual">
+        </div>
+        <div style="margin-top:2.5rem">
+          <div class="ornament">
+            <div class="ornament-line"></div>
+            <div class="ornament-diamond"></div>
+            <div class="ornament-line rev"></div>
+          </div>
+          <p style="font-family:var(--ff-mono);font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text3);text-align:center">This phase represents institutional exposure and governance literacy, not legal practice — shaping how I design governable systems today.</p>
+        </div>
+      </div>
+
+      <div class="tl-right reveal visible" style="transition-delay:0.15s">
+        <div class="tl-line"></div>
+        <div class="tl-items">
+          <div class="tl-item">
+            <div class="tl-year">2013</div>
+            <div class="tl-event">Initiated first PIL as petitioner-in-person — constitutional petition under Article 32 drafted and filed before the Supreme Court Registry.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2013 – 2014</div>
+            <div class="tl-event">Multiple PILs registered under PIL-W jurisdiction. Each petition cleared registry scrutiny and preliminary judicial screening protocols.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2013 – 2016</div>
+            <div class="tl-event">Pursued a total of seven PILs through registry scrutiny, judicial screening, and multiple hearings — managing the full lifecycle of each matter as petitioner-in-person.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2014 – 2015</div>
+            <div class="tl-event">Matters heard during the tenure of Chief Justice H. L. Dattu. Efforts orally acknowledged by the Hon'ble Chief Justice during proceedings.</div>
+          </div>
+          <div class="tl-item">
+            <div class="tl-year">2013 – 2016</div>
+            <div class="tl-event">All matters heard and disposed of by the Supreme Court of India — a normal outcome within constitutional litigation processes, with each having crossed formal judicial thresholds.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CAPABILITIES -->
+<section class="cap-section" id="capabilities">
+  <div class="wrap">
+    <div class="reveal visible">
+      <div class="section-label">Strategic Capabilities</div>
+      <h2 class="section-head">Translated to <em>Systems Leadership</em></h2>
+      <p style="color:var(--text2);font-size:1rem;line-height:1.8;max-width:680px;margin-top:1rem">Each dimension of constitutional advocacy maps directly to how I architect and operate production AI systems, MLOps pipelines, and enterprise governance frameworks today.</p>
+    </div>
+
+    <div class="cap-grid">
+      <div class="cap-card reveal visible" style="transition-delay:0.05s">
+        <div class="cap-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+        </div>
+        <div class="cap-title">End-to-End Institutional Ownership</div>
+        <div class="cap-desc">Owned the full lifecycle of seven citizen-led constitutional petitions — from issue framing and documentation to registry processes and in-person hearings. Mirrors how I design and deliver AI platforms, MLOps systems, and production pipelines with full ownership.</div>
+      </div>
+
+      <div class="cap-card reveal visible" style="transition-delay:0.1s">
+        <div class="cap-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>
+        </div>
+        <div class="cap-title">Operating Within Formal Governance Frameworks</div>
+        <div class="cap-desc">Worked within Supreme Court procedural systems, compliance protocols, and constitutional standards — directly analogous to regulated enterprise environments and compliance-driven AI deployments under audit constraints.</div>
+      </div>
+
+      <div class="cap-card reveal visible" style="transition-delay:0.15s">
+        <div class="cap-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v4l3 3"></path></svg>
+        </div>
+        <div class="cap-title">Problem Framing Under Institutional Constraints</div>
+        <div class="cap-desc">Translated civic issues into formal constitutional questions acceptable to the apex judicial forum — similar to converting business problems into deployable AI system architectures under technical and regulatory constraints.</div>
+      </div>
+
+      <div class="cap-card reveal visible" style="transition-delay:0.2s">
+        <div class="cap-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        </div>
+        <div class="cap-title">Resilience Under Institutional Filtering</div>
+        <div class="cap-desc">Engaged repeatedly with a system designed to filter submissions through high judicial thresholds — building tolerance for institutional scrutiny and outcome uncertainty, directly applicable to production AI systems under regulatory oversight.</div>
+      </div>
+
+      <div class="cap-card reveal visible" style="transition-delay:0.25s">
+        <div class="cap-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        </div>
+        <div class="cap-title">Stakeholder Interface at the Highest Level</div>
+        <div class="cap-desc">Direct interface with apex judicial processes — comparable to executive-level governance boards, regulatory committees, and enterprise production cutovers requiring precision communication.</div>
+      </div>
+
+      <div class="cap-card reveal visible" style="transition-delay:0.3s">
+        <div class="cap-icon">
+          <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+        </div>
+        <div class="cap-title">Outcome Ownership</div>
+        <div class="cap-desc">Personally owned preparation, presentation, and engagement outcomes — the same ownership model governing my work on production AI platforms, MLOps pipelines, and GenAI systems in enterprise environments today.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- GOVERNANCE BRIDGE -->
+<section class="bridge-section" id="governance">
+  <div class="wrap">
+    <div class="reveal visible" style="text-align:center;margin-bottom:4rem">
+      <div class="section-label" style="justify-content:center">Responsible AI · Governance Layer</div>
+      <h2 class="section-head" style="max-width:680px;margin:0.5rem auto 1rem">Governance-First <em>Execution Model</em></h2>
+      <p style="color:var(--text2);font-size:1rem;line-height:1.75;max-width:560px;margin:0 auto">Applied from constitutional systems → production AI platforms. The same execution model: registry scrutiny → bench mirrors data → MLOps.</p>
+    </div>
+
+    <div class="bridge-grid">
+      <!-- Left: Court side -->
+      <div class="bridge-panel reveal visible">
+        <div class="bridge-label">Supreme Court Advocacy · 7 PILs</div>
+        <div class="bridge-steps">
+          <div class="bridge-step">
+            <span class="bridge-step-num">01</span>
+            <span class="bridge-step-text">Registry Scrutiny — formal filing, documentation, procedural compliance</span>
+            <span class="bridge-arrow">↓</span>
+          </div>
+          <div class="bridge-step">
+            <span class="bridge-step-num">02</span>
+            <span class="bridge-step-text">Judicial Screening — constitutional threshold evaluation</span>
+            <span class="bridge-arrow">↓</span>
+          </div>
+          <div class="bridge-step">
+            <span class="bridge-step-num">03</span>
+            <span class="bridge-step-text">Listed &amp; Heard by The Bench — in-person advocacy, multiple hearings</span>
+            <span class="bridge-arrow">↓</span>
+          </div>
+          <div class="bridge-step">
+            <span class="bridge-step-num">04</span>
+            <span class="bridge-step-text">Disposal — formal outcome within constitutional processes</span>
+          </div>
+        </div>
+        <div class="bridge-map">
+          <div class="bridge-map-title">Constitutional Capabilities</div>
+          <div class="bridge-tags">
+            <span class="bridge-tag">Article 32 Petitions</span>
+            <span class="bridge-tag">PIL-W Jurisdiction</span>
+            <span class="bridge-tag">Registry Protocols</span>
+            <span class="bridge-tag">Judicial Advocacy</span>
+            <span class="bridge-tag">Constitutional Framing</span>
+            <span class="bridge-tag">Procedural Compliance</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: AI side -->
+      <div class="bridge-panel reveal visible" style="transition-delay:0.15s">
+        <div class="bridge-label">AI Platform Pipeline · Production</div>
+        <div class="bridge-steps">
+          <div class="bridge-step">
+            <span class="bridge-step-num">01</span>
+            <span class="bridge-step-text">Data — ingestion, lineage, governance, quality controls</span>
+            <span class="bridge-arrow">↓</span>
+          </div>
+          <div class="bridge-step">
+            <span class="bridge-step-num">02</span>
+            <span class="bridge-step-text">ML Pipeline — model development, training, validation protocols</span>
+            <span class="bridge-arrow">↓</span>
+          </div>
+          <div class="bridge-step">
+            <span class="bridge-step-num">03</span>
+            <span class="bridge-step-text">MLOps — deployment, monitoring, audit trail, reproducibility</span>
+            <span class="bridge-arrow">↓</span>
+          </div>
+          <div class="bridge-step">
+            <span class="bridge-step-num">04</span>
+            <span class="bridge-step-text">GenAI + Responsible AI / Governance Layer</span>
+          </div>
+        </div>
+        <div class="bridge-map">
+          <div class="bridge-map-title">AI Platform Capabilities</div>
+          <div class="bridge-tags">
+            <span class="bridge-tag">AI Platforms</span>
+            <span class="bridge-tag">MLOps Systems</span>
+            <span class="bridge-tag">Cloud Governance</span>
+            <span class="bridge-tag">Responsible AI</span>
+            <span class="bridge-tag">GenAI Production</span>
+            <span class="bridge-tag">Data Lineage</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- RECOGNITION -->
+<section class="recognition-section" id="recognition">
+  <div class="wrap">
+    <div class="rec-grid">
+      <div class="rec-inner reveal visible">
+        <div class="rec-quote-mark">"</div>
+        <div class="rec-body">
+          <p class="rec-text">This body of work demonstrates my ability to engage complex, high-stakes institutional systems at the <em>highest level of governance</em> — the same execution model I now apply to Responsible AI, GenAI platforms, and MLOps systems in production environments.</p>
+          <div class="rec-attribution">Oral acknowledgment by Hon'ble Chief Justice H. L. Dattu · Supreme Court of India · 2014–2015</div>
+        </div>
+      </div>
+      <div class="rec-media reveal visible" style="transition-delay:0.12s">
+        <img src="img/law3.webp" alt="Constitutional advocacy case visual" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CASES -->
+<section class="cases-section" id="cases">
+  <div class="wrap">
+    <div class="reveal visible">
+      <div class="section-label">Writ Petitions (PILs)</div>
+      <h2 class="section-head">Constitutional <em>Petitions</em></h2>
+      <p style="color:var(--text2);font-size:1rem;line-height:1.75;max-width:780px;margin-top:1rem">Seven public interest litigations filed before the Supreme Court of India — each cleared registry scrutiny and was heard across multiple hearings. (Only 3 cases related Record of Proceedings are showcased here)</p>
+    </div>
+
+    <div class="cases-grid">
+      <div class="case-card reveal visible" style="transition-delay:0.05s">
+        <div class="case-num">Writ Petition (PIL) · 01</div>
+        <div class="case-title">920/2013</div>
+        <p class="case-desc">A.Rajesh Vs. UNION OF INDIA</p>
+        <a href="/buiss skills/img/1.Party Name _ Supreme Court of India _ India.pdf" download="" class="case-btn">
+          Filing DETAILS
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        </a>
+      </div>
+
+      <div class="case-card reveal visible" style="transition-delay:0.1s">
+        <div class="case-num">Writ Petition (PIL) · 02</div>
+        <div class="case-title">507/2014</div>
+        <p class="case-desc">A.Rajesh Vs. UNION OF INDIA</p>
+        <a href="/buiss skills/img/2.Party Name _ Supreme Court of India _ India.pdf" download="" class="case-btn">
+          Filing DETAILS
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        </a>
+      </div>
+
+      <div class="case-card reveal visible" style="transition-delay:0.15s">
+        <div class="case-num">Writ Petition (PIL) · 03</div>
+        <div class="case-title">533/2014</div>
+        <p class="case-desc">A.Rajesh Vs. UNION OF INDIA</p>
+        <a href="/buiss skills/img/3.Party Name _ Supreme Court of India _ India.pdf" download="" class="case-btn">
+          Filing DETAILS
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<footer>
+  <div class="foot-brand">Supreme Court Advocacy · Constitutional Governance</div>
+</footer>
+
+<script>
+// Cursor glow
+const cg = document.getElementById('cglow');
+document.addEventListener('mousemove', e => {
+  cg.style.transform = `translate(${e.clientX-250}px,${e.clientY-250}px)`;
+});
+
+// Nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 70);
+});
+
+// Reveal observer
+const revs = document.querySelectorAll('.reveal');
+const ro = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }
+  });
+}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+revs.forEach(el => ro.observe(el));
+
+// Active nav links
+const secs = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.nav-links a');
+const sio = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) links.forEach(l => {
+      l.style.color = l.getAttribute('href') === '#' + e.target.id ? 'var(--gold3)' : '';
+    });
+  });
+}, { threshold: 0.4 });
+secs.forEach(s => sio.observe(s));
+</script>
+
+
+</body></html>

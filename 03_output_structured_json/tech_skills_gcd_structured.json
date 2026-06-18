@@ -1,0 +1,67 @@
+{
+  "id": "tech_skills_gcd",
+  "source_type": "website_rendered_v4_site_crawl",
+  "domain": "rajesharigala.com",
+  "url": "https://rajesharigala.com/tech skills/gcd",
+  "depth": 3,
+  "parent_url": "https://rajesharigala.com/tech skills/skill",
+  "parent_page_id": "02_Technical_Skills",
+  "logical_parent_page_id": "02_Technical_Skills",
+  "title": "Google Cloud DevOps | Rajesh Arigala",
+  "meta_description": "",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "Google Cloud DevOps"
+    },
+    {
+      "level": "h2",
+      "text": "Projects Showcase"
+    },
+    {
+      "level": "h3",
+      "text": "GCP CI/CD for ML"
+    },
+    {
+      "level": "h3",
+      "text": "GCP Vertex AI"
+    },
+    {
+      "level": "h3",
+      "text": "Study Material"
+    }
+  ],
+  "paragraphs": [
+    "Containerized Solutions",
+    "Containerized applications and automated build pipelines using Google Cloud Build, Cloud Run, and IAM to deliver scalable and secure cloud solutions. This includes serverless container deployments with automated scaling, secure CI/CD pipelines, and optimized workflows for modern cloud-native applications.",
+    "Production-ready Google Cloud implementations demonstrating modern containerized solutions",
+    "End-to-end CI/CD pipeline for machine learning models on Google Cloud, including automated builds, testing, and deployments using Cloud Build, Cloud Run, and IAM.",
+    "Machine learning workflows and model training using the Google Cloud Vertex AI platform with scalable and managed infrastructure for production ML applications.",
+    "Interested in implementing modern containerized solutions on Google Cloud? Let's discuss how to build scalable, serverless applications with automated CI/CD pipelines."
+  ],
+  "links": [
+    {
+      "text": "Rajesh Arigala",
+      "href": "https://rajesharigala.com/tech skills/index"
+    },
+    {
+      "text": "Home",
+      "href": "https://rajesharigala.com/"
+    },
+    {
+      "text": "GCP DevOps",
+      "href": "https://rajesharigala.com/tech skills/gcd"
+    },
+    {
+      "text": "All Projects",
+      "href": "https://rajesharigala.com/tech skills/skill"
+    },
+    {
+      "text": "View on GitHub",
+      "href": "https://github.com/Rajesh-Arigala/gcp-cicd-ml"
+    }
+  ],
+  "content": "Google Cloud DevOps Containerized Solutions Level PROFICIENT 80% GCP Containers Serverless Containerized applications and automated build pipelines using Google Cloud Build, Cloud Run, and IAM to deliver scalable and secure cloud solutions. This includes serverless container deployments with automated scaling, secure CI/CD pipelines, and optimized workflows for modern cloud-native applications. Projects Showcase Production-ready Google Cloud implementations demonstrating modern containerized solutions MLOps GCP CI/CD for ML End-to-end CI/CD pipeline for machine learning models on Google Cloud, including automated builds, testing, and deployments using Cloud Build, Cloud Run, and IAM. Technologies Used View on GitHub Study Material ML GCP Vertex AI Machine learning workflows and model training using the Google Cloud Vertex AI platform with scalable and managed infrastructure for production ML applications. Technologies Used View on GitHub Study Material Interested in implementing modern containerized solutions on Google Cloud? Let's discuss how to build scalable, serverless applications with automated CI/CD pipelines. Contact & Collaborate",
+  "crawl_timestamp": "2026-06-17T06:17:51.705781+00:00",
+  "raw_html_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/tech_skills_gcd.html"
+}

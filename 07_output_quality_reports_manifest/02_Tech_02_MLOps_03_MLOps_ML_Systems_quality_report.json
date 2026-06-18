@@ -1,0 +1,33 @@
+{
+  "version": "v4_site_crawler",
+  "page_id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+  "url": "https://rajesharigala.com/mlops/mlops,sys",
+  "depth": 0,
+  "parent_url": null,
+  "parent_page_id": "ROOT",
+  "logical_parent_page_id": "02_Technical_Skills",
+  "title": "MLOps & AI Systems Portfolio | ML Lifecycle Engineering",
+  "characters_content": 10489,
+  "words_content": 1372,
+  "characters_rag_text": 15343,
+  "words_rag_text": 2012,
+  "headings_count": 19,
+  "paragraphs_count": 19,
+  "links_count": 12,
+  "bad_character_counts": {
+    "Â": 0,
+    "â": 0,
+    "ð": 0,
+    "Ã": 0,
+    "�": 0
+  },
+  "suspicious_values": [],
+  "saved_files": {
+    "raw_html": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/02_Tech_02_MLOps_03_MLOps_ML_Systems.html",
+    "structured_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/03_output_structured_json/02_Tech_02_MLOps_03_MLOps_ML_Systems_structured.json",
+    "clean_json": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/04_output_clean_json/02_Tech_02_MLOps_03_MLOps_ML_Systems_clean.json",
+    "clean_text": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/05_output_clean_text/02_Tech_02_MLOps_03_MLOps_ML_Systems_clean.txt",
+    "rag_document": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/06_output_rag_documents/02_Tech_02_MLOps_03_MLOps_ML_Systems_rag.txt",
+    "report": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/07_output_quality_reports_manifest/02_Tech_02_MLOps_03_MLOps_ML_Systems_quality_report.json"
+  }
+}

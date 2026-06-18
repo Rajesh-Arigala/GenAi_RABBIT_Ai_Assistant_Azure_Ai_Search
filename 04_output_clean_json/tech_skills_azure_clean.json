@@ -1,0 +1,72 @@
+{
+  "id": "tech_skills_azure",
+  "source_type": "website_rendered_v4_site_crawl",
+  "domain": "rajesharigala.com",
+  "url": "https://rajesharigala.com/tech skills/azure",
+  "depth": 3,
+  "parent_url": "https://rajesharigala.com/tech skills/skill",
+  "parent_page_id": "02_Technical_Skills",
+  "logical_parent_page_id": "02_Technical_Skills",
+  "title": "Azure DevOps & Cloud | Rajesh Arigala",
+  "meta_description": "",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "Azure DevOps & Cloud"
+    },
+    {
+      "level": "h2",
+      "text": "Projects Showcase"
+    },
+    {
+      "level": "h3",
+      "text": "Azure CI/CD Pipeline as Code"
+    },
+    {
+      "level": "h3",
+      "text": "Azure Machine Learning Studio"
+    },
+    {
+      "level": "h3",
+      "text": "Azure Kubernetes Service (AKS)"
+    },
+    {
+      "level": "h3",
+      "text": "Study Material"
+    }
+  ],
+  "paragraphs": [
+    "Microsoft Cloud Platform & Pipeline Automation",
+    "End-to-end DevOps solutions on Microsoft Azure platform using Azure DevOps services, YAML-based pipeline as code, and Azure Cloud infrastructure. Implementation of automated CI/CD workflows with integrated Azure Boards, Repos, and Pipelines for streamlined development lifecycle management.",
+    "Real-world implementations demonstrating production-ready Azure DevOps solutions",
+    "Complete YAML-based pipeline implementation for static web applications with automated build and deployment workflows using Azure DevOps services.",
+    "End-to-end machine learning workflows on Azure with automated model training, deployment, and monitoring using Azure ML Studio.",
+    "Managed Kubernetes service deployment with Azure DevOps integration for automated container orchestration and scaling.",
+    "Interested in implementing production-ready Azure DevOps solutions? Let's discuss how to build scalable, automated infrastructure for your organization's needs."
+  ],
+  "links": [
+    {
+      "text": "Rajesh Arigala",
+      "href": "https://rajesharigala.com/tech skills/index"
+    },
+    {
+      "text": "Home",
+      "href": "https://rajesharigala.com/"
+    },
+    {
+      "text": "Azure DevOps",
+      "href": "https://rajesharigala.com/tech skills/azure"
+    },
+    {
+      "text": "All Projects",
+      "href": "https://rajesharigala.com/tech skills/skill"
+    },
+    {
+      "text": "View on GitHub",
+      "href": "https://github.com/Rajesh-Arigala/Azure-CI-CD-static-app"
+    }
+  ],
+  "content": "Azure DevOps & Cloud Microsoft Cloud Platform & Pipeline Automation Level ADVANCED 85% CI/CD YAML Pipelines Cloud Automation End-to-end DevOps solutions on Microsoft Azure platform using Azure DevOps services, YAML-based pipeline as code, and Azure Cloud infrastructure. Implementation of automated CI/CD workflows with integrated Azure Boards, Repos, and Pipelines for streamlined development lifecycle management. Projects Showcase Real-world implementations demonstrating production-ready Azure DevOps solutions Pipeline as Code Azure CI/CD Pipeline as Code Complete YAML-based pipeline implementation for static web applications with automated build and deployment workflows using Azure DevOps services. Key Components Pipeline as Code using .YAML files: Stages → Jobs → Steps → Tasks/Scripts Azure Cloud: Subscriptions → Resource Groups → Resources (Static Web App) Azure DevOps: Organizations → Projects → Pipelines (OS Images, VMs) Azure Boards (Git task association), Azure Repos, Azure Pipelines (Git trigger automation) Architectures: Simple (Build-Deploy), Simple-Stages (Build-ManualApproval-Deploy), Multi-Stage (Build-StageApproval-Staging-Testing-ProdApproval-Deploy) Technologies Used View on GitHub Study Material MLOps Azure Machine Learning Studio End-to-end machine learning workflows on Azure with automated model training, deployment, and monitoring using Azure ML Studio. Key Components Automated ML model training and hyperparameter tuning Model registry and version management Real-time and batch inference endpoints Integrated monitoring and logging with Azure Monitor Data versioning and pipeline automation Technologies Used View on GitHub Study Material K8s Azure Kubernetes Service (AKS) Managed Kubernetes service deployment with Azure DevOps integration for automated container orchestration and scaling. Key Components Managed Kubernetes cluster provisioning and scaling Azure DevOps integration for CI/CD pipelines Azure Container Registry for Docker image management Horizontal Pod Autoscaling and Cluster Autoscaler Integrated monitoring with Azure Monitor for Containers Technologies Used View on GitHub Study Material Interested in implementing production-ready Azure DevOps solutions? Let's discuss how to build scalable, automated infrastructure for your organization's needs. Contact & Collaborate",
+  "crawl_timestamp": "2026-06-17T06:17:47.076339+00:00",
+  "raw_html_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/tech_skills_azure.html"
+}

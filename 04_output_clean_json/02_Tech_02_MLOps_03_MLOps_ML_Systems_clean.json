@@ -1,0 +1,164 @@
+{
+  "id": "02_Tech_02_MLOps_03_MLOps_ML_Systems",
+  "source_type": "website_rendered_v4_site_crawl",
+  "domain": "rajesharigala.com",
+  "url": "https://rajesharigala.com/mlops/mlops,sys",
+  "depth": 0,
+  "parent_url": null,
+  "parent_page_id": "ROOT",
+  "logical_parent_page_id": "02_Technical_Skills",
+  "title": "MLOps & AI Systems Portfolio | ML Lifecycle Engineering",
+  "meta_description": "",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "MLOPS & AI SYSTEMS ENGINEERING"
+    },
+    {
+      "level": "h2",
+      "text": "MLOps Core Systems Architecture"
+    },
+    {
+      "level": "h3",
+      "text": "End-to-End ML Lifecycle Systems Across Cloud Platforms"
+    },
+    {
+      "level": "h3",
+      "text": "1. Training Pipelines"
+    },
+    {
+      "level": "h3",
+      "text": "End-to-End ML Platform on AWS (MLflow + SageMaker)"
+    },
+    {
+      "level": "h3",
+      "text": "Azure ML Training Pipeline (Build → Train → Evaluate → Register)"
+    },
+    {
+      "level": "h3",
+      "text": "AWS ML – Modelling Pipeline (Process → Train → Evaluate → Register)"
+    },
+    {
+      "level": "h3",
+      "text": "GCP ML – Modelling Pipeline (Data → Train → Evaluate → Register)"
+    },
+    {
+      "level": "h3",
+      "text": "Kubeflow – Modelling Pipeline (Data → Train → Evaluate → Select)"
+    },
+    {
+      "level": "h3",
+      "text": "2. Deployment & Operations"
+    },
+    {
+      "level": "h3",
+      "text": "Azure ML Deployment Pipeline (Endpoint → Invoke → Monitor → Retrain)"
+    },
+    {
+      "level": "h3",
+      "text": "MLflow Serving Infrastructure (ECS / SageMaker)"
+    },
+    {
+      "level": "h3",
+      "text": "AWS ML Deployment Pipeline (Registry → Endpoint → Invoke → Monitor / Retrain)"
+    },
+    {
+      "level": "h3",
+      "text": "GCP ML Deployment Pipeline (Registry → Endpoint → Invoke → Monitor / Retrain)"
+    },
+    {
+      "level": "h3",
+      "text": "Kubeflow ML Deployment Pipeline (Select → Package → Serve → Monitor → Retrain)"
+    },
+    {
+      "level": "h3",
+      "text": "3. Data & Feature Systems"
+    },
+    {
+      "level": "h3",
+      "text": "DVC (Data Version Control) for ML Reproducibility"
+    },
+    {
+      "level": "h3",
+      "text": "Feast Feature Store for Production ML"
+    },
+    {
+      "level": "h3",
+      "text": "Coming soon"
+    }
+  ],
+  "paragraphs": [
+    "Designing and implementing production-grade MLOps systems that span the complete machine learning lifecycle—from data versioning and feature stores to training pipelines, model deployment, and operational monitoring. These systems demonstrate scalable, reproducible AI infrastructure across multiple cloud platforms.",
+    "Three pillar architecture covering the complete ML lifecycle: Training Pipelines, Deployment & Operations, and Data & Feature Systems.",
+    "End-to-end ML platform implementations for automated model building, training, evaluation, and registration",
+    "Production-grade ML platform with experiment tracking, model registry, and SageMaker-based training & deployment, provisioned using AWS CDK Infrastructure as Code.",
+    "Production-grade Azure ML pipeline that automates model building, training, evaluation, and governed registration using CI/CD-driven orchestration with experiment tracking and promotion gates.",
+    "Fully automated ML training pipeline on AWS: data preprocessing, XGBoost training, evaluation with conditional quality gate (MSE), and governed model registration in SageMaker Model Registry. Triggered via GitHub Actions + OIDC.",
+    "Production‑grade ML training, evaluation, gating, and conditional registration pipeline on Google Vertex AI using Kubeflow Pipelines (KFP v2). Enforces model quality, tracks lineage, and registers only validated models in Vertex AI Model Registry.",
+    "Production‑style ML training and evaluation pipelines using Kubeflow Pipelines (KFP v2) with containerized components, artifact lineage, and metric‑driven model selection across multiple algorithms (LR, DT) for optimal model governance.",
+    "Production-grade model deployment pipelines, serving infrastructure, and operational monitoring systems",
+    "Production-grade Azure ML deployment pipeline that automates endpoint creation, model serving, traffic routing, validation, monitoring, and retraining orchestration using CI/CD.",
+    "Custom MLflow inference containers and SageMaker endpoint deployment for production model serving with custom Docker images, ECR integration, and real-time inference capabilities.",
+    "Automated promotion of approved models from SageMaker Model Registry to real‑time endpoints using AWS CDK and CI/CD (GitHub Actions + OIDC). Multi‑environment (dev, pre‑prod, prod) with least‑privilege IAM, KMS encryption, and integrated monitoring for retraining triggers.",
+    "Production‑grade model deployment pipeline on Google Cloud with Vertex AI Endpoints, traffic splitting (blue/green, canary), and scheduled retraining. Automates model promotion from Vertex AI Model Registry to managed online inference endpoints with integrated monitoring and continuous refresh loops.",
+    "Production‑grade model deployment pipeline on Kubernetes with Kubeflow, KServe, and integrated monitoring. Automates metric‑gated model promotion from training pipelines to containerized inference services with traffic splitting (rolling updates, canary) and continuous retraining loops.",
+    "Data versioning, feature store implementations, and reproducible data pipelines for ML systems",
+    "Git-like version control for datasets and ML artifacts with cloud storage integration (S3/Azure Blob), pipeline tracking, and reproducible ML workflows across training and experimentation cycles.",
+    "Production-grade feature store implementation for consistent feature engineering across training and serving, with unified feature repository, online/offline stores, and feature registry capabilities.",
+    "Ready to architect production-grade MLOps systems? Let's design scalable ML infrastructure that spans the complete lifecycle from data to deployment.",
+    "This project page is under development and will be available soon."
+  ],
+  "links": [
+    {
+      "text": "View Project Details",
+      "href": "https://rajesharigala.com/mlops/ai1"
+    },
+    {
+      "text": "View Project Details",
+      "href": "https://rajesharigala.com/mlops/ai2/ai2.2"
+    },
+    {
+      "text": "View Project Details",
+      "href": "https://rajesharigala.com/mlops/ai6/ai6.2"
+    },
+    {
+      "text": "View Project Details",
+      "href": "https://rajesharigala.com/mlops/ai4/ai4.2"
+    },
+    {
+      "text": "View Project Details",
+      "href": "https://rajesharigala.com/mlops/ai5/ai5.2"
+    },
+    {
+      "text": "View Project Details",
+      "href": "https://rajesharigala.com/mlops/ai2/ai2.3"
+    },
+    {
+      "text": "View Project Details",
+      "href": "https://rajesharigala.com/mlops/ml-project4"
+    },
+    {
+      "text": "View Project Details",
+      "href": "https://rajesharigala.com/mlops/ai6/ai6.3"
+    },
+    {
+      "text": "View Project Details",
+      "href": "https://rajesharigala.com/mlops/ai4/ai4.3"
+    },
+    {
+      "text": "View Project Details",
+      "href": "https://rajesharigala.com/mlops/ai5/ai5.3"
+    },
+    {
+      "text": "View Project Details",
+      "href": "https://rajesharigala.com/mlops/mlops,sys"
+    },
+    {
+      "text": "Discuss MLOps Architecture",
+      "href": "https://rajesharigala.com/"
+    }
+  ],
+  "content": "MLOPS & AI SYSTEMS ENGINEERING End-to-End ML Lifecycle Systems Across Cloud Platforms Designing and implementing production-grade MLOps systems that span the complete machine learning lifecycle—from data versioning and feature stores to training pipelines, model deployment, and operational monitoring. These systems demonstrate scalable, reproducible AI infrastructure across multiple cloud platforms. ML Lifecycle · Production AI · Model Operations · Data Systems · Cloud-Native ML MLOps Core Systems Architecture Three pillar architecture covering the complete ML lifecycle: Training Pipelines, Deployment & Operations, and Data & Feature Systems. 1. Training Pipelines End-to-end ML platform implementations for automated model building, training, evaluation, and registration End-to-End ML Platform End-to-End ML Platform on AWS (MLflow + SageMaker) AWS Production-grade ML platform with experiment tracking, model registry, and SageMaker-based training & deployment, provisioned using AWS CDK Infrastructure as Code. AWS CDK (Python IaC) MLflow SageMaker ECS Fargate RDS MySQL S3 Artifacts Experiment Tracking Model Registry Infrastructure as Code Production ML Platform MLflow tracking server on ECS Fargate with RDS + S3 backend SageMaker training jobs integrated with remote MLflow tracking Infrastructure fully provisioned using AWS CDK (IaC) Model promotion and deployment via MLflow → SageMaker endpoints View Project Details CI/CD ML Pipeline Azure ML Training Pipeline (Build → Train → Evaluate → Register) Azure Production-grade Azure ML pipeline that automates model building, training, evaluation, and governed registration using CI/CD-driven orchestration with experiment tracking and promotion gates. Azure ML Pipelines MLflow Tracking Azure DevOps Model Registry CI/CD for ML Reproducible ML Training Automation Model Registration Experiment Tracking CI/CD Driven Azure ML pipeline orchestrated via Azure DevOps YAML pipelines Standardized data prep, training, evaluation on hold-out data Conditional model registration into MLflow Model Registry MLflow experiment tracking for metrics, parameters, artifacts View Project Details CI/CD ML Pipeline AWS ML – Modelling Pipeline (Process → Train → Evaluate → Register) AWS Fully automated ML training pipeline on AWS: data preprocessing, XGBoost training, evaluation with conditional quality gate (MSE), and governed model registration in SageMaker Model Registry. Triggered via GitHub Actions + OIDC. SageMaker Pipelines GitHub Actions OIDC → IAM Amazon ECR S3 Artifacts Model Registry XGBoost Training Automation Model Registration Quality Gates CI/CD Driven SageMaker Pipeline: Process → Train → Evaluate → Conditional Register Quality gate with MSE threshold – auto‑reject underperforming models Conditional registration into SageMaker Model Registry with approval workflow OIDC authentication between GitHub Actions and AWS (no static secrets) View Project Details CI/CD ML Pipeline GCP ML – Modelling Pipeline (Data → Train → Evaluate → Register) GCP Production‑grade ML training, evaluation, gating, and conditional registration pipeline on Google Vertex AI using Kubeflow Pipelines (KFP v2). Enforces model quality, tracks lineage, and registers only validated models in Vertex AI Model Registry. Vertex AI Pipelines Kubeflow Pipelines v2 Vertex AI Training Vertex AI Metadata Cloud Storage Model Registry Workload Identity Training Automation Model Registration Quality Gates ML Governance Vertex AI Pipelines (KFP v2): Data Prep → Train → Eval → Conditional Register Evaluation gate with accuracy/ROC threshold – auto‑reject underperforming models Conditional registration into Vertex AI Model Registry with version tracking Artifact persistence in GCS + lineage tracking in Vertex AI Metadata Store View Project Details Kubeflow MLOps Kubeflow – Modelling Pipeline (Data → Train → Evaluate → Select) Kubeflow Production‑style ML training and evaluation pipelines using Kubeflow Pipelines (KFP v2) with containerized components, artifact lineage, and metric‑driven model selection across multiple algorithms (LR, DT) for optimal model governance. Kubeflow Pipelines v2 Argo Workflows Kubernetes Containerized Components MinIO Artifact Store ML Metadata Docker Training Automation Model Selection Algorithm Comparison ML Governance KFP v2 DAG: Data → Train (LR/DT) → Evaluate → Metric‑Driven Selection Containerized ML components with scikit‑learn (Logistic Regression, Decision Tree) Evaluation with accuracy metrics & model comparison for optimal selection Artifact lineage in ML Metadata Store + versioned storage in MinIO (S3‑compatible) View Project Details 2. Deployment & Operations Production-grade model deployment pipelines, serving infrastructure, and operational monitoring systems Production Deployment Azure ML Deployment Pipeline (Endpoint → Invoke → Monitor → Retrain) Azure Production-grade Azure ML deployment pipeline that automates endpoint creation, model serving, traffic routing, validation, monitoring, and retraining orchestration using CI/CD. Azure ML Managed Endpoints Azure DevOps Traffic Routing Model Monitoring Automated Retraining Blue/Green Deployment Model Serving Traffic Routing Production Monitoring Automated Retraining Managed online/batch endpoints with traffic routing control Blue/green-style rollouts through traffic routing CI/CD gating with automated smoke tests for validation Operational hooks for retraining triggers and scheduled runs View Project Details Model Serving MLflow Serving Infrastructure (ECS / SageMaker) MLOps Custom MLflow inference containers and SageMaker endpoint deployment for production model serving with custom Docker images, ECR integration, and real-time inference capabilities. Docker Amazon ECR SageMaker Endpoints MLflow PyFunc Custom Containers Real-time Inference Inference Containers Model Serving Real-time Deployment Custom Docker Custom MLflow inference containers built and pushed to Amazon ECR SageMaker real-time endpoints with MLflow model registry integration Blue/green model updates via MLflow versioning Cost-aware endpoint management and deletion practices View Project Details MLOps Deployment AWS ML Deployment Pipeline (Registry → Endpoint → Invoke → Monitor / Retrain) AWS Automated promotion of approved models from SageMaker Model Registry to real‑time endpoints using AWS CDK and CI/CD (GitHub Actions + OIDC). Multi‑environment (dev, pre‑prod, prod) with least‑privilege IAM, KMS encryption, and integrated monitoring for retraining triggers. AWS CDK SageMaker Endpoints Model Registry GitHub Actions OIDC → IAM CloudWatch KMS Encryption Multi-Environment Model Deployment Endpoint Promotion Infrastructure as Code Model Monitoring Registry-driven promotion: fetch latest Approved model → deploy to SageMaker endpoint Multi-environment deployment (dev, pre-prod, prod) with YAML-driven configuration Secure CI/CD with GitHub Actions + OIDC authentication to AWS (no static secrets) CloudWatch monitoring for endpoint health, metrics, and automated retraining triggers View Project Details MLOps Deployment GCP ML Deployment Pipeline (Registry → Endpoint → Invoke → Monitor / Retrain) GCP Production‑grade model deployment pipeline on Google Cloud with Vertex AI Endpoints, traffic splitting (blue/green, canary), and scheduled retraining. Automates model promotion from Vertex AI Model Registry to managed online inference endpoints with integrated monitoring and continuous refresh loops. Vertex AI Model Registry Vertex AI Endpoints Traffic Splitting Cloud Scheduler GCS Artifacts Cloud Monitoring IAM Service Accounts KFP v2 Model Deployment Endpoint Promotion Traffic Management Scheduled Retraining Registry‑driven promotion: approved models from Vertex AI Registry → managed endpoints Advanced traffic management: blue/green deployments, canary rollouts with traffic splitting Scheduled retraining with Vertex AI Pipelines (cron) for continuous model refresh Integrated monitoring with Cloud Logging & Metrics → triggers retraining pipeline View Project Details ML Deployment Kubeflow ML Deployment Pipeline (Select → Package → Serve → Monitor → Retrain) MLOps Production‑grade model deployment pipeline on Kubernetes with Kubeflow, KServe, and integrated monitoring. Automates metric‑gated model promotion from training pipelines to containerized inference services with traffic splitting (rolling updates, canary) and continuous retraining loops. Kubeflow Pipelines KServe Kubernetes Docker Istio Prometheus Grafana RBAC Model Deployment Containerized Serving Traffic Management Continuous Training Metric‑gated promotion: validated models from Kubeflow Pipelines → production serving Containerized inference: model artifacts packaged into custom Docker images Advanced traffic management: rolling updates, canary rollouts with KServe/ Istio Secure serving: Kubernetes Service Accounts + RBAC for auth/ authorization Integrated monitoring: Prometheus metrics + Grafana dashboards → triggers retraining View Project Details 3. Data & Feature Systems Data versioning, feature store implementations, and reproducible data pipelines for ML systems Data Versioning DVC (Data Version Control) for ML Reproducibility Data Systems Git-like version control for datasets and ML artifacts with cloud storage integration (S3/Azure Blob), pipeline tracking, and reproducible ML workflows across training and experimentation cycles. DVC Git S3 / Azure Blob Pipeline Tracking Data Lineage Reproducible ML Data Versioning Pipeline Tracking Reproducibility Cloud Storage Git-like version control for datasets, models, and artifacts Cloud storage integration (S3, Azure Blob, GCS) for large datasets Pipeline tracking and dependency management for ML workflows Full reproducibility of experiments with data and code versions View Project Details Feature Store Feast Feature Store for Production ML Data Systems Production-grade feature store implementation for consistent feature engineering across training and serving, with unified feature repository, online/offline stores, and feature registry capabilities. Feast Redis / PostgreSQL Feature Registry Online Serving Offline Storage Feature Engineering Feature Store Feature Registry Online Serving Consistent Features Unified feature repository for training and serving consistency Low-latency online feature serving (Redis/PostgreSQL) Historical feature storage for training (offline store) Feature discovery and governance through feature registry View Project Details",
+  "crawl_timestamp": "2026-06-17T06:47:03.445296+00:00",
+  "raw_html_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/02_Tech_02_MLOps_03_MLOps_ML_Systems.html"
+}

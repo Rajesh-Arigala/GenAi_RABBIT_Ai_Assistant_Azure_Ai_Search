@@ -1,0 +1,14 @@
+{
+  "seed_urls": [
+    "https://rajesharigala.com/mlops/infra-code",
+    "https://rajesharigala.com/mlops/infra project1",
+    "https://rajesharigala.com/mlops/infra project2"
+  ],
+  "max_pages": 3,
+  "max_depth": 0,
+  "delay_seconds": 0.5,
+  "timeout_ms": 60000,
+  "viewport_width": 1440,
+  "viewport_height": 1800,
+  "same_domain_only": true
+}

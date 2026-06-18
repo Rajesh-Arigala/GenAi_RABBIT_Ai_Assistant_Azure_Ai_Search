@@ -1,0 +1,114 @@
+{
+  "id": "02_Tech_02_MLOps_02_Containers_01_Dockers",
+  "source_type": "website_rendered_v4_site_crawl",
+  "domain": "rajesharigala.com",
+  "url": "https://rajesharigala.com/mlops/docker",
+  "depth": 0,
+  "parent_url": null,
+  "parent_page_id": "ROOT",
+  "logical_parent_page_id": "02_Technical_Skills",
+  "title": "Docker Fundamentals & Projects Portfolio",
+  "meta_description": "",
+  "headings": [
+    {
+      "level": "h1",
+      "text": "DOCKER FUNDAMENTALS & INFRASTRUCTURE"
+    },
+    {
+      "level": "h2",
+      "text": "Docker Conceptual Foundations"
+    },
+    {
+      "level": "h2",
+      "text": "Docker Projects"
+    },
+    {
+      "level": "h2",
+      "text": "Docker Workflow Automation"
+    },
+    {
+      "level": "h3",
+      "text": "Containerization, Orchestration & Production Deployment Patterns"
+    },
+    {
+      "level": "h3",
+      "text": "Docker Architecture"
+    },
+    {
+      "level": "h3",
+      "text": "Images vs Containers"
+    },
+    {
+      "level": "h3",
+      "text": "Networks & Volumes"
+    },
+    {
+      "level": "h3",
+      "text": "Registries & Distribution"
+    },
+    {
+      "level": "h3",
+      "text": "Docker in CI/CD"
+    },
+    {
+      "level": "h3",
+      "text": "Docker in MLOps"
+    },
+    {
+      "level": "h3",
+      "text": "Docker Architecture & Workflow"
+    },
+    {
+      "level": "h3",
+      "text": "Docker CLI Fundamentals"
+    },
+    {
+      "level": "h3",
+      "text": "Single-Container Node.js App"
+    },
+    {
+      "level": "h3",
+      "text": "ML Inference Service"
+    },
+    {
+      "level": "h3",
+      "text": "Multi-Container Orchestration"
+    }
+  ],
+  "paragraphs": [
+    "Mastering Docker from conceptual foundations to production-grade multi-container orchestration. This portfolio demonstrates Docker's role in modern CI/CD pipelines, MLOps workflows, and scalable infrastructure design across single-container applications to complex microservices architectures.",
+    "Understanding Docker architecture, components, and how it fits into modern development workflows, CI/CD pipelines, and MLOps ecosystems.",
+    "Docker follows a client-server architecture with key components that work together to build, ship, and run containers.",
+    "Understanding the fundamental building blocks of Docker: immutable images and running containers.",
+    "Isolation and persistence mechanisms that enable container communication and data management.",
+    "Image storage, distribution, and management across development, testing, and production environments.",
+    "How Docker integrates with modern CI/CD pipelines for consistent build, test, and deployment environments.",
+    "Containerization of ML models, dependencies, and inference services for reproducible machine learning workflows.",
+    "Three practical Docker implementations demonstrating containerization from basic applications to production-ready systems.",
+    "Dockerizing a Node.js web application with proper Dockerfile practices, port mapping, and Docker Hub deployment.",
+    "Containerized machine learning model serving with REST API, Flask backend, and production-ready inference pipeline.",
+    "Production-grade multi-service application with Docker Compose, service discovery, and inter-container communication.",
+    "Ready to containerize your applications and implement production-grade Docker workflows? Let's architect scalable, reproducible containerization strategies for your development and deployment pipelines."
+  ],
+  "links": [
+    {
+      "text": "View More",
+      "href": "https://rajesharigala.com/mlops/Dockerized-Node.js-App"
+    },
+    {
+      "text": "View More",
+      "href": "https://rajesharigala.com/mlops/docker-project2"
+    },
+    {
+      "text": "View More",
+      "href": "https://rajesharigala.com/mlops/docker-project3"
+    },
+    {
+      "text": "Discuss Containerization Strategy",
+      "href": "https://rajesharigala.com/"
+    }
+  ],
+  "content": "DOCKER FUNDAMENTALS & INFRASTRUCTURE Containerization, Orchestration & Production Deployment Patterns Mastering Docker from conceptual foundations to production-grade multi-container orchestration. This portfolio demonstrates Docker's role in modern CI/CD pipelines, MLOps workflows, and scalable infrastructure design across single-container applications to complex microservices architectures. Docker Conceptual Foundations Understanding Docker architecture, components, and how it fits into modern development workflows, CI/CD pipelines, and MLOps ecosystems. Docker Architecture Docker follows a client-server architecture with key components that work together to build, ship, and run containers. Docker Client: CLI interface for users Docker Daemon: Background service managing containers Docker Host: Physical/virtual machine running containers Docker Registry: Repository for Docker images Images vs Containers Understanding the fundamental building blocks of Docker: immutable images and running containers. Dockerfile: Blueprint for building images Image: Immutable template with application code Container: Running instance of an image Layers: Efficient storage through layer caching Networks & Volumes Isolation and persistence mechanisms that enable container communication and data management. Bridge Network: Default network for container communication Host Network: Container shares host's network namespace Volumes: Persistent data storage outside containers Bind Mounts: Direct host filesystem access Registries & Distribution Image storage, distribution, and management across development, testing, and production environments. Docker Hub: Public registry for Docker images Private Registries: AWS ECR, Azure Container Registry Image Tagging: Versioning and environment tagging Image Security: Scanning and vulnerability management Docker in CI/CD How Docker integrates with modern CI/CD pipelines for consistent build, test, and deployment environments. Build Automation: Consistent build environments Testing Isolation: Isolated test environments Artifact Management: Docker images as deployment artifacts Environment Parity: Dev/Test/Prod consistency Docker in MLOps Containerization of ML models, dependencies, and inference services for reproducible machine learning workflows. Model Packaging: Containerized ML models Dependency Management: Reproducible environments Scalable Inference: Containerized inference services Experiment Tracking: Versioned model containers Docker Architecture & Workflow Docker Client CLI, Docker Desktop, API → Docker Daemon Manages containers, images, networks Dockerfile Build instructions → Docker Image Immutable template → Docker Container Running instance Docker Registry Docker Hub, ECR, ACR ↔ Docker Host Server/VM running containers Docker CLI Fundamentals Command Description Example docker version Display Docker version information docker version docker images List locally available images docker images docker build Build an image from a Dockerfile docker build -t myapp:v1 . docker run Create and start a container docker run -p 8080:80 myapp:v1 docker ps List running containers docker ps -a docker stop/start Stop or start a container docker stop container_id docker logs Fetch container logs docker logs container_id docker exec Execute command in running container docker exec -it container_id bash docker push/pull Push/pull images to/from registry docker push myrepo/myapp:v1 docker network Manage Docker networks docker network create mynet docker compose Multi-container orchestration docker compose up -d Docker Projects Three practical Docker implementations demonstrating containerization from basic applications to production-ready systems. Basic Single-Container Node.js App Beginner Dockerizing a Node.js web application with proper Dockerfile practices, port mapping, and Docker Hub deployment. Node.js Express Dockerfile Docker Hub Port Mapping Dockerfile with multi-stage builds Port mapping and network configuration Docker Hub image push and versioning CLI execution with logs and monitoring View More MLOps ML Inference Service Intermediate Containerized machine learning model serving with REST API, Flask backend, and production-ready inference pipeline. Flask ML Model REST API Gunicorn Scikit-learn ML model packaging and dependencies REST API for model predictions High-performance inference with Gunicorn Terminal & Postman testing View More Advanced Multi-Container Orchestration Advanced Production-grade multi-service application with Docker Compose, service discovery, and inter-container communication. Docker Compose Microservices Networking Service Discovery Volumes Multi-service architecture with Docker Compose Service networking and discovery Environment-based configuration End-to-end invocation and testing View More Docker Workflow Automation docker-workflow.sh $ docker build -t myapp:v1 . Building Docker image... ✓ Image built successfully: myapp:v1 $ docker run -d -p 8080:80 --name webapp myapp:v1 ✓ Container started: webapp (id: a1b2c3d4) $ docker ps CONTAINER ID IMAGE STATUS PORTS NAMES a1b2c3d4 myapp:v1 Up 2s 0.0.0.0:8080->80/tcp webapp ✓ Application running at http://localhost:8080",
+  "crawl_timestamp": "2026-06-17T06:41:18.755359+00:00",
+  "raw_html_path": "/Users/jhonny001/Desktop/website-data-store/v4_site_crawler/02_output_raw_html_rendered/02_Tech_02_MLOps_02_Containers_01_Dockers.html"
+}
