@@ -658,3 +658,19 @@ Tech - dummy for now
 - Debug Mode stays answer-quality focused: retrieval, chunks, source lineage, scores, confidence proxy, and prompt preview.
 - Tech Mode is reserved for backend/API internals: endpoints, raw payload contracts, log file locations, deployment/schema diagnostics, and future deep traces.
 
+## Stakeholder Details And Conversation Review
+
+RABBIT may politely ask visitors for their name, profession, and position or role in their company at the beginning of a professional conversation. In User Mode, these details should not become a distracting topic and RABBIT should not overreact to them.
+
+For Debug, Observability, and later Tech Mode, the conversation can be reviewed after the fact to understand:
+
+- who the stakeholder said they are
+- their profession or role
+- their company position if provided
+- what they were trying to evaluate
+- which questions they asked
+- where the conversation moved professionally
+- which answers, links, and evidence were shown
+
+This is useful for improving the assistant, preparing for formal interviews, and understanding stakeholder intent. It should be treated as conversation/session review, not intrusive personal profiling.
+

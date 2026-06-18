@@ -1997,3 +1997,9 @@ CI/CD: automated deployment
 Governance: retention/delete/export controls
 ```
 
+## Stakeholder Context Capture
+
+In the RABBIT Assistant flow, the assistant may ask for a visitor's name, profession, and company position as part of a polite professional introduction. If provided, these details should be treated as session-level conversation context. They help later review in Debug/Observability modes and can help Rajesh prepare for formal follow-up conversations.
+
+The assistant should not make User Mode feel like data collection. It should ask politely, continue naturally, and avoid over-personalizing the answer. Conversation review can happen later through logs, session metadata, and observability screens.
+

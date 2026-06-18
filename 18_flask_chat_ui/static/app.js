@@ -48,6 +48,7 @@ let currentMode = localStorage.getItem(MODE_KEY) || 'user';
 let sessionId = getOrCreateSessionId();
 let messages = loadMessages();
 let lastPayload = null;
+let isSubmitting = false;
 let apiStats = loadApiStats();
 
 function getOrCreateSessionId() {
@@ -169,7 +170,7 @@ function renderKeywords() {
 function renderMessages() {
   sessionIdNode.textContent = sessionId;
   chatHistory.innerHTML = '';
-  const intro = { role: 'assistant', text: `Hello. I'm RABBIT - ${appConfig.assistantName || 'Raj AI Business and Beyond Intelligence Tech \"Assistant\"'}. Ask me about Rajesh's business-tech, AI, analytics, MLOps, GenAI, and role fit.`, meta: 'Business-Tech RAG' };
+  const intro = { role: 'assistant', text: `Hello. I'm RABBIT - ${appConfig.assistantName || 'Raj AI Business and Beyond Intelligence Tech \"Assistant\"'}. I speak on behalf of Rajesh Arigala for professional and job-related conversations. May I know your name, your profession, and your position or role in your company? Once I understand that, I can make the discussion more relevant to your interest.`, meta: 'Business-Tech RAG' };
   const visibleMessages = messages.slice(-MAX_RENDERED_MESSAGES);
   const messageOffset = messages.length - visibleMessages.length;
   [intro, ...visibleMessages.map((message, index) => ({ ...message, messageIndex: String(messageOffset + index) }))].forEach((message) => {
@@ -200,6 +201,7 @@ function renderSources(sources) {
 
 chatForm.addEventListener('submit', async (event) => {
   event.preventDefault();
+  if (isSubmitting) return;
   const question = questionInput.value.trim();
   if (!question) return;
   if (currentMode !== 'user' && debugPasswordInput && !debugPasswordInput.value.trim()) {
@@ -212,6 +214,7 @@ chatForm.addEventListener('submit', async (event) => {
   questionInput.value = '';
   saveMessages();
   renderMessages();
+  isSubmitting = true;
   sendButton.disabled = true;
   questionInput.disabled = true;
   setStatus('Thinking', 'loading');
@@ -225,11 +228,15 @@ chatForm.addEventListener('submit', async (event) => {
     renderInspector();
     await streamAssistantMessage(answer, payload.user?.links || []);
   } catch (error) {
-    messages[messages.length - 1] = { role: 'assistant', text: `I could not complete the request. ${error.message}`, meta: 'Request failed', retry: { question } };
+    const errorText = error.message === 'Load failed'
+      ? 'I could not complete the request. The live service may still be waking up or the network call was interrupted. Please use Retry.'
+      : `I could not complete the request. ${error.message}`;
+    messages[messages.length - 1] = { role: 'assistant', text: errorText, meta: 'Request failed', retry: { question } };
     setStatus('Error', 'error');
   } finally {
     saveMessages();
     renderMessages();
+    isSubmitting = false;
     sendButton.disabled = false;
     questionInput.disabled = false;
     questionInput.focus();

@@ -156,13 +156,55 @@ def generate_answer(env: dict[str, str], question: str, chunks: list[dict[str, A
     return answer, latency, {"usage": body.get("usage", {}), "prompt_preview": messages[1]["content"][:2500]}
 
 
+def is_profane_or_abusive_question(question: str) -> bool:
+    q = f" {question.lower()} "
+    blocked_terms = [
+        " fuck", " fucking", " shit", " bullshit", " bastard", " asshole", " bitch",
+        " motherfucker", " dumbass", " idiot", " stupid", " bloody hell", " piss off",
+        " porn", " nude", " naked", " sex", " sexual", " fucker",
+        " denga", " deng", " dengu", " denguta", " dengutaa", " denkuta", " yamma deng"
+    ]
+    return any(term in q for term in blocked_terms)
+
+
+def profanity_guardrail_answer() -> str:
+    return (
+        "Direct Answer:\n"
+        "Please keep the conversation professional and respectful. I can help with Rajesh Arigala's business experience, education, AI/MLOps work, projects, and role fit.\n\n"
+        "Context:\n"
+        "RABBIT speaks on Rajesh's behalf to interested stakeholders, so the conversation should stay pleasant, relevant, and professional."
+    )
+
+
+def is_language_capability_question(question: str) -> bool:
+    q = question.lower().strip()
+    patterns = [
+        "which languages do you speak", "what languages do you speak", "can you speak",
+        "do you speak hindi", "do you speak telugu", "language do you speak"
+    ]
+    return any(pattern in q for pattern in patterns)
+
+
+def language_capability_answer() -> str:
+    return (
+        "Direct Answer:\n"
+        "I am RABBIT, a professional AI assistant for Rajesh Arigala's business-tech profile. This version is designed to respond best in English.\n\n"
+        "Context:\n"
+        "I can help with Rajesh's professional journey, business experience, education, AI/MLOps work, projects, and role fit. I avoid guessing personal details that are not part of the professional profile."
+    )
+
+
 def is_private_personal_question(question: str) -> bool:
     q = f" {question.lower()} "
     private_terms = [
         " girlfriend", " gf", " boyfriend", " wife", " husband", " married", " marriage",
         " dating", " relationship", " single", " divorce", " children", " kids", " family details",
-        " personal relationship", " private life", " love life", " religion", " caste", " political",
-        " medical record", " diagnosis", " address", " home address"
+        " personal relationship", " private life", " love life", " race", " religion", " caste",
+        " sexual orientation", " orientation", " gay", " lesbian", " political", " language identity",
+        " medical record", " diagnosis", " address", " home address", " personal address",
+        " online", " offline", " is he online", " is rajesh online", " available now", " right now",
+        " can we call", " call him now", " speak with him now", " where is he living", " where does he live",
+        " current location", " live location", " personal phone", " personal email", " whatsapp"
     ]
     return any(term in q for term in private_terms)
 
@@ -170,13 +212,46 @@ def is_private_personal_question(question: str) -> bool:
 def private_personal_guardrail_answer() -> str:
     return (
         "Direct Answer:\n"
-        "That information is private and is not part of Rajesh Arigala's professional profile. "
-        "I can help with his business experience, Mechanical Engineering background, AI/MLOps work, education, projects, role fit, and evidence from his public webpages.\n\n"
+        "I keep this conversation focused on Rajesh Arigala's professional profile. I do not discuss personal life, protected personal attributes, live availability, online/offline status, home location, or private contact context.\n\n"
         "Context:\n"
-        "RABBIT is designed as a professional business-tech assistant for recruiters, hiring managers, consultants, and peers. "
-        "It should not speculate about personal relationships or private life details."
+        "RABBIT speaks on Rajesh's behalf for interested stakeholders. I can help with his business experience, Mechanical Engineering background, education, AI/MLOps work, projects, role fit, and public professional webpages."
     )
 
+
+def is_compensation_question(question: str) -> bool:
+    q = f" {question.lower()} "
+    compensation_terms = [
+        " salary", " compensation", " ctc", " package", " pay ", " paid", " pays",
+        " lpa", " crore", " highest", " how much should", " how much can", " worth", " worthy",
+        " market standard", " offer him", " offer rajesh", " iit salary", " iim salary", " iim guys"
+    ]
+    return any(term in q for term in compensation_terms)
+
+
+def is_external_compensation_benchmark(question: str) -> bool:
+    q = question.lower()
+    external_terms = [
+        "iim guys", "iim graduates", "who pays highest", "highest paying", "which company pays",
+        "market salary for", "average salary", "industry salary", "salary survey", "benchmark salary"
+    ]
+    return any(term in q for term in external_terms)
+
+
+def compensation_guardrail_answer(question: str) -> str:
+    if is_external_compensation_benchmark(question) and "rajesh" not in question.lower():
+        return (
+            "Direct Answer:\n"
+            "I do not have verified live compensation benchmark data for that question, so I should not quote salary figures for IIM graduates, companies, or industries as facts.\n\n"
+            "Context:\n"
+            "For real compensation benchmarking, use current recruiter data, company compensation bands, geography, seniority, and role scope. RABBIT can explain Rajesh's fit and value, but it should not act like a live salary-survey database unless that data is explicitly added and sourced."
+        )
+
+    return (
+        "Direct Answer:\n"
+        "Rajesh's compensation should be aligned with senior market standards for the exact role being offered. I should not quote a fixed salary number because compensation depends on role scope, geography, seniority, company stage, business ownership, and technical responsibility.\n\n"
+        "Context:\n"
+        "A fair offer should benchmark the specific role against current market data and then adjust for Rajesh's hybrid value: business execution, entrepreneurship through RedRybbons and R-Cafe, Mechanical Engineering foundation, IIM Calcutta Marketing and Strategy, ISB Product Management, IISc Bangalore Advanced Business Analytics, and hands-on AI/MLOps project work."
+    )
 
 def clean_user_answer(answer: str) -> str:
     text = str(answer or "")
@@ -200,9 +275,20 @@ def answer_question(question: str, mode: str = "hybrid", top_k: int = 5, filter_
     search_debug: dict[str, Any] = {}
     llm_debug: dict[str, Any] = {}
     answer = ""
+    suppress_sources = False
     try:
-        if is_private_personal_question(question):
+        if is_profane_or_abusive_question(question):
+            answer = profanity_guardrail_answer()
+            suppress_sources = True
+        elif is_language_capability_question(question):
+            answer = language_capability_answer()
+            suppress_sources = True
+        elif is_private_personal_question(question):
             answer = private_personal_guardrail_answer()
+            suppress_sources = True
+        elif is_compensation_question(question):
+            answer = compensation_guardrail_answer(question)
+            suppress_sources = True
         else:
             vector, embedding_latency = embed_query(env, question)
             chunks, search_latency, search_debug = search_chunks(env, question, vector, top_k, mode, filter_expr)
@@ -212,7 +298,7 @@ def answer_question(question: str, mode: str = "hybrid", top_k: int = 5, filter_
         status = "failed"
         error = str(exc)
     total_latency = (time.perf_counter() - total_start) * 1000
-    sources = [
+    sources = [] if suppress_sources else [
         {
             "page_id": c.get("page_id"),
             "section_id": c.get("section_id"),
