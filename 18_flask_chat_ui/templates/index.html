@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ product_name }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=19">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=20">
   </head>
   <body>
     <main class="app-shell">
@@ -63,6 +63,7 @@
           <div>
             <p class="eyebrow">Business-Tech RAG</p>
             <h2>Ask RABBIT</h2>
+            <p class="acronym-line">Raj AI Business and Beyond Intelligence Tech "Assistant"</p>
             <p>Business, AI, analytics, MLOps, GenAI, projects, and role-fit answers grounded in Azure AI Search.</p>
             <p class="tech-credit">Exclusively developed by Rajesh Arigala using Flask, Azure AI Search, Azure OpenAI, text embeddings, hybrid retrieval, and a custom RAG pipeline.</p>
           </div>
@@ -109,6 +110,6 @@
         profileName: {{ profile_name|tojson }}
       };
     </script>
-    <script src="{{ url_for('static', filename='app.js') }}?v=19"></script>
+    <script src="{{ url_for('static', filename='app.js') }}?v=20"></script>
   </body>
 </html>

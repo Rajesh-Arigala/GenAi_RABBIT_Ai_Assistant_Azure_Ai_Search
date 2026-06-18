@@ -866,3 +866,7 @@ pre { max-height: 220px; overflow: auto; padding: 9px; border-radius: 6px; backg
 .tool-action[data-tool="review"] .tool-glyph::before { content: "★"; }
 .tool-action[data-tool="github"] .tool-glyph::before { content: "⌘"; }
 .tool-action[data-tool="linkedin"] .tool-glyph::before { content: "in"; font-family: Arial, sans-serif; font-weight: 950; font-size: 14px; }
+.acronym-line { color: var(--blue-dark) !important; font-weight: 850; }
+@media (max-width: 760px) {
+  body.mobile-clean-mode .acronym-line { display: block !important; font-size: 11px !important; line-height: 1.2 !important; margin-top: 3px !important; }
+}

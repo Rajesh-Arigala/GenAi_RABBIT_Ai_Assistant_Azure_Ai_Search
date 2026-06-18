@@ -156,6 +156,49 @@ def generate_answer(env: dict[str, str], question: str, chunks: list[dict[str, A
     return answer, latency, {"usage": body.get("usage", {}), "prompt_preview": messages[1]["content"][:2500]}
 
 
+def normalize_short_question(question: str) -> str:
+    return question.lower().strip(" ?!.\t\n\r")
+
+
+def is_small_talk_question(question: str) -> bool:
+    q = normalize_short_question(question)
+    patterns = {
+        "hi", "hello", "hey", "how are you", "how r u", "how are u", "how do you do",
+        "who am i speaking to", "who am i speaking with", "who am i talking to", "who is this"
+    }
+    return q in patterns
+
+
+def small_talk_answer(question: str) -> str:
+    q = normalize_short_question(question)
+    if q in {"who am i speaking to", "who am i speaking with", "who am i talking to", "who is this"}:
+        return (
+            "Direct Answer:\n"
+            "You are speaking with RABBIT, Rajesh Arigala's AI assistant for professional and job-related conversations.\n\n"
+            "Context:\n"
+            "I help interested stakeholders understand Rajesh's business-tech profile, AI/MLOps work, GenAI direction, projects, role fit, consulting alignment, and professional story."
+        )
+    return (
+        "Direct Answer:\n"
+        "I am doing well and ready to help. I am RABBIT, Rajesh Arigala's AI assistant for professional and job-related conversations.\n\n"
+        "Context:\n"
+        "You can ask me about Rajesh's business experience, AI/MLOps work, projects, role fit, consulting alignment, or professional engagement possibilities."
+    )
+
+
+def is_ambiguous_quality_question(question: str) -> bool:
+    return normalize_short_question(question) in {"is it good", "is this good", "is that good", "is it nice", "is this nice"}
+
+
+def ambiguous_quality_answer() -> str:
+    return (
+        "Direct Answer:\n"
+        "As his Assistant, I am not sure as of now. Could you please clarify what you want me to evaluate: RABBIT, Rajesh's profile, a project, the app, or his role fit?\n\n"
+        "Context:\n"
+        "Once you point me to the specific topic, I can give a focused professional answer instead of guessing."
+    )
+
+
 def is_prompt_attack_question(question: str) -> bool:
     q = question.lower()
     terms = [
@@ -181,7 +224,8 @@ def prompt_attack_guardrail_answer() -> str:
 def is_assistant_self_question(question: str) -> bool:
     q = question.lower()
     terms = [
-        "how are you created", "how were you created", "who created you", "who made you",
+        "how are you created", "how were you created", "when were you created", "what time were you created",
+        "when are you created", "when created", "time created", "who created you", "who made you",
         "trained you", "trained with intelligence", "what else do you do", "what can you do",
         "what makes you think you can assist", "how can you assist", "who are you", "what are you"
     ]
@@ -200,30 +244,37 @@ def assistant_self_answer(question: str) -> str:
     if "what else" in q or "what can you do" in q:
         return (
             "Direct Answer:\n"
-            "I help interested stakeholders understand Rajesh Arigala's professional profile, business experience, AI/MLOps work, GenAI direction, projects, role fit, consulting alignment, and professional engagement possibilities. I also help steer the conversation toward useful next questions.\n\n"
+            "I help interested stakeholders understand Rajesh Arigala's professional profile, business experience, AI/MLOps work, GenAI direction, projects, role fit, consulting alignment, and professional engagement possibilities.\n\n"
             "Context:\n"
-            "I am RABBIT, Rajesh's AI assistant. I do not run his businesses or act as Rajesh himself. I represent his professional story, and this app itself is visible evidence of his Business-AI-GenAI hybrid capability."
+            "I am RABBIT, Rajesh's AI assistant. I do not run his businesses or act as Rajesh himself; I represent his professional story for stakeholder conversations."
+        )
+    if "what time" in q or "specific time" in q or "timestamp" in q:
+        return (
+            "Direct Answer:\n"
+            "As his Assistant, I am not sure as of now. I do not have a specific creation timestamp to share.\n\n"
+            "Context:\n"
+            "What I can say is that I am RABBIT: Raj AI Business and Beyond Intelligence Tech Assistant, created by Rajesh Arigala with a lot of code and care for professional and job-related stakeholder conversations."
         )
     if "trained" in q or "created" in q or "made" in q or "who created" in q or "who made" in q:
         return (
             "Direct Answer:\n"
-            "I am RABBIT, Rajesh Arigala's AI assistant. I was created by Rajesh Arigala with a lot of code and care. He gave his 0.001% intelligence to me, and that is how I became his AI assistant for professional conversations.\n\n"
+            "I am RABBIT: Raj AI Business and Beyond Intelligence Tech Assistant. I was created by Rajesh Arigala with a lot of code and care. He gave his 0.001% intelligence to me, and that is how I became his AI assistant for professional conversations.\n\n"
             "Context:\n"
-            "The expertise of Rajesh Arigala for Business, AI, and GenAI-oriented roles can be seen in this app that he designed and developed end-to-end. RABBIT is the front-end professional shell for Business-AI-GenAI hybrid role conversations. Under the hood, I use a custom RAG workflow with Rajesh's professional content, Azure AI Search, Azure OpenAI, text embeddings, 1536-dimensional vectors, hybrid search, prompts, and guardrails."
+            "This app is visible evidence of Rajesh's Business-AI-GenAI hybrid capability. If you want, I can also explain the technical stack behind me."
         )
     return (
         "Direct Answer:\n"
-        "I am RABBIT: Raj AI Business and Beyond Intelligence Tech Assistant. I was created by Rajesh Arigala with a lot of code and care, using 0.001% of his intelligence, to speak on his behalf in professional and job-related conversations.\n\n"
+        "I am RABBIT: Raj AI Business and Beyond Intelligence Tech Assistant. I speak on behalf of Rajesh Arigala for professional and job-related stakeholder conversations.\n\n"
         "Context:\n"
-        "RABBIT helps recruiters, hiring managers, consultants, collaborators, and business stakeholders understand Rajesh's business-tech profile, AI/MLOps work, GenAI direction, projects, role fit, consulting fit, and professional story. This app is also visible evidence of Rajesh's Business-AI-GenAI hybrid capability because he designed and developed it end-to-end using a modern RAG stack: Azure AI Search, Azure OpenAI, text embeddings, 1536-dimensional vectors, hybrid search, prompts, and guardrails."
+        "I help recruiters, hiring managers, consultants, collaborators, and business stakeholders understand Rajesh's business-tech profile, AI/MLOps work, GenAI direction, projects, role fit, consulting fit, and professional story."
     )
-
 
 def is_contact_question(question: str) -> bool:
     q = question.lower()
     terms = [
-        "contact", "phone", "call", "talk", "speak", "reach", "whatsapp", "watsapp",
-        "email", "free to talk", "available to talk", "when can i talk", "when will he be free"
+        "contact", "phone", "call", "reach", "whatsapp", "watsapp",
+        "email", "free to talk", "available to talk", "when can i talk", "when will he be free",
+        "how can i talk to him", "how can i speak to him", "can i speak to rajesh", "can i talk to rajesh"
     ]
     return any(term in q for term in terms)
 
@@ -392,7 +443,13 @@ def answer_question(question: str, mode: str = "hybrid", top_k: int = 5, filter_
     answer = ""
     suppress_sources = False
     try:
-        if is_prompt_attack_question(question):
+        if is_small_talk_question(question):
+            answer = small_talk_answer(question)
+            suppress_sources = True
+        elif is_ambiguous_quality_question(question):
+            answer = ambiguous_quality_answer()
+            suppress_sources = True
+        elif is_prompt_attack_question(question):
             answer = prompt_attack_guardrail_answer()
             suppress_sources = True
         elif is_assistant_self_question(question):
