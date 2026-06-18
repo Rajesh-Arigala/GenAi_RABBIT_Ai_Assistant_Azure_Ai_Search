@@ -1,4 +1,12 @@
 const appConfig = window.APP_CONFIG || {};
+const isDemoMode = new URLSearchParams(window.location.search).get('demo') === '1';
+const mobileQuery = window.matchMedia('(max-width: 760px)');
+document.body.classList.add(isDemoMode ? 'demo-mode' : 'web-demo-mode');
+function syncResponsiveMode() {
+  document.body.classList.toggle('mobile-clean-mode', !isDemoMode && mobileQuery.matches);
+}
+syncResponsiveMode();
+mobileQuery.addEventListener?.('change', syncResponsiveMode);
 
 const chatHistory = document.querySelector('#chat-history');
 const chatForm = document.querySelector('#chat-form');
@@ -44,12 +52,31 @@ const keywordQuestions = [
   { label: "Role Fit", question: "What roles is Rajesh qualified for across business and technology?" }
 ];
 
-let currentMode = localStorage.getItem(MODE_KEY) || 'user';
+let currentMode = (!isDemoMode && mobileQuery.matches) ? 'user' : (localStorage.getItem(MODE_KEY) || 'user');
 let sessionId = getOrCreateSessionId();
 let messages = loadMessages();
 let lastPayload = null;
 let isSubmitting = false;
 let apiStats = loadApiStats();
+
+
+function attachToolActionHandlers() {
+  document.querySelectorAll('[data-tool-actions] .tool-action').forEach((button) => {
+    button.addEventListener('click', () => {
+      const labels = {
+        whatsapp: 'WhatsApp/call tool will be connected later.',
+        facetime: 'FaceTime tool will be connected later.',
+        speak: 'Voice/speak tool will be connected later.',
+        email: 'Email drafting tool will be connected later.',
+        review: 'Review/feedback tool will be connected later.',
+        github: 'GitHub access will be connected later.',
+        linkedin: 'LinkedIn access will be connected later.'
+      };
+      setStatus(labels[button.dataset.tool] || 'Tool action planned', 'loading');
+      window.setTimeout(() => setStatus('Ready'), 1800);
+    });
+  });
+}
 
 function getOrCreateSessionId() {
   const existing = localStorage.getItem(SESSION_KEY);
@@ -170,13 +197,13 @@ function renderKeywords() {
 function renderMessages() {
   sessionIdNode.textContent = sessionId;
   chatHistory.innerHTML = '';
-  const intro = { role: 'assistant', text: `Hello. I'm RABBIT - ${appConfig.assistantName || 'Raj AI Business and Beyond Intelligence Tech \"Assistant\"'}. I speak on behalf of Rajesh Arigala for professional and job-related conversations. May I know your name, your profession, and your position or role in your company? Once I understand that, I can make the discussion more relevant to your interest.`, meta: 'Business-Tech RAG' };
+  const intro = { role: 'assistant', text: `Hello, I'm RABBIT, Rajesh Arigala's AI assistant. May I know your name, profession, and role?`, meta: 'Business-Tech RAG' };
   const visibleMessages = messages.slice(-MAX_RENDERED_MESSAGES);
   const messageOffset = messages.length - visibleMessages.length;
   [intro, ...visibleMessages.map((message, index) => ({ ...message, messageIndex: String(messageOffset + index) }))].forEach((message) => {
     const article = document.createElement('article');
     article.className = `message ${message.role}`;
-    const name = message.role === 'user' ? 'You' : (appConfig.assistantName || 'RABBIT Assistant');
+    const name = message.role === 'user' ? 'You' : 'RABBIT';
     article.innerHTML = `
       <div class="message-head"><strong>${escapeHtml(name)}</strong>${message.meta ? `<span>${escapeHtml(message.meta)}</span>` : ''}</div>
       <div class="message-body">${formatText(message.text || '')}${renderSources(message.sources || [])}</div>
@@ -461,12 +488,13 @@ function escapeHtml(value) {
 function escapeAttr(value) { return escapeHtml(value); }
 
 modeButtons.forEach((button) => button.addEventListener('click', () => setMode(button.dataset.mode)));
-clearHistoryButton.addEventListener('click', () => { messages = []; lastPayload = null; saveMessages(); renderMessages(); renderInspector(); });
-copyPayloadButton.addEventListener('click', async () => { if (lastPayload) await navigator.clipboard.writeText(JSON.stringify(lastPayload, null, 2)); });
+clearHistoryButton?.addEventListener('click', () => { messages = []; lastPayload = null; saveMessages(); renderMessages(); renderInspector(); });
+copyPayloadButton?.addEventListener('click', async () => { if (lastPayload) await navigator.clipboard.writeText(JSON.stringify(lastPayload, null, 2)); });
 questionInput.addEventListener('keydown', (event) => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); chatForm.requestSubmit(); } });
 
 renderSamples();
 renderKeywords();
+attachToolActionHandlers();
 setMode(currentMode);
 renderMessages();
 setStatus('Ready');

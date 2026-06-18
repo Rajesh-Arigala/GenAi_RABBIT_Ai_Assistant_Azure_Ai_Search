@@ -613,3 +613,104 @@ pre { max-height: 220px; overflow: auto; padding: 9px; border-radius: 6px; backg
   }
 }
 
+/* Mobile clean mode: prototype for the future website chat widget. Desktop web demo stays unchanged. */
+@media (max-width: 760px) {
+  body.mobile-clean-mode {
+    background: #ffffff;
+  }
+  body.mobile-clean-mode .app-shell {
+    width: 100%;
+    min-height: 100dvh;
+    height: auto;
+    padding: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    overflow: visible;
+  }
+  body.mobile-clean-mode .control-panel,
+  body.mobile-clean-mode .inspector-panel {
+    display: none !important;
+  }
+  body.mobile-clean-mode .chat-panel {
+    min-height: 100dvh;
+    max-height: none;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  body.mobile-clean-mode .chat-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    padding: 10px 12px;
+    background: #fff;
+  }
+  body.mobile-clean-mode .chat-header .eyebrow {
+    font-size: 10px;
+    margin-bottom: 3px;
+  }
+  body.mobile-clean-mode .chat-header h2 {
+    font-size: 18px;
+  }
+  body.mobile-clean-mode .chat-header p:not(.eyebrow),
+  body.mobile-clean-mode .tech-credit {
+    display: none;
+  }
+  body.mobile-clean-mode .status-pill {
+    display: none;
+  }
+  body.mobile-clean-mode .chat-history {
+    min-height: calc(100dvh - 116px);
+    padding: 10px;
+    gap: 8px;
+  }
+  body.mobile-clean-mode .message,
+  body.mobile-clean-mode .message.assistant {
+    max-width: 100%;
+    padding: 10px 11px;
+  }
+  body.mobile-clean-mode .message.user {
+    max-width: 88%;
+  }
+  body.mobile-clean-mode .message-head {
+    margin-bottom: 6px;
+  }
+  body.mobile-clean-mode .message-body {
+    font-size: 14px;
+    line-height: 1.42;
+  }
+  body.mobile-clean-mode .composer {
+    position: sticky;
+    bottom: 0;
+    grid-template-columns: minmax(0, 1fr) 64px;
+    gap: 7px;
+    padding: 8px;
+    background: #fff;
+  }
+  body.mobile-clean-mode textarea {
+    min-height: 42px;
+    max-height: 100px;
+    font-size: 14px;
+  }
+  body.mobile-clean-mode .send-button {
+    min-height: 42px;
+    font-size: 14px;
+  }
+}
+
+.tool-action-section { border-top: 1px solid var(--line); padding-top: 12px; }
+.tool-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+.tool-action { min-width: 0; min-height: 44px; border: 1px solid #b7c8f7; border-radius: 7px; background: var(--soft-blue); color: var(--blue-dark); display: grid; place-items: center; gap: 2px; font-weight: 900; }
+.tool-action span { font-size: 11px; line-height: 1; }
+.tool-action small { max-width: 100%; color: var(--muted); font-size: 10px; font-weight: 800; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tool-action:hover { border-color: var(--red); background: var(--soft-red); color: var(--red-dark); }
+.mobile-tool-actions { display: none; }
+
+@media (max-width: 760px) {
+  .mobile-tool-actions { width: 100%; display: flex; gap: 6px; overflow-x: auto; padding-top: 7px; -webkit-overflow-scrolling: touch; }
+  .mobile-tool-actions::-webkit-scrollbar { display: none; }
+  .mobile-tool-actions .tool-action { flex: 0 0 auto; width: 42px; min-height: 34px; border-radius: 999px; }
+  .mobile-tool-actions .tool-action span { font-size: 10px; }
+  body.mobile-clean-mode .mobile-tool-actions { display: flex; }
+}

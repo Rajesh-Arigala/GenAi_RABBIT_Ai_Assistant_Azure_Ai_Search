@@ -156,6 +156,39 @@ def generate_answer(env: dict[str, str], question: str, chunks: list[dict[str, A
     return answer, latency, {"usage": body.get("usage", {}), "prompt_preview": messages[1]["content"][:2500]}
 
 
+def is_contact_question(question: str) -> bool:
+    q = question.lower()
+    terms = [
+        "contact", "phone", "call", "talk", "speak", "reach", "whatsapp", "watsapp",
+        "email", "free to talk", "available to talk", "when can i talk", "when will he be free"
+    ]
+    return any(term in q for term in terms)
+
+
+def contact_guardrail_answer(question: str) -> str:
+    q = question.lower()
+    if "whatsapp" in q or "watsapp" in q:
+        return (
+            "Direct Answer:\n"
+            "Yes, you can reach Rajesh on WhatsApp at 9880419590 for professional discussions. You can also call the same number, preferably between 9 AM and 11 PM, or email him at rajesh.arigala@redlegos.com.\n\n"
+            "Context:\n"
+            "RABBIT cannot confirm Rajesh's live availability, so the best approach is to message or call and coordinate a suitable time directly."
+        )
+    if "when" in q or "free" in q or "available" in q:
+        return (
+            "Direct Answer:\n"
+            "Rajesh's live availability can be coordinated directly. Please call or WhatsApp him at 9880419590, preferably between 9 AM and 11 PM, or email rajesh.arigala@redlegos.com, to set up a suitable time for a professional conversation.\n\n"
+            "Context:\n"
+            "RABBIT can share professional contact channels, but it should not claim Rajesh's real-time schedule or availability."
+        )
+    return (
+        "Direct Answer:\n"
+        "You can contact Rajesh Arigala by phone or WhatsApp at 9880419590, preferably between 9 AM and 11 PM, or by email at rajesh.arigala@redlegos.com, for professional discussions.\n\n"
+        "Context:\n"
+        "RABBIT is intended to support professional conversations and help interested stakeholders connect through appropriate channels."
+    )
+
+
 def is_profane_or_abusive_question(question: str) -> bool:
     q = f" {question.lower()} "
     blocked_terms = [
@@ -277,7 +310,10 @@ def answer_question(question: str, mode: str = "hybrid", top_k: int = 5, filter_
     answer = ""
     suppress_sources = False
     try:
-        if is_profane_or_abusive_question(question):
+        if is_contact_question(question):
+            answer = contact_guardrail_answer(question)
+            suppress_sources = True
+        elif is_profane_or_abusive_question(question):
             answer = profanity_guardrail_answer()
             suppress_sources = True
         elif is_language_capability_question(question):
