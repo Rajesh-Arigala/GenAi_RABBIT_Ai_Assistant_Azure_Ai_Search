@@ -12,6 +12,7 @@ const chatHistory = document.querySelector('#chat-history');
 const chatForm = document.querySelector('#chat-form');
 const questionInput = document.querySelector('#question-input');
 const sendButton = document.querySelector('#send-button');
+const restartSessionButton = document.querySelector('#restart-session');
 const connectionStatus = document.querySelector('#connection-status');
 const sampleList = document.querySelector('#sample-list');
 const keywordList = document.querySelector('#keyword-list');
@@ -78,10 +79,26 @@ function attachToolActionHandlers() {
   });
 }
 
+function createSessionId() {
+  return `BTI-${new Date().toISOString().slice(0,10).replaceAll('-', '')}-${Math.random().toString(36).slice(2,7).toUpperCase()}`;
+}
+
+function restartSession() {
+  messages = [];
+  lastPayload = null;
+  sessionId = createSessionId();
+  localStorage.setItem(SESSION_KEY, sessionId);
+  saveMessages();
+  renderMessages();
+  renderInspector();
+  setStatus('Ready');
+  questionInput.focus();
+}
+
 function getOrCreateSessionId() {
   const existing = localStorage.getItem(SESSION_KEY);
   if (existing) return existing;
-  const next = `BTI-${new Date().toISOString().slice(0,10).replaceAll('-', '')}-${Math.random().toString(36).slice(2,7).toUpperCase()}`;
+  const next = createSessionId();
   localStorage.setItem(SESSION_KEY, next);
   return next;
 }
@@ -488,7 +505,8 @@ function escapeHtml(value) {
 function escapeAttr(value) { return escapeHtml(value); }
 
 modeButtons.forEach((button) => button.addEventListener('click', () => setMode(button.dataset.mode)));
-clearHistoryButton?.addEventListener('click', () => { messages = []; lastPayload = null; saveMessages(); renderMessages(); renderInspector(); });
+clearHistoryButton?.addEventListener('click', restartSession);
+restartSessionButton?.addEventListener('click', restartSession);
 copyPayloadButton?.addEventListener('click', async () => { if (lastPayload) await navigator.clipboard.writeText(JSON.stringify(lastPayload, null, 2)); });
 questionInput.addEventListener('keydown', (event) => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); chatForm.requestSubmit(); } });
 

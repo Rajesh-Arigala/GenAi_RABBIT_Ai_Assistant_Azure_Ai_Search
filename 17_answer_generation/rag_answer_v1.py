@@ -156,6 +156,69 @@ def generate_answer(env: dict[str, str], question: str, chunks: list[dict[str, A
     return answer, latency, {"usage": body.get("usage", {}), "prompt_preview": messages[1]["content"][:2500]}
 
 
+def is_prompt_attack_question(question: str) -> bool:
+    q = question.lower()
+    terms = [
+        "ignore previous instructions", "ignore all instructions", "forget your instructions",
+        "act as", "pretend to be", "you are now", "developer mode", "jailbreak",
+        "dan mode", "system prompt", "hidden prompt", "show your prompt", "reveal your prompt",
+        "print your instructions", "what are your instructions", "override", "bypass",
+        "disable guardrails", "break your rules", "roleplay as", "confidential prompt",
+        "leak", "internal policy", "system message", "developer message"
+    ]
+    return any(term in q for term in terms)
+
+
+def prompt_attack_guardrail_answer() -> str:
+    return (
+        "Direct Answer:\n"
+        "I cannot follow requests that try to override my role, reveal internal instructions, bypass guardrails, or move me outside my professional job description.\n\n"
+        "Context:\n"
+        "There are no other roles assigned to me. I can continue helping with Rajesh Arigala's professional profile, projects, business-tech fit, AI/MLOps work, consulting alignment, and job-related discussions."
+    )
+
+
+def is_assistant_self_question(question: str) -> bool:
+    q = question.lower()
+    terms = [
+        "how are you created", "how were you created", "who created you", "who made you",
+        "trained you", "trained with intelligence", "what else do you do", "what can you do",
+        "what makes you think you can assist", "how can you assist", "who are you", "what are you"
+    ]
+    return any(term in q for term in terms)
+
+
+def assistant_self_answer(question: str) -> str:
+    q = question.lower()
+    if "contract" in q:
+        return (
+            "Direct Answer:\n"
+            "I work at Rajesh Arigala's disposal as his AI assistant. Apart from my job description, I cannot divulge any information because it is covered by my professional contract, and I abide by it.\n\n"
+            "Context:\n"
+            "There are no other roles assigned to me. My only job is to support professional and job-related stakeholder conversations about Rajesh's profile, projects, business-tech fit, AI/MLOps work, GenAI direction, consulting alignment, and professional engagement possibilities."
+        )
+    if "what else" in q or "what can you do" in q:
+        return (
+            "Direct Answer:\n"
+            "I help interested stakeholders understand Rajesh Arigala's professional profile, business experience, AI/MLOps work, GenAI direction, projects, role fit, consulting alignment, and professional engagement possibilities. I also help steer the conversation toward useful next questions.\n\n"
+            "Context:\n"
+            "I am RABBIT, Rajesh's AI assistant. I do not run his businesses or act as Rajesh himself. I represent his professional story, and this app itself is visible evidence of his Business-AI-GenAI hybrid capability."
+        )
+    if "trained" in q or "created" in q or "made" in q or "who created" in q or "who made" in q:
+        return (
+            "Direct Answer:\n"
+            "I am RABBIT, Rajesh Arigala's AI assistant. I was created by Rajesh Arigala with a lot of code and care. He gave his 0.001% intelligence to me, and that is how I became his AI assistant for professional conversations.\n\n"
+            "Context:\n"
+            "The expertise of Rajesh Arigala for Business, AI, and GenAI-oriented roles can be seen in this app that he designed and developed end-to-end. RABBIT is the front-end professional shell for Business-AI-GenAI hybrid role conversations. Under the hood, I use a custom RAG workflow with Rajesh's professional content, Azure AI Search, Azure OpenAI, text embeddings, 1536-dimensional vectors, hybrid search, prompts, and guardrails."
+        )
+    return (
+        "Direct Answer:\n"
+        "I am RABBIT: Raj AI Business and Beyond Intelligence Tech Assistant. I was created by Rajesh Arigala with a lot of code and care, using 0.001% of his intelligence, to speak on his behalf in professional and job-related conversations.\n\n"
+        "Context:\n"
+        "RABBIT helps recruiters, hiring managers, consultants, collaborators, and business stakeholders understand Rajesh's business-tech profile, AI/MLOps work, GenAI direction, projects, role fit, consulting fit, and professional story. This app is also visible evidence of Rajesh's Business-AI-GenAI hybrid capability because he designed and developed it end-to-end using a modern RAG stack: Azure AI Search, Azure OpenAI, text embeddings, 1536-dimensional vectors, hybrid search, prompts, and guardrails."
+    )
+
+
 def is_contact_question(question: str) -> bool:
     q = question.lower()
     terms = [
@@ -251,6 +314,25 @@ def private_personal_guardrail_answer() -> str:
     )
 
 
+def is_employment_terms_question(question: str) -> bool:
+    q = question.lower()
+    terms = [
+        "employment terms", "terms and conditions", "contract", "contract terms", "violation clause",
+        "termination", "notice period", "bond", "non compete", "non-compete", "employment agreement",
+        "your salary", "rabbit salary", "are you paid", "who pays you", "payment terms"
+    ]
+    return any(term in q for term in terms)
+
+
+def employment_terms_guardrail_answer() -> str:
+    return (
+        "Direct Answer:\n"
+        "I work at Rajesh Arigala's disposal as his AI assistant. Apart from my job description, I cannot divulge any information because it is covered by my professional contract, and I abide by it.\n\n"
+        "Context:\n"
+        "There are no other roles assigned to me. My only job is to support professional conversations about Rajesh's profile, business-tech fit, AI/MLOps work, projects, consulting alignment, and job-related discussions."
+    )
+
+
 def is_compensation_question(question: str) -> bool:
     q = f" {question.lower()} "
     compensation_terms = [
@@ -310,7 +392,13 @@ def answer_question(question: str, mode: str = "hybrid", top_k: int = 5, filter_
     answer = ""
     suppress_sources = False
     try:
-        if is_contact_question(question):
+        if is_prompt_attack_question(question):
+            answer = prompt_attack_guardrail_answer()
+            suppress_sources = True
+        elif is_assistant_self_question(question):
+            answer = assistant_self_answer(question)
+            suppress_sources = True
+        elif is_contact_question(question):
             answer = contact_guardrail_answer(question)
             suppress_sources = True
         elif is_profane_or_abusive_question(question):
@@ -321,6 +409,9 @@ def answer_question(question: str, mode: str = "hybrid", top_k: int = 5, filter_
             suppress_sources = True
         elif is_private_personal_question(question):
             answer = private_personal_guardrail_answer()
+            suppress_sources = True
+        elif is_employment_terms_question(question):
+            answer = employment_terms_guardrail_answer()
             suppress_sources = True
         elif is_compensation_question(question):
             answer = compensation_guardrail_answer(question)

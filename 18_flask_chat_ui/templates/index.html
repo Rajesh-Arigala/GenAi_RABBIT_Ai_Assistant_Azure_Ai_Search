@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ product_name }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=15">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=19">
   </head>
   <body>
     <main class="app-shell">
@@ -18,13 +18,13 @@
         <section class="tool-action-section" aria-label="Future action tools">
           <div class="section-head"><h2>Actions</h2></div>
           <div class="tool-actions" data-tool-actions>
-            <button type="button" class="tool-action" data-tool="whatsapp" title="WhatsApp or call Rajesh"><span>WA</span><small>Call</small></button>
-            <button type="button" class="tool-action" data-tool="facetime" title="FaceTime option"><span>FT</span><small>FaceTime</small></button>
-            <button type="button" class="tool-action" data-tool="speak" title="Speak with voice assistant"><span>MIC</span><small>Speak</small></button>
-            <button type="button" class="tool-action" data-tool="email" title="Write an email"><span>@</span><small>Email</small></button>
-            <button type="button" class="tool-action" data-tool="review" title="Write a review or feedback"><span>RV</span><small>Review</small></button>
-            <button type="button" class="tool-action" data-tool="github" title="Open GitHub"><span>GH</span><small>GitHub</small></button>
-            <button type="button" class="tool-action" data-tool="linkedin" title="Open LinkedIn"><span>IN</span><small>LinkedIn</small></button>
+            <button type="button" class="tool-action" data-tool="whatsapp" title="WhatsApp or call Rajesh"><span class="tool-glyph" aria-hidden="true"></span><small>Call</small></button>
+            <button type="button" class="tool-action" data-tool="facetime" title="FaceTime option"><span class="tool-glyph" aria-hidden="true"></span><small>FaceTime</small></button>
+            <button type="button" class="tool-action" data-tool="speak" title="Speak with voice assistant"><span class="tool-glyph" aria-hidden="true"></span><small>Speak</small></button>
+            <button type="button" class="tool-action" data-tool="email" title="Write an email"><span class="tool-glyph" aria-hidden="true"></span><small>Email</small></button>
+            <button type="button" class="tool-action" data-tool="review" title="Write a review or feedback"><span class="tool-glyph" aria-hidden="true"></span><small>Review</small></button>
+            <button type="button" class="tool-action" data-tool="github" title="Open GitHub"><span class="tool-glyph" aria-hidden="true"></span><small>GitHub</small></button>
+            <button type="button" class="tool-action" data-tool="linkedin" title="Open LinkedIn"><span class="tool-glyph" aria-hidden="true"></span><small>LinkedIn</small></button>
           </div>
         </section>
 
@@ -66,16 +66,19 @@
             <p>Business, AI, analytics, MLOps, GenAI, projects, and role-fit answers grounded in Azure AI Search.</p>
             <p class="tech-credit">Exclusively developed by Rajesh Arigala using Flask, Azure AI Search, Azure OpenAI, text embeddings, hybrid retrieval, and a custom RAG pipeline.</p>
           </div>
-          <div class="status-pill" id="connection-status">Ready</div>
+          <div class="header-actions">
+            <button class="refresh-button" id="restart-session" type="button" title="Restart session" aria-label="Restart session">↻</button>
+            <div class="status-pill" id="connection-status">Ready</div>
+          </div>
 
           <div class="mobile-tool-actions" data-tool-actions aria-label="Future action tools">
-            <button type="button" class="tool-action" data-tool="whatsapp" title="WhatsApp or call Rajesh"><span>WA</span></button>
-            <button type="button" class="tool-action" data-tool="facetime" title="FaceTime option"><span>FT</span></button>
-            <button type="button" class="tool-action" data-tool="speak" title="Speak with voice assistant"><span>MIC</span></button>
-            <button type="button" class="tool-action" data-tool="email" title="Write an email"><span>@</span></button>
-            <button type="button" class="tool-action" data-tool="review" title="Write a review or feedback"><span>RV</span></button>
-            <button type="button" class="tool-action" data-tool="github" title="Open GitHub"><span>GH</span></button>
-            <button type="button" class="tool-action" data-tool="linkedin" title="Open LinkedIn"><span>IN</span></button>
+            <button type="button" class="tool-action" data-tool="whatsapp" title="WhatsApp or call Rajesh"><span class="tool-glyph" aria-hidden="true"></span></button>
+            <button type="button" class="tool-action" data-tool="facetime" title="FaceTime option"><span class="tool-glyph" aria-hidden="true"></span></button>
+            <button type="button" class="tool-action" data-tool="speak" title="Speak with voice assistant"><span class="tool-glyph" aria-hidden="true"></span></button>
+            <button type="button" class="tool-action" data-tool="email" title="Write an email"><span class="tool-glyph" aria-hidden="true"></span></button>
+            <button type="button" class="tool-action" data-tool="review" title="Write a review or feedback"><span class="tool-glyph" aria-hidden="true"></span></button>
+            <button type="button" class="tool-action" data-tool="github" title="Open GitHub"><span class="tool-glyph" aria-hidden="true"></span></button>
+            <button type="button" class="tool-action" data-tool="linkedin" title="Open LinkedIn"><span class="tool-glyph" aria-hidden="true"></span></button>
           </div>
         </header>
         <section class="chat-history" id="chat-history" aria-live="polite"></section>
@@ -106,6 +109,6 @@
         profileName: {{ profile_name|tojson }}
       };
     </script>
-    <script src="{{ url_for('static', filename='app.js') }}?v=15"></script>
+    <script src="{{ url_for('static', filename='app.js') }}?v=19"></script>
   </body>
 </html>
