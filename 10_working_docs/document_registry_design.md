@@ -28,3 +28,23 @@ This file explains `01_input_seed_and_config/document_registry.json`, the Step 2
 - Delete document content while keeping hierarchy slot alive.
 - Mark chunks stale when content hash changes.
 - Export only approved/chunked documents to Azure-ready format.
+
+## Updated Handoff Notes
+
+The complete lifecycle contract is now documented in:
+
+```text
+10_working_docs/DOCUMENT_LIFECYCLE_MANAGEMENT.md
+```
+
+The document registry should be treated as the operational record for the canonical corpus, not merely a file list. It should drive later dashboard actions such as upload, replace, delete content, re-upload, rechunk, approve chunks, export Azure, sync Azure, and version review.
+
+Current corpus distinction:
+
+```text
+canonical_ready_documents = 53
+staging_rag_document_files = 73
+```
+
+Dashboard and chunking workflows should use the canonical ready set unless a user explicitly promotes a staging file into the registry.
+

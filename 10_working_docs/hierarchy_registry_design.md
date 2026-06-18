@@ -32,3 +32,21 @@ This file explains `01_input_seed_and_config/hierarchy_registry.json`, the Step 
 - 02_Tech_01_Technical_Skills | occupied_ready | children: 8
 - 03_AI_Projects | empty_planned | children: 5
 - 04_GenAI | empty_planned | children: 0
+
+## Updated Workflow Notes
+
+The hierarchy registry is the visual source of truth for the future document lifecycle dashboard. It should be read together with:
+
+```text
+10_working_docs/DOCUMENT_LIFECYCLE_MANAGEMENT.md
+10_working_docs/END_TO_END_WORKFLOW_SUMMARY.md
+```
+
+Key rule:
+
+```text
+A hierarchy slot should remain visible even when document content is deleted.
+```
+
+This makes the dashboard stable: users can see missing placeholders, re-upload to the same page_id, preserve the hierarchy, and rebuild chunks without losing the corpus structure.
+

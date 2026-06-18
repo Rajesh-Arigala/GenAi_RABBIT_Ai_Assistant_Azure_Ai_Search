@@ -1,10 +1,10 @@
 # UI Modes, Traceability, Observability, And Logging Contract
 
-# Project Name
+## Project Name
 
 ```text
 RABBIT Assistant
-Raj AI Business and Beyond Intelligence Tech Assistant
+Raj AI Business and Beyond Intelligence Tech "Assistant"
 ```
 
 Acronym mapping:
@@ -17,10 +17,11 @@ I = Intelligence
 T = Tech
 ```
 
+## Purpose
 
-This document defines what belongs where in the future Flask UI and backend response contract for the Business-Tech RAG assistant.
+This document defines what belongs in each web app mode for RABBIT Assistant, what the backend response should contain, and how traceability, observability, logging, and future document lifecycle management connect to the UI.
 
-The UI will have four modes:
+The web demo has four modes:
 
 ```text
 1. User Mode
@@ -29,25 +30,27 @@ The UI will have four modes:
 4. Tech Mode
 ```
 
-Tech Mode is a dummy placeholder for now. It will later inherit deeper technical diagnostics inspired by the earlier RAG-Raj-Ai-Assistant project, but we will not implement it fully yet.
+Mobile/user-widget experience should be clean and User Mode only. The full four-mode interface is for web demo, interview walkthrough, development review, and owner/admin use.
 
 ## Core Separation Principle
 
 ```text
-User Mode = clean answer experience
+User Mode = clean public/stakeholder conversation
 Debug Mode = why this answer was produced
 Observability Mode = how the system performed
-Tech Mode = deeper engineering internals, later
+Tech Mode = deeper engineering/admin diagnostics
 Logging = persistent machine-readable event history
-Traceability = IDs and lineage across the whole request
+Traceability = IDs and lineage across request, source, chunk, prompt, and model
+Document Lifecycle = corpus management from hierarchy slot to Azure sync
 ```
 
 ## Backend Response Shape
 
-Every `/api/chat` response should eventually follow this shape:
+Every `/api/chat` response should follow this shape:
 
 ```json
 {
+  "status": "success",
   "user": {},
   "debug": {},
   "observability": {},
@@ -57,65 +60,118 @@ Every `/api/chat` response should eventually follow this shape:
 }
 ```
 
-The UI decides what to display based on selected mode.
+The backend can return the full payload. The UI decides what to display by mode.
 
----
-
-# 1. User Mode
-
-Purpose: clean recruiter/hiring manager/peer-facing answer.
-
-User Mode should show only the final product.
-
-## User Mode Fields
+## Mode Access Rules
 
 ```text
-question
-answer
-answer_confidence_label
-answer_confidence_score
-answer_confidence_reason
-sources
-suggested_followups
+User Mode = public
+Debug Mode = password/owner demo
+Observability Mode = password/owner demo
+Tech Mode = password/admin demo
 ```
 
-## User Mode Sources
+User Mode must never expose:
 
-Each source should show:
+- raw chunks
+- retrieval scores
+- prompt previews
+- hidden instructions
+- confidence scores
+- API status codes
+- trace IDs
+- source dumps
+- internal logs
+
+## 1. User Mode
+
+Purpose:
 
 ```text
-page_id
-title
-source_url
-section_id
-chunk_index / chunk_total
+Clean recruiter, HR, hiring manager, consultant, collaborator, and stakeholder-facing assistant.
 ```
 
-Do not show raw scores by default in User Mode. Scores can confuse non-technical users.
+User Mode should feel like a polished website/chat-widget assistant. It speaks professionally on Rajesh Arigala's behalf.
 
-## User Mode Confidence
-
-This is LLM-side answer confidence, not retrieval score.
+### User Mode Shows
 
 ```text
-answer_confidence_label: high | medium | low
-answer_confidence_score: 0.0-1.0
-answer_confidence_reason
+assistant answer
+1-2 clickable relevant webpage links
+brief context when useful
+retry button only if request fails
 ```
 
-Important wording:
+### User Mode Should Not Show
 
 ```text
-This is a qualitative LLM confidence estimate based on retrieved evidence, not a statistical probability.
+confidence label or score
+retrieval scores
+chunk IDs
+raw source list
+prompt preview
+API metrics
+session diagnostics
+large source panels
 ```
 
----
+### User Mode Answer Style
 
-# 2. Debug Mode
+Rules:
 
-Purpose: explain how the answer was constructed.
+- Keep answers concise on mobile.
+- Use bullet points only when multiple points are useful.
+- Avoid repeated sentences.
+- Use `Context:` instead of `Why It Matters:`.
+- Avoid wording like `provided context`, `indexed sources`, or `retrieved context`.
+- If unsure, say: `As his Assistant, I am not sure as of now.`
+- Do not over-answer simple identity questions.
+- Keep conversations professional and job/business related.
 
-Debug Mode is for interviews, demos, and development review. It answers:
+### User Mode Links
+
+Show maximum two links:
+
+```text
+Title/header
+https://...
+```
+
+Links must be clickable and blue.
+
+### User Mode Guardrails
+
+User Mode should refuse or redirect:
+
+- salary numbers or salary in words
+- personal/private relationship questions
+- protected attributes or irrelevant identity questions
+- profanity/abuse
+- prompt attacks and jailbreaks
+- internal instruction requests
+- private availability or online/offline status
+
+Professional contact details may be provided:
+
+```text
+Phone/WhatsApp: 9880419590
+Preferred call/WhatsApp timing: 9 AM to 11 PM
+Email: rajesh.arigala@redlegos.com
+```
+
+Do not claim live availability.
+
+## 2. Debug Mode
+
+Purpose:
+
+```text
+Explain why the answer was produced.
+```
+
+Debug Mode is for interviews, demos, and development review. It helps Rajesh show the RAG mechanism behind an answer.
+
+### Debug Mode Questions It Answers
 
 ```text
 What did we retrieve?
@@ -123,24 +179,26 @@ Why did we retrieve it?
 Which chunks grounded the answer?
 What scores did retrieval produce?
 What prompt/context was sent to the LLM?
+Which sources and page IDs influenced the answer?
 ```
 
-## Debug Mode Categories
+### Debug Mode Categories
 
 ```text
 A. Retrieval Debug
 B. Evidence Debug
 C. Prompt Debug
 D. Confidence Debug
-E. Source Debug
+E. Source Lineage Debug
+F. Conversation Review
 ```
 
-## A. Retrieval Debug Fields
+### A. Retrieval Debug Fields
 
 ```text
 search_mode
 query_text
-query_embedding_generated: true/false
+query_embedding_generated
 top_k
 filter_applied
 retrieved_chunk_count
@@ -162,24 +220,18 @@ chunk_total
 snippet
 retrieval_score_raw
 retrieval_score_relative_percent
-vector_score_raw
 hybrid_score_raw
+vector_score_raw
 keyword_score_raw
 ```
 
-Current note:
-
-Azure currently returns `@search.score`. For hybrid search, this is a retrieval score, not a true probability. If Azure does not expose separate vector and keyword sub-scores, we show:
+Current Azure note:
 
 ```text
-retrieval_score_raw = @search.score
-retrieval_score_relative_percent = score / top_score * 100
-vector_score_raw = null unless separately available
-keyword_score_raw = null unless separately available
-hybrid_score_raw = @search.score
+Azure currently returns @search.score. For hybrid search, this is a retrieval score, not a probability. If separate vector and keyword scores are not available, show them as null and explain that Azure did not expose those sub-scores in the response.
 ```
 
-## B. Evidence Debug Fields
+### B. Evidence Debug Fields
 
 ```text
 evidence_page_ids
@@ -192,11 +244,11 @@ answer_supported_by_chunks_flag
 unsupported_claim_risk
 ```
 
-## C. Prompt Debug Fields
+### C. Prompt Debug Fields
 
 ```text
 system_prompt_name
-profile_context_used: true/false
+profile_context_used
 profile_context_path
 retrieved_context_preview
 final_prompt_preview
@@ -204,7 +256,7 @@ prompt_message_count
 estimated_prompt_chars
 ```
 
-## D. Confidence Debug Fields
+### D. Confidence Debug Fields
 
 ```text
 retrieval_confidence_label
@@ -219,11 +271,11 @@ Important distinction:
 
 ```text
 Retrieval scores come from Azure AI Search / embeddings.
-Answer confidence comes from the LLM's self-assessment based on evidence.
+Answer confidence comes from the LLM/prompt-side assessment based on evidence.
 They are different and should be displayed separately.
 ```
 
-## E. Source Debug Fields
+### E. Source Lineage Debug Fields
 
 ```text
 page_id
@@ -236,42 +288,63 @@ chunking_version
 document_version
 ```
 
----
+### F. Conversation Review
 
-# 3. Observability Mode
-
-Purpose: monitor system performance and operational health.
-
-Observability Mode is not about the content of the answer. It answers:
+Debug Mode can help review:
 
 ```text
-Was the system fast?
-Was the system healthy?
-Where was latency spent?
-Which model/index/deployment was used?
-Were there errors or retries?
+stakeholder name if voluntarily provided
+profession/role if voluntarily provided
+company position if voluntarily provided
+questions asked
+professional intent inferred from the conversation
+links shown
+answers that may need improvement
 ```
 
-## Observability Categories
+This is conversation/session review, not intrusive personal profiling.
+
+## 3. Observability Mode
+
+Purpose:
 
 ```text
-A. Request Metrics
-B. Latency Metrics
-C. Retrieval Metrics
-D. LLM Metrics
-E. Token/Cost Metrics
-F. Reliability Metrics
-G. Index/Corpus Metrics
+Monitor system performance, health, failures, and reliability.
 ```
 
-## A. Request Metrics
+Observability Mode is not about answer content. It is about runtime behavior.
+
+### Observability Questions It Answers
+
+```text
+Was the API healthy?
+Was the request successful?
+How long did it take?
+Was there a retry?
+Where did the request fail?
+Which deployment/index was used?
+How many calls have happened in this browser session?
+```
+
+### A. API Health Metrics
+
+```text
+health_status
+health_http_code
+health_latency_ms
+health_checked_at
+azure_search_status
+azure_openai_status
+```
+
+### B. Request Metrics
 
 ```text
 request_id
 session_id
 turn_id
 timestamp
-user_mode
+ui_mode
 search_mode
 question_length_chars
 question_length_words
@@ -279,18 +352,31 @@ filter_applied
 top_k
 ```
 
-## B. Latency Metrics
+### C. API Call Counters
+
+```text
+total_calls
+successful_calls
+failed_calls
+retry_clicks
+last_chat_http_code
+last_request_id
+last_call_at
+last_error
+```
+
+### D. Latency Metrics
 
 ```text
 embedding_latency_ms
 search_latency_ms
 answer_latency_ms
-total_latency_ms
 backend_processing_ms
+flask_total_latency_ms
 client_observed_latency_ms
 ```
 
-## C. Retrieval Metrics
+### E. Retrieval Metrics
 
 ```text
 retrieved_chunk_count
@@ -308,7 +394,7 @@ low_relevance_retrieval_flag
 duplicate_source_count
 ```
 
-## D. LLM Metrics
+### F. LLM Metrics
 
 ```text
 chat_deployment
@@ -320,13 +406,11 @@ max_tokens
 finish_reason
 answer_length_chars
 answer_length_words
-answer_confidence_label
-answer_confidence_score
 ```
 
-## E. Token/Cost Metrics
+### G. Token/Cost Metrics
 
-Current support is partial. Add when API usage is available.
+Current support may be partial. Add when usage data is available.
 
 ```text
 input_tokens
@@ -340,7 +424,7 @@ estimated_output_cost
 estimated_total_cost
 ```
 
-## F. Reliability Metrics
+### H. Reliability Metrics
 
 ```text
 status
@@ -350,11 +434,10 @@ retry_count
 timeout_flag
 rate_limit_flag
 ssl_error_flag
-azure_search_status
-azure_openai_status
+network_error_flag
 ```
 
-## G. Index/Corpus Metrics
+### I. Index/Corpus Metrics
 
 ```text
 index_name
@@ -362,28 +445,39 @@ index_document_count
 schema_field_count
 vector_dimensions
 corpus_pages_count
+canonical_ready_documents_count
+staging_rag_documents_count
 corpus_chunks_count
 chunking_version
 embedding_manifest_version
 azure_export_version
 ```
 
----
+Current corpus numbers:
 
-# 4. Tech Mode
+```text
+canonical_ready_documents_count = 53
+staging_rag_documents_count = 73
+```
 
-Purpose: future deep engineering diagnostics.
+## 4. Tech Mode
 
-For now, Tech Mode is a dummy placeholder. It should not block the UI.
+Purpose:
 
-## Tech Mode Placeholder Fields
+```text
+Deep engineering and admin diagnostics.
+```
+
+Tech Mode can remain placeholder for now, but the contract should be clear.
+
+### Tech Mode Current Status
 
 ```text
 status: planned
 message: Technical diagnostics mode will be added later.
 ```
 
-## Future Tech Mode Categories
+### Future Tech Mode Categories
 
 ```text
 A. Raw API Payloads
@@ -392,10 +486,11 @@ C. Raw Azure OpenAI Response
 D. Environment/Deployment Diagnostics
 E. Schema Diagnostics
 F. Chunk Lifecycle Diagnostics
-G. Dashboard/Admin Action Logs
+G. Document Lifecycle Dashboard Diagnostics
+H. Admin Action Logs
 ```
 
-## Future Tech Mode Fields
+### Future Tech Mode Fields
 
 ```text
 raw_search_request
@@ -412,19 +507,23 @@ hierarchy_registry_status
 python_runtime
 flask_runtime
 api_versions
+environment_variable_presence_without_values
+render_deployment_status
 ```
 
-Tech Mode should be owner/admin-facing only.
+Tech Mode should never expose secrets.
 
----
+## 5. Traceability
 
-# 5. Traceability
+Purpose:
 
-Purpose: connect every answer back to source data, chunk lifecycle, Azure index, prompt, and model call.
+```text
+Connect every answer back to source data, chunk lifecycle, Azure index, prompt, and model call.
+```
 
-Traceability should be present in every backend response, even if hidden in User Mode.
+Traceability should be present in every backend response but hidden from User Mode.
 
-## Traceability Fields
+### Traceability Fields
 
 ```text
 request_id
@@ -449,7 +548,7 @@ profile_context_version
 retrieval_test_suite_version
 ```
 
-## Source Lineage Fields
+### Source Lineage Fields
 
 ```text
 page_id
@@ -465,15 +564,17 @@ created_at
 updated_at
 ```
 
----
+## 6. Logging
 
-# 6. Logging
+Purpose:
 
-Purpose: persistent event trail for debugging, audit, analytics, and dashboard history.
+```text
+Persistent event trail for debugging, audit, analytics, and dashboard history.
+```
 
-Logging is not the same as observability display. Observability is what we show; logging is what we store.
+Observability is what we show. Logging is what we store.
 
-## Log Event Types
+### Log Event Types
 
 ```text
 chat_request_received
@@ -485,12 +586,22 @@ llm_generation_started
 llm_generation_completed
 answer_returned
 error_occurred
+retry_clicked
 feedback_submitted
 mode_changed
 filter_applied
+document_uploaded
+document_replaced
+document_deleted_content
+chunks_rebuilt
+chunks_approved
+azure_export_started
+azure_export_completed
+azure_sync_started
+azure_sync_completed
 ```
 
-## Log Record Fields
+### Log Record Fields
 
 ```text
 event_id
@@ -507,9 +618,7 @@ error_message
 metadata
 ```
 
-## Storage For Now
-
-During local Flask development:
+### Storage For Now
 
 ```text
 18_flask_chat_ui/logs/chat_events.jsonl
@@ -527,64 +636,96 @@ Database table
 OpenTelemetry collector
 ```
 
----
+## 7. Document Lifecycle Connection
 
-# 7. Mode-To-Field Mapping
+The document lifecycle dashboard is a future admin UI. It should connect to the same traceability and observability principles.
 
-## User Mode Shows
+Dashboard actions:
 
 ```text
-answer
-answer_confidence_label
-sources
-suggested_followups
+GET hierarchy
+GET documents
+GET chunks
+POST upload document
+PUT replace document
+DELETE document content
+POST rechunk document
+POST approve chunks
+POST export azure
+POST sync azure
+GET versions
+GET logs
 ```
 
-## Debug Mode Shows
+Important rule:
 
 ```text
-retrieved_chunks
-retrieval_score_raw
-retrieval_score_relative_percent
-hybrid_score_raw
-vector_score_raw if available
-keyword_score_raw if available
-prompt_preview
+Deleting document content keeps the hierarchy placeholder alive.
+```
+
+Document lifecycle details are defined in:
+
+```text
+10_working_docs/DOCUMENT_LIFECYCLE_MANAGEMENT.md
+```
+
+## 8. Mode-To-Field Mapping
+
+### User Mode Shows
+
+```text
+clean answer
+1-2 relevant clickable links
+retry button if failed
+```
+
+### Debug Mode Shows
+
+```text
+retrieved chunks
+retrieval scores
+relative retrieval scores
 source lineage
+prompt preview
 answer confidence details
+evidence coverage
+conversation review signals
 ```
 
-## Observability Mode Shows
+### Observability Mode Shows
 
 ```text
-latencies
-status/errors
+API health
+HTTP status codes
+latency
+call counts
+retry counts
+request/session IDs
+error details
 model/index/deployment names
-token/cost estimates when available
 retrieval score distribution
-request/session metrics
 corpus/index counts
 ```
 
-## Tech Mode Shows For Now
+### Tech Mode Shows For Now
 
 ```text
-planned placeholder only
+planned placeholder
+future diagnostics categories
 ```
 
-## Logs Store
+### Logs Store
 
 ```text
 all request lifecycle events
 all errors
 all observability snapshots
+future document lifecycle actions
 ```
 
----
+## 9. Immediate Implementation Status
 
-# 8. Immediate Implementation Plan For Flask UI
-
-## Current Build
+Current Flask UI location:
 
 ```text
 18_flask_chat_ui/
@@ -595,7 +736,7 @@ all observability snapshots
   logs/
 ```
 
-## Initial API Endpoints
+Initial endpoints:
 
 ```text
 GET /health
@@ -603,74 +744,24 @@ GET /api/config
 POST /api/chat
 ```
 
-## `/api/chat` Behavior
+Current status:
+
+- User Mode has been actively tested and refined.
+- Debug Mode exists but needs final UI review and optimization.
+- Observability Mode exists but needs stronger metrics presentation.
+- Tech Mode is still placeholder.
+- Mobile should behave like a clean User Mode / future chat-widget preview.
+- Web demo should keep all four modes visible for interview/demo purposes.
+
+## 10. Open Items
 
 ```text
-1. Accept question, mode, top_k, filter.
-2. Call Step 10 `answer_question()`.
-3. Add request_id/session_id/turn_id.
-4. Add relative retrieval scores.
-5. Add placeholder Tech Mode block.
-6. Write JSONL logs.
-7. Return full payload.
+1. Finish Debug Mode UI layout and fields.
+2. Finish Observability Mode metrics layout.
+3. Keep Tech Mode placeholder but make its planned scope clear.
+4. Ensure User Mode never shows confidence, raw sources, or internals.
+5. Add retry count and API health display cleanly in Observability Mode.
+6. Add document lifecycle dashboard later.
+7. Add tool-calling actions later through MCP or another framework.
+8. Keep mobile UI clean and prepare for website chat widget.
 ```
-
-## Modes In UI
-
-```text
-User
-Debug
-Observability
-Tech - dummy for now
-```
-
----
-
-# 9. Open Items
-
-```text
-1. Add retry logic around chat completion timeout.
-2. Ask LLM to return structured confidence fields explicitly.
-3. Add true token/cost calculations if usage data is consistently returned.
-4. Add separate vector vs keyword score only if Azure exposes or we run separate searches.
-5. Add Tech Mode later from prior RAG-Raj-Ai-Assistant diagnostics pattern.
-```
-
-## Audience Boundary
-
-- User Mode is the public recruiter/HR/hiring-agent facing experience. It should read like a polished assistant on Rajesh's website, with no raw internals, no confidence labels, no chunk IDs, no retrieval scores, and no full source dump.
-- User Mode can show one or two clickable relevant webpage links under the answer.
-- Debug Mode is for interview/demo walkthroughs where Rajesh can show how the answer was produced: confidence proxy, retrieval evidence, source links, chunk lineage, scores, and prompt preview.
-- Observability Mode is for system metrics, latency, logs, status, and operational signals.
-- Tech Mode remains a later deep-diagnostics layer.
-
-## API Observability And Retry Controls
-
-- User Mode must not expose API internals.
-- Observability Mode shows API health status, HTTP health code, health latency, total calls, successful calls, failed calls, retry clicks, last chat HTTP code, last request ID, last API latency, and last API error.
-- Failed chat messages show a Retry button in the chat stream so the same question can be resent without retyping.
-- Debug Mode remains focused on retrieval, sources, chunks, scores, prompt preview, and answer confidence.
-
-## Mode Placement Decision
-
-- API metrics go to Observability Mode: health status/code, call count, retry count, last HTTP code, latency, request id, and API errors.
-- Retry is available across all modes as a chat-level recovery action whenever a request fails.
-- Debug Mode stays answer-quality focused: retrieval, chunks, source lineage, scores, confidence proxy, and prompt preview.
-- Tech Mode is reserved for backend/API internals: endpoints, raw payload contracts, log file locations, deployment/schema diagnostics, and future deep traces.
-
-## Stakeholder Details And Conversation Review
-
-RABBIT may politely ask visitors for their name, profession, and position or role in their company at the beginning of a professional conversation. In User Mode, these details should not become a distracting topic and RABBIT should not overreact to them.
-
-For Debug, Observability, and later Tech Mode, the conversation can be reviewed after the fact to understand:
-
-- who the stakeholder said they are
-- their profession or role
-- their company position if provided
-- what they were trying to evaluate
-- which questions they asked
-- where the conversation moved professionally
-- which answers, links, and evidence were shown
-
-This is useful for improving the assistant, preparing for formal interviews, and understanding stakeholder intent. It should be treated as conversation/session review, not intrusive personal profiling.
-

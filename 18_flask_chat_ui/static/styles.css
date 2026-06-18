@@ -870,3 +870,49 @@ pre { max-height: 220px; overflow: auto; padding: 9px; border-radius: 6px; backg
 @media (max-width: 760px) {
   body.mobile-clean-mode .acronym-line { display: block !important; font-size: 11px !important; line-height: 1.2 !important; margin-top: 3px !important; }
 }
+
+/* Document lifecycle dashboard */
+.workspace-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+.lifecycle-mode .app-shell { grid-template-columns: 310px minmax(0, 1fr); }
+.lifecycle-mode .inspector-panel { display: none; }
+.lifecycle-panel { min-height: 0; max-height: calc(100dvh - 32px); border: 1px solid var(--line); border-radius: 8px; background: var(--panel); overflow: hidden; box-shadow: 0 10px 28px rgba(23, 32, 51, 0.06); display: grid; grid-template-rows: auto auto minmax(0, 1fr); }
+.lifecycle-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 16px 18px; border-bottom: 1px solid var(--line); background: linear-gradient(90deg, rgba(200,30,58,0.08), rgba(29,78,216,0.06)); }
+.lifecycle-header p:not(.eyebrow) { margin-top: 6px; color: var(--muted); font-size: 13px; line-height: 1.35; }
+.lifecycle-summary { padding: 12px 14px; border-bottom: 1px solid var(--line); display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px; background: #fbfcff; }
+.lifecycle-layout { min-height: 0; display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 0; overflow: hidden; }
+.lifecycle-tree-wrap { min-height: 0; border-right: 1px solid var(--line); padding: 12px; overflow-y: auto; background: #fcfdff; }
+.lifecycle-tree { display: grid; gap: 5px; }
+.tree-node { width: 100%; min-height: 34px; padding: 6px 8px 6px calc(8px + var(--indent)); border: 1px solid #e5eaf2; border-radius: 6px; background: #fff; color: var(--ink); text-align: left; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: center; }
+.tree-node span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; font-weight: 800; }
+.tree-node small { padding: 2px 6px; border-radius: 999px; font-size: 10px; font-weight: 850; text-transform: uppercase; }
+.tree-node small.doc { background: var(--soft-blue); color: var(--blue-dark); }
+.tree-node small.placeholder { background: var(--soft-red); color: var(--red-dark); }
+.tree-node.active { border-color: #9db8f7; background: var(--soft-blue); box-shadow: inset 0 0 0 1px rgba(29,78,216,0.12); }
+.lifecycle-detail { min-height: 0; padding: 14px; overflow-y: auto; display: grid; gap: 12px; align-content: start; }
+.lifecycle-detail-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
+.lifecycle-actions { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; max-width: 520px; }
+.lifecycle-actions .api-button { margin-top: 0; font-size: 12px; padding: 6px 8px; }
+.lifecycle-detail-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.lifecycle-tabs { display: flex; flex-wrap: wrap; gap: 7px; padding-top: 4px; }
+.lifecycle-tabs .segment { min-height: 32px; padding: 5px 10px; }
+.lifecycle-tab-content { display: grid; gap: 10px; }
+.lifecycle-tab-content .debug-card { contain: none; }
+
+@media (max-width: 1120px) {
+  .lifecycle-mode .app-shell { grid-template-columns: 1fr; }
+  .lifecycle-panel { max-height: none; }
+  .lifecycle-layout { grid-template-columns: 1fr; }
+  .lifecycle-tree-wrap { border-right: 0; border-bottom: 1px solid var(--line); max-height: 320px; }
+  .lifecycle-summary { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .lifecycle-detail-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 760px) {
+  .mobile-clean-mode .workspace-block,
+  .mobile-clean-mode .mode-block { display: none; }
+  .lifecycle-panel { max-height: none; }
+  .lifecycle-header, .lifecycle-detail-head { flex-direction: column; }
+  .lifecycle-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .lifecycle-detail-grid { grid-template-columns: 1fr; }
+  .lifecycle-actions { justify-content: flex-start; }
+}

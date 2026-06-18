@@ -28,6 +28,18 @@ const inspectorEyebrow = document.querySelector('#inspector-eyebrow');
 const inspectorTitle = document.querySelector('#inspector-title');
 const inspectorContent = document.querySelector('#inspector-content');
 const copyPayloadButton = document.querySelector('#copy-payload');
+const lifecyclePanel = document.querySelector('#lifecycle-panel');
+const lifecycleSummary = document.querySelector('#lifecycle-summary');
+const lifecycleTree = document.querySelector('#lifecycle-tree');
+const lifecycleRefreshButton = document.querySelector('#lifecycle-refresh');
+const viewChatButton = document.querySelector('#view-chat');
+const viewLifecycleButton = document.querySelector('#view-lifecycle');
+const lifecycleSelectedEyebrow = document.querySelector('#lifecycle-selected-eyebrow');
+const lifecycleSelectedTitle = document.querySelector('#lifecycle-selected-title');
+const lifecycleActions = document.querySelector('#lifecycle-actions');
+const lifecycleDetailGrid = document.querySelector('#lifecycle-detail-grid');
+const lifecycleTabContent = document.querySelector('#lifecycle-tab-content');
+const lifecycleTabButtons = Array.from(document.querySelectorAll('[data-lifecycle-tab]'));
 
 const STORAGE_KEY = 'bti_chat_history';
 const SESSION_KEY = 'bti_session_id';
@@ -59,6 +71,10 @@ let messages = loadMessages();
 let lastPayload = null;
 let isSubmitting = false;
 let apiStats = loadApiStats();
+let currentView = 'chat';
+let lifecycleData = null;
+let selectedLifecyclePageId = null;
+let currentLifecycleTab = 'chunks';
 
 
 function attachToolActionHandlers() {
@@ -509,6 +525,10 @@ clearHistoryButton?.addEventListener('click', restartSession);
 restartSessionButton?.addEventListener('click', restartSession);
 copyPayloadButton?.addEventListener('click', async () => { if (lastPayload) await navigator.clipboard.writeText(JSON.stringify(lastPayload, null, 2)); });
 questionInput.addEventListener('keydown', (event) => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); chatForm.requestSubmit(); } });
+viewChatButton?.addEventListener('click', () => setView('chat'));
+viewLifecycleButton?.addEventListener('click', () => setView('lifecycle'));
+lifecycleRefreshButton?.addEventListener('click', loadLifecycleDashboard);
+lifecycleTabButtons.forEach((button) => button.addEventListener('click', () => { currentLifecycleTab = button.dataset.lifecycleTab; renderLifecycleSelected(); }));
 
 renderSamples();
 renderKeywords();
@@ -516,3 +536,136 @@ attachToolActionHandlers();
 setMode(currentMode);
 renderMessages();
 setStatus('Ready');
+
+
+function setView(view) {
+  currentView = view;
+  const lifecycle = view === 'lifecycle';
+  document.body.classList.toggle('lifecycle-mode', lifecycle);
+  lifecyclePanel?.classList.toggle('is-hidden', !lifecycle);
+  document.querySelector('.chat-panel')?.classList.toggle('is-hidden', lifecycle);
+  document.querySelector('.inspector-panel')?.classList.toggle('is-hidden', lifecycle || currentMode === 'user');
+  viewChatButton?.classList.toggle('active', !lifecycle);
+  viewLifecycleButton?.classList.toggle('active', lifecycle);
+  if (lifecycle) loadLifecycleDashboard();
+}
+
+async function loadLifecycleDashboard() {
+  if (!lifecycleSummary) return;
+  lifecycleSummary.innerHTML = '<div class="debug-card"><p class="muted">Loading lifecycle dashboard...</p></div>';
+  try {
+    const response = await fetch('/api/lifecycle/summary', { cache: 'no-store' });
+    lifecycleData = await response.json();
+    selectedLifecyclePageId = selectedLifecyclePageId || lifecycleData.hierarchy?.nodes?.[0]?.page_id || null;
+    renderLifecycleDashboard();
+  } catch (error) {
+    lifecycleSummary.innerHTML = `<div class="api-error">Lifecycle dashboard failed to load: ${escapeHtml(error.message)}</div>`;
+  }
+}
+
+function renderLifecycleDashboard() {
+  if (!lifecycleData) return;
+  const c = lifecycleData.counts || {};
+  lifecycleSummary.innerHTML = `
+    ${metric('Canonical docs', c.canonical_ready_documents_count)}
+    ${metric('Staging RAG files', c.staging_rag_documents_count)}
+    ${metric('Approved chunks', c.approved_chunks_count)}
+    ${metric('Hierarchy nodes', c.registry_nodes_total)}
+    ${metric('Placeholders', c.placeholder_slots_without_documents)}
+    ${metric('Lifecycle request', lifecycleData.observability?.request_id || '-')}`;
+  renderLifecycleTree();
+  renderLifecycleSelected();
+}
+
+function renderLifecycleTree() {
+  const nodes = lifecycleData?.hierarchy?.nodes || [];
+  lifecycleTree.innerHTML = nodes.map((node) => {
+    const active = node.page_id === selectedLifecyclePageId ? ' active' : '';
+    const status = node.has_document ? 'doc' : 'placeholder';
+    const indent = Math.min(Number(node.depth || 0) * 14, 56);
+    return `<button type="button" class="tree-node${active}" data-page-id="${escapeAttr(node.page_id)}" style="--indent:${indent}px"><span>${escapeHtml(node.page_id)}</span><small class="${status}">${escapeHtml(node.has_document ? 'document' : 'placeholder')}</small></button>`;
+  }).join('');
+  lifecycleTree.querySelectorAll('.tree-node').forEach((button) => {
+    button.addEventListener('click', () => {
+      selectedLifecyclePageId = button.dataset.pageId;
+      currentLifecycleTab = 'chunks';
+      renderLifecycleDashboard();
+    });
+  });
+}
+
+function selectedLifecycleNode() {
+  return (lifecycleData?.hierarchy?.nodes || []).find((node) => node.page_id === selectedLifecyclePageId) || null;
+}
+
+function renderLifecycleSelected() {
+  const node = selectedLifecycleNode();
+  if (!node) return;
+  lifecycleSelectedEyebrow.textContent = `${node.section_id || 'section'} · depth ${node.depth ?? '-'}`;
+  lifecycleSelectedTitle.textContent = node.title || node.page_id;
+  lifecycleActions.innerHTML = ['upload_document', 'replace_document', 'delete_document_content', 'rechunk_document', 'approve_chunks', 'export_azure', 'sync_azure']
+    .map((action) => `<button type="button" class="api-button lifecycle-action" data-action="${action}">${escapeHtml(action.replaceAll('_', ' '))}</button>`).join('');
+  lifecycleActions.querySelectorAll('.lifecycle-action').forEach((button) => button.addEventListener('click', () => runLifecycleAction(button.dataset.action)));
+  lifecycleDetailGrid.innerHTML = `
+    ${metric('Page ID', node.page_id)}${metric('Document ID', node.document_id)}${metric('Slot status', node.slot_status)}${metric('Document status', node.document_status)}
+    ${metric('Chunking', node.chunking_status)}${metric('Indexing', node.indexing_status)}${metric('Version', node.version)}${metric('Words', node.word_count)}
+    ${metric('Chunks', node.chunk_count)}${metric('Approved chunks', node.approved_chunk_count)}${metric('Ready for indexing', node.ready_for_indexing_count)}${metric('RAG file', node.rag_file_name)}
+  `;
+  lifecycleTabButtons.forEach((button) => button.classList.toggle('active', button.dataset.lifecycleTab === currentLifecycleTab));
+  renderLifecycleTab();
+}
+
+async function renderLifecycleTab() {
+  const node = selectedLifecycleNode();
+  if (!node) return;
+  if (currentLifecycleTab === 'chunks') {
+    lifecycleTabContent.innerHTML = '<p class="muted">Loading chunks...</p>';
+    const payload = await fetchJson(`/api/lifecycle/chunks?page_id=${encodeURIComponent(node.page_id)}`);
+    lifecycleTabContent.innerHTML = `
+      <div class="debug-card"><h3>Chunk Observability</h3><div class="metric-grid">${metric('Request ID', payload.observability?.request_id)}${metric('Latency', `${payload.observability?.latency_ms ?? '-'} ms`)}${metric('Chunk count', payload.chunk_count)}${metric('Mutation mode', payload.observability?.mutation_mode)}</div></div>
+      <div class="debug-card"><h3>Chunks</h3>${(payload.chunks || []).map((chunk) => `<details class="chunk"><summary>${escapeHtml(chunk.chunk_id || '')}</summary><div class="metric-grid">${metric('Review', chunk.review_status)}${metric('Indexing', chunk.indexing_status)}${metric('Chunk', `${chunk.chunk_index}/${chunk.chunk_total}`)}${metric('Tokens', chunk.token_estimate)}</div><p>${escapeHtml(chunk.content_preview || '')}</p></details>`).join('') || '<p class="muted">No chunks for this page yet.</p>'}</div>`;
+  }
+  if (currentLifecycleTab === 'versions') {
+    const payload = await fetchJson(`/api/lifecycle/versions?page_id=${encodeURIComponent(node.page_id)}`);
+    lifecycleTabContent.innerHTML = `<div class="debug-card"><h3>Versions</h3>${(payload.versions || []).map((v) => `<div class="chunk"><strong>Version ${escapeHtml(v.version)}</strong><p>Status: ${escapeHtml(v.status)}<br>Hash: ${escapeHtml(v.content_hash_sha256)}<br>Updated: ${escapeHtml(v.updated_at)}</p></div>`).join('') || `<p class="muted">${escapeHtml(payload.message || 'No versions found.')}</p>`}</div><div class="debug-card"><h3>Trace</h3><pre>${escapeHtml(JSON.stringify(payload.traceability, null, 2))}</pre></div>`;
+  }
+  if (currentLifecycleTab === 'logs') {
+    const payload = await fetchJson('/api/lifecycle/logs?limit=40');
+    lifecycleTabContent.innerHTML = `<div class="debug-card"><h3>Lifecycle Logs</h3><p class="muted">${escapeHtml(payload.log_path || '')}</p>${(payload.records || []).reverse().map((r) => `<details class="chunk"><summary>${escapeHtml(r.event_type)} · ${escapeHtml(r.status)} · ${escapeHtml(r.page_id || '-')}</summary><pre>${escapeHtml(JSON.stringify(r, null, 2))}</pre></details>`).join('') || '<p class="muted">No lifecycle logs yet.</p>'}</div>`;
+  }
+  if (currentLifecycleTab === 'trace') {
+    lifecycleTabContent.innerHTML = `<div class="debug-card"><h3>Dashboard Traceability</h3><pre>${escapeHtml(JSON.stringify(lifecycleData.traceability, null, 2))}</pre></div><div class="debug-card"><h3>Dashboard Observability</h3><pre>${escapeHtml(JSON.stringify(lifecycleData.observability, null, 2))}</pre></div><div class="debug-card"><h3>Registry Paths</h3><pre>${escapeHtml(JSON.stringify(lifecycleData.paths, null, 2))}</pre></div>`;
+  }
+}
+
+async function runLifecycleAction(action) {
+  const node = selectedLifecycleNode();
+  if (!node) return;
+  if (debugPasswordInput && !debugPasswordInput.value.trim()) {
+    setStatus('Password Required', 'error');
+    debugPasswordInput?.focus();
+    return;
+  }
+  setStatus('Lifecycle action', 'loading');
+  try {
+    const payload = await fetchJson('/api/lifecycle/action', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ action, page_id: node.page_id, debug_password: debugPasswordInput ? debugPasswordInput.value : '' })
+    });
+    lifecycleTabContent.innerHTML = `<div class="debug-card"><h3>Action Logged</h3><p>${escapeHtml(payload.message)}</p><div class="metric-grid">${metric('Request ID', payload.observability?.request_id)}${metric('Status', payload.status)}${metric('Latency', `${payload.observability?.latency_ms ?? '-'} ms`)}${metric('Mutation', payload.event?.mutation_executed ? 'executed' : 'not executed')}</div><pre>${escapeHtml(JSON.stringify(payload.event, null, 2))}</pre></div>`;
+    currentLifecycleTab = 'logs';
+    setStatus('Logged');
+  } catch (error) {
+    lifecycleTabContent.innerHTML = `<div class="api-error">Lifecycle action failed: ${escapeHtml(error.message)}</div>`;
+    setStatus('Lifecycle error', 'error');
+  }
+}
+
+async function fetchJson(url, options) {
+  const response = await fetch(url, options || { cache: 'no-store' });
+  let payload = {};
+  try { payload = await response.json(); } catch { payload = {}; }
+  if (!response.ok) throw new Error(payload.error || `HTTP ${response.status}`);
+  return payload;
+}

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ product_name }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=20">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=21">
   </head>
   <body>
     <main class="app-shell">
@@ -25,6 +25,15 @@
             <button type="button" class="tool-action" data-tool="review" title="Write a review or feedback"><span class="tool-glyph" aria-hidden="true"></span><small>Review</small></button>
             <button type="button" class="tool-action" data-tool="github" title="Open GitHub"><span class="tool-glyph" aria-hidden="true"></span><small>GitHub</small></button>
             <button type="button" class="tool-action" data-tool="linkedin" title="Open LinkedIn"><span class="tool-glyph" aria-hidden="true"></span><small>LinkedIn</small></button>
+          </div>
+        </section>
+
+
+        <section class="workspace-block">
+          <div class="section-head"><h2>Workspace</h2></div>
+          <div class="workspace-grid">
+            <button class="segment active" id="view-chat" type="button">Chat</button>
+            <button class="segment" id="view-lifecycle" type="button">Lifecycle</button>
           </div>
         </section>
 
@@ -90,6 +99,44 @@
         </form>
       </section>
 
+
+      <section class="lifecycle-panel is-hidden" id="lifecycle-panel" aria-label="Document lifecycle dashboard">
+        <header class="lifecycle-header">
+          <div>
+            <p class="eyebrow">Document Lifecycle</p>
+            <h2>Corpus Control Room</h2>
+            <p>Manage hierarchy, documents, chunks, versions, Azure export readiness, traceability, observability, and lifecycle logs.</p>
+          </div>
+          <div class="header-actions">
+            <button class="secondary-button" id="lifecycle-refresh" type="button">Refresh</button>
+          </div>
+        </header>
+        <section class="lifecycle-summary" id="lifecycle-summary"></section>
+        <section class="lifecycle-layout">
+          <aside class="lifecycle-tree-wrap">
+            <div class="section-head"><h2>Hierarchy</h2></div>
+            <div class="lifecycle-tree" id="lifecycle-tree"></div>
+          </aside>
+          <section class="lifecycle-detail">
+            <div class="lifecycle-detail-head">
+              <div>
+                <p class="eyebrow" id="lifecycle-selected-eyebrow">No page selected</p>
+                <h2 id="lifecycle-selected-title">Select a hierarchy slot</h2>
+              </div>
+              <div class="lifecycle-actions" id="lifecycle-actions"></div>
+            </div>
+            <div class="lifecycle-detail-grid" id="lifecycle-detail-grid"></div>
+            <div class="lifecycle-tabs">
+              <button class="segment active" data-lifecycle-tab="chunks" type="button">Chunks</button>
+              <button class="segment" data-lifecycle-tab="versions" type="button">Versions</button>
+              <button class="segment" data-lifecycle-tab="logs" type="button">Logs</button>
+              <button class="segment" data-lifecycle-tab="trace" type="button">Trace</button>
+            </div>
+            <div class="lifecycle-tab-content" id="lifecycle-tab-content"></div>
+          </section>
+        </section>
+      </section>
+
       <aside class="inspector-panel" id="inspector-panel">
         <header class="inspector-header">
           <div>
@@ -110,6 +157,6 @@
         profileName: {{ profile_name|tojson }}
       };
     </script>
-    <script src="{{ url_for('static', filename='app.js') }}?v=20"></script>
+    <script src="{{ url_for('static', filename='app.js') }}?v=21"></script>
   </body>
 </html>

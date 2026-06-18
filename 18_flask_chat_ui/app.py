@@ -25,6 +25,15 @@ PROJECT_ROOT = BASE_DIR.parents[0]
 LOG_DIR = BASE_DIR / "logs"
 LOG_DIR.mkdir(exist_ok=True)
 ENV_PATH = PROJECT_ROOT / ".env"
+CONFIG_DIR = PROJECT_ROOT / "01_input_seed_and_config"
+CHUNK_DIR = PROJECT_ROOT / "09_future_output_chunks"
+RAG_READY_DIR = PROJECT_ROOT / "06_output_rag_documents_ready"
+RAG_STAGING_DIR = PROJECT_ROOT / "06_output_rag_documents"
+HIERARCHY_REGISTRY_PATH = CONFIG_DIR / "hierarchy_registry.json"
+DOCUMENT_REGISTRY_PATH = CONFIG_DIR / "document_registry.json"
+CHUNK_REGISTRY_PATH = CHUNK_DIR / "chunk_registry.json"
+APPROVED_CHUNKS_PATH = CHUNK_DIR / "approved_chunks_v1.jsonl"
+LIFECYCLE_LOG_PATH = LOG_DIR / "lifecycle_events.jsonl"
 
 
 def _load_dotenv() -> dict[str, str]:
@@ -85,6 +94,158 @@ def config():
         "modes": ["user", "debug", "observability", "tech"],
         "tech_mode_status": "placeholder",
     }
+
+
+@app.get("/api/lifecycle/summary")
+def lifecycle_summary():
+    started = time.perf_counter()
+    request_id = f"life_req_{uuid.uuid4().hex[:16]}"
+    payload = _lifecycle_payload(include_chunks=False)
+    payload["observability"] = _lifecycle_observability("summary_read", request_id, started, "success")
+    payload["traceability"] = _lifecycle_traceability(request_id, None, "summary_read")
+    _log_lifecycle_event("summary_read", request_id, None, "success", payload["observability"], mutation=False)
+    return jsonify(payload)
+
+
+@app.get("/api/lifecycle/hierarchy")
+def lifecycle_hierarchy():
+    started = time.perf_counter()
+    request_id = f"life_req_{uuid.uuid4().hex[:16]}"
+    hierarchy = _lifecycle_payload(include_chunks=False)["hierarchy"]
+    return jsonify({
+        "hierarchy": hierarchy,
+        "observability": _lifecycle_observability("hierarchy_read", request_id, started, "success"),
+        "traceability": _lifecycle_traceability(request_id, None, "hierarchy_read"),
+    })
+
+
+@app.get("/api/lifecycle/documents")
+def lifecycle_documents():
+    started = time.perf_counter()
+    request_id = f"life_req_{uuid.uuid4().hex[:16]}"
+    payload = _lifecycle_payload(include_chunks=False)
+    return jsonify({
+        "documents": payload["documents"],
+        "counts": payload["counts"],
+        "observability": _lifecycle_observability("documents_read", request_id, started, "success"),
+        "traceability": _lifecycle_traceability(request_id, None, "documents_read"),
+    })
+
+
+@app.get("/api/lifecycle/chunks")
+def lifecycle_chunks():
+    started = time.perf_counter()
+    request_id = f"life_req_{uuid.uuid4().hex[:16]}"
+    page_id = str(request.args.get("page_id") or "").strip()
+    chunks = _load_chunks_by_page().get(page_id, []) if page_id else []
+    return jsonify({
+        "page_id": page_id,
+        "chunk_count": len(chunks),
+        "chunks": chunks[:50],
+        "truncated": len(chunks) > 50,
+        "observability": _lifecycle_observability("chunks_read", request_id, started, "success", page_id=page_id, record_count=len(chunks)),
+        "traceability": _lifecycle_traceability(request_id, page_id, "chunks_read"),
+    })
+
+
+@app.get("/api/lifecycle/versions")
+def lifecycle_versions():
+    started = time.perf_counter()
+    request_id = f"life_req_{uuid.uuid4().hex[:16]}"
+    page_id = str(request.args.get("page_id") or "").strip()
+    docs = {d.get("page_id"): d for d in _load_document_registry().get("documents", [])}
+    doc = docs.get(page_id)
+    if not doc:
+        return jsonify({
+            "page_id": page_id,
+            "versions": [],
+            "message": "No document attached to this hierarchy slot.",
+            "observability": _lifecycle_observability("versions_read", request_id, started, "empty", page_id=page_id, record_count=0),
+            "traceability": _lifecycle_traceability(request_id, page_id, "versions_read"),
+        })
+    versions = [{
+        "version": doc.get("version", 1),
+        "status": doc.get("document_status"),
+        "content_hash_sha256": doc.get("content_hash_sha256"),
+        "rag_file_name": doc.get("rag_file_name"),
+        "word_count": doc.get("word_count"),
+        "chunking_status": doc.get("chunking_status"),
+        "indexing_status": doc.get("indexing_status"),
+        "created_at": doc.get("created_at"),
+        "updated_at": doc.get("updated_at"),
+    }]
+    return jsonify({
+        "page_id": page_id,
+        "document_id": doc.get("document_id"),
+        "versions": versions,
+        "observability": _lifecycle_observability("versions_read", request_id, started, "success", page_id=page_id, record_count=len(versions)),
+        "traceability": _lifecycle_traceability(request_id, page_id, "versions_read"),
+    })
+
+
+@app.post("/api/lifecycle/action")
+def lifecycle_action():
+    started = time.perf_counter()
+    request_id = f"life_req_{uuid.uuid4().hex[:16]}"
+    payload = request.get_json(silent=True) or {}
+    action = str(payload.get("action") or "").strip().lower()
+    page_id = str(payload.get("page_id") or "").strip()
+    debug_password = str(payload.get("debug_password") or "")
+    expected_mode_password = LOCAL_ENV.get("FLASK_MODE_PASSWORD") or LOCAL_ENV.get("FLASK_DEBUG_PASSWORD", "")
+    if expected_mode_password and debug_password != expected_mode_password:
+        obs = _lifecycle_observability(action or "unknown_action", request_id, started, "forbidden", page_id=page_id)
+        _log_lifecycle_event(action or "unknown_action", request_id, page_id, "forbidden", obs, mutation=False, error="Invalid lifecycle password")
+        return jsonify({"status": "forbidden", "error": "Owner/demo password is required or invalid for lifecycle actions.", "observability": obs, "traceability": _lifecycle_traceability(request_id, page_id, action)}), 403
+    allowed = {
+        "upload_document", "replace_document", "delete_document_content", "rechunk_document",
+        "approve_chunks", "export_azure", "sync_azure", "view_versions"
+    }
+    if action not in allowed:
+        obs = _lifecycle_observability(action or "unsupported_action", request_id, started, "error", page_id=page_id)
+        _log_lifecycle_event(action or "unsupported_action", request_id, page_id, "error", obs, mutation=False, error="Unsupported lifecycle action")
+        return jsonify({"status": "error", "error": "Unsupported lifecycle action.", "observability": obs, "traceability": _lifecycle_traceability(request_id, page_id, action)}), 400
+    if not page_id:
+        obs = _lifecycle_observability(action, request_id, started, "error")
+        _log_lifecycle_event(action, request_id, None, "error", obs, mutation=False, error="page_id is required")
+        return jsonify({"status": "error", "error": "page_id is required.", "observability": obs, "traceability": _lifecycle_traceability(request_id, None, action)}), 400
+    snapshot = _lifecycle_page_snapshot(page_id)
+    obs = _lifecycle_observability(action, request_id, started, "logged_not_executed", page_id=page_id, record_count=snapshot.get("chunk_count"))
+    record = _log_lifecycle_event(
+        action,
+        request_id,
+        page_id,
+        "logged_not_executed",
+        obs,
+        mutation=False,
+        metadata={k: v for k, v in payload.items() if k not in {"debug_password"}},
+        before_state=snapshot,
+        after_state={"mutation_status": "not_executed", "reason": "Guarded first pass records intent only."},
+    )
+    return jsonify({
+        "status": "logged_not_executed",
+        "message": f"Lifecycle action '{action}' was recorded for {page_id}. No files or Azure records were changed in this guarded pass.",
+        "event": record,
+        "observability": obs,
+        "traceability": _lifecycle_traceability(request_id, page_id, action),
+    })
+
+
+@app.get("/api/lifecycle/logs")
+def lifecycle_logs():
+    started = time.perf_counter()
+    request_id = f"life_req_{uuid.uuid4().hex[:16]}"
+    limit = min(int(request.args.get("limit") or 50), 200)
+    records = []
+    if LIFECYCLE_LOG_PATH.exists():
+        lines = LIFECYCLE_LOG_PATH.read_text(encoding="utf-8").splitlines()[-limit:]
+        records = [json.loads(line) for line in lines if line.strip()]
+    return jsonify({
+        "records": records,
+        "count": len(records),
+        "log_path": str(LIFECYCLE_LOG_PATH),
+        "observability": _lifecycle_observability("logs_read", request_id, started, "success", record_count=len(records)),
+        "traceability": _lifecycle_traceability(request_id, None, "logs_read"),
+    })
 
 
 @app.post("/api/chat")
@@ -257,6 +418,193 @@ def _estimate_answer_confidence(answer: str, chunks: list[dict], observability: 
     if chunks:
         return {"label": "medium", "score": 0.68, "reason": "Answer generated from limited retrieved evidence."}
     return {"label": "low", "score": 0.35, "reason": "No retrieved chunks were available."}
+
+
+def _read_json(path: Path, default: dict | list | None = None):
+    if not path.exists():
+        return default if default is not None else {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _load_hierarchy_registry() -> dict:
+    return _read_json(HIERARCHY_REGISTRY_PATH, {})
+
+
+def _load_document_registry() -> dict:
+    return _read_json(DOCUMENT_REGISTRY_PATH, {"documents": [], "counts": {}})
+
+
+def _load_chunks_by_page() -> dict[str, list[dict]]:
+    by_page: dict[str, list[dict]] = {}
+    if not APPROVED_CHUNKS_PATH.exists():
+        return by_page
+    with APPROVED_CHUNKS_PATH.open("r", encoding="utf-8") as f:
+        for line in f:
+            if not line.strip():
+                continue
+            chunk = json.loads(line)
+            page_id = chunk.get("page_id") or "unknown"
+            by_page.setdefault(page_id, []).append({
+                "chunk_id": chunk.get("chunk_id"),
+                "document_id": chunk.get("document_id"),
+                "page_id": page_id,
+                "section_id": chunk.get("section_id"),
+                "title": chunk.get("title"),
+                "source_url": chunk.get("source_url"),
+                "chunk_index": chunk.get("chunk_index"),
+                "chunk_total": chunk.get("chunk_total"),
+                "word_count": chunk.get("word_count"),
+                "token_estimate": chunk.get("token_estimate"),
+                "review_status": chunk.get("review_status"),
+                "indexing_status": chunk.get("indexing_status"),
+                "chunking_version": chunk.get("chunking_version"),
+                "content_preview": (chunk.get("content") or "")[:420],
+            })
+    return by_page
+
+
+def _lifecycle_payload(include_chunks: bool = False) -> dict:
+    hierarchy = _load_hierarchy_registry()
+    doc_registry = _load_document_registry()
+    chunks_by_page = _load_chunks_by_page()
+    documents = doc_registry.get("documents", [])
+    docs_by_page = {d.get("page_id"): d for d in documents}
+    nodes = []
+    for node in hierarchy.get("nodes", []):
+        page_id = node.get("page_id")
+        doc = docs_by_page.get(page_id)
+        page_chunks = chunks_by_page.get(page_id, [])
+        nodes.append({
+            "page_id": page_id,
+            "title": node.get("title"),
+            "expected_url": node.get("expected_url"),
+            "parent_page_id": node.get("parent_page_id"),
+            "depth": node.get("depth"),
+            "section_id": node.get("section_id"),
+            "node_type": node.get("node_type"),
+            "slot_status": node.get("slot_status"),
+            "document_status": (doc or {}).get("document_status", node.get("document_status")),
+            "chunking_status": (doc or {}).get("chunking_status", (node.get("current_document") or {}).get("chunking_status")),
+            "indexing_status": (doc or {}).get("indexing_status", (node.get("current_document") or {}).get("indexing_status")),
+            "children": node.get("children", []),
+            "has_document": bool(doc),
+            "document_id": (doc or {}).get("document_id"),
+            "version": (doc or {}).get("version"),
+            "word_count": (doc or {}).get("word_count"),
+            "char_count": (doc or {}).get("char_count"),
+            "file_size_bytes": (doc or {}).get("file_size_bytes"),
+            "rag_file_name": (doc or {}).get("rag_file_name"),
+            "rag_ready_path": (doc or {}).get("rag_ready_path"),
+            "content_hash_sha256": (doc or {}).get("content_hash_sha256"),
+            "chunk_count": len(page_chunks),
+            "approved_chunk_count": sum(1 for c in page_chunks if c.get("review_status") == "approved"),
+            "ready_for_indexing_count": sum(1 for c in page_chunks if c.get("indexing_status") == "ready_for_indexing"),
+            "notes": node.get("notes"),
+        })
+    ready_dir_count = len(list(RAG_READY_DIR.glob("*_rag.txt"))) if RAG_READY_DIR.exists() else 0
+    staging_dir_count = len(list(RAG_STAGING_DIR.glob("*_rag.txt"))) if RAG_STAGING_DIR.exists() else 0
+    total_chunks = sum(len(v) for v in chunks_by_page.values())
+    counts = {
+        **(hierarchy.get("counts") or {}),
+        **{f"document_registry_{k}": v for k, v in (doc_registry.get("counts") or {}).items()},
+        "canonical_ready_documents_count": ready_dir_count,
+        "staging_rag_documents_count": staging_dir_count,
+        "approved_chunks_count": total_chunks,
+        "chunked_pages_count": len(chunks_by_page),
+        "placeholder_slots_without_documents": sum(1 for n in nodes if not n["has_document"]),
+    }
+    payload = {
+        "status": "ready",
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        "counts": counts,
+        "hierarchy": {
+            "registry_version": hierarchy.get("registry_version"),
+            "lifecycle_rules": hierarchy.get("lifecycle_rules", {}),
+            "nodes": nodes,
+        },
+        "documents": documents,
+        "paths": {
+            "hierarchy_registry": str(HIERARCHY_REGISTRY_PATH),
+            "document_registry": str(DOCUMENT_REGISTRY_PATH),
+            "approved_chunks": str(APPROVED_CHUNKS_PATH),
+            "lifecycle_log": str(LIFECYCLE_LOG_PATH),
+        },
+    }
+    if include_chunks:
+        payload["chunks_by_page"] = chunks_by_page
+    return payload
+
+
+def _lifecycle_observability(action: str, request_id: str, started: float, status: str, page_id: str | None = None, record_count: int | None = None) -> dict:
+    return {
+        "request_id": request_id,
+        "action": action,
+        "status": status,
+        "page_id": page_id,
+        "record_count": record_count,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "latency_ms": round((time.perf_counter() - started) * 1000, 2),
+        "hierarchy_registry_exists": HIERARCHY_REGISTRY_PATH.exists(),
+        "document_registry_exists": DOCUMENT_REGISTRY_PATH.exists(),
+        "approved_chunks_exists": APPROVED_CHUNKS_PATH.exists(),
+        "lifecycle_log_path": str(LIFECYCLE_LOG_PATH),
+        "mutation_mode": "guarded_log_only",
+    }
+
+
+def _lifecycle_traceability(request_id: str, page_id: str | None, action: str | None) -> dict:
+    return {
+        "request_id": request_id,
+        "page_id": page_id,
+        "action": action,
+        "hierarchy_registry": str(HIERARCHY_REGISTRY_PATH),
+        "document_registry": str(DOCUMENT_REGISTRY_PATH),
+        "chunk_registry": str(CHUNK_REGISTRY_PATH),
+        "approved_chunks": str(APPROVED_CHUNKS_PATH),
+        "lifecycle_log": str(LIFECYCLE_LOG_PATH),
+        "source_of_truth": "hierarchy_registry + document_registry + approved_chunks",
+    }
+
+
+def _lifecycle_page_snapshot(page_id: str) -> dict:
+    payload = _lifecycle_payload(include_chunks=False)
+    node = next((n for n in payload["hierarchy"]["nodes"] if n.get("page_id") == page_id), None)
+    chunks = _load_chunks_by_page().get(page_id, [])
+    return {
+        "page_id": page_id,
+        "node_found": bool(node),
+        "document_id": (node or {}).get("document_id"),
+        "title": (node or {}).get("title"),
+        "slot_status": (node or {}).get("slot_status"),
+        "document_status": (node or {}).get("document_status"),
+        "chunking_status": (node or {}).get("chunking_status"),
+        "indexing_status": (node or {}).get("indexing_status"),
+        "version": (node or {}).get("version"),
+        "word_count": (node or {}).get("word_count"),
+        "chunk_count": len(chunks),
+        "approved_chunk_count": sum(1 for c in chunks if c.get("review_status") == "approved"),
+    }
+
+
+def _log_lifecycle_event(event_type: str, request_id: str, page_id: str | None, status: str, observability: dict, mutation: bool, metadata: dict | None = None, before_state: dict | None = None, after_state: dict | None = None, error: str | None = None) -> dict:
+    record = {
+        "event_id": f"life_{uuid.uuid4().hex[:16]}",
+        "event_type": event_type,
+        "request_id": request_id,
+        "page_id": page_id,
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "status": status,
+        "mutation_executed": mutation,
+        "error": error,
+        "observability": observability,
+        "traceability": _lifecycle_traceability(request_id, page_id, event_type),
+        "before_state": before_state,
+        "after_state": after_state,
+        "metadata": metadata or {},
+    }
+    with LIFECYCLE_LOG_PATH.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(record, ensure_ascii=False) + "\n")
+    return record
 
 
 def _source_lineage(sources: list[dict]) -> list[dict]:
