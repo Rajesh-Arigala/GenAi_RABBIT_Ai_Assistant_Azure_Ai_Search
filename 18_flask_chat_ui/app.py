@@ -261,6 +261,7 @@ def chat():
     top_k = int(payload.get("top_k") or 5)
     filter_expr = payload.get("filter") or None
     debug_password = str(payload.get("debug_password") or "")
+    recent_history = _sanitize_recent_history(payload.get("recent_history") or [])
 
     expected_mode_password = LOCAL_ENV.get("FLASK_MODE_PASSWORD") or LOCAL_ENV.get("FLASK_DEBUG_PASSWORD", "")
     if mode != "user" and expected_mode_password and debug_password != expected_mode_password:
@@ -272,7 +273,7 @@ def chat():
     _log("chat_request_received", request_id, session_id, turn_id, {"mode": mode, "search_mode": search_mode, "top_k": top_k})
 
     try:
-        result = answer_question(question, mode=search_mode, top_k=top_k, filter_expr=filter_expr)
+        result = answer_question(question, mode=search_mode, top_k=top_k, filter_expr=filter_expr, conversation_context=recent_history)
         full_payload = _shape_response(result, request_id, session_id, turn_id, mode, search_mode, top_k, filter_expr, started)
         _log("answer_returned", request_id, session_id, turn_id, full_payload["observability"])
         return jsonify(full_payload)
@@ -292,10 +293,11 @@ def _shape_response(result: dict, request_id: str, session_id: str, turn_id: str
     scores = [c.get("retrieval_score_raw") for c in scored_chunks if isinstance(c.get("retrieval_score_raw"), (int, float))]
     llm_confidence = _estimate_answer_confidence(user.get("answer", ""), scored_chunks, observability)
 
+    link_limit = 5 if _is_explicit_link_request(user.get("question", "")) else 2
     user_block = {
         "question": user.get("question"),
         "answer": user.get("answer", ""),
-        "links": _public_links(sources),
+        "links": _public_links(sources, limit=link_limit),
         "answer_confidence_label": llm_confidence["label"],
         "answer_confidence_score": llm_confidence["score"],
         "answer_confidence_reason": llm_confidence["reason"],
@@ -372,22 +374,55 @@ def _shape_response(result: dict, request_id: str, session_id: str, turn_id: str
     }
 
 
+def _is_explicit_link_request(question: str) -> bool:
+    q = str(question or "").lower()
+    return any(term in q for term in ["link", "links", "url", "urls", "webpage", "web page", "pages"])
+
+
+def _normalize_public_url(url: str | None) -> str:
+    value = str(url or "").strip()
+    if not value:
+        return ""
+    from urllib.parse import quote, unquote, urlsplit, urlunsplit
+    parsed = urlsplit(value)
+    if not parsed.scheme or not parsed.netloc:
+        return value
+    path = quote(unquote(parsed.path), safe="/%")
+    query = quote(unquote(parsed.query), safe="=&%:/?+-_.")
+    fragment = quote(unquote(parsed.fragment), safe="=&%:/?+-_.")
+    return urlunsplit((parsed.scheme, parsed.netloc, path, query, fragment))
+
+
 def _public_links(sources: list[dict], limit: int = 2) -> list[dict]:
     links = []
     seen = set()
     for source in sources:
-        url = source.get("source_url")
-        if not url or url in seen:
+        url = _normalize_public_url(source.get("source_url"))
+        if not url or url in seen or not url.startswith(("http://", "https://")):
             continue
         seen.add(url)
         links.append({
             "page_id": source.get("page_id"),
-            "title": source.get("title") or source.get("page_id") or url,
+            "title": source.get("title") or source.get("page_id") or "Open page",
             "source_url": url,
         })
         if len(links) >= limit:
             break
     return links
+
+
+def _sanitize_recent_history(raw_history) -> list[dict[str, str]]:
+    if not isinstance(raw_history, list):
+        return []
+    clean = []
+    for item in raw_history[-8:]:
+        if not isinstance(item, dict):
+            continue
+        role = str(item.get("role") or "")[:20]
+        text = str(item.get("text") or item.get("content") or "")[:800]
+        if role in {"user", "assistant"} and text.strip():
+            clean.append({"role": role, "text": text})
+    return clean
 
 
 def _add_relative_scores(chunks: list[dict]) -> list[dict]:

@@ -247,16 +247,29 @@ function renderMessages() {
   chatHistory.scrollTop = chatHistory.scrollHeight;
 }
 
+function normalizeSourceUrl(url) {
+  const raw = String(url || '').trim();
+  if (!raw) return '';
+  try {
+    const parsed = new URL(raw);
+    return parsed.href;
+  } catch {
+    return raw.replace(/ /g, '%20');
+  }
+}
+
 function renderSources(sources) {
   if (!sources.length) return '';
   const unique = [];
   const seen = new Set();
   sources.forEach((source) => {
-    const key = source.source_url || `${source.page_id}|${source.title}`;
-    if (!seen.has(key)) { seen.add(key); unique.push(source); }
+    const url = normalizeSourceUrl(source.source_url);
+    if (!url || !/^https?:\/\//i.test(url)) return;
+    const key = url || `${source.page_id}|${source.title}`;
+    if (!seen.has(key)) { seen.add(key); unique.push({ ...source, source_url: url }); }
   });
   if (!unique.length) return '';
-  return `<div class="sources"><div class="sources-title">Relevant links</div>${unique.slice(0, 2).map((source) => `<a class="source-link" href="${escapeAttr(source.source_url || '#')}" target="_blank" rel="noreferrer"><span class="source-title">${escapeHtml(source.title || source.page_id || 'Open page')}</span><span class="source-url">${escapeHtml(source.source_url || '')}</span></a>`).join('')}</div>`;
+  return `<div class="sources"><div class="sources-title">Relevant links</div>${unique.slice(0, 2).map((source) => `<a class="source-link" href="${escapeAttr(source.source_url)}" target="_blank" rel="noreferrer"><span class="source-title">${escapeHtml(source.title || source.page_id || 'Open page')}</span><span class="source-url">${escapeHtml(source.source_url)}</span></a>`).join('')}</div>`;
 }
 
 chatForm.addEventListener('submit', async (event) => {
@@ -309,6 +322,9 @@ function normalizeAnswer(text) {
     .replace(/Why it matters\s*:?/gi, 'Context:')
     .replace(/Role-Fit Angle\s*:?/gi, 'Context:')
     .replace(/Direct Answer\s*:?/gi, 'Direct Answer:')
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '$1')
+    .replace(/https?:\/\/\S+/g, '')
+    .replace(/^\s*Relevant links\s*$/gim, '')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
 }
@@ -357,7 +373,11 @@ async function callChat(question) {
         search_mode: searchModeInput?.value || 'hybrid',
         top_k: Number(topKInput?.value || 5),
         filter: filterSelect?.value || null,
-        debug_password: debugPasswordInput ? debugPasswordInput.value : ''
+        debug_password: debugPasswordInput ? debugPasswordInput.value : '',
+        recent_history: messages
+          .filter((message) => message.role === 'user' || message.role === 'assistant')
+          .slice(-8)
+          .map((message) => ({ role: message.role, text: String(message.text || '').slice(0, 800) }))
       })
     });
     try { payload = await response.json(); } catch { payload = {}; }

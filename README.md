@@ -458,6 +458,7 @@ Crawler history:
 ```text
 10_working_docs/WEB_CRAWLING_EVOLUTION_SINGLE_PAGE.md
 10_working_docs/MULTI_PAGE_CRAWLING_EVOLUTION_SUMMARY.md
+10_working_docs/WEBSITE_LINK_INVENTORY_AND_VALIDATION.md
 ```
 
 Lifecycle and UI contracts:
@@ -498,6 +499,8 @@ Prompt and memory:
 ✅ Professional-scope guardrail implemented.
 
 ✅ Visual answer markers implemented.
+
+✅ Permanent context-aware follow-up and validated-link rendering implemented.
 
 ⚠️ Debug Mode still needs optimization.
 

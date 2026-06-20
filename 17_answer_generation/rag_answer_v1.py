@@ -160,6 +160,78 @@ def normalize_short_question(question: str) -> str:
     return question.lower().strip(" ?!.\t\n\r")
 
 
+def sanitize_source_url(url: str | None) -> str:
+    value = str(url or "").strip()
+    if not value:
+        return ""
+    parsed = urllib.parse.urlsplit(value)
+    if not parsed.scheme or not parsed.netloc:
+        return value
+    path = urllib.parse.quote(urllib.parse.unquote(parsed.path), safe="/%")
+    query = urllib.parse.quote(urllib.parse.unquote(parsed.query), safe="=&%:/?+-_.")
+    fragment = urllib.parse.quote(urllib.parse.unquote(parsed.fragment), safe="=&%:/?+-_.")
+    return urllib.parse.urlunsplit((parsed.scheme, parsed.netloc, path, query, fragment))
+
+
+def conversation_topic_from_history(conversation_context: list[dict[str, str]] | None) -> str:
+    if not conversation_context:
+        return ""
+    topic_words = [
+        "architecture", "architectures", "diagram", "picture", "links", "project", "projects",
+        "aws", "azure", "gcp", "docker", "kubernetes", "cicd", "ci/cd", "mlops",
+        "rag", "ai", "genai", "bpcl", "r-cafe", "redrybbons", "business", "role fit"
+    ]
+    for item in reversed(conversation_context[-8:]):
+        text = str(item.get("text") or item.get("content") or "").lower()
+        hits = [word for word in topic_words if word in text]
+        if hits:
+            if "architecture" in hits or "architectures" in hits or any(w in hits for w in ["diagram", "picture"]):
+                return "architecture"
+            return hits[0]
+    return ""
+
+
+def is_followup_question(question: str) -> bool:
+    q = normalize_short_question(question)
+    followups = {
+        "more", "more links", "give me more", "give me more links", "show more", "show me more",
+        "links", "send links", "more details", "examples", "give examples", "show examples",
+        "picture", "give me a picture", "diagram", "architecture picture", "architecture diagram",
+        "can you give me a picture", "i want architecture links", "more architecture links"
+    }
+    if q in followups:
+        return True
+    return len(q.split()) <= 5 and any(term in q for term in ["more", "links", "picture", "diagram", "examples"])
+
+
+def resolve_question_with_context(question: str, conversation_context: list[dict[str, str]] | None) -> tuple[str, dict[str, Any]]:
+    q = normalize_short_question(question)
+    topic = conversation_topic_from_history(conversation_context)
+    if is_followup_question(question) and topic:
+        if topic == "architecture":
+            if "picture" in q or "diagram" in q:
+                return "Show Rajesh's architecture-related project pages and explain which pages contain architecture diagrams or architecture details.", {"resolved_followup": True, "active_topic": topic, "original_question": question}
+            if "link" in q or "more" in q:
+                return "Give more relevant architecture links from Rajesh Arigala's professional portfolio across AWS, Azure, GCP, Docker, Kubernetes, CI/CD, MLOps, and RAG where available.", {"resolved_followup": True, "active_topic": topic, "original_question": question}
+        return f"Continue the previous professional discussion about {topic}. User asked: {question}", {"resolved_followup": True, "active_topic": topic, "original_question": question}
+    return question, {"resolved_followup": False, "active_topic": topic, "original_question": question}
+
+
+def is_user_correction_question(question: str) -> bool:
+    q = normalize_short_question(question)
+    correction_phrases = {"i didnt ask you", "i didn't ask you", "i did not ask you", "not asking you", "i didn ask you"}
+    return q in correction_phrases
+
+
+def user_correction_answer() -> str:
+    return (
+        "Direct Answer:\n"
+        "Understood. I will wait for your question.\n\n"
+        "Context:\n"
+        "✅ You can ask about Rajesh's profile, business experience, AI/MLOps projects, architecture work, role fit, consulting fit, or professional contact."
+    )
+
+
 def is_small_talk_question(question: str) -> bool:
     q = normalize_short_question(question)
     patterns = {
@@ -458,12 +530,18 @@ def clean_user_answer(answer: str) -> str:
     text = re.sub(r"\n\s*[-*]?\s*\[Source\s+\d+\]\([^)]*\)", "", text, flags=re.IGNORECASE)
     text = re.sub(r"\n\s*\*?\(?Source\s+\d+(?:\s*,\s*\d+)*[^\n]*\)?\*?", "", text, flags=re.IGNORECASE)
     text = re.sub(r"###\s*Sources[\s\S]*$", "", text, flags=re.IGNORECASE).strip()
+    text = re.sub(r"(?i)^\s*relevant links\s*[\s\S]*$", "", text, flags=re.MULTILINE).strip()
+    text = re.sub(r"\[([^\]]+)\]\((https?://[^)]+)\)", r"\1", text)
+    text = re.sub(r"https?://\S+", "", text)
+    text = re.sub(r"\n\s*[-*]\s*$", "", text, flags=re.MULTILINE)
     text = re.sub(r"\n{3,}", "\n\n", text)
     return text.strip()
 
 
-def answer_question(question: str, mode: str = "hybrid", top_k: int = 5, filter_expr: str | None = None) -> dict[str, Any]:
+def answer_question(question: str, mode: str = "hybrid", top_k: int = 5, filter_expr: str | None = None, conversation_context: list[dict[str, str]] | None = None) -> dict[str, Any]:
     env = load_env(ENV_PATH)
+    original_question = question
+    question, intent_debug = resolve_question_with_context(question, conversation_context)
     total_start = time.perf_counter()
     status = "success"
     error = None
@@ -474,7 +552,10 @@ def answer_question(question: str, mode: str = "hybrid", top_k: int = 5, filter_
     answer = ""
     suppress_sources = False
     try:
-        if is_small_talk_question(question):
+        if is_user_correction_question(original_question):
+            answer = user_correction_answer()
+            suppress_sources = True
+        elif is_small_talk_question(question):
             answer = small_talk_answer(question)
             suppress_sources = True
         elif is_ambiguous_quality_question(question):
@@ -521,15 +602,16 @@ def answer_question(question: str, mode: str = "hybrid", top_k: int = 5, filter_
             "page_id": c.get("page_id"),
             "section_id": c.get("section_id"),
             "title": c.get("title"),
-            "source_url": c.get("source_url"),
+            "source_url": sanitize_source_url(c.get("source_url")),
             "chunk_index": c.get("chunk_index"),
             "score": c.get("@search.score"),
         }
         for c in chunks
     ]
     return {
-        "user": {"question": question, "answer": answer, "sources": sources},
+        "user": {"question": original_question, "effective_question": question, "answer": answer, "sources": sources},
         "debug": {
+            "intent_resolution": intent_debug,
             "search_mode": mode,
             "top_k": top_k,
             "filter": filter_expr,

@@ -766,3 +766,39 @@ Supported markers:
 ✅ ✔️ ☑️ ✓ 🟢 📌 🔎 ⚠️
 ```
 
+## Permanent Conversation And Link Safety Fix - 2026-06-20
+
+Implemented a durable fix for the user-testing issues around follow-up context, aggressive guardrails, and broken-looking links. The new flow is:
+
+```text
+recent conversation context
+  -> follow-up intent resolution
+  -> deterministic guardrails
+  -> retrieval
+  -> answer generation
+  -> answer cleanup
+  -> validated source-link rendering
+```
+
+What changed:
+
+- Short follow-ups such as `give me more links`, `picture`, `diagram`, and `show more` now use the active conversation topic before off-topic guardrails run.
+- Architecture requests are not hard-coded to one page because `architecture` appears across 45 of 53 canonical RAG documents.
+- User corrections such as `I didn ask you` now receive a brief polite response with no retrieval and no random links.
+- Off-topic answers return no source links.
+- LLM-written Markdown links and raw URLs are stripped from User Mode answer prose.
+- Public links are rendered only from validated `source_url` metadata.
+- Source URLs are normalized for browser safety, including routes with spaces such as `buiss skills` and `tech skills`.
+- Explicit link requests can show up to 5 validated links; ordinary answers stay compact with 1-2 links.
+
+Validation:
+
+- Python syntax check passed for `17_answer_generation/rag_answer_v1.py` and `18_flask_chat_ui/app.py`.
+- JavaScript syntax check passed for `18_flask_chat_ui/static/app.js`.
+- Deterministic Flask checks passed for correction, off-topic, and identity questions with zero random links.
+- Live website link check: 54 extracted URLs checked, 54 OK, 0 true 404 after URL normalization.
+
+Reference document added:
+
+- `10_working_docs/WEBSITE_LINK_INVENTORY_AND_VALIDATION.md`
+
