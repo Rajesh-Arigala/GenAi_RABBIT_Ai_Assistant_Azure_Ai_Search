@@ -54,15 +54,40 @@ const sampleQuestions = [
   'What experience does Rajesh have with BPCL?'
 ];
 
-const keywordQuestions = [
-  { label: "AI", question: "What is Rajesh's AI experience and how does it connect to business outcomes?" },
-  { label: "MLOps", question: "Show Rajesh's MLOps capability with project evidence." },
-  { label: "Kubernetes", question: "Which Rajesh projects show Kubernetes capability?" },
-  { label: "Business", question: "Summarize Rajesh's business leadership experience." },
-  { label: "BPCL", question: "What experience does Rajesh have with BPCL?" },
-  { label: "R-Cafe", question: "What is Rajesh's R-Cafe experience and current entrepreneurial context?" },
-  { label: "Transition", question: "Why is Rajesh transitioning toward AI and business-tech roles?" },
-  { label: "Role Fit", question: "What roles is Rajesh qualified for across business and technology?" }
+const keywordGroups = [
+  {
+    name: 'Business',
+    type: 'business',
+    items: [
+      { label: 'Business Leadership', question: "Summarize Rajesh's business leadership experience with role-fit evidence." },
+      { label: 'P&L Ownership', question: "Where has Rajesh shown P&L ownership and measurable business responsibility?" },
+      { label: 'BPCL', question: "What experience does Rajesh have with BPCL and why does it matter for business-tech roles?" },
+      { label: 'Medtronic', question: "What did Rajesh do at Medtronic and what business capabilities did it prove?" },
+      { label: 'SMAAT', question: "What is Rajesh's SMAAT experience and how does it connect to systems thinking?" },
+      { label: 'RedRybbons', question: "What is Rajesh's RedRybbons experience and entrepreneurial context?" },
+      { label: 'R-Cafe', question: "What is Rajesh's R-Cafe experience and current entrepreneurial context?" },
+      { label: 'Role Fit', question: "What roles is Rajesh qualified for across business and technology?" },
+      { label: 'Transition', question: "How should a stakeholder understand Rajesh's transition into AI and business-tech roles?" }
+    ]
+  },
+  {
+    name: 'Technology',
+    type: 'technology',
+    items: [
+      { label: 'AI', question: "What is Rajesh's AI experience and how does it connect to business outcomes?" },
+      { label: 'MLOps', question: "Show Rajesh's MLOps capability with project evidence." },
+      { label: 'GenAI', question: "What is Rajesh's GenAI direction, and what project evidence is currently available or pending?" },
+      { label: 'Architecture', question: "Show Rajesh's architecture experience across AI, MLOps, cloud, and business systems." },
+      { label: 'Azure', question: "What Azure AI, Azure ML, or Azure DevOps work has Rajesh done?" },
+      { label: 'AWS', question: "What AWS AI or MLOps projects has Rajesh built?" },
+      { label: 'GCP', question: "What GCP AI, Vertex AI, or Cloud Build work has Rajesh done?" },
+      { label: 'Kubernetes/K8s', question: "Which Rajesh projects show Kubernetes or K8s capability?" },
+      { label: 'Docker', question: "Which Rajesh projects show Docker and containerization capability?" },
+      { label: 'CI/CD', question: "Which Rajesh projects demonstrate CI/CD pipelines for AI or cloud systems?" },
+      { label: 'IaC', question: "Where has Rajesh used Infrastructure as Code for AI or cloud platforms?" },
+      { label: 'RAG', question: "How does the RABBIT app demonstrate Rajesh's RAG, Azure AI Search, and hybrid retrieval capability?" }
+    ]
+  }
 ];
 
 let currentMode = (!isDemoMode && mobileQuery.matches) ? 'user' : (localStorage.getItem(MODE_KEY) || 'user');
@@ -216,14 +241,28 @@ function renderSamples() {
 function renderKeywords() {
   if (!keywordList) return;
   keywordList.innerHTML = '';
-  keywordQuestions.forEach((item) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'keyword-button';
-    button.textContent = item.label;
-    button.title = item.question;
-    button.addEventListener('click', () => submitEmbeddedQuestion(item.question));
-    keywordList.appendChild(button);
+  keywordGroups.forEach((group) => {
+    const wrap = document.createElement('div');
+    wrap.className = `keyword-group ${group.type}`;
+
+    const title = document.createElement('div');
+    title.className = 'keyword-group-title';
+    title.textContent = group.name;
+    wrap.appendChild(title);
+
+    const chips = document.createElement('div');
+    chips.className = 'keyword-chip-row';
+    group.items.forEach((item) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = `keyword-button ${group.type}`;
+      button.textContent = item.label;
+      button.title = item.question;
+      button.addEventListener('click', () => submitEmbeddedQuestion(item.question));
+      chips.appendChild(button);
+    });
+    wrap.appendChild(chips);
+    keywordList.appendChild(wrap);
   });
 }
 

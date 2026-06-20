@@ -101,9 +101,14 @@ pre { max-height: 220px; overflow: auto; padding: 9px; border-radius: 6px; backg
 .sources-title { color: var(--muted); font-size: 12px; font-weight: 850; text-transform: uppercase; margin-bottom: 2px; }
 
 .control-panel { overflow-y: auto; }
-.keyword-list { display: flex; flex-wrap: wrap; gap: 7px; }
+.keyword-list { display: grid; gap: 10px; }
+.keyword-group { display: grid; gap: 6px; }
+.keyword-group-title { color: var(--muted); font-size: 11px; font-weight: 900; text-transform: uppercase; }
+.keyword-chip-row { display: flex; flex-wrap: wrap; gap: 7px; }
 .keyword-button { min-height: 32px; padding: 6px 10px; border: 1px solid #b7c8f7; border-radius: 999px; background: var(--soft-blue); color: var(--blue-dark); font-size: 12px; font-weight: 850; }
-.keyword-button:hover { border-color: var(--red); background: var(--soft-red); color: var(--red-dark); }
+.keyword-button.business { border-color: #f0a9b6; background: var(--soft-red); color: var(--red-dark); }
+.keyword-button.technology { border-color: #b7c8f7; background: var(--soft-blue); color: var(--blue-dark); }
+.keyword-button:hover { border-color: var(--red); background: #fff; color: var(--red-dark); }
 .brand-row .eyebrow { overflow-wrap: anywhere; }
 .sample-button { font-size: 13px; }
 
@@ -230,7 +235,13 @@ pre { max-height: 220px; overflow: auto; padding: 9px; border-radius: 6px; backg
   }
 
   .keyword-list {
-    gap: 6px;
+    gap: 8px;
+  }
+
+  .keyword-chip-row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
   }
 
   .keyword-button {

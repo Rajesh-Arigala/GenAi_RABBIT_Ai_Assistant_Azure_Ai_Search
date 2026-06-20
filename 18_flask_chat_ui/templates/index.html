@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ product_name }}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=22">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=23">
   </head>
   <body>
     <main class="app-shell">
@@ -56,7 +56,7 @@
         </section>
 
         <section class="side-section keyword-section" id="keyword-section">
-          <div class="section-head"><h2>Keywords</h2></div>
+          <div class="section-head"><h2>Guided Keywords</h2></div>
           <div class="keyword-list" id="keyword-list"></div>
         </section>
 
@@ -157,6 +157,6 @@
         profileName: {{ profile_name|tojson }}
       };
     </script>
-    <script src="{{ url_for('static', filename='app.js') }}?v=22"></script>
+    <script src="{{ url_for('static', filename='app.js') }}?v=23"></script>
   </body>
 </html>
