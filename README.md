@@ -502,6 +502,8 @@ Prompt and memory:
 
 ✅ Permanent context-aware follow-up and validated-link rendering implemented.
 
+✅ User Mode brevity and mobile-readability prompt updated.
+
 ⚠️ Debug Mode still needs optimization.
 
 ⚠️ Observability Mode still needs optimization.

@@ -802,3 +802,18 @@ Reference document added:
 
 - `10_working_docs/WEBSITE_LINK_INVENTORY_AND_VALIDATION.md`
 
+## User Mode Prompt Brevity Update - 2026-06-20
+
+Updated `17_answer_generation/answer_prompt_template.md` to make User Mode more recruiter-friendly and mobile-readable. The prompt now explicitly requires:
+
+- Short first answers by default: 3-6 lines unless the user asks for detail.
+- Progressive disclosure instead of report-style answers.
+- 3-5 crisp bullets only when listing multiple items.
+- Short paragraphs and no dense mobile blocks.
+- No repeated points across `Direct Answer` and `Context`.
+- Optional `Context` section only when it adds value.
+- No inline links or raw URLs inside answer prose.
+- Mode-aware depth: User Mode concise, Debug Mode detailed, Observability/Tech mode diagnostic.
+
+Also tightened architecture intent handling so misspellings and short follow-ups such as `show me so architecures`, `I want links`, and `I want architecture` inherit the active architecture topic before guardrails run.
+

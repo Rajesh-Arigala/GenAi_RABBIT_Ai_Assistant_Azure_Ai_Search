@@ -913,3 +913,48 @@ Reference document added:
 
 - `10_working_docs/WEBSITE_LINK_INVENTORY_AND_VALIDATION.md`
 
+## User Mode Prompt Brevity Update - 2026-06-20
+
+Updated `17_answer_generation/answer_prompt_template.md` to make User Mode more recruiter-friendly and mobile-readable. The prompt now explicitly requires:
+
+- Short first answers by default: 3-6 lines unless the user asks for detail.
+- Progressive disclosure instead of report-style answers.
+- 3-5 crisp bullets only when listing multiple items.
+- Short paragraphs and no dense mobile blocks.
+- No repeated points across `Direct Answer` and `Context`.
+- Optional `Context` section only when it adds value.
+- No inline links or raw URLs inside answer prose.
+- Mode-aware depth: User Mode concise, Debug Mode detailed, Observability/Tech mode diagnostic.
+
+Also tightened architecture intent handling so misspellings and short follow-ups such as `show me so architecures`, `I want links`, and `I want architecture` inherit the active architecture topic before guardrails run.
+
+
+
+## Business-Tech Keyword Guide Draft - 2026-06-20
+
+Created `10_working_docs/BUSINESS_TECH_KEYWORD_GUIDE_AND_EMBEDDED_QUESTIONS.md` as the design artifact for guided UI keywords before implementation. It defines Business Keywords, Technology Keywords, and Business-Tech Hybrid Keywords with embedded strong questions for improved keyword + vector semantic hybrid retrieval.
+
+## Keyword Retrieval Relevance Estimate - 2026-06-20
+
+Created `10_working_docs/KEYWORD_GUIDE_RETRIEVAL_RELEVANCE_IMPROVEMENT_ESTIMATE.md` to document the expected improvement from the corpus-derived business and technology keyword guide. The document records that the improvement is in query quality, retrieval relevance, answer usefulness, and conversation continuity, not raw extraction accuracy.
+
+## Concept Normalization Update - 2026-06-20
+
+Updated the keyword documentation to treat shorthand and related terms as concept groups. Example: `K8s` is treated as the same concept as Kubernetes, with related retrieval words such as container orchestration, EKS, AKS, GKE, Minikube, Kubeflow, clusters, pods, deployments, and services. This strengthens bag-of-words retrieval without confusing UI users with too many duplicate labels.
+
+## NLP Keyword Engineering Update - 2026-06-20
+
+Updated the keyword documentation with NLP concepts behind the bag-of-words strategy: tokenization, stopword removal, stemming/lemmatization-style normalization, synonyms and aliases, controlled vocabulary, NER-style entity preservation, n-grams, embeddings, query expansion, hybrid search, LLM answer generation, transformer attention, tone control, precision/recall/ranking, and concept groups such as Kubernetes/K8s.
+
+## NLP Corpus Examples Update - 2026-06-20
+
+Expanded the keyword guide with corpus-specific examples for each NLP concept: corpus, tokenization, stopword/noise removal, normalization, synonyms/aliases, NER-style entity preservation, n-grams, bag of words, embeddings, query expansion, hybrid search, LLM answer generation, transformer attention, tone control, precision/recall/ranking, and traceability.
+
+## NLP Approximate Results Update - 2026-06-20
+
+Added approximate result and percentage-improvement tables to the keyword documentation. The results summarize expected gains from tokenization, stopword/noise removal, concept normalization, synonym/alias mapping, n-grams, query expansion, vector semantic retrieval, hybrid search, validated links, prompt brevity, follow-up resolution, and traceability.
+
+## Measured NLP Corpus Statistics Update - 2026-06-20
+
+Added measured NLP corpus statistics to the keyword guide: raw token count, clean token count, unique vocabulary, stopword/artifact reduction, 1-gram/2-gram/3-gram inventories, relevant n-gram yield, concept group coverage, and approximate achievement percentages.
+

@@ -177,7 +177,7 @@ def conversation_topic_from_history(conversation_context: list[dict[str, str]] |
     if not conversation_context:
         return ""
     topic_words = [
-        "architecture", "architectures", "diagram", "picture", "links", "project", "projects",
+        "architecture", "architectures", "architectural", "architect", "architecure", "architecures", "diagram", "picture", "links", "project", "projects",
         "aws", "azure", "gcp", "docker", "kubernetes", "cicd", "ci/cd", "mlops",
         "rag", "ai", "genai", "bpcl", "r-cafe", "redrybbons", "business", "role fit"
     ]
@@ -185,7 +185,7 @@ def conversation_topic_from_history(conversation_context: list[dict[str, str]] |
         text = str(item.get("text") or item.get("content") or "").lower()
         hits = [word for word in topic_words if word in text]
         if hits:
-            if "architecture" in hits or "architectures" in hits or any(w in hits for w in ["diagram", "picture"]):
+            if any(w in hits for w in ["architecture", "architectures", "architectural", "architect", "architecure", "architecures", "diagram", "picture"]):
                 return "architecture"
             return hits[0]
     return ""
@@ -197,11 +197,13 @@ def is_followup_question(question: str) -> bool:
         "more", "more links", "give me more", "give me more links", "show more", "show me more",
         "links", "send links", "more details", "examples", "give examples", "show examples",
         "picture", "give me a picture", "diagram", "architecture picture", "architecture diagram",
-        "can you give me a picture", "i want architecture links", "more architecture links"
+        "can you give me a picture", "i want architecture", "i want architectures", "i want architecture links", "i want links",
+        "more architecture links", "show me architecture", "show me architectures", "show me some architecture",
+        "show me some architectures", "show me so architecures", "show me some architecures"
     }
     if q in followups:
         return True
-    return len(q.split()) <= 5 and any(term in q for term in ["more", "links", "picture", "diagram", "examples"])
+    return len(q.split()) <= 6 and any(term in q for term in ["more", "links", "picture", "diagram", "examples", "architecture", "architectures", "architect", "architecure", "architecures"])
 
 
 def resolve_question_with_context(question: str, conversation_context: list[dict[str, str]] | None) -> tuple[str, dict[str, Any]]:
@@ -508,7 +510,7 @@ def is_professional_scope_question(question: str) -> bool:
         " consultant", " engagement", " fit", " suitable", " worthy", " transition", " available",
         " contact", " call", " whatsapp", " watsapp", " email", " linkedin", " github",
         " he ", " him ", " his ", " this guy", " tell me about him", " why should i know",
-        " created", " made", " trained", " built", " developed", " stack", " technology", " architecture"
+        " created", " made", " trained", " built", " developed", " stack", " technology", " architecture", " architectures", " architectural", " architect", " architecure", " architecures"
     ]
     return any(term in q for term in allowed_terms)
 
