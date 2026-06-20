@@ -813,3 +813,123 @@ future chat widget design
 ```
 
 The full system demonstrates how business positioning, AI retrieval, cloud search, prompt design, and product UX can work together as one stakeholder-facing assistant.
+
+---
+
+# 21. Latest Implementation Sync - 2026-06-20
+
+This section records the latest code state after the workflow documentation was created.
+
+## Implemented Since The Previous Documentation Pass
+
+✅ **Document Lifecycle UI added**
+
+A new `Lifecycle` workspace was added to the Flask web app beside the existing chat workspace.
+
+Implemented UI areas:
+
+- ✅ Corpus summary cards
+- ✅ Hierarchy tree
+- ✅ Selected document detail view
+- ✅ Chunk inspection tab
+- ✅ Version/status tab
+- ✅ Lifecycle logs tab
+- ✅ Trace/observability tab
+- ✅ Guarded lifecycle action buttons
+
+✅ **Lifecycle backend APIs added**
+
+Implemented endpoints:
+
+```text
+GET  /api/lifecycle/summary
+GET  /api/lifecycle/hierarchy
+GET  /api/lifecycle/documents
+GET  /api/lifecycle/chunks?page_id=...
+GET  /api/lifecycle/versions?page_id=...
+GET  /api/lifecycle/logs
+POST /api/lifecycle/action
+```
+
+✅ **Lifecycle tracing, observability, and logging added**
+
+Lifecycle responses now include:
+
+- ✅ request ID
+- ✅ timestamp
+- ✅ page ID
+- ✅ action name
+- ✅ latency
+- ✅ registry paths
+- ✅ mutation mode
+- ✅ before-state snapshot
+- ✅ after-state placeholder
+- ✅ event log path
+
+Lifecycle log file:
+
+```text
+18_flask_chat_ui/logs/lifecycle_events.jsonl
+```
+
+Current mutation mode:
+
+```text
+guarded_log_only
+```
+
+This means lifecycle buttons log the admin intent but do not yet mutate files, chunks, or Azure AI Search records.
+
+✅ **Professional-scope guardrail added**
+
+RABBIT now uses an allowed-scope guardrail before retrieval. It answers only within Rajesh/RABBIT/professional scope and redirects unrelated topics.
+
+Example off-topic behavior:
+
+```text
+Question: how to go to Mumbai?
+Behavior: polite professional redirect, no retrieval, no sources.
+```
+
+✅ **Visual answer markers added**
+
+RABBIT can now use visual bullets in addition to normal bullets:
+
+```text
+✅ Green check
+✔️ Check mark
+☑️ Checked box
+✓ Tick mark
+🟢 Green status marker
+📌 Context marker
+🔎 Evidence marker
+⚠️ Boundary/guardrail marker
+```
+
+The UI renderer supports these as visual bullets without removing existing plain bullet behavior.
+
+## Verified Counts
+
+Latest lifecycle API smoke test confirmed:
+
+```text
+canonical_ready_documents = 53
+approved_chunks = 142
+```
+
+## Current Workflow Status
+
+```text
+Website extraction: done
+Canonical RAG corpus: done
+Chunking: done
+Embeddings/Azure upload: done
+RAG answer generation: working
+User Mode: refined and tested
+Lifecycle UI: first implementation complete, guarded log-only
+Debug Mode: present but still needs optimization
+Observability Mode: present but still needs optimization
+Tech Mode: placeholder
+Mobile/chat-widget polish: still pending
+```
+

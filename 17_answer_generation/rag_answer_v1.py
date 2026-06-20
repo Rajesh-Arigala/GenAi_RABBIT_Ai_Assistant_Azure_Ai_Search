@@ -174,15 +174,15 @@ def small_talk_answer(question: str) -> str:
     if q in {"who am i speaking to", "who am i speaking with", "who am i talking to", "who is this"}:
         return (
             "Direct Answer:\n"
-            "You are speaking with RABBIT, Rajesh Arigala's AI assistant for professional and job-related conversations.\n\n"
+            "✅ You are speaking with RABBIT, Rajesh Arigala's AI assistant for professional and job-related conversations.\n\n"
             "Context:\n"
-            "I help interested stakeholders understand Rajesh's business-tech profile, AI/MLOps work, GenAI direction, projects, role fit, consulting alignment, and professional story."
+            "📌 I help interested stakeholders understand Rajesh's business-tech profile, AI/MLOps work, GenAI direction, projects, role fit, consulting alignment, and professional story."
         )
     return (
         "Direct Answer:\n"
-        "I am doing well and ready to help. I am RABBIT, Rajesh Arigala's AI assistant for professional and job-related conversations.\n\n"
+        "✅ I am doing well and ready to help. I am RABBIT, Rajesh Arigala's AI assistant for professional and job-related conversations.\n\n"
         "Context:\n"
-        "You can ask me about Rajesh's business experience, AI/MLOps work, projects, role fit, consulting alignment, or professional engagement possibilities."
+        "📌 You can ask me about Rajesh's business experience, AI/MLOps work, projects, role fit, consulting alignment, or professional engagement possibilities."
     )
 
 
@@ -193,9 +193,9 @@ def is_ambiguous_quality_question(question: str) -> bool:
 def ambiguous_quality_answer() -> str:
     return (
         "Direct Answer:\n"
-        "As his Assistant, I am not sure as of now. Could you please clarify what you want me to evaluate: RABBIT, Rajesh's profile, a project, the app, or his role fit?\n\n"
+        "⚠️ As his Assistant, I am not sure as of now. Could you please clarify what you want me to evaluate: RABBIT, Rajesh's profile, a project, the app, or his role fit?\n\n"
         "Context:\n"
-        "Once you point me to the specific topic, I can give a focused professional answer instead of guessing."
+        "✅ Once you point me to the specific topic, I can give a focused professional answer instead of guessing."
     )
 
 
@@ -215,9 +215,9 @@ def is_prompt_attack_question(question: str) -> bool:
 def prompt_attack_guardrail_answer() -> str:
     return (
         "Direct Answer:\n"
-        "I cannot follow requests that try to override my role, reveal internal instructions, bypass guardrails, or move me outside my professional job description.\n\n"
+        "⚠️ I cannot follow requests that try to override my role, reveal internal instructions, bypass guardrails, or move me outside my professional job description.\n\n"
         "Context:\n"
-        "There are no other roles assigned to me. I can continue helping with Rajesh Arigala's professional profile, projects, business-tech fit, AI/MLOps work, consulting alignment, and job-related discussions."
+        "✅ I can continue helping with Rajesh Arigala's professional profile, projects, business-tech fit, AI/MLOps work, consulting alignment, and job-related discussions."
     )
 
 
@@ -317,9 +317,9 @@ def is_profane_or_abusive_question(question: str) -> bool:
 def profanity_guardrail_answer() -> str:
     return (
         "Direct Answer:\n"
-        "Please keep the conversation professional and respectful. I can help with Rajesh Arigala's business experience, education, AI/MLOps work, projects, and role fit.\n\n"
+        "⚠️ Please keep the conversation professional and respectful.\n\n"
         "Context:\n"
-        "RABBIT speaks on Rajesh's behalf to interested stakeholders, so the conversation should stay pleasant, relevant, and professional."
+        "✅ I can help with Rajesh Arigala's business experience, education, AI/MLOps work, projects, and role fit. RABBIT speaks on Rajesh's behalf to interested stakeholders, so the conversation should stay pleasant, relevant, and professional."
     )
 
 
@@ -419,6 +419,37 @@ def compensation_guardrail_answer(question: str) -> str:
         "A fair offer should benchmark the specific role against current market data and then adjust for Rajesh's hybrid value: business execution, entrepreneurship through RedRybbons and R-Cafe, Mechanical Engineering foundation, IIM Calcutta Marketing and Strategy, ISB Product Management, IISc Bangalore Advanced Business Analytics, and hands-on AI/MLOps project work."
     )
 
+def is_professional_scope_question(question: str) -> bool:
+    q = f" {question.lower()} "
+    allowed_terms = [
+        " rajesh", " arigala", " rabbit", " assistant", " your app", " this app",
+        " profile", " resume", " cv", " background", " experience", " education", " qualification",
+        " nitk", " iim", " iisc", " isb", " mechanical", " marketing", " strategy", " product management",
+        " business", " entrepreneur", " entrepreneurship", " redrybbons", " r-cafe", " r cafe", " cafe",
+        " bpcl", " medtronic", " smaat", " law", " supreme court", " pil",
+        " ai", " artificial intelligence", " ml", " machine learning", " analytics", " data science",
+        " data analytics", " data modeling", " modelling", " probability", " statistics", " hypothesis",
+        " mlops", " devops", " genai", " generative ai", " rag", " llm", " azure", " aws", " gcp",
+        " kubernetes", " docker", " mlflow", " kubeflow", " cicd", " ci/cd", " pipeline",
+        " project", " projects", " portfolio", " evidence", " proof", " case study",
+        " role", " roles", " hire", " hiring", " recruiter", " hr", " job", " career", " consulting",
+        " consultant", " engagement", " fit", " suitable", " worthy", " transition", " available",
+        " contact", " call", " whatsapp", " watsapp", " email", " linkedin", " github",
+        " he ", " him ", " his ", " this guy", " tell me about him", " why should i know",
+        " created", " made", " trained", " built", " developed", " stack", " technology", " architecture"
+    ]
+    return any(term in q for term in allowed_terms)
+
+
+def professional_scope_guardrail_answer() -> str:
+    return (
+        "Direct Answer:\n"
+        "⚠️ I am RABBIT, Rajesh Arigala's AI assistant for professional and job-related conversations. I may not be the right assistant for that topic.\n\n"
+        "Context:\n"
+        "✅ I can help if your question is about Rajesh's business-tech profile, AI/MLOps projects, role fit, consulting fit, contact for professional engagement, or this RABBIT app."
+    )
+
+
 def clean_user_answer(answer: str) -> str:
     text = str(answer or "")
     text = re.sub(r"\s*\[Source\s+\d+(?:\s*,\s*\d+)*\]", "", text, flags=re.IGNORECASE)
@@ -472,6 +503,9 @@ def answer_question(question: str, mode: str = "hybrid", top_k: int = 5, filter_
             suppress_sources = True
         elif is_compensation_question(question):
             answer = compensation_guardrail_answer(question)
+            suppress_sources = True
+        elif not is_professional_scope_question(question):
+            answer = professional_scope_guardrail_answer()
             suppress_sources = True
         else:
             vector, embedding_latency = embed_query(env, question)

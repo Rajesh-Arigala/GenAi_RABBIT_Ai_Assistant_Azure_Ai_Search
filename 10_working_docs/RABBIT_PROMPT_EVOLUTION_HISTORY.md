@@ -702,3 +702,67 @@ PROJECT_HANDOFF_EVOLUTION.md
 
 The prompt controls RABBIT's behavior, while the workflow and mode-contract documents explain where that behavior appears in the product.
 
+# Stage 26: Professional-Scope Guardrail
+
+Problem discovered during testing:
+
+```text
+User: how to go to Mumbai?
+```
+
+RABBIT answered like a general travel assistant and attached unrelated website links. This was not correct because RABBIT's role is professional/job-related stakeholder conversation, not general-purpose assistance.
+
+Decision:
+
+```text
+Do not try to list infinite off-topic cases.
+Define allowed scope instead.
+```
+
+Allowed scope includes:
+
+- Rajesh Arigala
+- RABBIT identity/app
+- business experience
+- AI/analytics/MLOps/GenAI
+- projects and evidence
+- education
+- role fit
+- consulting fit
+- hiring/professional engagement
+- contact for professional discussion
+
+Out-of-scope behavior:
+
+```text
+Polite redirect
+No Azure retrieval
+No sources
+No general-purpose answer
+```
+
+# Stage 27: Visual Answer Markers
+
+User requested more visually appealing answers with:
+
+```text
+✅ Green check marks
+✔️ Check marks
+☑️ Checked boxes
+✓ Tick marks
+🟢 Green status markers
+```
+
+Decision:
+
+- Keep existing bullet formatting.
+- Add visual markers as an additional style layer.
+- Use markers for validation, success indicators, context, evidence, and guardrail boundaries.
+- Do not overuse emoji or make answers look unprofessional.
+
+Supported markers:
+
+```text
+✅ ✔️ ☑️ ✓ 🟢 📌 🔎 ⚠️
+```
+

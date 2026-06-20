@@ -390,3 +390,131 @@ updated_at
 - Azure index delete/deactivate support.
 - S3 backup of raw/clean/RAG artifacts.
 - One-click rebuild for selected hierarchy branch.
+
+## Implemented Lifecycle UI - 2026-06-20
+
+The first document lifecycle UI has now been implemented in the Flask web app.
+
+Location:
+
+```text
+18_flask_chat_ui/
+```
+
+Main changed files:
+
+```text
+18_flask_chat_ui/app.py
+18_flask_chat_ui/templates/index.html
+18_flask_chat_ui/static/app.js
+18_flask_chat_ui/static/styles.css
+```
+
+## Implemented UI Features
+
+✅ Workspace switch:
+
+```text
+Chat | Lifecycle
+```
+
+✅ Lifecycle dashboard areas:
+
+- Corpus summary cards
+- Hierarchy tree
+- Selected document detail panel
+- Chunks tab
+- Versions tab
+- Logs tab
+- Trace tab
+- Guarded lifecycle action buttons
+
+## Implemented Lifecycle APIs
+
+```text
+GET  /api/lifecycle/summary
+GET  /api/lifecycle/hierarchy
+GET  /api/lifecycle/documents
+GET  /api/lifecycle/chunks?page_id=...
+GET  /api/lifecycle/versions?page_id=...
+GET  /api/lifecycle/logs
+POST /api/lifecycle/action
+```
+
+## Current Action Behavior
+
+Current lifecycle action mode:
+
+```text
+guarded_log_only
+```
+
+Meaning:
+
+- ✅ action intent is captured
+- ✅ request is traceable
+- ✅ before-state snapshot is recorded
+- ✅ lifecycle event is logged
+- ⚠️ no file mutation happens yet
+- ⚠️ no Azure mutation happens yet
+- ⚠️ no chunk rebuild happens yet
+
+This is intentional for the first dashboard pass.
+
+## Tracing, Observability, And Logging
+
+Each lifecycle action/read can expose:
+
+```text
+request_id
+action
+status
+page_id
+record_count
+timestamp
+latency_ms
+hierarchy_registry_exists
+document_registry_exists
+approved_chunks_exists
+lifecycle_log_path
+mutation_mode
+```
+
+Lifecycle traceability includes:
+
+```text
+hierarchy_registry
+document_registry
+chunk_registry
+approved_chunks
+lifecycle_log
+source_of_truth
+```
+
+Lifecycle log path:
+
+```text
+18_flask_chat_ui/logs/lifecycle_events.jsonl
+```
+
+## Current Verified Corpus Values
+
+```text
+canonical_ready_documents = 53
+staging_rag_document_files = 73
+approved_chunks = 142
+```
+
+## Next Lifecycle Step
+
+Move from guarded logging to controlled execution one operation at a time:
+
+1. View-only dashboard - done.
+2. Guarded action logging - done.
+3. Rechunk one selected document - pending.
+4. Approve/reject chunks from UI - pending.
+5. Export approved chunks - pending.
+6. Sync selected document/chunks to Azure - pending.
+7. Delete content while keeping placeholder - pending.
+8. Replace document and increment version - pending.
+

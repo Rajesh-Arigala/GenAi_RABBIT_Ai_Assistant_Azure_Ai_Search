@@ -765,3 +765,84 @@ Current status:
 7. Add tool-calling actions later through MCP or another framework.
 8. Keep mobile UI clean and prepare for website chat widget.
 ```
+
+## 11. Latest UI/Guardrail Implementation Notes - 2026-06-20
+
+### Document Lifecycle Workspace
+
+The Flask UI now has a workspace switch:
+
+```text
+Chat | Lifecycle
+```
+
+The `Lifecycle` workspace is admin/demo-facing and supports inspection of:
+
+- ✅ corpus counts
+- ✅ hierarchy nodes
+- ✅ document status
+- ✅ chunk status
+- ✅ version metadata
+- ✅ lifecycle logs
+- ✅ traceability paths
+- ✅ observability metadata
+
+The lifecycle workspace should be treated as a dashboard/control-room surface, not as the public mobile widget.
+
+### Lifecycle Observability Contract
+
+Lifecycle API responses may include:
+
+```json
+{
+  "observability": {
+    "request_id": "life_req_...",
+    "action": "summary_read",
+    "status": "success",
+    "page_id": "00_Homepage",
+    "record_count": 4,
+    "timestamp": "...",
+    "latency_ms": 12.34,
+    "mutation_mode": "guarded_log_only"
+  },
+  "traceability": {
+    "hierarchy_registry": ".../hierarchy_registry.json",
+    "document_registry": ".../document_registry.json",
+    "chunk_registry": ".../chunk_registry.json",
+    "approved_chunks": ".../approved_chunks_v1.jsonl",
+    "lifecycle_log": ".../lifecycle_events.jsonl"
+  }
+}
+```
+
+### Professional-Scope Guardrail
+
+A broad allowed-scope guardrail has been implemented before RAG retrieval:
+
+```text
+Specific safety guardrails
+  ↓
+Professional-scope check
+  ↓
+RAG retrieval only if in scope
+```
+
+Out-of-scope questions receive a polite redirect. They should not trigger Azure retrieval and should not show sources.
+
+### Visual Answer Markers
+
+User-facing answers may use visual markers in addition to normal bullets:
+
+```text
+✅ success / validated point
+✔️ check point
+☑️ selected/confirmed point
+✓ concise tick
+🟢 green status marker
+📌 context note
+🔎 evidence marker
+⚠️ guardrail/boundary/uncertainty
+```
+
+These markers improve readability but should not be overused.
+

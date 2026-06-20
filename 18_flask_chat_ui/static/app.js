@@ -505,6 +505,7 @@ function formatText(text) {
   const html = safe
     .replace(/^### (.*)$/gm, '<h3>$1</h3>')
     .replace(/^\d+\. \*\*(.*?)\*\*: ?(.*)$/gm, '<div class="answer-bullet"><strong>$1:</strong> $2</div>')
+    .replace(/^(✅|✔️|☑️|✓|🟢|📌|🔎|⚠️)\s+(.*)$/gm, '<div class="visual-bullet"><span class="visual-marker">$1</span><span>$2</span></div>')
     .replace(/^[-*] (.*)$/gm, '<div class="answer-bullet">$1</div>')
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\n/g, '<br>');

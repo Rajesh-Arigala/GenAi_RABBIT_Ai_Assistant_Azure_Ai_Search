@@ -746,3 +746,134 @@ Current documentation count in `10_working_docs`:
 Website → crawler evolution → V4 multi-page corpus → 53 canonical RAG docs → chunks → embeddings → Azure AI Search → RAG answer generation → Flask web app → User/Debug/Observability/Tech modes → future website chat widget
 ```
 
+## 17. Latest Implementation Sync - 2026-06-20
+
+The project has moved beyond planning documentation into the first implemented document lifecycle dashboard.
+
+### Newly Implemented Code
+
+✅ Document Lifecycle UI added inside the Flask web app.
+
+Files changed:
+
+```text
+18_flask_chat_ui/app.py
+18_flask_chat_ui/templates/index.html
+18_flask_chat_ui/static/app.js
+18_flask_chat_ui/static/styles.css
+17_answer_generation/rag_answer_v1.py
+17_answer_generation/answer_prompt_template.md
+```
+
+### Lifecycle UI Status
+
+Implemented:
+
+- ✅ Workspace switch: `Chat` / `Lifecycle`
+- ✅ Corpus summary cards
+- ✅ Hierarchy tree
+- ✅ Document detail panel
+- ✅ Chunk inspection
+- ✅ Version inspection
+- ✅ Lifecycle logs
+- ✅ Trace/observability view
+- ✅ Guarded action buttons
+
+Current lifecycle actions are intentionally guarded:
+
+```text
+upload_document
+replace_document
+delete_document_content
+rechunk_document
+approve_chunks
+export_azure
+sync_azure
+```
+
+Current behavior:
+
+```text
+Actions are logged but not executed.
+No files are deleted.
+No chunks are rebuilt.
+No Azure records are changed.
+```
+
+### Lifecycle API Status
+
+Implemented endpoints:
+
+```text
+GET  /api/lifecycle/summary
+GET  /api/lifecycle/hierarchy
+GET  /api/lifecycle/documents
+GET  /api/lifecycle/chunks?page_id=...
+GET  /api/lifecycle/versions?page_id=...
+GET  /api/lifecycle/logs
+POST /api/lifecycle/action
+```
+
+### Lifecycle Observability And Logging
+
+Each lifecycle read/action can include:
+
+- ✅ lifecycle request ID
+- ✅ timestamp
+- ✅ page ID
+- ✅ action name
+- ✅ latency
+- ✅ registry path traceability
+- ✅ mutation mode
+- ✅ before-state snapshot
+- ✅ after-state placeholder
+- ✅ lifecycle log record
+
+Lifecycle log file:
+
+```text
+18_flask_chat_ui/logs/lifecycle_events.jsonl
+```
+
+### RABBIT Guardrail Status
+
+Added broad professional-scope guardrail:
+
+```text
+Safety/specific guardrails
+  ↓
+Allowed professional-scope check
+  ↓
+RAG retrieval only if in scope
+```
+
+This prevents RABBIT from becoming a general-purpose assistant. Off-topic questions now receive a polite redirect with no sources and no retrieval.
+
+### Visual Answer Formatting
+
+RABBIT answers can now use visual markers in addition to normal bullets:
+
+```text
+✅ ✔️ ☑️ ✓ 🟢 📌 🔎 ⚠️
+```
+
+These are intended for scannability, validation markers, success indicators, and boundary messages.
+
+### Latest Verified Smoke Test
+
+Lifecycle endpoints returned successfully using Flask test client:
+
+```text
+/api/lifecycle/summary -> 200
+/api/lifecycle/chunks?page_id=00_Homepage -> 200
+/api/lifecycle/versions?page_id=00_Homepage -> 200
+/api/lifecycle/logs?limit=2 -> 200
+```
+
+Observed current values:
+
+```text
+canonical documents: 53
+approved chunks: 142
+```
+

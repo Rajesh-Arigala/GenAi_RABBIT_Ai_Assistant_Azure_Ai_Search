@@ -916,3 +916,8 @@ pre { max-height: 220px; overflow: auto; padding: 9px; border-radius: 6px; backg
   .lifecycle-detail-grid { grid-template-columns: 1fr; }
   .lifecycle-actions { justify-content: flex-start; }
 }
+
+
+.visual-bullet { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 6px; align-items: start; margin: 6px 0; }
+.visual-marker { line-height: 1.45; font-size: 15px; }
+.visual-bullet span:last-child { min-width: 0; }
